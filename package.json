@@ -1,0 +1,40 @@
+{
+  "name": "bunq-js-client",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack --progress --colors",
+    "build:dev": "cross-env NODE_ENV=development webpack --debug --watch --progress --colors"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^8.0.34",
+    "awaiting": "^2.0.1",
+    "axios": "^0.16.2",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2016": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.17",
+    "cross-env": "^4.0.0",
+    "es6-promise-promise": "^1.0.0",
+    "loglevel": "^1.4.1",
+    "node-forge": "^0.7.1",
+    "store": "^2.0.12",
+    "ts-loader": "^2.3.7",
+    "typescript": "^2.5.3",
+    "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
+    "webpack": "3.7.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  }
+}
