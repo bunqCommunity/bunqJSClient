@@ -19,8 +19,8 @@ export const URL_ENVIROMENTS: UrlEnviromentType = {
 
 export default class Session {
     storageInterface: StorageInterface;
-    apiKey: string;
-    allowdIps: string[];
+    apiKey: string | boolean = null;
+    allowdIps: string[] = [];
 
     // target enviroment and target envoriment api url
     environment: string;
@@ -44,7 +44,7 @@ export default class Session {
     sessionToken: string = null;
     sessionId: number = null;
     sessionExpiryTime?: Date = null;
-    userInfo: any = null;
+    userInfo: any = {};
 
     // key used to store our data
     storageKey: string = null;
@@ -67,6 +67,14 @@ export default class Session {
         allowedIps: string[] = [],
         options = { forceNewKeypair: false }
     ) {
+        if (
+            this.apiKey !== null &&
+            this.apiKey !== false &&
+            this.apiKey !== apiKey
+        ) {
+            // new apikey was set, destroy the old session first
+            // await this.destroySession();
+        }
         this.apiKey = apiKey;
         this.allowdIps = allowedIps;
 
@@ -112,7 +120,8 @@ export default class Session {
 
         if (session === undefined) return false;
 
-        if (session.apiToken !== this.apiKey) return false;
+        // api keys dont match, don't load this
+        if (session.apiKey !== this.apiKey) return false;
 
         // overwrite our current properties with the stored version
         this.publicKeyPem = session.publicKeyPem;
@@ -167,6 +176,7 @@ export default class Session {
      * @returns {Promise<void>}
      */
     public async destroySession() {
+        console.log("destroy session");
         this.apiKey = null;
         this.publicKey = null;
         this.publicKeyPem = null;
@@ -178,12 +188,12 @@ export default class Session {
         this.installCreated = null;
         this.installToken = null;
         this.deviceId = null;
-        this.userInfo = null;
+        this.userInfo = {};
         this.sessionId = null;
         this.sessionToken = null;
         this.sessionExpiryTime = null;
 
-        this.storageInterface.delete(this.storageKey);
+        this.storageInterface.remove(this.storageKey);
     }
 
     /**

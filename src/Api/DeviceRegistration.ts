@@ -31,4 +31,22 @@ export default class DeviceRegistration implements ApiEndpointInterface {
         // return the device id
         return response.Response[0].Id.id;
     }
+
+    /**
+     *
+     * @param options
+     * @returns {Promise<any>}
+     */
+    public async get(options: any = { deviceId: null }) {
+        if (options.deviceId === null) {
+            // if none is set we default to our current deviceId
+            options.deviceId = this.Session.deviceId;
+        }
+        const response = await this.ApiAdapter.get(
+            `/v1/device-server/${options.deviceId}`
+        );
+
+        // return the device id
+        return response.Response[0].Id.id;
+    }
 }

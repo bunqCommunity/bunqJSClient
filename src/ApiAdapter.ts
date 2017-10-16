@@ -26,16 +26,16 @@ export default class ApiAdapter {
     region: string;
     geoLocation: string;
 
-    constructor() {
+    constructor(Session: Session) {
+        this.Session = Session;
+
         this.userAgent = `${navigator.userAgent} (BunqJS)`;
         this.language = "en_US";
         this.region = "nl_NL";
         this.geoLocation = "0 0 0 0 000";
     }
 
-    public async setup(Session: Session) {
-        this.Session = Session;
-
+    public async setup() {
         // const location = await getGeoLocation();
         // this.geoLocation = `${location.latitude} ${location.longitude} 12 100 ${this
         //     .region}`;
@@ -118,7 +118,8 @@ export default class ApiAdapter {
             url: `${url}`,
             method: method,
             data: data,
-            headers: this.createHeaders(headers)
+            headers: this.createHeaders(headers),
+            ...options.axiosOptions
         };
 
         // // check if signing is disabled
@@ -171,11 +172,15 @@ export default class ApiAdapter {
         const headers = headerStrings.join("\n");
 
         // serialize the data
-        const data: string = JSON.stringify(requestConfig.data);
+        let data: string = JSON.stringify(requestConfig.data);
+        if (data === "{}") {
+            data = "\n\n";
+        } else {
+            data = `\n\n${data}`;
+        }
 
         // generate the full template
-        const template: string = `${methodUrl}${headers}\n\n${data}`;
-        // const template: string = `123`;
+        const template: string = `${methodUrl}${headers}${data}`;
 
         // sign the template with our private key
         const signature = await signString(template, this.Session.privateKey);

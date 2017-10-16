@@ -8,7 +8,6 @@ import ApiEndpoints from "./Api/index";
 
 export default class BunqJSClient {
     public storageInterface: StorageInteface;
-    private eventDispatcher: any = null;
     public apiKey: string = null;
     public allowedIps: string[] = [];
 
@@ -17,18 +16,17 @@ export default class BunqJSClient {
 
     public api: any;
 
-    constructor(
-        eventDispatcher: any = null,
-        storageInterface: StorageInteface = store
-    ) {
-        this.eventDispatcher = eventDispatcher;
+    /**
+     * @param {StorageInterface} storageInterface
+     */
+    constructor(storageInterface: StorageInteface = store) {
         this.storageInterface = storageInterface;
 
         // create a new session instance
         this.Session = new Session(this.storageInterface);
 
         // setup the api adapter using our session context
-        this.ApiAdapter = new ApiAdapter();
+        this.ApiAdapter = new ApiAdapter(this.Session);
 
         // register our api endpoints
         this.api = ApiEndpoints(this.ApiAdapter);
@@ -38,7 +36,7 @@ export default class BunqJSClient {
      * Starts the client and sets up the required components
      * @returns {Promise.<void>}
      */
-    async run(apiKey: string, allowedIps: string[] = []) {
+    public async run(apiKey: string, allowedIps: string[] = []) {
         this.apiKey = apiKey;
         this.allowedIps = allowedIps;
 
@@ -46,16 +44,15 @@ export default class BunqJSClient {
         await this.Session.setup(this.apiKey, this.allowedIps);
 
         // setup the api adapter using our session
-        await this.ApiAdapter.setup(this.Session);
+        await this.ApiAdapter.setup();
     }
 
     /**
      * Installs this application
      * @returns {Promise<boolean>}
      */
-    async install() {
+    public async install() {
         if (this.Session.verifyInstallation() === false) {
-            this.eventHandler("INSTALLATION_LOADING");
             const response = await this.api.installation.add();
 
             // update the session properties
@@ -69,9 +66,7 @@ export default class BunqJSClient {
 
             // update storage
             await this.Session.storeSession();
-            this.eventHandler("INSTALLATION_ADDED");
         }
-        this.eventHandler("INSTALLATION_NOT_LOADING");
         return true;
     }
 
@@ -80,23 +75,18 @@ export default class BunqJSClient {
      * @param {string} deviceName
      * @returns {Promise<boolean>}
      */
-    async registerDevice(deviceName = "My Device") {
+    public async registerDevice(deviceName = "My Device") {
         if (this.Session.verifyDeviceInstallation() === false) {
-            this.eventHandler("DEVICE_LOADING");
-            const deviceId = await this.api.deviceRegistration.add(
-                {
-                    description: deviceName
-                }
-            );
+            const deviceId = await this.api.deviceRegistration.add({
+                description: deviceName
+            });
 
             // update the session properties
             this.Session.deviceId = deviceId;
 
             // update storage
             await this.Session.storeSession();
-            this.eventHandler("DEVICE_ADDED");
         }
-        this.eventHandler("DEVICE_NOT_LOADING");
         return true;
     }
 
@@ -104,9 +94,8 @@ export default class BunqJSClient {
      * Registers a new session when required for this device and installation
      * @returns {Promise<boolean>}
      */
-    async registerSession() {
+    public async registerSession() {
         if (this.Session.verifySessionInstallation() === false) {
-            this.eventHandler("SESSION_LOADING");
             const response = await this.api.sessionServer.add();
 
             // based on account setting we set a expire date
@@ -121,11 +110,6 @@ export default class BunqJSClient {
                     createdDate.getSeconds() +
                         response.user_info.UserPerson.session_timeout
                 );
-            } else if (response.user_info.UserLight !== undefined) {
-                createdDate.setSeconds(
-                    createdDate.getSeconds() +
-                        response.user_info.UserCompany.session_timeout
-                );
             }
 
             // set the new info
@@ -134,29 +118,40 @@ export default class BunqJSClient {
             this.Session.sessionToken = response.token.token;
             this.Session.userInfo = response.user_info;
 
-            this.eventHandler("SESSION_CREATED");
-
             // update storage
             await this.Session.storeSession();
         }
-        this.eventHandler("SESSION_NOT_LOADING");
         return true;
     }
 
     /**
-     * Emites event trough the event dispatcher if one is configured
-     * @param {string} type
-     * @param payload
+     * Destroys the current session and all variables associated with it
+     * @returns {Promise<void>}
      */
-    public eventHandler(type: string, payload: any = {}) {
-        if (this.eventDispatcher !== null) {
-            this.eventDispatcher({
-                type: `BUNQJSCLIENT_${type}`,
-                payload: payload
-            });
+    public async destroySession() {
+        await this.Session.destroySession();
+    }
+
+    /**
+     * Returns the registered users for the session
+     * @returns {any}
+     */
+    public async getUser(userType, updated: boolean = false) {
+        if(updated){
+            // TODO do api call to get updated version for our session
         }
+        // return the user if we have one
+        return this.Session.userInfo[userType];
+    }
+
+    /**
+     * Returns the registered users for the session
+     * @returns {any}
+     */
+    public async getUsers(updated: boolean = false) {
+        if(updated){
+            // TODO do api call to get updated version for our session
+        }
+        return this.Session.userInfo;
     }
 }
-
-// DEBUG
-(window as any).BunqJSClient = BunqJSClient;
