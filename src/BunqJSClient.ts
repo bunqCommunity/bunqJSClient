@@ -110,6 +110,11 @@ export default class BunqJSClient {
                     createdDate.getSeconds() +
                         response.user_info.UserPerson.session_timeout
                 );
+            } else if (response.user_info.UserLight !== undefined) {
+                createdDate.setSeconds(
+                    createdDate.getSeconds() +
+                        response.user_info.UserLight.session_timeout
+                );
             }
 
             // set the new info
