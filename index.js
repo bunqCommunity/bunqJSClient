@@ -1,2 +1,1 @@
-export { default } from './src/BunqJSClient';
-// export { default as ApiAdapter } from './src/ApiAdapter';
+export { default } from './dist/BunqJSClient';

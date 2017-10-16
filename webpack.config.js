@@ -12,7 +12,7 @@ const DEVELOPMENT = !PRODUCTION;
 
 let config = {
     entry: {
-        BunqJS: "./index.js"
+        BunqJS: "./index.ts"
     },
     output: {
         path: BUILD_DIR,
