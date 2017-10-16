@@ -32,9 +32,10 @@ export default class SessionServer implements ApiEndpointInterface {
             user_info: result.Response[2]
         };
     }
+
     /**
      * @param options
-     * @returns {Promise<{id; token: any; serverPublicKey: any}>}
+     * @returns {Promise<{id; token: any; user_info}>}
      */
     public async remove(options: any = {}) {
         const result = await this.ApiAdapter.post(
