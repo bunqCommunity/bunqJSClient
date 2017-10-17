@@ -5,16 +5,11 @@ All data is stored client-side and requests are created and signed using [forge]
 On its own the BunqJSClient doesn't do anything, you'll need to build an interface around it like we do with [BunqDesktop](https://github.com/Crecket/BunqDesktop).
 
 This project is focussed on the browser and isn't officially supported yet for usage with NodeJS servers. 
-We use [Dynamic Imports](https://babeljs.io/docs/plugins/syntax-dynamic-import/), 
-[Typescript](https://github.com/Microsoft/TypeScript) and es5/es6/es7 javascript syntax. 
-
-*I highly recommend using webpack 3.7 to compile your project when using this SDK. 
-For examples you can use this project's webpack config and plugi list*
 
 ## Installation
-Since this project isn't released on npm yet it is easiest to clone this repository and import it directly in your 
-```js
-import BunqJSClient from "../BunqJSClient/index.js";
+Install the library
+```bash
+yarn add @bunq-community/bunq-js-client
 ```
 Next create a new instance with an optional storage interface as the first parameter. 
 This defaults to [store.js](https://github.com/marcuswestin/store.js/) but any class 
@@ -23,8 +18,9 @@ with the following synchronous functions: `get(key)`, `set(key, data)`, `remove(
 import SomeStorageHelper from "some-storage-handler"; 
 
 const BunqClientCustom = new BunqJSClient(SomeStorageHelper);
-// OR use the default
-const BunqClient = new BunqJSClient(store);
+
+// OR use the default store.js
+const BunqClient = new BunqJSClient();
 ```
 Next run the setup basic functions to get started
 ```js
@@ -62,3 +58,11 @@ const userCompany = await BunqClient.getUser("UserCompany", forceUpdate);
 
 #### Attachements
 - [GET /attachment-public/{imageUUID}/content](https://doc.bunq.com/api/1/call/attachment-public-content/method/list)
+
+#### Payments
+- [GET /v1/user/${userId}/monetary-account/${monetaryAccountId}/payment/${paymentId}](https://doc.bunq.com/api/1/call/payment/method/get)
+- [LIST /v1/user/${userId}/monetary-account/${monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/payment/method/list)
+
+#### MonetaryAccounts
+- [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}](https://doc.bunq.com/api/1/call/monetary-account/method/get)
+- [LIST /v1/user/{userId}/monetary-account](https://doc.bunq.com/api/1/call/monetary-account/method/list)
