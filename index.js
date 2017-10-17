@@ -1,1 +1,1 @@
-export { default } from './dist/BunqJSClient';
+module.exports = require("./dist/BunqJSClient.js");

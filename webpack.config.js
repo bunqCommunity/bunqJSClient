@@ -12,9 +12,12 @@ const DEVELOPMENT = !PRODUCTION;
 
 let config = {
     entry: {
-        BunqJS: "./index.ts"
+        BunqJSClient: "./src/BunqJSClient"
     },
     output: {
+        library: "BunqJSClient",
+        libraryTarget: "umd",
+        umdNamedDefine: true,
         path: BUILD_DIR,
         filename: OUTPUT_DIR + "[name].js",
         publicPath: "/dist/",
