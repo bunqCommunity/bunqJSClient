@@ -11,7 +11,7 @@ type UrlEnviromentType = {
     [key: string]: string;
 };
 
-export const ALLOWED_ENVIROMENTS: string[] = ["SANDBOX"];
+export const ALLOWED_ENVIROMENTS: string[] = ["SANDBOX", "PRODUCTION"];
 export const URL_ENVIROMENTS: UrlEnviromentType = {
     SANDBOX: "https://sandbox.public.api.bunq.com",
     PRODUCTION: "https://api.bunq.com"
@@ -53,7 +53,6 @@ export default class Session {
         this.storageInterface = storageInterface;
 
         this.environmentType = "SANDBOX";
-        this.environmentUrl = URL_ENVIROMENTS[this.environment];
         this.storageKey = `${this.environment}_session`;
     }
 
@@ -65,24 +64,19 @@ export default class Session {
     public async setup(
         apiKey: string,
         allowedIps: string[] = [],
-        options = { forceNewKeypair: false }
-    ) {
-        if (
-            this.apiKey !== null &&
-            this.apiKey !== false &&
-            this.apiKey !== apiKey
-        ) {
-            // new apikey was set, destroy the old session first
-            // await this.destroySession();
+        options = {
+            environment: "SANDBOX"
         }
+    ) {
         this.apiKey = apiKey;
         this.allowdIps = allowedIps;
+        this.environmentType = options.environment;
 
         // check if storage interface has a session stored
         await this.loadSession();
 
         // setup the required rsa keypair
-        await this.setupKeypair(options.forceNewKeypair);
+        await this.setupKeypair();
     }
 
     /**
@@ -120,10 +114,14 @@ export default class Session {
 
         if (session === undefined) return false;
 
-        // api keys dont match, don't load this
+        // api keys dont match, this session is outdated
         if (session.apiKey !== this.apiKey) return false;
 
+        // different environment
+        if (session.environment !== this.environment) return false;
+
         // overwrite our current properties with the stored version
+        this.environment = session.environment;
         this.publicKeyPem = session.publicKeyPem;
         this.privateKeyPem = session.privateKeyPem;
         this.serverPublicKeyPem = session.serverPublicKeyPem;
@@ -156,6 +154,7 @@ export default class Session {
      */
     public async storeSession() {
         this.storageInterface.set(this.storageKey, {
+            environment: this.environment,
             apiKey: this.apiKey,
             publicKeyPem: this.publicKeyPem,
             privateKeyPem: this.privateKeyPem,
@@ -176,7 +175,6 @@ export default class Session {
      * @returns {Promise<void>}
      */
     public async destroySession() {
-        console.log("destroy session");
         this.apiKey = null;
         this.publicKey = null;
         this.publicKeyPem = null;
@@ -234,6 +232,7 @@ export default class Session {
     set environmentType(environmentType: string) {
         if (ALLOWED_ENVIROMENTS.includes(environmentType)) {
             this.environment = environmentType;
+            this.environmentUrl = URL_ENVIROMENTS[this.environment];
             return;
         }
         throw new Error(

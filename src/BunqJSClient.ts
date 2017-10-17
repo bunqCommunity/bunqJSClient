@@ -36,12 +36,20 @@ export default class BunqJSClient {
      * Starts the client and sets up the required components
      * @returns {Promise.<void>}
      */
-    public async run(apiKey: string, allowedIps: string[] = []) {
+    public async run(
+        apiKey: string,
+        allowedIps: string[] = [],
+        environment: string = "SANDBOX"
+    ) {
         this.apiKey = apiKey;
         this.allowedIps = allowedIps;
 
+        console.log("Run bunqjsclient", environment);
+
         // setup the session with our apiKey and ip whitelist
-        await this.Session.setup(this.apiKey, this.allowedIps);
+        await this.Session.setup(this.apiKey, this.allowedIps, {
+            environment: environment
+        });
 
         // setup the api adapter using our session
         await this.ApiAdapter.setup();
@@ -142,7 +150,7 @@ export default class BunqJSClient {
      * @returns {any}
      */
     public async getUser(userType, updated: boolean = false) {
-        if(updated){
+        if (updated) {
             // TODO do api call to get updated version for our session
         }
         // return the user if we have one
@@ -154,7 +162,7 @@ export default class BunqJSClient {
      * @returns {any}
      */
     public async getUsers(updated: boolean = false) {
-        if(updated){
+        if (updated) {
             // TODO do api call to get updated version for our session
         }
         return this.Session.userInfo;
