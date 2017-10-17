@@ -1,10 +1,10 @@
-import { stringToHash } from "./Crypto/Sha256";
 import {
     createKeyPair,
     keyPairToPem,
     publicKeyFromPem,
     privateKeyFromPem
 } from "./Crypto/Rsa";
+import { stringToHash } from "./Crypto/Sha256";
 import StorageInterface from "./Interfaces/StorageInterface";
 
 type UrlEnviromentType = {
@@ -62,7 +62,7 @@ export default class Session {
      * @returns {Promise<void>}
      */
     public async setup(
-        apiKey: string,
+        apiKey: string | boolean,
         allowedIps: string[] = [],
         options = {
             environment: "SANDBOX"
@@ -84,7 +84,7 @@ export default class Session {
      * @param forceNewKeypair
      * @returns {Promise.<boolean>}
      */
-    private async setupKeypair(forceNewKeypair: boolean = false) {
+    public async setupKeypair(forceNewKeypair: boolean = false) {
         if (
             forceNewKeypair === false &&
             this.publicKey !== null &&
@@ -115,10 +115,19 @@ export default class Session {
         if (session === undefined) return false;
 
         // api keys dont match, this session is outdated
-        if (session.apiKey !== this.apiKey) return false;
+        if (
+            this.apiKey !== false &&
+            this.apiKey !== null &&
+            session.apiKey !== this.apiKey
+        ) {
+            return false;
+        }
 
-        // different environment
-        if (session.environment !== this.environment) return false;
+        // different environment stored, destroy old session
+        if (session.environment !== this.environment) {
+            await this.destroySession();
+            return false;
+        }
 
         // overwrite our current properties with the stored version
         this.environment = session.environment;

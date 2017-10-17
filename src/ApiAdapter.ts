@@ -21,7 +21,6 @@ export const DEFAULT_HEADERS: Header = {
 
 export default class ApiAdapter {
     Session: Session;
-    userAgent: string;
     language: string;
     region: string;
     geoLocation: string;
@@ -29,7 +28,6 @@ export default class ApiAdapter {
     constructor(Session: Session) {
         this.Session = Session;
 
-        this.userAgent = `${navigator.userAgent} (BunqJS)`;
         this.language = "en_US";
         this.region = "nl_NL";
         this.geoLocation = "0 0 0 0 000";

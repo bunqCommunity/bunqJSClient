@@ -44,8 +44,6 @@ export default class BunqJSClient {
         this.apiKey = apiKey;
         this.allowedIps = allowedIps;
 
-        console.log("Run bunqjsclient", environment);
-
         // setup the session with our apiKey and ip whitelist
         await this.Session.setup(this.apiKey, this.allowedIps, {
             environment: environment
@@ -85,15 +83,40 @@ export default class BunqJSClient {
      */
     public async registerDevice(deviceName = "My Device") {
         if (this.Session.verifyDeviceInstallation() === false) {
-            const deviceId = await this.api.deviceRegistration.add({
-                description: deviceName
-            });
+            try {
+                const deviceId = await this.api.deviceRegistration.add({
+                    description: deviceName
+                });
 
-            // update the session properties
-            this.Session.deviceId = deviceId;
+                // update the session properties
+                this.Session.deviceId = deviceId;
 
-            // update storage
-            await this.Session.storeSession();
+                // update storage
+                await this.Session.storeSession();
+            } catch (error) {
+                if (!error.response) {
+                    throw error;
+                }
+                const response = error.response;
+
+                if (response.status === 400) {
+                    // we have a permission/formatting issue, destroy the installation
+                    this.Session.serverPublicKeyPem = null;
+                    this.Session.serverPublicKey = null;
+                    this.Session.installToken = null;
+                    this.Session.installUpdated = null;
+                    this.Session.installCreated = null;
+
+                    // force creation of a new keypair since the old one is no longer 'unique'
+                    await this.Session.setupKeypair(true);
+
+                    // store the removed information
+                    await this.Session.storeSession();
+                }
+
+                // rethrow the error
+                throw error;
+            }
         }
         return true;
     }
