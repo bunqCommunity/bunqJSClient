@@ -1,5 +1,5 @@
 {
-  "name": "bunq-js-client",
+  "name": "@bunq-community/bunq-js-client",
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
@@ -37,5 +37,15 @@
   },
   "engines": {
     "node": ">=8.0.0"
-  }
+  },
+  "description": "A web based project that is aimed at allowing single page applications to do all interactions with Bunq without proxying through other services.  All data is stored client-side and requests are created and signed using [forge](https://github.com/digitalbazaar/forge).",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BunqCommunity/BunqJSClient.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/BunqCommunity/BunqJSClient/issues"
+  },
+  "homepage": "https://github.com/BunqCommunity/BunqJSClient#readme"
 }
