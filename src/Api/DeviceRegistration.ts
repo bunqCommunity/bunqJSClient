@@ -19,14 +19,21 @@ export default class DeviceRegistration implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<any>}
      */
-    public async add(options: any = { description: "My Device" }) {
-        const response = await this.ApiAdapter.post("/v1/device-server", {
+    public async add(
+        options: any = { description: "My Device", permitted_ips: [] }
+    ) {
+        const postData = {
             description: options.description,
-            // permitted_ips: this.Session.allowdIps.map(ip => {
-            //     return { ipv4: ip };
-            // }),
             secret: this.Session.apiKey
-        });
+        };
+        if (options.permitted_ips.length > 0) {
+            postData["permitted_ips"] = options.permitted_ips;
+        }
+
+        const response = await this.ApiAdapter.post(
+            "/v1/device-server",
+            postData
+        );
 
         // return the device id
         return response.Response[0].Id.id;
