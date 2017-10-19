@@ -1,5 +1,5 @@
 import axios from "axios";
-import { signString } from "./Crypto/Sha256";
+import { signString, verifyString } from "./Crypto/Sha256";
 import Session from "./Session";
 import Header from "./Types/Header";
 
@@ -8,6 +8,10 @@ type RequestConfig = {
     method: string;
     data: any;
     headers: Header[];
+};
+
+const ucfirst = (string: string): string => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 // these headers are set by default
@@ -122,7 +126,9 @@ export default class ApiAdapter {
 
         // // check if signing is disabled
         if (options.disableSigning !== true) {
+            // sign this request config
             const signature = await this.signRequest(requestConfig);
+            // add the generated signature
             requestConfig.headers["X-Bunq-Client-Signature"] = signature;
         }
 
@@ -132,7 +138,17 @@ export default class ApiAdapter {
                 .environmentUrl}${requestConfig.url}`;
         }
 
-        return axios.request(requestConfig);
+        // Send the request to Bunq
+        const response = await axios.request(requestConfig);
+
+        // attempt to verify the Bunq response
+        const verifyResult = await this.verifyResponse(response);
+
+        if(!verifyResult){
+            throw new Error("We couldn't verify the received response");
+        }
+
+        return response;
     }
 
     /**
@@ -152,12 +168,9 @@ export default class ApiAdapter {
                 headerKey.includes("Cache-Control") ||
                 headerKey.includes("User-Agent")
             ) {
-            } else {
-                return "";
+                return `${headerKey}: ${requestConfig.headers[headerKey]}`;
             }
-
-            const headerValue = requestConfig.headers[headerKey];
-            return `${headerKey}: ${headerValue}`;
+            return "";
         });
 
         // manually include the user agent
@@ -166,7 +179,7 @@ export default class ApiAdapter {
         // sort alphabetically
         headerStrings.sort();
 
-        // join into a list of headers for the template
+        // remove empty strings and join into a list of headers for the template
         const headers = headerStrings.join("\n");
 
         // serialize the data
@@ -181,9 +194,63 @@ export default class ApiAdapter {
         const template: string = `${methodUrl}${headers}${data}`;
 
         // sign the template with our private key
-        const signature = await signString(template, this.Session.privateKey);
+        return await signString(template, this.Session.privateKey);
+    }
 
-        return signature;
+    /**
+     * Verifies the response of a request
+     * @param response
+     * @returns {Promise<boolean>}
+     */
+    private async verifyResponse(response): Promise<boolean> {
+        if (!this.Session.serverPublicKey) {
+            // no public key so we can't verify
+            return true;
+        }
+
+        // create a list of headers
+        const headerStrings = [];
+        Object.keys(response.headers).map(headerKey => {
+            const headerParts = headerKey.split("-");
+            // add uppercase back since axios makes every header key lowercase
+            const headerPartsFixed = headerParts.map(ucfirst);
+            // merge back to a string
+            const headerKeyFixed = headerPartsFixed.join("-");
+
+            // only verify bunq headers and ignore the server signature
+            if (
+                headerKeyFixed.includes("X-Bunq") &&
+                !headerKeyFixed.includes("X-Bunq-Server-Signature")
+            ) {
+                headerStrings.push(
+                    `${headerKeyFixed}: ${response.headers[headerKey]}`
+                );
+            }
+        });
+
+        // sort alphabetically
+        headerStrings.sort();
+
+        // join into a list of headers for the template
+        const headers = headerStrings.join("\n");
+
+        // serialize the data
+        let data: string = JSON.stringify(response.data);
+        if (data === "{}") {
+            data = "\n\n";
+        } else {
+            data = `\n\n${data}`;
+        }
+
+        // generate the full template
+        const template: string = `${response.status}\n${headers}${data}`;
+
+        // verify the string and return results
+        return await verifyString(
+            template,
+            this.Session.serverPublicKey,
+            response.headers["x-bunq-server-signature"]
+        );
     }
 
     /**
@@ -198,7 +265,6 @@ export default class ApiAdapter {
             "X-Bunq-Geolocation": this.geoLocation,
             "X-Bunq-Language": this.language,
             "X-Bunq-Region": this.region,
-            // "User-Agent": this.userAgent,
             ...headers
         };
     }
