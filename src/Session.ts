@@ -110,9 +110,13 @@ export default class Session {
      */
     public async loadSession() {
         // try to load the session interface
-        const session = this.storageInterface.get(this.storageKey);
+        const result = this.storageInterface.get(this.storageKey);
 
-        if (session === undefined) return false;
+        // check if result is a promise else return the reuslt
+        const session = result && result.then ? await result : result;
+
+        // no session found stored
+        if (session === undefined || session === null) return false;
 
         // api keys dont match, this session is outdated
         if (
@@ -162,7 +166,7 @@ export default class Session {
      * @returns {Promise.<void>}
      */
     public async storeSession() {
-        this.storageInterface.set(this.storageKey, {
+        const result = this.storageInterface.set(this.storageKey, {
             environment: this.environment,
             apiKey: this.apiKey,
             publicKeyPem: this.publicKeyPem,
@@ -177,6 +181,10 @@ export default class Session {
             userInfo: this.userInfo,
             deviceId: this.deviceId
         });
+        // check if result is a promise
+        if (result && result.then) {
+            return await result;
+        }
     }
 
     /**
@@ -200,7 +208,11 @@ export default class Session {
         this.sessionToken = null;
         this.sessionExpiryTime = null;
 
-        this.storageInterface.remove(this.storageKey);
+        const result = this.storageInterface.remove(this.storageKey);
+        // check if result is a promise
+        if (result && result.then) {
+            return await result;
+        }
     }
 
     /**

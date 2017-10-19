@@ -2,7 +2,7 @@ const webpack = require("webpack");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 
-module.exports = ({BUILD_DIR, OUTPUT_DIR, PRODUCTION, DEVELOPMENT}) => {
+module.exports = ({ BUILD_DIR, OUTPUT_DIR, PRODUCTION, DEVELOPMENT }) => {
     const plugins = [
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
@@ -15,7 +15,7 @@ module.exports = ({BUILD_DIR, OUTPUT_DIR, PRODUCTION, DEVELOPMENT}) => {
             "process.env.WEBPACK_MODE": JSON.stringify(true)
         }),
         new webpack.ProvidePlugin({
-            Promise: 'es6-promise-promise'
+            Promise: "es6-promise-promise"
         })
     ];
 
@@ -36,9 +36,11 @@ module.exports = ({BUILD_DIR, OUTPUT_DIR, PRODUCTION, DEVELOPMENT}) => {
                 }
             })
         );
+
         // cleanup old build files from BUILD
         plugins.push(
             new CleanWebpackPlugin([`${BUILD_DIR}/${OUTPUT_DIR}/*.*`], {
+                root: `${__dirname}/..`,
                 exclude: [],
                 verbose: false,
                 dry: false
