@@ -85,7 +85,8 @@ export default class BunqJSClient {
         if (this.Session.verifyDeviceInstallation() === false) {
             try {
                 const deviceId = await this.api.deviceRegistration.add({
-                    description: deviceName
+                    description: deviceName,
+                    permitted_ips: this.allowedIps
                 });
 
                 // update the session properties
