@@ -39,15 +39,19 @@ export default class BunqJSClient {
     public async run(
         apiKey: string,
         allowedIps: string[] = [],
-        environment: string = "SANDBOX"
+        environment: string = "SANDBOX",
+        encryptionKey: string | boolean = false
     ) {
         this.apiKey = apiKey;
         this.allowedIps = allowedIps;
 
         // setup the session with our apiKey and ip whitelist
-        await this.Session.setup(this.apiKey, this.allowedIps, {
-            environment: environment
-        });
+        await this.Session.setup(
+            this.apiKey,
+            this.allowedIps,
+            environment,
+            encryptionKey
+        );
 
         // setup the api adapter using our session
         await this.ApiAdapter.setup();

@@ -1,12 +1,13 @@
 {
   "name": "@bunq-community/bunq-js-client",
-  "version": "0.1.1",
+  "version": "0.3.0",
   "license": "MIT",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --colors",
     "build:dev": "cross-env NODE_ENV=development webpack --debug --watch --progress --colors"
   },
   "main": "./index.js",
+  "module": "./src/BunqJSClient.ts",
   "dependencies": {},
   "devDependencies": {
     "@types/node": "^8.0.34",

@@ -1,10 +1,11 @@
 import {
+    encryptString,
+    decryptString,
     createKeyPair,
     keyPairToPem,
     publicKeyFromPem,
     privateKeyFromPem
 } from "./Crypto/Rsa";
-import { stringToHash } from "./Crypto/Sha256";
 import StorageInterface from "./Interfaces/StorageInterface";
 
 type UrlEnviromentType = {
@@ -20,6 +21,7 @@ export const URL_ENVIROMENTS: UrlEnviromentType = {
 export default class Session {
     storageInterface: StorageInterface;
     apiKey: string | boolean = null;
+    encryptionKey: string | boolean = false;
     allowdIps: string[] = [];
 
     // target enviroment and target envoriment api url
@@ -47,13 +49,15 @@ export default class Session {
     userInfo: any = {};
 
     // key used to store our data
-    storageKey: string = null;
+    storageKeyLocation: string;
+    storageIvLocation: string;
 
     constructor(storageInterface: StorageInterface) {
         this.storageInterface = storageInterface;
 
         this.environmentType = "SANDBOX";
-        this.storageKey = `${this.environment}_session`;
+        this.storageKeyLocation = `BUNQJSCLIENT_${this.environment}_SESSION`;
+        this.storageIvLocation = `BUNQJSCLIENT_${this.environment}_IV`;
     }
 
     /**
@@ -64,19 +68,27 @@ export default class Session {
     public async setup(
         apiKey: string | boolean,
         allowedIps: string[] = [],
-        options = {
-            environment: "SANDBOX"
-        }
+        environment: string = "SANDBOX",
+        encryptionKey: string | boolean = false
     ) {
         this.apiKey = apiKey;
         this.allowdIps = allowedIps;
-        this.environmentType = options.environment;
+        this.environmentType = environment;
+        this.encryptionKey = encryptionKey;
+
+        // nothing to do if we don't have an encryption key
+        if (encryptionKey === false) {
+            return false;
+        }
 
         // check if storage interface has a session stored
-        await this.loadSession();
+        const loadedStorage = await this.loadSession();
 
-        // setup the required rsa keypair
-        await this.setupKeypair();
+        // if there is no stored session but we have an key we setup a new keypair
+        if (loadedStorage === false && this.encryptionKey !== false) {
+            // setup the required rsa keypair
+            await this.setupKeypair();
+        }
     }
 
     /**
@@ -110,13 +122,23 @@ export default class Session {
      */
     public async loadSession() {
         // try to load the session interface
-        const result = this.storageInterface.get(this.storageKey);
-
-        // check if result is a promise else return the reuslt
-        const session = result && result.then ? await result : result;
+        const encryptedSession = await this.asyncStorageGet(
+            this.storageKeyLocation
+        );
 
         // no session found stored
-        if (session === undefined || session === null) return false;
+        if (encryptedSession === undefined || encryptedSession === null) {
+            return false;
+        }
+
+        let session: any;
+        try {
+            // decrypt the stored sesion
+            session = await this.decryptSession(encryptedSession);
+        } catch (error) {
+            // failed to decrypt the session, return false
+            return false;
+        }
 
         // api keys dont match, this session is outdated
         if (
@@ -166,7 +188,7 @@ export default class Session {
      * @returns {Promise.<void>}
      */
     public async storeSession() {
-        const result = this.storageInterface.set(this.storageKey, {
+        const dataToStore = {
             environment: this.environment,
             apiKey: this.apiKey,
             publicKeyPem: this.publicKeyPem,
@@ -180,11 +202,11 @@ export default class Session {
             sessionExpiryTime: this.sessionExpiryTime,
             userInfo: this.userInfo,
             deviceId: this.deviceId
-        });
-        // check if result is a promise
-        if (result && result.then) {
-            return await result;
-        }
+        };
+        const serializedData = JSON.stringify(dataToStore);
+
+        // encrypt the data with our encryption key
+        return await this.encryptSession(serializedData);
     }
 
     /**
@@ -208,12 +230,107 @@ export default class Session {
         this.sessionToken = null;
         this.sessionExpiryTime = null;
 
-        const result = this.storageInterface.remove(this.storageKey);
-        // check if result is a promise
-        if (result && result.then) {
-            return await result;
-        }
+        return await this.asyncStorageRemove(this.storageKeyLocation);
     }
+
+    /**
+     * Attempt to decrypt the session data with our stored IV and encryption key
+     * @param encryptedSession
+     * @returns {Promise<any>}
+     */
+    private decryptSession = async encryptedSession => {
+        const IV = await this.asyncStorageGet(this.storageIvLocation);
+
+        // attempt to decrypt the string
+        const decryptedSession = await decryptString(
+            encryptedSession,
+            this.encryptionKey,
+            IV
+        );
+
+        return JSON.parse(decryptedSession);
+    };
+
+    /**
+     * Attempt to encrypt the session data with encryption key
+     * @param sessionData
+     * @returns {Promise<boolean>}
+     */
+    private encryptSession = async sessionData => {
+        // attempt to decrypt the string
+        const encryptedData = await encryptString(
+            sessionData,
+            this.encryptionKey
+        );
+
+        // store the new IV and encrypted data
+        const ivStorageSuccess = this.asyncStorageSet(
+            this.storageIvLocation,
+            encryptedData.iv
+        );
+        const dataStorageSuccess = this.asyncStorageSet(
+            this.storageKeyLocation,
+            encryptedData.encryptedString
+        );
+
+        // await here so we do the storage calls asyncronously
+        await ivStorageSuccess;
+        await dataStorageSuccess;
+
+        return true;
+    };
+
+    /**
+     * Wrapper around the storage interface for remove calls
+     * @param key
+     * @param {boolean} silent
+     * @returns {Promise<any>}
+     */
+    private asyncStorageRemove = async (key, silent: boolean = false) => {
+        try {
+            return await this.storageInterface.remove(key);
+        } catch (error) {
+            if (silent) {
+                return undefined;
+            }
+            throw error;
+        }
+    };
+
+    /**
+     * Wrapper around the storage interface for get calls
+     * @param key
+     * @param {boolean} silent
+     * @returns {Promise<any>}
+     */
+    private asyncStorageGet = async (key, silent: boolean = false) => {
+        try {
+            return await this.storageInterface.get(key);
+        } catch (error) {
+            if (silent) {
+                return undefined;
+            }
+            throw error;
+        }
+    };
+
+    /**
+     * Wrapper around the storage interface for set calls
+     * @param key
+     * @param value
+     * @param {boolean} silent
+     * @returns {Promise<any>}
+     */
+    private asyncStorageSet = async (key, value, silent: boolean = false) => {
+        try {
+            return await this.storageInterface.set(key, value);
+        } catch (error) {
+            if (silent) {
+                return undefined;
+            }
+            throw error;
+        }
+    };
 
     /**
      * Checks if this session has a succesful installation stored
@@ -224,7 +341,7 @@ export default class Session {
     }
 
     /**
-     * Checks if this session has a succesful device isntallation stored
+     * Checks if this session has a succesful device installation stored
      * @returns {Promise<boolean>}
      */
     public verifyDeviceInstallation() {
@@ -232,7 +349,7 @@ export default class Session {
     }
 
     /**
-     * Checks if this session has a succesful device isntallation stored
+     * Checks if this session has a succesful session setup
      * @returns {Promise<boolean>}
      */
     public verifySessionInstallation() {
