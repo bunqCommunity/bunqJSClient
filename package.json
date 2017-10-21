@@ -7,6 +7,7 @@
     "build:dev": "cross-env NODE_ENV=development webpack --debug --watch --progress --colors"
   },
   "main": "./index.js",
+  "module": "./src/BunqJSClient.ts",
   "dependencies": {},
   "devDependencies": {
     "@types/node": "^8.0.34",
