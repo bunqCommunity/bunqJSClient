@@ -205,7 +205,7 @@ export default class ApiAdapter {
     private async verifyResponse(response): Promise<boolean> {
         if (!this.Session.serverPublicKey) {
             // no public key so we can't verify
-            return true;
+            return false;
         }
 
         // create a list of headers
@@ -234,16 +234,14 @@ export default class ApiAdapter {
         // join into a list of headers for the template
         const headers = headerStrings.join("\n");
 
-        // serialize the data
-        let data: string = JSON.stringify(response.data);
-        if (data === "{}") {
-            data = "\n\n";
-        } else {
-            data = `\n\n${data}`;
-        }
+        // get the raw response text
+        let data: string = response.request.responseText
 
         // generate the full template
-        const template: string = `${response.status}\n${headers}${data}`;
+        const template: string = `${response.status}
+${headers}
+
+${data}`;
 
         // verify the string and return results
         return await verifyString(

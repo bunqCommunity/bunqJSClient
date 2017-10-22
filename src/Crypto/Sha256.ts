@@ -50,10 +50,12 @@ export const verifyString = async (
     // decode the base64 signature
     const rawSignature = util.decode64(signature);
 
+    console.log(data);
+
     try {
         // verify the signature with the public key
         const verified = publicKey.verify(messageDigest, rawSignature);
-        console.log(verified);
+        Logger.debug(verified);
         return true;
     } catch (ex) {
         Logger.error(ex);
