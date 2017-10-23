@@ -1,9 +1,11 @@
-import * as forge from "node-forge";
+const forge = require("./CustomForge");
 import * as awaiting from "awaiting";
 import KeyPair from "../Types/Keypair";
 
-const rsa = forge.rsa;
-const pki = forge.pki;
+const forgeRsa = forge.rsa;
+const forgePki = forge.pki;
+const forgeCipher = forge.cipher;
+const forgeUtil = forge.util;
 
 /**
  * Generates a new keypair
@@ -15,7 +17,7 @@ export const createKeyPair = async (
     bits: number = 2048,
     workers: number = -1
 ) => {
-    return awaiting.callback(rsa.generateKeyPair, {
+    return awaiting.callback(forgeRsa.generateKeyPair, {
         bits: bits,
         workers: workers
     });
@@ -37,7 +39,7 @@ export const keyPairToPem = async (keypair: KeyPair) => {
  * @returns {Promise<any>}
  */
 export const publicKeyToPem = async (publicKey: any) => {
-    return pki.publicKeyToPem(publicKey);
+    return forgePki.publicKeyToPem(publicKey);
 };
 
 /**
@@ -45,7 +47,7 @@ export const publicKeyToPem = async (publicKey: any) => {
  * @returns {Promise<any>}
  */
 export const privateKeyToPem = async (privateKey: any) => {
-    return pki.privateKeyToPem(privateKey);
+    return forgePki.privateKeyToPem(privateKey);
 };
 
 /**
@@ -53,14 +55,14 @@ export const privateKeyToPem = async (privateKey: any) => {
  * @returns {Promise<string>}
  */
 export const publicKeyFromPem = async (privateKeyPem: string) => {
-    return pki.publicKeyFromPem(privateKeyPem);
+    return forgePki.publicKeyFromPem(privateKeyPem);
 };
 /**
  * @param {string} privateKeyPem
  * @returns {Promise<string>}
  */
 export const privateKeyFromPem = async (privateKeyPem: string) => {
-    return pki.privateKeyFromPem(privateKeyPem);
+    return forgePki.privateKeyFromPem(privateKeyPem);
 };
 
 /**
@@ -73,18 +75,18 @@ export const encryptString = async (string, encryptionKey) => {
     // create a random initialization vector
     const iv = forge.random.getBytesSync(16);
     // turn hex-encoded key into bytes
-    const encryptionKeyBytes = forge.util.hexToBytes(encryptionKey);
+    const encryptionKeyBytes = forgeUtil.hexToBytes(encryptionKey);
     // create a new aes-cbc cipher with our key
-    const cipher = forge.cipher.createCipher("AES-CBC", encryptionKeyBytes);
+    const cipher = forgeCipher.createCipher("AES-CBC", encryptionKeyBytes);
     // turn our string into a buffer
-    const buffer = forge.util.createBuffer(string, "utf8");
+    const buffer = forgeUtil.createBuffer(string, "utf8");
 
     cipher.start({ iv: iv });
     cipher.update(buffer);
     cipher.finish();
 
     return {
-        iv: forge.util.bytesToHex(iv),
+        iv: forgeUtil.bytesToHex(iv),
         key: encryptionKey,
         encryptedString: cipher.output.toHex()
     };
@@ -99,14 +101,14 @@ export const encryptString = async (string, encryptionKey) => {
  */
 export const decryptString = async (encryptedString, key, iv) => {
     // get byte data from hex encoded strings
-    const encrypedBytes = forge.util.hexToBytes(encryptedString);
+    const encrypedBytes = forgeUtil.hexToBytes(encryptedString);
     // create a new forge buffer using the bytes
-    const encryptedBuffer = forge.util.createBuffer(encrypedBytes, "raw");
-    const keyBytes = forge.util.hexToBytes(key);
-    const ivBytes = forge.util.hexToBytes(iv);
+    const encryptedBuffer = forgeUtil.createBuffer(encrypedBytes, "raw");
+    const keyBytes = forgeUtil.hexToBytes(key);
+    const ivBytes = forgeUtil.hexToBytes(iv);
 
     // create a new decipher with our key and iv
-    const decipher = forge.cipher.createDecipher("AES-CBC", keyBytes);
+    const decipher = forgeCipher.createDecipher("AES-CBC", keyBytes);
     decipher.start({ iv: ivBytes });
     decipher.update(encryptedBuffer);
 
