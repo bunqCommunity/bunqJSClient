@@ -76,7 +76,7 @@ export default class Payments implements ApiEndpointInterface {
         const response = await this.ApiAdapter.post(
             `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment`,
             {
-                counterpartyAlias: counterpartyAlias,
+                counterparty_alias: counterpartyAlias,
                 description: description,
                 amount: amount
             }
