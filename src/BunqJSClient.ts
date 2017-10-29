@@ -170,6 +170,16 @@ export default class BunqJSClient {
      * @returns {Promise<void>}
      */
     public async destroySession() {
+        if (
+            this.Session.verifyInstallation() &&
+            this.Session.verifyDeviceInstallation() &&
+            this.Session.verifySessionInstallation()
+        ) {
+            // we have a valid installation, try to delete the remote session
+            try {
+                await this.api.sessionServer.delete();
+            } catch (ex) {}
+        }
         await this.Session.destroySession();
     }
 

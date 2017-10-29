@@ -170,11 +170,10 @@ export default class ApiAdapter {
         const headers = headerStrings.join("\n");
 
         // serialize the data
-        let data: string = JSON.stringify(requestConfig.data);
-        if (data === "{}") {
-            data = "\n\n";
-        } else {
-            data = `\n\n${data}`;
+        let data: string = "\n\n";
+        const appendDataWhitelist = ["POST", "PUT", "DELETE"];
+        if (appendDataWhitelist.some(item => item === requestConfig.method)) {
+            data = `\n\n${JSON.stringify(requestConfig.data)}`;
         }
 
         // generate the full template
