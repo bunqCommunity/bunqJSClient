@@ -1,4 +1,5 @@
 const forge = require("./CustomForge");
+import Logger from "../Helpers/Logger";
 
 const forgeSha256 = forge.sha256;
 const forgeUtil = forge.util;
@@ -27,8 +28,9 @@ export const signString = async (data: string, privateKey: any) => {
 
     // sign it with a private key
     const signatureBytes = privateKey.sign(messageDigest);
-    // encode to base 64
-    const signatureEncoded: string = forgeUtil.encode64(signatureBytes);
+    // encode to base 64 and return it
+    return forgeUtil.encode64(signatureBytes); ;
+}
 
 /**
  * Verifies if a string was signed by a public key
@@ -43,13 +45,11 @@ export const verifyString = async (
     signature: string
 ) => {
     // create a new message digest for our string
-    const messageDigest = sha256.create();
+    const messageDigest = forgeSha256.create();
     messageDigest.update(data, "utf8");
 
     // decode the base64 signature
-    const rawSignature = util.decode64(signature);
-
-    console.log(data);
+    const rawSignature = forgeUtil.decode64(signature);
 
     try {
         // verify the signature with the public key

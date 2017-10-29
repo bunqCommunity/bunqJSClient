@@ -233,14 +233,15 @@ export default class ApiAdapter {
         // join into a list of headers for the template
         const headers = headerStrings.join("\n");
 
-        // get the raw response text
-        let data: string = response.request.responseText
+        // serialize the data
+        let data: string = "\n\n";
+        const appendDataWhitelist = ["POST", "PUT", "DELETE"];
+        if (appendDataWhitelist.some(item => item === response.method)) {
+            data = response.request.responseText;
+        }
 
         // generate the full template
-        const template: string = `${response.status}
-${headers}
-
-${data}`;
+        const template: string = `${response.status}\n${headers}${data}`;
 
         // verify the string and return results
         return await verifyString(
