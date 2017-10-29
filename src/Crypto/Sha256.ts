@@ -1,7 +1,7 @@
-import * as forge from "node-forge";
-import Logger from "../Helpers/Logger";
-const sha256 = forge.sha256;
-const util = forge.util;
+const forge = require("./CustomForge");
+
+const forgeSha256 = forge.sha256;
+const forgeUtil = forge.util;
 
 /**
  * Hashes a string using sha256
@@ -9,7 +9,7 @@ const util = forge.util;
  * @returns {Promise<string>}
  */
 export const stringToHash = async (string: string) => {
-    const messageDigest = sha256.create();
+    const messageDigest = forgeSha256.create();
     messageDigest.update(string);
     return messageDigest.digest().toHex();
 };
@@ -22,14 +22,13 @@ export const stringToHash = async (string: string) => {
  */
 export const signString = async (data: string, privateKey: any) => {
     // create a new message digest for our string
-    const messageDigest = sha256.create();
+    const messageDigest = forgeSha256.create();
     messageDigest.update(data, "utf8");
 
     // sign it with a private key
     const signatureBytes = privateKey.sign(messageDigest);
     // encode to base 64
-    return util.encode64(signatureBytes);
-};
+    const signatureEncoded: string = forgeUtil.encode64(signatureBytes);
 
 /**
  * Verifies if a string was signed by a public key
