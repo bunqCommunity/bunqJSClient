@@ -1,11 +1,10 @@
 import {
-    encryptString,
-    decryptString,
     createKeyPair,
     keyPairToPem,
     publicKeyFromPem,
     privateKeyFromPem
 } from "./Crypto/Rsa";
+import { encryptString, decryptString } from "./Crypto/Aes";
 import StorageInterface from "./Interfaces/StorageInterface";
 
 type UrlEnviromentType = {

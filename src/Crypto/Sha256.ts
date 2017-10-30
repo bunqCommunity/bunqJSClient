@@ -29,8 +29,8 @@ export const signString = async (data: string, privateKey: any) => {
     // sign it with a private key
     const signatureBytes = privateKey.sign(messageDigest);
     // encode to base 64 and return it
-    return forgeUtil.encode64(signatureBytes); ;
-}
+    return forgeUtil.encode64(signatureBytes);
+};
 
 /**
  * Verifies if a string was signed by a public key
