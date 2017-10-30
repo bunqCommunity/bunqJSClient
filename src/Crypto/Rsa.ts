@@ -51,11 +51,11 @@ export const privateKeyToPem = async (privateKey: any) => {
 };
 
 /**
- * @param {string} privateKeyPem
+ * @param {string} publicKeyPem
  * @returns {Promise<string>}
  */
-export const publicKeyFromPem = async (privateKeyPem: string) => {
-    return forgePki.publicKeyFromPem(privateKeyPem);
+export const publicKeyFromPem = async (publicKeyPem: string) => {
+    return forgePki.publicKeyFromPem(publicKeyPem);
 };
 /**
  * @param {string} privateKeyPem
