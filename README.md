@@ -2,7 +2,7 @@
 A web based project that is aimed at allowing single page applications to do all interactions with Bunq without proxying through other services. 
 All data is stored client-side and requests are created and signed using [forge](https://github.com/digitalbazaar/forge).
 
-On its own the BunqJSClient doesn't do anything, you'll need to build an interface around it like we do with [BunqDesktop](https://github.com/Crecket/BunqDesktop).
+On its own the BunqJSClient doesn't do anything, you'll need to build an interface around it like we do with [BunqDesktop](https://github.com/BunqCommunity/BunqDesktop).
 
 This project is focussed on the browser and isn't officially supported yet for usage with NodeJS servers. 
 
