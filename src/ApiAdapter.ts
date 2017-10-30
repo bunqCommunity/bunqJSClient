@@ -237,7 +237,7 @@ export default class ApiAdapter {
         let data: string = "\n\n";
         const appendDataWhitelist = ["POST", "PUT", "DELETE"];
         if (appendDataWhitelist.some(item => item === response.method)) {
-            data = response.request.responseText;
+            data += response.request.responseText;
         }
 
         // generate the full template
