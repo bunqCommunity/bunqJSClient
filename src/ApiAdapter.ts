@@ -244,8 +244,8 @@ export default class ApiAdapter {
      */
     private async verifyResponse(response): Promise<boolean> {
         if (!this.Session.serverPublicKey) {
-            // no public key so we can't verify
-            return false;
+            // no public key so we can't verify, return true if we aren't installed yet
+            return this.Session.installToken === null;
         }
 
         // create a list of headers
