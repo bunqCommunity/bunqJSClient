@@ -1,9 +1,13 @@
-export type Coordinate = {
-    latitude: number;
-    longitude: number;
-};
-export type LocationCoords = {
-    coords: Coordinate;
+import Coordinate from "../Types/Coordinate";
+import LocationCoords from "../Types/LocationCoords";
+
+/**
+ * First character becomes uppercase
+ * @param {string} string
+ * @returns {string}
+ */
+export const ucfirst = (string: string): string => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 /**

@@ -1,18 +1,10 @@
 import axios from "axios";
+import { AxiosRequestConfig } from "axios";
+import * as Url from "url";
 import { signString, verifyString } from "./Crypto/Sha256";
 import Session from "./Session";
 import Header from "./Types/Header";
-
-type RequestConfig = {
-    url: string;
-    method: string;
-    data: any;
-    headers: Header[];
-};
-
-const ucfirst = (string: string): string => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-};
+import { ucfirst } from "./Helpers/Utils";
 
 // these headers are set by default
 export const DEFAULT_HEADERS: Header = {
@@ -43,11 +35,23 @@ export default class ApiAdapter {
         //     .region}`;
     }
 
+    /**
+     * @param {string} url
+     * @param headers
+     * @param options
+     * @returns {Promise<void>}
+     */
     public async get(url: string, headers: any = {}, options: any = {}) {
         const response = await this.request(url, "GET", {}, headers, options);
         return response.data;
     }
 
+    /**
+     * @param {string} url
+     * @param headers
+     * @param options
+     * @returns {Promise<void>}
+     */
     public async delete(url: string, headers: any = {}, options: any = {}) {
         const response = await this.request(
             url,
@@ -59,6 +63,13 @@ export default class ApiAdapter {
         return response.data;
     }
 
+    /**
+     * @param {string} url
+     * @param data
+     * @param headers
+     * @param options
+     * @returns {Promise<void>}
+     */
     public async post(
         url: string,
         data: any = {},
@@ -75,6 +86,13 @@ export default class ApiAdapter {
         return response.data;
     }
 
+    /**
+     * @param {string} url
+     * @param data
+     * @param headers
+     * @param options
+     * @returns {Promise<void>}
+     */
     public async put(
         url: string,
         data: any = {},
@@ -85,6 +103,13 @@ export default class ApiAdapter {
         return response.data;
     }
 
+    /**
+     * @param {string} url
+     * @param data
+     * @param headers
+     * @param options
+     * @returns {Promise<void>}
+     */
     public async list(
         url: string,
         data: any = {},
@@ -101,6 +126,14 @@ export default class ApiAdapter {
         return response.data;
     }
 
+    /**
+     * @param {string} url
+     * @param {string} method
+     * @param data
+     * @param headers
+     * @param options
+     * @returns {Promise<any>}
+     */
     private async request(
         url: string,
         method = "GET",
@@ -116,7 +149,7 @@ export default class ApiAdapter {
         }
 
         // create a config for this request
-        let requestConfig: RequestConfig = {
+        let requestConfig: AxiosRequestConfig = {
             url: `${url}`,
             method: method,
             data: data,
@@ -144,7 +177,7 @@ export default class ApiAdapter {
         // attempt to verify the Bunq response
         const verifyResult = await this.verifyResponse(response);
 
-        if(!verifyResult){
+        if (!verifyResult) {
             throw new Error("We couldn't verify the received response");
         }
 
@@ -156,8 +189,16 @@ export default class ApiAdapter {
      * @param {RequestConfig} requestConfig
      * @returns {Promise<string>}
      */
-    private async signRequest(requestConfig: RequestConfig): Promise<string> {
-        const methodUrl: string = `${requestConfig.method} ${requestConfig.url}`;
+    private async signRequest(
+        requestConfig: AxiosRequestConfig
+    ): Promise<string> {
+        let url: string = requestConfig.url;
+        if (requestConfig.params) {
+            const params = new Url.URLSearchParams(requestConfig.params);
+            url = `${requestConfig.url}?${params.toString()}`;
+        }
+
+        const methodUrl: string = `${requestConfig.method} ${url}`;
 
         // create a list of headers
         const headerStrings = Object.keys(
@@ -234,14 +275,18 @@ export default class ApiAdapter {
         const headers = headerStrings.join("\n");
 
         // serialize the data
-        let data: string = "\n\n";
-        const appendDataWhitelist = ["POST", "PUT", "DELETE"];
-        if (appendDataWhitelist.some(item => item === response.method)) {
-            data += response.request.responseText;
+        let data: string = "";
+        switch (typeof response.request.response) {
+            case "string":
+                data = response.request.response;
+                break;
+            default:
+                data = response.request.response.toString();
+                break;
         }
 
         // generate the full template
-        const template: string = `${response.status}\n${headers}${data}`;
+        const template: string = `${response.status}\n${headers}\n\n${data}`;
 
         // verify the string and return results
         return await verifyString(
