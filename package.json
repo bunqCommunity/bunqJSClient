@@ -28,7 +28,7 @@
     "clean-webpack-plugin": "^0.1.17",
     "cross-env": "^4.0.0",
     "es6-promise-promise": "^1.0.0",
-    "loglevel": "^1.4.1",
+    "loglevel": "^1.5.1",
     "node-forge": "^0.7.1",
     "store": "^2.0.12",
     "ts-loader": "^2.3.7",
