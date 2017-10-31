@@ -1,12 +1,7 @@
 import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
-
-type MonetaryAccountListOptions = {
-    count: number;
-    newer_id: number | false;
-    older_id: number | false;
-};
+import PaginationOptions from "../Types/PaginationOptions";
 
 export default class MonetaryAccount implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
@@ -45,7 +40,7 @@ export default class MonetaryAccount implements ApiEndpointInterface {
      */
     public async list(
         userId: number,
-        options: MonetaryAccountListOptions = {
+        options: PaginationOptions = {
             count: 25,
             newer_id: false,
             older_id: false
