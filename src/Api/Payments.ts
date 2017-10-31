@@ -4,6 +4,12 @@ import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import CounterpartyAlias from "../Types/CounterpartyAlias";
 import Amount from "../Types/Amount";
 
+type PaymentsListOptions = {
+    count: number;
+    newer_id: number | false;
+    older_id: number | false;
+};
+
 export default class Payments implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;
@@ -40,16 +46,37 @@ export default class Payments implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
-     * @param options
+     * @param {PaymentsListOptions} options
      * @returns {Promise<void>}
      */
     public async list(
         userId: number,
         monetaryAccountId: number,
-        options: any = {}
+        options: PaymentsListOptions = {
+            count: 50,
+            newer_id: false,
+            older_id: false
+        }
     ) {
+        const params: any = {
+            count: options.count
+        };
+
+        if (options.newer_id !== false) {
+            params.newer_id = options.newer_id;
+        }
+        if (options.older_id !== false) {
+            params.older_id = options.older_id;
+        }
+
         const response = await this.ApiAdapter.get(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment`
+            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment`,
+            {},
+            {
+                axiosOptions: {
+                    params: params
+                }
+            }
         );
 
         // return raw respone image
