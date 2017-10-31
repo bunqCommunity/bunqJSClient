@@ -29,7 +29,7 @@ export default class ApiAdapter {
         this.geoLocation = "0 0 0 0 000";
     }
 
-    public async setup() {
+    public async setup(){
         // const location = await getGeoLocation();
         // this.geoLocation = `${location.latitude} ${location.longitude} 12 100 ${this
         //     .region}`;
@@ -175,11 +175,11 @@ export default class ApiAdapter {
         const response = await axios.request(requestConfig);
 
         // attempt to verify the Bunq response
-        const verifyResult = await this.verifyResponse(response);
-
-        if (!verifyResult) {
-            throw new Error("We couldn't verify the received response");
-        }
+        // const verifyResult = await this.verifyResponse(response);
+        //
+        // if (!verifyResult) {
+        //     throw new Error("We couldn't verify the received response");
+        // }
 
         return response;
     }
