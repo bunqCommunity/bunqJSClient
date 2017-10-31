@@ -2,16 +2,6 @@ import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 
-const converterEngine = (input: any) => {
-    let uInt8Array = new Uint8Array(input),
-        i = uInt8Array.length;
-    let biStr = [];
-    while (i--) {
-        biStr[i] = String.fromCharCode(uInt8Array[i]);
-    }
-    return btoa(biStr.join(""));
-};
-
 export default class AttachementContent implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;

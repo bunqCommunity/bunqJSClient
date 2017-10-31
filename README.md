@@ -62,18 +62,28 @@ const userCompany = await BunqClient.getUser("UserCompany", forceUpdate);
 ```
 
 ## Supported APIs
-#### Installation/setup
-- [POST /v1/installation](https://doc.bunq.com/api/1/call/installation/method/post)
-- [POST /v1/device-server](https://doc.bunq.com/api/1/call/installation/method/post)
-- [POST /v1/session-server](https://doc.bunq.com/api/1/call/session-server/method/post)
+For more details I suggest you look into the endpoints found at `src/Api/*`
 
-#### Attachements
+#### Attachments
 - [GET /attachment-public/{imageUUID}/content](https://doc.bunq.com/api/1/call/attachment-public-content/method/list)
 
-#### Payments
-- [GET /v1/user/${userId}/monetary-account/${monetaryAccountId}/payment/${paymentId}](https://doc.bunq.com/api/1/call/payment/method/get)
-- [LIST /v1/user/${userId}/monetary-account/${monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/payment/method/list)
+#### Device-server
+- [POST /v1/device-server](https://doc.bunq.com/api/1/call/installation/method/post)
+
+#### Installation
+- [POST /v1/installation](https://doc.bunq.com/api/1/call/installation/method/post)
 
 #### MonetaryAccounts
 - [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}](https://doc.bunq.com/api/1/call/monetary-account/method/get)
 - [LIST /v1/user/{userId}/monetary-account](https://doc.bunq.com/api/1/call/monetary-account/method/list)
+
+#### Payments
+- [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment/{paymentId}](https://doc.bunq.com/api/1/call/payment/method/get)
+- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/payment/method/list)
+- [POST /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/payment/method/post)
+
+#### Session
+- [DELETE /v1/session/{sessionId}](https://doc.bunq.com/api/1/call/session/method/delete)
+
+#### Session-server
+- [POST /v1/session-server](https://doc.bunq.com/api/1/call/session-server/method/post)
