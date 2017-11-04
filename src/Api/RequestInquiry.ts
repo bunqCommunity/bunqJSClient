@@ -79,33 +79,39 @@ export default class RequestInquiry implements ApiEndpointInterface {
         description: string,
         amount_inquired: Amount,
         counterpartyAlias: CounterpartyAlias,
-        options: RequestInquiryPostOptions = {
+        options: RequestInquiryPostOptions
+    ) {
+        const defaultOptions = {
             status: false,
             minimum_age: false,
             allow_bunqme: false,
-            redirect_url: false
-        }
-    ) {
+            redirect_url: false,
+            ...options
+        };
+
         const requestOptions: any = {
             counterparty_alias: counterpartyAlias,
             description: description,
             amount_inquired: amount_inquired,
-            allow_bunqme: options.allow_bunqme
+            allow_bunqme: defaultOptions.allow_bunqme
         };
 
-        if (options.status !== false) {
-            requestOptions.status = options.status;
+        if (defaultOptions.status !== false) {
+            requestOptions.status = defaultOptions.status;
         }
-        if (options.minimum_age !== false) {
-            if (options.minimum_age < 12 && options.minimum_age > 100) {
+        if (defaultOptions.minimum_age !== false) {
+            if (
+                defaultOptions.minimum_age < 12 &&
+                defaultOptions.minimum_age > 100
+            ) {
                 throw new Error(
                     "Invalid minimum_age. Value has to be 12 <= minimum_age <= 100"
                 );
             }
-            requestOptions.minimum_age = options.minimum_age;
+            requestOptions.minimum_age = defaultOptions.minimum_age;
         }
-        if (options.redirect_url !== false) {
-            requestOptions.redirect_url = options.redirect_url;
+        if (defaultOptions.redirect_url !== false) {
+            requestOptions.redirect_url = defaultOptions.redirect_url;
         }
 
         const response = await this.ApiAdapter.post(
