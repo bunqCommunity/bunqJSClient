@@ -10,6 +10,8 @@ type RequestInquiryPostOptions = {
     minimum_age: number | false;
     allow_bunqme: boolean;
     redirect_url: string | false;
+    merchant_reference: string | false;
+    require_address: boolean;
 };
 
 export default class RequestInquiry implements ApiEndpointInterface {
@@ -86,6 +88,8 @@ export default class RequestInquiry implements ApiEndpointInterface {
             minimum_age: false,
             allow_bunqme: false,
             redirect_url: false,
+            require_address: false,
+            merchant_reference: false,
             ...options
         };
 
@@ -93,11 +97,16 @@ export default class RequestInquiry implements ApiEndpointInterface {
             counterparty_alias: counterpartyAlias,
             description: description,
             amount_inquired: amount_inquired,
-            allow_bunqme: defaultOptions.allow_bunqme
+            allow_bunqme: defaultOptions.allow_bunqme,
+            require_address: defaultOptions.require_address
         };
 
         if (defaultOptions.status !== false) {
             requestOptions.status = defaultOptions.status;
+        }
+        if (defaultOptions.merchant_reference !== false) {
+            requestOptions.merchant_reference =
+                defaultOptions.merchant_reference;
         }
         if (defaultOptions.minimum_age !== false) {
             if (
