@@ -67,6 +67,11 @@ For more details I suggest you look into the endpoints found at `src/Api/*`
 #### Attachments
 - [GET /attachment-public/{imageUUID}/content](https://doc.bunq.com/api/1/call/attachment-public-content/method/list)
 
+#### Bunq.me tabs
+- [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/bunqme-tabs/{tabId}](https://doc.bunq.com/api/1/call/bunq-me-tab/method/get)
+- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/bunqme-tabs](https://doc.bunq.com/api/1/call/bunq-me-tab/method/list)
+- [POST /v1/user/{userId}/monetary-account/{monetaryAccountId}/bunqme-tabs](https://doc.bunq.com/api/1/call/bunq-me-tab/method/post)
+
 #### Device-server
 - [POST /v1/device-server](https://doc.bunq.com/api/1/call/installation/method/post)
 
@@ -79,8 +84,12 @@ For more details I suggest you look into the endpoints found at `src/Api/*`
 
 #### Payments
 - [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment/{paymentId}](https://doc.bunq.com/api/1/call/payment/method/get)
-- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/payment/method/list)
-- [POST /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/payment/method/post)
+- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/request-inquiry/method/list)
+- [POST /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/request-inquiry/method/post)
+
+#### Request inquiry
+- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry](https://doc.bunq.com/api/1/call/request-inquiry/method/list)
+- [POST /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry](https://doc.bunq.com/api/1/call/request-inquiry/method/post)
 
 #### Session
 - [DELETE /v1/session/{sessionId}](https://doc.bunq.com/api/1/call/session/method/delete)

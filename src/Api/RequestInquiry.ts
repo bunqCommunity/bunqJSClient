@@ -35,21 +35,24 @@ export default class RequestInquiry implements ApiEndpointInterface {
     public async list(
         userId: number,
         monetaryAccountId: number,
-        options: PaginationOptions = {
+        options: PaginationOptions
+    ) {
+        const defaultOptions = {
             count: 50,
             newer_id: false,
-            older_id: false
-        }
-    ) {
-        const params: any = {
-            count: options.count
+            older_id: false,
+            ...options
         };
 
-        if (options.newer_id !== false) {
-            params.newer_id = options.newer_id;
+        const params: any = {
+            count: defaultOptions.count
+        };
+
+        if (defaultOptions.newer_id !== false) {
+            params.newer_id = defaultOptions.newer_id;
         }
-        if (options.older_id !== false) {
-            params.older_id = options.older_id;
+        if (defaultOptions.older_id !== false) {
+            params.older_id = defaultOptions.older_id;
         }
 
         const response = await this.ApiAdapter.get(
