@@ -94,7 +94,7 @@ export default class BunqMeTabs implements ApiEndpointInterface {
         monetaryAccountId: number,
         description: string,
         amount: Amount,
-        options: any
+        options: any = {}
     ) {
         const params: any = {
             description: description,
@@ -109,6 +109,30 @@ export default class BunqMeTabs implements ApiEndpointInterface {
             `/v1/user/${userId}/monetary-account/${monetaryAccountId}/bunqme-tab`,
             {
                 bunqme_tab_entry: params
+            }
+        );
+
+        // return raw respone image
+        return response.Response;
+    }
+
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
+     * @param {number} bunqMeTabId
+     * @param {string} status
+     * @returns {Promise<void>}
+     */
+    public async put(
+        userId: number,
+        monetaryAccountId: number,
+        bunqMeTabId: number,
+        status: string = "CANCELLED"
+    ) {
+        const response = await this.ApiAdapter.post(
+            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/bunqme-tab${bunqMeTabId}`,
+            {
+                status: status
             }
         );
 
