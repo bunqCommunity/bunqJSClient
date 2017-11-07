@@ -47,7 +47,11 @@ export default class BunqMeTabs implements ApiEndpointInterface {
     public async list(
         userId: number,
         monetaryAccountId: number,
-        options: PaginationOptions
+        options: PaginationOptions = {
+            count: 50,
+            newer_id: false,
+            older_id: false
+        }
     ) {
         const defaultOptions = {
             count: 50,

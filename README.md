@@ -78,6 +78,10 @@ For more details I suggest you look into the endpoints found at `src/Api/*`
 #### Installation
 - [POST /v1/installation](https://doc.bunq.com/api/1/call/installation/method/post)
 
+#### Master Card Action
+- [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/mastercard-action/{masterCardActionId}](https://doc.bunq.com/api/1/call/master-card-action/method/get)
+- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/mastercard-action](https://doc.bunq.com/api/1/call/master-card-action/method/list)
+
 #### MonetaryAccounts
 - [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}](https://doc.bunq.com/api/1/call/monetary-account/method/get)
 - [LIST /v1/user/{userId}/monetary-account](https://doc.bunq.com/api/1/call/monetary-account/method/list)
@@ -90,6 +94,11 @@ For more details I suggest you look into the endpoints found at `src/Api/*`
 #### Request inquiry
 - [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry](https://doc.bunq.com/api/1/call/request-inquiry/method/list)
 - [POST /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry](https://doc.bunq.com/api/1/call/request-inquiry/method/post)
+
+#### Request response
+- [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-response/{requestResponseId}](https://doc.bunq.com/api/1/call/request-response/method/get)
+- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-response](https://doc.bunq.com/api/1/call/request-response/method/list)
+
 
 #### Session
 - [DELETE /v1/session/{sessionId}](https://doc.bunq.com/api/1/call/session/method/delete)
