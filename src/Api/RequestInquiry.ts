@@ -91,7 +91,7 @@ export default class RequestInquiry implements ApiEndpointInterface {
             minimum_age: false,
             allow_bunqme: false,
             redirect_url: false,
-            require_address: false,
+            require_address: "NONE",
             merchant_reference: false,
             ...options
         };
