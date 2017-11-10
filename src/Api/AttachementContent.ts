@@ -25,15 +25,19 @@ export default class AttachementContent implements ApiEndpointInterface {
             {},
             {
                 axiosOptions: {
-                    // we need this as a array buffer
-                    responseType: "arraybuffer"
+                    responseType: "blob"
                 }
             }
         );
 
         // return data as base64
         if (options.base64 === true) {
-            return new Buffer(response, "binary").toString("base64");
+            return new Promise(resolve => {
+                // create a new filereader and transform response blob data into a base64 url
+                const reader = new FileReader();
+                reader.readAsDataURL(response);
+                reader.onload = () => resolve(reader.result);
+            });
         }
 
         // return raw respone image
