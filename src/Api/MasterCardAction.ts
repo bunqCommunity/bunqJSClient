@@ -30,14 +30,15 @@ export default class MasterCardAction implements ApiEndpointInterface {
             older_id: false
         }
     ) {
-        const params: any = {
-            count: options.count
-        };
+        const params: any = {};
 
-        if (options.newer_id !== false) {
+        if (options.count !== undefined) {
+            params.count = options.count;
+        }
+        if (options.newer_id !== false && options.newer_id !== undefined) {
             params.newer_id = options.newer_id;
         }
-        if (options.older_id !== false) {
+        if (options.older_id !== false && options.older_id !== undefined) {
             params.older_id = options.older_id;
         }
 

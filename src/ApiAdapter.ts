@@ -29,7 +29,7 @@ export default class ApiAdapter {
         this.geoLocation = "0 0 0 0 000";
     }
 
-    public async setup(){
+    public async setup() {
         // const location = await getGeoLocation();
         // this.geoLocation = `${location.latitude} ${location.longitude} 12 100 ${this
         //     .region}`;
@@ -193,7 +193,12 @@ export default class ApiAdapter {
         requestConfig: AxiosRequestConfig
     ): Promise<string> {
         let url: string = requestConfig.url;
-        if (requestConfig.params) {
+
+        // Check if one or more param is set and add it to the url
+        if (
+            requestConfig.params &&
+            Object.keys(requestConfig.params).length > 0
+        ) {
             const params = new Url.URLSearchParams(requestConfig.params);
             url = `${requestConfig.url}?${params.toString()}`;
         }

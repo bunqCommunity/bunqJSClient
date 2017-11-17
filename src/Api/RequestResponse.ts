@@ -51,20 +51,16 @@ export default class RequestResponse implements ApiEndpointInterface {
             older_id: false
         }
     ) {
-        const defaultOptions: any = {
-            count: 50,
-            ...options
-        };
+        const params: any = {};
 
-        const params: any = {
-            count: defaultOptions.count
-        };
-
-        if (defaultOptions.newer_id !== false) {
-            params.newer_id = defaultOptions.newer_id;
+        if (options.count !== undefined) {
+            params.count = options.count;
         }
-        if (defaultOptions.older_id !== false) {
-            params.older_id = defaultOptions.older_id;
+        if (options.newer_id !== false && options.newer_id !== undefined) {
+            params.newer_id = options.newer_id;
+        }
+        if (options.older_id !== false && options.older_id !== undefined) {
+            params.older_id = options.older_id;
         }
 
         const response = await this.ApiAdapter.get(
@@ -84,10 +80,9 @@ export default class RequestResponse implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
-     * @param {string} description
-     * @param {Amount} amount_inquired
-     * @param {CounterpartyAlias} counterpartyAlias
-     * @param {RequestInquiryPostOptions} options
+     * @param {number} requestResponseId
+     * @param {"ACCEPTED" | "REJECTED"} status
+     * @param {RequestResponsePutOptions} options
      * @returns {Promise<void>}
      */
     public async put(

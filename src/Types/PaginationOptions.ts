@@ -1,7 +1,7 @@
 type PaginationOptions = {
-    count: number;
-    newer_id: number | false;
-    older_id: number | false;
+    count: number | undefined;
+    newer_id: number | false | undefined;
+    older_id: number | false | undefined;
 };
 
 export default PaginationOptions;
