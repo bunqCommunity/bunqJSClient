@@ -92,13 +92,15 @@ For more details I suggest you look into the endpoints found at `src/Api/*`
 - [POST /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/request-inquiry/method/post)
 
 #### Request inquiry
-- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry](https://doc.bunq.com/api/1/call/request-inquiry/method/list)
 - [POST /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry](https://doc.bunq.com/api/1/call/request-inquiry/method/post)
+- [PUT /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry/{requestInquiryId}](https://doc.bunq.com/api/1/call/request-inquiry/method/put)
+- [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry/{requestInquiryId}](https://doc.bunq.com/api/1/call/request-inquiry/method/get)
+- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry](https://doc.bunq.com/api/1/call/request-inquiry/method/list)
 
 #### Request response
+- [PUT /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-response/{requestResponseId}](https://doc.bunq.com/api/1/call/request-response/method/put)
 - [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-response/{requestResponseId}](https://doc.bunq.com/api/1/call/request-response/method/get)
 - [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-response](https://doc.bunq.com/api/1/call/request-response/method/list)
-
 
 #### Session
 - [DELETE /v1/session/{sessionId}](https://doc.bunq.com/api/1/call/session/method/delete)

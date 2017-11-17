@@ -1,7 +1,10 @@
 import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
+import Amount from "../Types/Amount";
+import CounterpartyAlias from "../Types/CounterpartyAlias";
 import PaginationOptions from "../Types/PaginationOptions";
+import RequestResponsePutOptions from "../Types/RequestResponsePutOptions";
 
 export default class RequestResponse implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
@@ -13,6 +16,24 @@ export default class RequestResponse implements ApiEndpointInterface {
     constructor(ApiAdapter: ApiAdapter) {
         this.ApiAdapter = ApiAdapter;
         this.Session = ApiAdapter.Session;
+    }
+
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
+     * @param {number} requestResponseId
+     * @returns {Promise<any>}
+     */
+    public async get(
+        userId: number,
+        monetaryAccountId: number,
+        requestResponseId: number
+    ) {
+        const response = await this.ApiAdapter.get(
+            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response/${requestResponseId}`
+        );
+
+        return response.Response;
     }
 
     /**
@@ -30,15 +51,20 @@ export default class RequestResponse implements ApiEndpointInterface {
             older_id: false
         }
     ) {
-        const params: any = {
-            count: options.count
+        const defaultOptions: any = {
+            count: 50,
+            ...options
         };
 
-        if (options.newer_id !== false) {
-            params.newer_id = options.newer_id;
+        const params: any = {
+            count: defaultOptions.count
+        };
+
+        if (defaultOptions.newer_id !== false) {
+            params.newer_id = defaultOptions.newer_id;
         }
-        if (options.older_id !== false) {
-            params.older_id = options.older_id;
+        if (defaultOptions.older_id !== false) {
+            params.older_id = defaultOptions.older_id;
         }
 
         const response = await this.ApiAdapter.get(
@@ -58,20 +84,43 @@ export default class RequestResponse implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
-     * @param {number} requestResponseId
-     * @returns {Promise<any>}
+     * @param {string} description
+     * @param {Amount} amount_inquired
+     * @param {CounterpartyAlias} counterpartyAlias
+     * @param {RequestInquiryPostOptions} options
+     * @returns {Promise<void>}
      */
-    public async get(
+    public async put(
         userId: number,
         monetaryAccountId: number,
-        requestResponseId: number
+        requestResponseId: number,
+        status: "ACCEPTED" | "REJECTED",
+        options: RequestResponsePutOptions
     ) {
-        const response = await this.ApiAdapter.get(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response/${requestResponseId}`
+        const defaultOptions = {
+            status: status,
+            amount_responded: false,
+            address_shipping: false,
+            address_billing: false,
+            ...options
+        };
+
+        const requestOptions: any = {
+            status: status
+        };
+
+        // if request is accepted we set the shipping and amount details
+        if (status === "ACCEPTED") {
+            requestOptions.amount_responded = defaultOptions.amount_responded;
+            requestOptions.address_shipping = defaultOptions.address_shipping;
+            requestOptions.address_billing = defaultOptions.address_billing;
+        }
+
+        const response = await this.ApiAdapter.put(
+            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response/${requestResponseId}`,
+            requestOptions
         );
 
-        // return raw respone image
         return response.Response;
     }
-
 }

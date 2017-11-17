@@ -4,15 +4,7 @@ import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import Amount from "../Types/Amount";
 import CounterpartyAlias from "../Types/CounterpartyAlias";
 import PaginationOptions from "../Types/PaginationOptions";
-
-type RequestInquiryPostOptions = {
-    status: "REVOKED" | false;
-    minimum_age: number | false;
-    allow_bunqme: boolean;
-    redirect_url: string | false;
-    merchant_reference: string | false;
-    require_address: boolean;
-};
+import RequestInquiryPostOptions from "../Types/RequestInquiryPostOptions";
 
 export default class RequestInquiry implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
@@ -29,18 +21,38 @@ export default class RequestInquiry implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
+     * @param {number} requestInquiryId
+     * @returns {Promise<any>}
+     */
+    public async get(
+        userId: number,
+        monetaryAccountId: number,
+        requestInquiryId: number
+    ) {
+        const response = await this.ApiAdapter.get(
+            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry/${requestInquiryId}`
+        );
+
+        return response.Response;
+    }
+
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
      * @param {PaymentsListOptions} options
      * @returns {Promise<void>}
      */
     public async list(
         userId: number,
         monetaryAccountId: number,
-        options: PaginationOptions
+        options: PaginationOptions = {
+            count: 50,
+            newer_id: false,
+            older_id: false
+        }
     ) {
         const defaultOptions = {
             count: 50,
-            newer_id: false,
-            older_id: false,
             ...options
         };
 
@@ -65,7 +77,6 @@ export default class RequestInquiry implements ApiEndpointInterface {
             }
         );
 
-        // return raw respone image
         return response.Response;
     }
 
@@ -131,7 +142,29 @@ export default class RequestInquiry implements ApiEndpointInterface {
             requestOptions
         );
 
-        // return raw respone image
+        return response.Response;
+    }
+
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
+     * @param {number} requestInquiryId
+     * @param {string} status
+     * @returns {Promise<void>}
+     */
+    public async put(
+        userId: number,
+        monetaryAccountId: number,
+        requestInquiryId: number,
+        status: string = "REVOKED"
+    ) {
+        const response = await this.ApiAdapter.put(
+            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry/${requestInquiryId}`,
+            {
+                status: status
+            }
+        );
+
         return response.Response;
     }
 }
