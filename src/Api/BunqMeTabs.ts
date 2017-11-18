@@ -128,7 +128,7 @@ export default class BunqMeTabs implements ApiEndpointInterface {
         status: string = "CANCELLED"
     ) {
         const response = await this.ApiAdapter.post(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/bunqme-tab${bunqMeTabId}`,
+            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/bunqme-tab/${bunqMeTabId}`,
             {
                 status: status
             }
