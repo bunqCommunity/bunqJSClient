@@ -5,6 +5,7 @@ import { signString, verifyString } from "./Crypto/Sha256";
 import Session from "./Session";
 import Header from "./Types/Header";
 import { ucfirst } from "./Helpers/Utils";
+import RequestLimitFactory from "./RequestLimitFactory";
 
 // these headers are set by default
 export const DEFAULT_HEADERS: Header = {
@@ -17,23 +18,21 @@ export const DEFAULT_HEADERS: Header = {
 
 export default class ApiAdapter {
     Session: Session;
+    RequestLimitFactory: RequestLimitFactory;
     language: string;
     region: string;
     geoLocation: string;
 
     constructor(Session: Session) {
         this.Session = Session;
+        this.RequestLimitFactory = new RequestLimitFactory();
 
         this.language = "en_US";
         this.region = "nl_NL";
         this.geoLocation = "0 0 0 0 000";
     }
 
-    public async setup() {
-        // const location = await getGeoLocation();
-        // this.geoLocation = `${location.latitude} ${location.longitude} 12 100 ${this
-        //     .region}`;
-    }
+    public async setup() {}
 
     /**
      * @param {string} url
@@ -309,7 +308,8 @@ export default class ApiAdapter {
         const date: Date = new Date();
         return {
             ...DEFAULT_HEADERS,
-            "X-Bunq-Client-Request-Id": date.getTime() + date.getMilliseconds(),
+            "X-Bunq-Client-Request-Id":
+                date.getTime() + date.getMilliseconds() + Math.random(),
             "X-Bunq-Geolocation": this.geoLocation,
             "X-Bunq-Language": this.language,
             "X-Bunq-Region": this.region,
