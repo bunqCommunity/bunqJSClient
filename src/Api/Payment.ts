@@ -5,7 +5,7 @@ import Amount from "../Types/Amount";
 import CounterpartyAlias from "../Types/CounterpartyAlias";
 import PaginationOptions from "../Types/PaginationOptions";
 
-export default class Payments implements ApiEndpointInterface {
+export default class Payment implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;
 
@@ -30,8 +30,12 @@ export default class Payments implements ApiEndpointInterface {
         paymentId: number,
         options: any = {}
     ) {
-        const response = await this.ApiAdapter.get(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment/${paymentId}`
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment");
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment/${paymentId}`
+            )
         );
 
         // return raw respone image
@@ -65,14 +69,21 @@ export default class Payments implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const response = await this.ApiAdapter.get(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment`,
-            {},
-            {
-                axiosOptions: {
-                    params: params
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/payment",
+            "LIST"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment`,
+                {},
+                {
+                    axiosOptions: {
+                        params: params
+                    }
                 }
-            }
+            )
         );
 
         // return raw respone image
@@ -96,13 +107,20 @@ export default class Payments implements ApiEndpointInterface {
         counterpartyAlias: CounterpartyAlias,
         options: any = {}
     ) {
-        const response = await this.ApiAdapter.post(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment`,
-            {
-                counterparty_alias: counterpartyAlias,
-                description: description,
-                amount: amount
-            }
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/payment",
+            "POST"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment`,
+                {
+                    counterparty_alias: counterpartyAlias,
+                    description: description,
+                    amount: amount
+                }
+            )
         );
 
         // return raw respone image

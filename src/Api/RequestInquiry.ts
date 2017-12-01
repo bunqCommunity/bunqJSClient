@@ -29,8 +29,15 @@ export default class RequestInquiry implements ApiEndpointInterface {
         monetaryAccountId: number,
         requestInquiryId: number
     ) {
-        const response = await this.ApiAdapter.get(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry/${requestInquiryId}`
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/request-inquiry",
+            "GET"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry/${requestInquiryId}`
+            )
         );
 
         return response.Response;
@@ -63,14 +70,21 @@ export default class RequestInquiry implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const response = await this.ApiAdapter.get(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry`,
-            {},
-            {
-                axiosOptions: {
-                    params: params
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/request-inquiry",
+            "LIST"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry`,
+                {},
+                {
+                    axiosOptions: {
+                        params: params
+                    }
                 }
-            }
+            )
         );
 
         return response.Response;
@@ -133,9 +147,16 @@ export default class RequestInquiry implements ApiEndpointInterface {
             requestOptions.redirect_url = defaultOptions.redirect_url;
         }
 
-        const response = await this.ApiAdapter.post(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry`,
-            requestOptions
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/request-inquiry",
+            "POST"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry`,
+                requestOptions
+            )
         );
 
         return response.Response;
@@ -154,11 +175,18 @@ export default class RequestInquiry implements ApiEndpointInterface {
         requestInquiryId: number,
         status: string = "REVOKED"
     ) {
-        const response = await this.ApiAdapter.put(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry/${requestInquiryId}`,
-            {
-                status: status
-            }
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/request-inquiry",
+            "PUT"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry/${requestInquiryId}`,
+                {
+                    status: status
+                }
+            )
         );
 
         return response.Response;

@@ -1,9 +1,11 @@
 import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
+import Amount from "../Types/Amount";
+import CounterpartyAlias from "../Types/CounterpartyAlias";
 import PaginationOptions from "../Types/PaginationOptions";
 
-export default class MasterCardAction implements ApiEndpointInterface {
+export default class DraftPayment implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;
 
@@ -18,8 +20,35 @@ export default class MasterCardAction implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
+     * @param {number} paymentId
+     * @param options
+     * @returns {Promise<void>}
+     */
+    public async get(
+        userId: number,
+        monetaryAccountId: number,
+        paymentId: number,
+        options: any = {}
+    ) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/draft-payment"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment/${paymentId}`
+            )
+        );
+
+        // return raw respone image
+        return response.Response[0].Payment;
+    }
+
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
      * @param {PaymentsListOptions} options
-     * @returns {Promise<any>}
+     * @returns {Promise<void>}
      */
     public async list(
         userId: number,
@@ -43,13 +72,13 @@ export default class MasterCardAction implements ApiEndpointInterface {
         }
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/mastercard-action",
+            "/draft-payment",
             "LIST"
         );
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/mastercard-action`,
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment`,
                 {},
                 {
                     axiosOptions: {
@@ -66,22 +95,38 @@ export default class MasterCardAction implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
-     * @param {number} requestResponseId
-     * @returns {Promise<any>}
+     * @param {string} description
+     * @param {Amount} amount
+     * @param {CounterpartyAlias} counterpartyAlias
+     * @param options
+     * @returns {Promise<void>}
      */
-    public async get(
+    public async post(
         userId: number,
         monetaryAccountId: number,
-        masterCardActionId: number
+        description: string,
+        amount: Amount,
+        counterpartyAlias: CounterpartyAlias,
+        options: any = {}
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/mastercard-action",
-            "GET"
+            "/draft-payment",
+            "POST"
         );
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/mastercard-action/${masterCardActionId}`
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment`,
+                {
+                    entries: [
+                        {
+                            counterparty_alias: counterpartyAlias,
+                            description: description,
+                            amount: amount
+                        }
+                    ],
+                    number_of_required_accepts: 1
+                }
             )
         );
 

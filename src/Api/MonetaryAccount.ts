@@ -25,8 +25,15 @@ export default class MonetaryAccount implements ApiEndpointInterface {
         monetaryAccountId: number,
         options: any = {}
     ) {
-        const response = await this.ApiAdapter.get(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}`
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/monetary-account",
+            "GET"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}`
+            )
         );
 
         // return raw respone image
@@ -58,14 +65,21 @@ export default class MonetaryAccount implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const response = await this.ApiAdapter.get(
-            `/v1/user/${userId}/monetary-account`,
-            {},
-            {
-                axiosOptions: {
-                    params: params
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/monetary-account",
+            "LIST"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account`,
+                {},
+                {
+                    axiosOptions: {
+                        params: params
+                    }
                 }
-            }
+            )
         );
 
         // return raw respone image
