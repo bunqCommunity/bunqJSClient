@@ -3,7 +3,6 @@
   "version": "0.9.0",
   "license": "MIT",
   "scripts": {
-    "preversion": "npm run build",
     "build": "cross-env NODE_ENV=production webpack --progress --colors",
     "build:dev": "cross-env NODE_ENV=development webpack --debug --watch --progress --colors"
   },
