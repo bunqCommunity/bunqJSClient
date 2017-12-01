@@ -15,7 +15,7 @@ export default class RequestLimitFactory {
         const limiterKey = `${endpoint}${method}`;
 
         if (this.limiters[limiterKey]) {
-            return this.limiters[limiterKey];
+            return this.limiters[limiterKey].limiter;
         }
 
         let rateLimit = 3;

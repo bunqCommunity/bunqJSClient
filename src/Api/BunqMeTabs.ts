@@ -30,8 +30,15 @@ export default class BunqMeTabs implements ApiEndpointInterface {
         tabId: number,
         options: any = {}
     ) {
-        const response = await this.ApiAdapter.get(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/bunqme-tab/${tabId}`
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/bunqme-tab",
+            "GET"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/bunqme-tab/${tabId}`
+            )
         );
 
         // return raw respone image
@@ -65,14 +72,21 @@ export default class BunqMeTabs implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const response = await this.ApiAdapter.get(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/bunqme-tab`,
-            {},
-            {
-                axiosOptions: {
-                    params: params
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/bunqme-tab",
+            "LIST"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/bunqme-tab`,
+                {},
+                {
+                    axiosOptions: {
+                        params: params
+                    }
                 }
-            }
+            )
         );
 
         // return raw respone image
@@ -103,11 +117,18 @@ export default class BunqMeTabs implements ApiEndpointInterface {
             params.redirect_url = options.redirect_url;
         }
 
-        const response = await this.ApiAdapter.post(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/bunqme-tab`,
-            {
-                bunqme_tab_entry: params
-            }
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/bunqme-tab",
+            "POST"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/bunqme-tab`,
+                {
+                    bunqme_tab_entry: params
+                }
+            )
         );
 
         // return raw respone image
@@ -127,11 +148,18 @@ export default class BunqMeTabs implements ApiEndpointInterface {
         bunqMeTabId: number,
         status: string = "CANCELLED"
     ) {
-        const response = await this.ApiAdapter.put(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/bunqme-tab/${bunqMeTabId}`,
-            {
-                status: status
-            }
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/bunqme-tab",
+            "PUT"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/bunqme-tab/${bunqMeTabId}`,
+                {
+                    status: status
+                }
+            )
         );
 
         // return raw respone image

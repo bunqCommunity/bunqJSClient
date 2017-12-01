@@ -1,8 +1,6 @@
 import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
-import Amount from "../Types/Amount";
-import CounterpartyAlias from "../Types/CounterpartyAlias";
 import PaginationOptions from "../Types/PaginationOptions";
 import RequestResponsePutOptions from "../Types/RequestResponsePutOptions";
 
@@ -29,8 +27,15 @@ export default class RequestResponse implements ApiEndpointInterface {
         monetaryAccountId: number,
         requestResponseId: number
     ) {
-        const response = await this.ApiAdapter.get(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response/${requestResponseId}`
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/request-response",
+            "GET"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response/${requestResponseId}`
+            )
         );
 
         return response.Response;
@@ -63,14 +68,21 @@ export default class RequestResponse implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const response = await this.ApiAdapter.get(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response`,
-            {},
-            {
-                axiosOptions: {
-                    params: params
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/request-response",
+            "LIST"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response`,
+                {},
+                {
+                    axiosOptions: {
+                        params: params
+                    }
                 }
-            }
+            )
         );
 
         // return raw respone image
@@ -111,9 +123,16 @@ export default class RequestResponse implements ApiEndpointInterface {
             requestOptions.address_billing = defaultOptions.address_billing;
         }
 
-        const response = await this.ApiAdapter.put(
-            `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response/${requestResponseId}`,
-            requestOptions
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/request-response",
+            "PUT"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response/${requestResponseId}`,
+                requestOptions
+            )
         );
 
         return response.Response;
