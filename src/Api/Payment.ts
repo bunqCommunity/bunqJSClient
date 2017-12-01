@@ -5,7 +5,7 @@ import Amount from "../Types/Amount";
 import CounterpartyAlias from "../Types/CounterpartyAlias";
 import PaginationOptions from "../Types/PaginationOptions";
 
-export default class Payments implements ApiEndpointInterface {
+export default class Payment implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;
 

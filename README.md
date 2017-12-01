@@ -86,7 +86,7 @@ For more details I suggest you look into the endpoints found at `src/Api/*`
 - [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}](https://doc.bunq.com/api/1/call/monetary-account/method/get)
 - [LIST /v1/user/{userId}/monetary-account](https://doc.bunq.com/api/1/call/monetary-account/method/list)
 
-#### Payments
+#### Payment
 - [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment/{paymentId}](https://doc.bunq.com/api/1/call/payment/method/get)
 - [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/request-inquiry/method/list)
 - [POST /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/request-inquiry/method/post)
