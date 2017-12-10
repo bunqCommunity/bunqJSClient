@@ -1,11 +1,29 @@
 import * as moxios from "moxios";
 import BunqJSClient from "../../src/BunqJSClient";
-import CustomDb from "../TestHelpers/CustomDb";
-import apiInstallation from "../TestData/api-installation";
 
-const fakeApiKey =
-    "0d873607f6f84f12bd0d873607f6f84f12bd0d873607f6f84f12bd111111111f";
-const fakeEncryptionKey = "3c7a4d431a846ed33a3bb1b1fa9b5c26";
+import CustomDb from "../TestHelpers/CustomDb";
+import { randomHex } from "../TestHelpers/RandomData";
+import { installation, deviceServer } from "../TestHelpers/DefaultResponses";
+
+import {
+    default as apiInstallation,
+    installToken,
+    serverPublicKeyPem
+} from "../TestData/api-installation";
+import {
+    default as apiDeviceServer,
+    deviceId
+} from "../TestData/api-device-server";
+import {
+    default as apiSessionRegistration,
+    sessionId,
+    sessionToken,
+    sessionTokenId
+} from "../TestData/api-session-registration";
+
+
+const fakeApiKey = randomHex(64);
+const fakeEncryptionKey = randomHex(32);
 
 describe("BunqJSClient", () => {
     beforeEach(function() {
@@ -34,7 +52,9 @@ describe("BunqJSClient", () => {
 
             await app.run(fakeApiKey);
 
-            expect(true);
+            expect(app.Session.environment === "SANDBOX");
+            expect(app.Session.apiKey === fakeApiKey);
+            expect(app.Session.encryptionKey === fakeEncryptionKey);
         });
 
         it("run with custom options", async () => {
@@ -42,12 +62,14 @@ describe("BunqJSClient", () => {
 
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
-            expect(true);
+            expect(app.Session.environment === "SANDBOX");
+            expect(app.Session.apiKey === fakeApiKey);
+            expect(app.Session.encryptionKey === fakeEncryptionKey);
         });
     });
 
     describe("#install()", () => {
-        it("installation without pre-existing", async () => {
+        it("installation without stored data", async () => {
             const app = new BunqJSClient(new CustomDb("install"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
@@ -57,31 +79,94 @@ describe("BunqJSClient", () => {
                     .then(resolve)
                     .catch(reject);
 
-                // wait for a request to the moxios instance
                 moxios.wait(() => {
-                    // respond to the most recent respondWith
                     moxios.requests
                         .mostRecent()
-                        .respondWith({
-                            status: 200,
-                            response: apiInstallation()
-                        })
-                        .then(() => console.log("success request2"))
+                        .respondWith(apiInstallation())
+                        .then(() => {})
+                        .catch(reject);
+                });
+            });
+
+            // re-run, it should be done instantly since the device registration is done already
+            await app.install();
+
+            expect(app.Session.installToken === installToken);
+            expect(app.Session.serverPublicKeyPem === serverPublicKeyPem);
+        });
+    });
+
+    describe("#registerDevice()", () => {
+        it("device registration without stored data", async () => {
+            const app = new BunqJSClient(new CustomDb("device"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            const installationPromise = app.install();
+            const installationHandler = installation(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            await new Promise((resolve, reject) => {
+                app
+                    .registerDevice()
+                    .then(resolve)
+                    .catch(reject);
+
+                moxios.wait(() => {
+                    moxios.requests
+                        .mostRecent()
+                        .respondWith(apiDeviceServer(true))
+                        .then(() => {})
                         .catch(reject);
                 });
             });
 
             // re-run, it should be done instantly since the installation is done already
-            await app.install();
+            await app.registerDevice();
 
-            expect(true);
+            expect(app.Session.deviceId === deviceId);
         });
+    });
 
-        // it("run with custom options", async () => {
-        //     const app = new BunqJSClient(new CustomDb("install2"));
-        //     await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
-        //
-        //     expect(true);
-        // });
+    describe("#registerSession()", () => {
+        it("session registration without stored data", async () => {
+            const app = new BunqJSClient(new CustomDb("device"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            // installation
+            const installationPromise = app.install();
+            const installationHandler = installation(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            // device registration
+            const devicePromise = app.install();
+            const deviceHandler = deviceServer(moxios);
+            await devicePromise;
+            await deviceHandler;
+
+            await new Promise((resolve, reject) => {
+                app
+                    .registerSession()
+                    .then(resolve)
+                    .catch(reject);
+
+                moxios.wait(() => {
+                    moxios.requests
+                        .mostRecent()
+                        .respondWith(apiSessionRegistration(true))
+                        .then(() => {})
+                        .catch(reject);
+                });
+            });
+
+            // re-run, it should be done instantly since the installation is done already
+            await app.registerSession();
+
+            expect(app.Session.sessionId === sessionId);
+            expect(app.Session.sessionToken === sessionToken);
+            expect(app.Session.sessionTokenId === sessionTokenId);
+            expect(app.Session.userInfo === deviceId);
+        });
     });
 });

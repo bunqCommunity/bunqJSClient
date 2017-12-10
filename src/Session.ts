@@ -42,7 +42,8 @@ export default class Session {
     deviceId: number = null;
 
     // session info
-    sessionToken: string = null;
+    sessionToken: string | number = null;
+    sessionTokenId: string | number = null;
     sessionId: number = null;
     sessionExpiryTime?: Date = null;
     userInfo: any = {};

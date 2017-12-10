@@ -155,8 +155,9 @@ export default class BunqJSClient {
 
             // set the new info
             this.Session.sessionExpiryTime = createdDate;
-            this.Session.sessionId = response.token.id;
+            this.Session.sessionId = response.id;
             this.Session.sessionToken = response.token.token;
+            this.Session.sessionTokenId = response.token.id;
             this.Session.userInfo = response.user_info;
 
             // update storage
