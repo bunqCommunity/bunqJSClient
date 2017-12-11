@@ -16,7 +16,7 @@ export default (ApiAdapter: ApiAdapter) => {
     return {
         attachmentContent: new AttachementContent(ApiAdapter),
         bunqMeTabs: new BunqMeTabs(ApiAdapter),
-		card: new Card(ApiAdapter),
+        card: new Card(ApiAdapter),
         deviceRegistration: new DeviceRegistration(ApiAdapter),
         draftPayment: new DraftPayment(ApiAdapter),
         installation: new Installation(ApiAdapter),
