@@ -6,6 +6,7 @@ import {
 } from "./Crypto/Rsa";
 import { encryptString, decryptString } from "./Crypto/Aes";
 import StorageInterface from "./Interfaces/StorageInterface";
+import LoggerInterface from "./Interfaces/LoggerInterface";
 
 type UrlEnviromentType = {
     [key: string]: string;
@@ -18,41 +19,46 @@ export const URL_ENVIROMENTS: UrlEnviromentType = {
 };
 
 export default class Session {
-    storageInterface: StorageInterface;
-    apiKey: string | boolean = null;
-    encryptionKey: string | boolean = false;
-    allowdIps: string[] = [];
+    public storageInterface: StorageInterface;
+    public logger: LoggerInterface;
+    public apiKey: string | boolean = null;
+    public encryptionKey: string | boolean = false;
+    public allowdIps: string[] = [];
 
     // target enviroment and target envoriment api url
-    environment: string;
-    environmentUrl: string;
+    public environment: string;
+    public environmentUrl: string;
 
     // rsa key storage
-    publicKey: any = null;
-    publicKeyPem: string = null;
-    privateKey: any = null;
-    privateKeyPem: string = null;
-    serverPublicKey: string = null;
-    serverPublicKeyPem: string = null;
+    public publicKey: any = null;
+    public publicKeyPem: string = null;
+    public privateKey: any = null;
+    public privateKeyPem: string = null;
+    public serverPublicKey: string = null;
+    public serverPublicKeyPem: string = null;
 
     // installation info
-    installCreated?: Date = null;
-    installUpdated?: Date = null;
-    installToken: string = null;
-    deviceId: number = null;
+    public installCreated?: Date = null;
+    public installUpdated?: Date = null;
+    public installToken: string = null;
+    public deviceId: number = null;
 
     // session info
-    sessionToken: string = null;
-    sessionId: number = null;
-    sessionExpiryTime?: Date = null;
-    userInfo: any = {};
+    public sessionToken: string = null;
+    public sessionId: number = null;
+    public sessionExpiryTime?: Date = null;
+    public userInfo: any = {};
 
     // key used to store our data
-    storageKeyLocation: string;
-    storageIvLocation: string;
+    public storageKeyLocation: string;
+    public storageIvLocation: string;
 
-    constructor(storageInterface: StorageInterface) {
+    constructor(
+        storageInterface: StorageInterface,
+        loggerInterface: LoggerInterface
+    ) {
         this.storageInterface = storageInterface;
+        this.logger = loggerInterface;
 
         this.environmentType = "SANDBOX";
         this.storageKeyLocation = `BUNQJSCLIENT_${this.environment}_SESSION`;
@@ -135,6 +141,8 @@ export default class Session {
             // decrypt the stored sesion
             session = await this.decryptSession(encryptedSession);
         } catch (error) {
+            this.logger.error("Failed to decrypt session");
+            this.logger.error(error);
             // failed to decrypt the session, return false
             return false;
         }
@@ -145,11 +153,15 @@ export default class Session {
             this.apiKey !== null &&
             session.apiKey !== this.apiKey
         ) {
+            this.logger.debug(
+                "Api key changed or is different 'api key could be empty'"
+            );
             return false;
         }
 
         // different environment stored, destroy old session
         if (session.environment !== this.environment) {
+            this.logger.debug("Environment changed, delete existing session");
             await this.destroySession();
             return false;
         }
@@ -335,8 +347,13 @@ export default class Session {
      * Checks if this session has a succesful installation stored
      * @returns {Promise<boolean>}
      */
-    public verifyInstallation() {
-        return this.serverPublicKey !== null && this.installToken !== null;
+    public verifyInstallation(): boolean {
+        const installationValid =
+            this.serverPublicKey !== null && this.installToken !== null;
+        this.logger.debug("Installation valid: " + installationValid);
+        this.logger.debug("this.serverPublicKey = " + this.serverPublicKey);
+        this.logger.debug("this.installToken = " + this.installToken);
+        return installationValid;
     }
 
     /**
@@ -344,7 +361,10 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     public verifyDeviceInstallation() {
-        return this.deviceId !== null;
+        const deviceValid = this.deviceId !== null;
+        this.logger.debug("Device valid: " + deviceValid);
+        this.logger.debug("this.deviceId: " + this.deviceId);
+        return deviceValid;
     }
 
     /**
@@ -352,13 +372,25 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     public verifySessionInstallation() {
-        if (this.sessionId === null) return false;
-
-        const currentTime = new Date();
-        if (this.sessionExpiryTime.getTime() <= currentTime.getTime()) {
+        if (this.sessionId === null) {
+            this.logger.debug("Session valid: sessionId null");
             return false;
         }
 
+        const currentTime = new Date();
+        if (this.sessionExpiryTime.getTime() <= currentTime.getTime()) {
+            this.logger.debug("Session expired!");
+            this.logger.debug(
+                "this.sessionExpiryTime.getTime() = " +
+                    this.sessionExpiryTime.getTime()
+            );
+            this.logger.debug(
+                "currentTime.getTime() = " + currentTime.getTime()
+            );
+            return false;
+        }
+
+        this.logger.debug("Session valid");
         return true;
     }
 
