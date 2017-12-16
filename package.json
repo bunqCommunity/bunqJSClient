@@ -1,7 +1,6 @@
 {
   "name": "@bunq-community/bunq-js-client",
-  "description": "A web based project that is aimed at implementing the bunq API without a server",
-  "version": "0.9.1",
+  "version": "0.10.2",
   "license": "MIT",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --colors",

@@ -6,6 +6,7 @@ import Session from "./Session";
 import Header from "./Types/Header";
 import { ucfirst } from "./Helpers/Utils";
 import RequestLimitFactory from "./RequestLimitFactory";
+import LoggerInterface from "./Interfaces/LoggerInterface";
 
 // these headers are set by default
 export const DEFAULT_HEADERS: Header = {
@@ -17,14 +18,16 @@ export const DEFAULT_HEADERS: Header = {
 };
 
 export default class ApiAdapter {
-    Session: Session;
-    RequestLimitFactory: RequestLimitFactory;
-    language: string;
-    region: string;
-    geoLocation: string;
+    public logger: LoggerInterface;
+    public Session: Session;
+    public RequestLimitFactory: RequestLimitFactory;
+    public language: string;
+    public region: string;
+    public geoLocation: string;
 
-    constructor(Session: Session) {
+    constructor(Session: Session, loggerInterface: LoggerInterface) {
         this.Session = Session;
+        this.logger = loggerInterface;
         this.RequestLimitFactory = new RequestLimitFactory();
 
         this.language = "en_US";

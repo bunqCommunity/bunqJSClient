@@ -1,6 +1,7 @@
 import ApiAdapter from "../ApiAdapter";
 import AttachementContent from "./AttachementContent";
 import BunqMeTabs from "./BunqMeTabs";
+import Card from "./Card";
 import DeviceRegistration from "./DeviceRegistration";
 import DraftPayment from "./DraftPayment";
 import Installation from "./Installation";
@@ -15,6 +16,7 @@ export default (ApiAdapter: ApiAdapter) => {
     return {
         attachmentContent: new AttachementContent(ApiAdapter),
         bunqMeTabs: new BunqMeTabs(ApiAdapter),
+        card: new Card(ApiAdapter),
         deviceRegistration: new DeviceRegistration(ApiAdapter),
         draftPayment: new DraftPayment(ApiAdapter),
         installation: new Installation(ApiAdapter),
