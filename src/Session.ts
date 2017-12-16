@@ -352,7 +352,10 @@ export default class Session {
             this.serverPublicKey !== null && this.installToken !== null;
         this.logger.debug("Installation valid: " + installationValid);
         this.logger.debug("this.serverPublicKey = " + this.serverPublicKey);
-        this.logger.debug("this.installToken = " + this.installToken.length);
+        this.logger.debug(
+            "this.installToken = " +
+                (this.installToken === null ? null : this.installToken.length)
+        );
         return installationValid;
     }
 

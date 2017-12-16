@@ -194,12 +194,13 @@ export default class BunqJSClient {
     }
 
     /**
-     * Returns the registered users for the session
+     * Returns the registered user for the session of a specific type
      * @returns {any}
      */
     public async getUser(userType, updated: boolean = false) {
         if (updated) {
-            // TODO do api call to get updated version for our session
+            // update the user info and update session data
+            this.Session.userInfo = await this.api.user.list();
         }
         // return the user if we have one
         return this.Session.userInfo[userType];
@@ -211,8 +212,10 @@ export default class BunqJSClient {
      */
     public async getUsers(updated: boolean = false) {
         if (updated) {
-            // TODO do api call to get updated version for our session
+            // update the user info and update session data
+            this.Session.userInfo = await this.api.user.list();
         }
+        // return the users
         return this.Session.userInfo;
     }
 }
