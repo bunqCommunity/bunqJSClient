@@ -153,7 +153,7 @@ export default class Session {
             this.apiKey !== null &&
             session.apiKey !== this.apiKey
         ) {
-            this.logger.debug(
+            this.logger.error(
                 "Api key changed or is different 'api key could be empty'"
             );
             return false;
@@ -161,7 +161,7 @@ export default class Session {
 
         // different environment stored, destroy old session
         if (session.environment !== this.environment) {
-            this.logger.debug("Environment changed, delete existing session");
+            this.logger.error("Environment changed, delete existing session");
             await this.destroySession();
             return false;
         }
@@ -350,9 +350,9 @@ export default class Session {
     public verifyInstallation(): boolean {
         const installationValid =
             this.serverPublicKey !== null && this.installToken !== null;
-        this.logger.debug("Installation valid: " + installationValid);
-        this.logger.debug("this.serverPublicKey = " + this.serverPublicKey);
-        this.logger.debug(
+        this.logger.error("Installation valid: " + installationValid);
+        this.logger.error("this.serverPublicKey = " + this.serverPublicKey);
+        this.logger.error(
             "this.installToken = " +
                 (this.installToken === null ? null : this.installToken.length)
         );
@@ -365,8 +365,8 @@ export default class Session {
      */
     public verifyDeviceInstallation() {
         const deviceValid = this.deviceId !== null;
-        this.logger.debug("Device valid: " + deviceValid);
-        this.logger.debug("this.deviceId: " + this.deviceId);
+        this.logger.error("Device valid: " + deviceValid);
+        this.logger.error("this.deviceId: " + this.deviceId);
         return deviceValid;
     }
 
@@ -376,24 +376,24 @@ export default class Session {
      */
     public verifySessionInstallation() {
         if (this.sessionId === null) {
-            this.logger.debug("Session valid: sessionId null");
+            this.logger.error("Session valid: sessionId null");
             return false;
         }
 
         const currentTime = new Date();
         if (this.sessionExpiryTime.getTime() <= currentTime.getTime()) {
-            this.logger.debug("Session expired!");
-            this.logger.debug(
+            this.logger.error("Session expired!");
+            this.logger.error(
                 "this.sessionExpiryTime.getTime() = " +
                     this.sessionExpiryTime.getTime()
             );
-            this.logger.debug(
+            this.logger.error(
                 "currentTime.getTime() = " + currentTime.getTime()
             );
             return false;
         }
 
-        this.logger.debug("Session valid");
+        this.logger.error("Session valid");
         return true;
     }
 
