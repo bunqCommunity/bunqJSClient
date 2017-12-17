@@ -50,8 +50,6 @@ export default class BunqJSClient {
         environment: string = "SANDBOX",
         encryptionKey: string | boolean = false
     ) {
-        this.logger.debug("BunqJSClient run");
-
         this.apiKey = apiKey;
         this.allowedIps = allowedIps;
 

@@ -350,12 +350,6 @@ export default class Session {
     public verifyInstallation(): boolean {
         const installationValid =
             this.serverPublicKey !== null && this.installToken !== null;
-        this.logger.debug("Installation valid: " + installationValid);
-        this.logger.debug("this.serverPublicKey = " + this.serverPublicKey);
-        this.logger.debug(
-            "this.installToken = " +
-                (this.installToken === null ? null : this.installToken.length)
-        );
         return installationValid;
     }
 
@@ -365,8 +359,6 @@ export default class Session {
      */
     public verifyDeviceInstallation() {
         const deviceValid = this.deviceId !== null;
-        this.logger.debug("Device valid: " + deviceValid);
-        this.logger.debug("this.deviceId: " + this.deviceId);
         return deviceValid;
     }
 
@@ -376,24 +368,14 @@ export default class Session {
      */
     public verifySessionInstallation() {
         if (this.sessionId === null) {
-            this.logger.debug("Session valid: sessionId null");
             return false;
         }
 
         const currentTime = new Date();
         if (this.sessionExpiryTime.getTime() <= currentTime.getTime()) {
-            this.logger.debug("Session expired!");
-            this.logger.debug(
-                "this.sessionExpiryTime.getTime() = " +
-                    this.sessionExpiryTime.getTime()
-            );
-            this.logger.debug(
-                "currentTime.getTime() = " + currentTime.getTime()
-            );
             return false;
         }
 
-        this.logger.debug("Session valid");
         return true;
     }
 
