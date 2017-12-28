@@ -126,6 +126,7 @@ export default class Session {
      * @returns {Promise.<boolean>}
      */
     public async loadSession() {
+        this.logger.error(" === Loading session data === ");
         // try to load the session interface
         const encryptedSession = await this.asyncStorageGet(
             this.storageKeyLocation
@@ -133,6 +134,7 @@ export default class Session {
 
         // no session found stored
         if (encryptedSession === undefined || encryptedSession === null) {
+            this.logger.error("No stored session found");
             return false;
         }
 
@@ -154,7 +156,7 @@ export default class Session {
             session.apiKey !== this.apiKey
         ) {
             this.logger.error(
-                "Api key changed or is different 'api key could be empty'"
+                "Api key changed or is different (api key could be empty)"
             );
             return false;
         }
@@ -190,6 +192,11 @@ export default class Session {
         this.sessionExpiryTime = new Date(session.sessionExpiryTime);
         this.deviceId = session.deviceId;
         this.userInfo = session.userInfo;
+
+        this.logger.error(`installCreated: ${session.installCreated}`);
+        this.logger.error(`installUpdated: ${session.installUpdated}`);
+        this.logger.error(`sessionExpiryTime: ${session.sessionExpiryTime}`);
+        this.logger.error(`deviceId: ${session.deviceId}`);
 
         return true;
     }
@@ -348,6 +355,7 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     public verifyInstallation(): boolean {
+        this.logger.error(" === Testing installation === ");
         const installationValid =
             this.serverPublicKey !== null && this.installToken !== null;
         this.logger.error("Installation valid: " + installationValid);
@@ -364,6 +372,7 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     public verifyDeviceInstallation() {
+        this.logger.error(" === Testing device installation === ");
         const deviceValid = this.deviceId !== null;
         this.logger.error("Device valid: " + deviceValid);
         this.logger.error("this.deviceId: " + this.deviceId);
@@ -375,6 +384,7 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     public verifySessionInstallation() {
+        this.logger.error(" === Testing session installation === ");
         if (this.sessionId === null) {
             this.logger.error("Session valid: sessionId null");
             return false;
@@ -382,7 +392,7 @@ export default class Session {
 
         const currentTime = new Date();
         if (this.sessionExpiryTime.getTime() <= currentTime.getTime()) {
-            this.logger.error("Session expired!");
+            this.logger.error("Session valid: expired");
             this.logger.error(
                 "this.sessionExpiryTime.getTime() = " +
                     this.sessionExpiryTime.getTime()
@@ -393,7 +403,7 @@ export default class Session {
             return false;
         }
 
-        this.logger.error("Session valid");
+        this.logger.error("Session valid: true");
         return true;
     }
 

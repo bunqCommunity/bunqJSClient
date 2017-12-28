@@ -144,6 +144,8 @@ export default class BunqJSClient {
         if (this.Session.verifySessionInstallation() === false) {
             const response = await this.api.sessionServer.add();
 
+            this.logger.error("response.token.created:" + response.token.created);
+
             // based on account setting we set a expire date
             const createdDate = new Date(response.token.created);
             if (response.user_info.UserCompany !== undefined) {
@@ -151,14 +153,26 @@ export default class BunqJSClient {
                     createdDate.getSeconds() +
                         response.user_info.UserCompany.session_timeout
                 );
+                this.logger.error(
+                    "Received response.user_info.UserCompany.session_timeout from api:" +
+                        response.user_info.UserCompany.session_timeout
+                );
             } else if (response.user_info.UserPerson !== undefined) {
                 createdDate.setSeconds(
                     createdDate.getSeconds() +
                         response.user_info.UserPerson.session_timeout
                 );
+                this.logger.error(
+                    "Received response.user_info.UserPerson.session_timeout from api:" +
+                        response.user_info.UserPerson.session_timeout
+                );
             } else if (response.user_info.UserLight !== undefined) {
                 createdDate.setSeconds(
                     createdDate.getSeconds() +
+                        response.user_info.UserLight.session_timeout
+                );
+                this.logger.error(
+                    "Received response.user_info.UserLight.session_timeout from api:" +
                         response.user_info.UserLight.session_timeout
                 );
             }
@@ -168,6 +182,8 @@ export default class BunqJSClient {
             this.Session.sessionId = response.token.id;
             this.Session.sessionToken = response.token.token;
             this.Session.userInfo = response.user_info;
+
+            this.logger.error("calculated createdDate:" + createdDate);
 
             // update storage
             await this.Session.storeSession();
