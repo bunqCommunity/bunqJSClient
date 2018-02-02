@@ -387,7 +387,7 @@ export default class Session {
         this.logger.error(" === Testing session installation === ");
         if (this.sessionId === null) {
             this.logger.error("Session valid: sessionId null");
-            return false;
+            // return false;
         }
 
         const currentTime = new Date();
