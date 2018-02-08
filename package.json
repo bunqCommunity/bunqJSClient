@@ -6,7 +6,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --colors",
     "build:dev": "cross-env NODE_ENV=development webpack --debug --watch --progress --colors",
     "test": "jest --coverage --verbose",
-    "test:dev": "jest --watch --coverage"
+    "test:dev": "jest --watch --verbose"
   },
   "main": "./index.js",
   "module": "./src/BunqJSClient.ts",
