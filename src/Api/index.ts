@@ -11,6 +11,7 @@ import Payment from "./Payment";
 import RequestInquiry from "./RequestInquiry";
 import RequestResponse from "./RequestResponse";
 import SessionServer from "./SessionServer";
+import User from "./User";
 
 export default (ApiAdapter: ApiAdapter) => {
     return {
@@ -26,5 +27,6 @@ export default (ApiAdapter: ApiAdapter) => {
         requestInquiry: new RequestInquiry(ApiAdapter),
         requestResponse: new RequestResponse(ApiAdapter),
         sessionServer: new SessionServer(ApiAdapter),
+        user: new User(ApiAdapter),
     }
 }
