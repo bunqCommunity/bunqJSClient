@@ -240,6 +240,7 @@ export default class Session {
         this.userInfo = {};
         this.sessionId = null;
         this.sessionToken = null;
+        this.sessionTokenId = null;
         this.sessionExpiryTime = null;
 
         return await this.asyncStorageRemove(this.storageKeyLocation);

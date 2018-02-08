@@ -3,7 +3,11 @@ import BunqJSClient from "../../src/BunqJSClient";
 
 import CustomDb from "../TestHelpers/CustomDb";
 import { randomHex } from "../TestHelpers/RandomData";
-import { installation, deviceServer } from "../TestHelpers/DefaultResponses";
+import {
+    installationRegistration,
+    deviceServerRegistration,
+    sessionRegistration
+} from "../TestHelpers/DefaultResponses";
 
 import {
     default as apiInstallation,
@@ -68,7 +72,7 @@ describe("BunqJSClient", () => {
     });
 
     describe("#install()", async () => {
-        it("installation without stored data", async () => {
+        it("installationRegistration without stored data", async () => {
             const app = new BunqJSClient(new CustomDb("install"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
@@ -99,7 +103,7 @@ describe("BunqJSClient", () => {
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
             const installationPromise = app.install();
-            const installationHandler = installation(moxios);
+            const installationHandler = installationRegistration(moxios);
             await installationPromise;
             await installationHandler;
 
@@ -116,7 +120,7 @@ describe("BunqJSClient", () => {
             });
             await deviceRegistrationPromise;
 
-            // re-run, it should be done instantly since the installation is done already
+            // re-run, it should be done instantly since the installationRegistration is done already
             await app.registerDevice();
 
             expect(app.Session.deviceId === deviceId);
@@ -127,7 +131,7 @@ describe("BunqJSClient", () => {
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
             const installationPromise = app.install();
-            const installationHandler = installation(moxios);
+            const installationHandler = installationRegistration(moxios);
             await installationPromise;
             await installationHandler;
 
@@ -150,18 +154,18 @@ describe("BunqJSClient", () => {
 
     describe("#registerSession()", () => {
         it("session registration without stored data", async () => {
-            const app = new BunqJSClient(new CustomDb("device"));
+            const app = new BunqJSClient(new CustomDb("session"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
-            // installation
+            // installationRegistration
             const installationPromise = app.install();
-            const installationHandler = installation(moxios);
+            const installationHandler = installationRegistration(moxios);
             await installationPromise;
             await installationHandler;
 
             // device registration
-            const devicePromise = app.install();
-            const deviceHandler = deviceServer(moxios);
+            const devicePromise = app.registerDevice();
+            const deviceHandler = deviceServerRegistration(moxios);
             await devicePromise;
             await deviceHandler;
 
@@ -178,13 +182,154 @@ describe("BunqJSClient", () => {
             });
             await sessionRegistrationPromise;
 
-            // re-run, it should be done instantly since the installation is done already
+            // re-run, it should be done instantly since the installationRegistration is done already
             await app.registerSession();
 
             expect(app.Session.sessionId === sessionId);
             expect(app.Session.sessionToken === sessionToken);
             expect(app.Session.sessionTokenId === sessionTokenId);
             expect(app.Session.userInfo === deviceId);
+        });
+    });
+
+    describe("#destroySession()", () => {
+        it("create a session and remove it", async () => {
+            const app = new BunqJSClient(new CustomDb("destroySession"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            // installationRegistration
+            const installationPromise = app.install();
+            const installationHandler = installationRegistration(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            // device registration
+            const devicePromise = app.registerDevice();
+            const deviceHandler = deviceServerRegistration(moxios);
+            await devicePromise;
+            await deviceHandler;
+
+            // session registration
+            const sessionPromise = app.registerSession();
+            const sessionHandler = sessionRegistration(moxios);
+            await sessionPromise;
+            await sessionHandler;
+
+            // first check if the values are currently set
+            expect(app.Session.sessionId === sessionId);
+            expect(app.Session.sessionToken === sessionToken);
+            expect(app.Session.sessionTokenId === sessionTokenId);
+            expect(app.Session.userInfo === deviceId);
+
+            const destroySessionPromise = app.destroySession();
+            await new Promise((resolve, reject) => {
+                moxios.wait(() => {
+                    moxios.requests
+                        .mostRecent()
+                        .respondWith({
+                            status: 200,
+                            response: true
+                        })
+                        .then(resolve)
+                        .catch(reject);
+                });
+            });
+            await destroySessionPromise;
+
+            // the values should be unset now
+            expect(app.Session.sessionId === null);
+            expect(app.Session.sessionToken === null);
+            expect(app.Session.sessionTokenId === null);
+            expect(app.Session.userInfo === {});
+        });
+    });
+
+    describe("#getUser()", () => {
+        it("should return UserCompany object", async () => {
+            const app = new BunqJSClient(new CustomDb("getUser1"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            // installationRegistration
+            const installationPromise = app.install();
+            const installationHandler = installationRegistration(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            // device registration
+            const devicePromise = app.registerDevice();
+            const deviceHandler = deviceServerRegistration(moxios);
+            await devicePromise;
+            await deviceHandler;
+
+            // session registration
+            const sessionPromise = app.registerSession();
+            const sessionHandler = sessionRegistration(moxios);
+            await sessionPromise;
+            await sessionHandler;
+
+            const userInfo = await app.getUser("UserCompany", false);
+
+            expect(userInfo.id === 42);
+            expect(userInfo.name === "bunq");
+        });
+
+        it("should return undefined", async () => {
+            const app = new BunqJSClient(new CustomDb("getUser2"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            // installationRegistration
+            const installationPromise = app.install();
+            const installationHandler = installationRegistration(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            // device registration
+            const devicePromise = app.registerDevice();
+            const deviceHandler = deviceServerRegistration(moxios);
+            await devicePromise;
+            await deviceHandler;
+
+            // session registration
+            const sessionPromise = app.registerSession();
+            const sessionHandler = sessionRegistration(moxios);
+            await sessionPromise;
+            await sessionHandler;
+
+            const userInfo = await app.getUser("InvalidType", false);
+
+            expect(userInfo === undefined);
+        });
+    });
+
+    describe("#getUsers()", () => {
+        it("should return a list with one UserCompany object", async () => {
+            const app = new BunqJSClient(new CustomDb("getUsers"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            // installationRegistration
+            const installationPromise = app.install();
+            const installationHandler = installationRegistration(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            // device registration
+            const devicePromise = app.registerDevice();
+            const deviceHandler = deviceServerRegistration(moxios);
+            await devicePromise;
+            await deviceHandler;
+
+            // session registration
+            const sessionPromise = app.registerSession();
+            const sessionHandler = sessionRegistration(moxios);
+            await sessionPromise;
+            await sessionHandler;
+
+            const users = await app.getUsers(false);
+            expect(users.length >= 1);
+
+            const userInfo = users.UserCompany;
+            expect(userInfo.id === 42);
+            expect(userInfo.name === "bunq");
         });
     });
 });
