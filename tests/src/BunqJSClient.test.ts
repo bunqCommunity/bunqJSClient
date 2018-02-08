@@ -21,7 +21,6 @@ import {
     sessionTokenId
 } from "../TestData/api-session-registration";
 
-
 const fakeApiKey = randomHex(64);
 const fakeEncryptionKey = randomHex(32);
 
@@ -68,25 +67,23 @@ describe("BunqJSClient", () => {
         });
     });
 
-    describe("#install()", () => {
+    describe("#install()", async () => {
         it("installation without stored data", async () => {
             const app = new BunqJSClient(new CustomDb("install"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
-            await new Promise((resolve, reject) => {
-                app
-                    .install()
-                    .then(resolve)
-                    .catch(reject);
+            const installPromise = app.install();
 
+            await new Promise((resolve, reject) => {
                 moxios.wait(() => {
                     moxios.requests
                         .mostRecent()
                         .respondWith(apiInstallation())
-                        .then(() => {})
+                        .then(resolve)
                         .catch(reject);
                 });
             });
+            await installPromise;
 
             // re-run, it should be done instantly since the device registration is done already
             await app.install();
@@ -106,23 +103,46 @@ describe("BunqJSClient", () => {
             await installationPromise;
             await installationHandler;
 
-            await new Promise((resolve, reject) => {
-                app
-                    .registerDevice()
-                    .then(resolve)
-                    .catch(reject);
+            const deviceRegistrationPromise = app.registerDevice();
 
+            await new Promise((resolve, reject) => {
                 moxios.wait(() => {
                     moxios.requests
                         .mostRecent()
                         .respondWith(apiDeviceServer(true))
-                        .then(() => {})
+                        .then(resolve)
                         .catch(reject);
                 });
             });
+            await deviceRegistrationPromise;
 
             // re-run, it should be done instantly since the installation is done already
             await app.registerDevice();
+
+            expect(app.Session.deviceId === deviceId);
+        });
+
+        it("device registration fails and resets session data", async () => {
+            const app = new BunqJSClient(new CustomDb("device"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            const installationPromise = app.install();
+            const installationHandler = installation(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            const deviceRegistrationPromise = app.registerDevice();
+
+            await new Promise((resolve, reject) => {
+                moxios.wait(() => {
+                    moxios.requests
+                        .mostRecent()
+                        .respondWith(apiDeviceServer(true))
+                        .then(resolve)
+                        .catch(reject);
+                });
+            });
+            await deviceRegistrationPromise;
 
             expect(app.Session.deviceId === deviceId);
         });
@@ -145,20 +165,18 @@ describe("BunqJSClient", () => {
             await devicePromise;
             await deviceHandler;
 
-            await new Promise((resolve, reject) => {
-                app
-                    .registerSession()
-                    .then(resolve)
-                    .catch(reject);
+            const sessionRegistrationPromise = app.registerSession();
 
+            await new Promise((resolve, reject) => {
                 moxios.wait(() => {
                     moxios.requests
                         .mostRecent()
                         .respondWith(apiSessionRegistration(true))
-                        .then(() => {})
+                        .then(resolve)
                         .catch(reject);
                 });
             });
+            await sessionRegistrationPromise;
 
             // re-run, it should be done instantly since the installation is done already
             await app.registerSession();
