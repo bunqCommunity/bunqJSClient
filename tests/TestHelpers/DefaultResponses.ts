@@ -5,14 +5,11 @@ import apiSessionRegistration from "../TestData/api-session-registration";
 export const installationRegistration = async moxios => {
     await new Promise((resolve, reject) => {
         moxios.wait(() => {
-            // delay the response
-            setTimeout(() => {
-                moxios.requests
-                    .mostRecent()
-                    .respondWith(apiInstallationRegistration())
-                    .then(resolve)
-                    .catch(reject);
-            }, 300);
+            moxios.requests
+                .mostRecent()
+                .respondWith(apiInstallationRegistration())
+                .then(resolve)
+                .catch(reject);
         });
     });
 };
@@ -20,14 +17,11 @@ export const installationRegistration = async moxios => {
 export const deviceServerRegistration = async moxios => {
     await new Promise((resolve, reject) => {
         moxios.wait(() => {
-            // delay the response
-            setTimeout(() => {
-                moxios.requests
-                    .mostRecent()
-                    .respondWith(apiDeviceRegistration())
-                    .then(resolve)
-                    .catch(reject);
-            }, 300);
+            moxios.requests
+                .mostRecent()
+                .respondWith(apiDeviceRegistration())
+                .then(resolve)
+                .catch(reject);
         });
     });
 };
@@ -35,14 +29,11 @@ export const deviceServerRegistration = async moxios => {
 export const sessionRegistration = async moxios => {
     await new Promise((resolve, reject) => {
         moxios.wait(() => {
-            // delay the response
-            setTimeout(() => {
-                moxios.requests
-                    .mostRecent()
-                    .respondWith(apiSessionRegistration())
-                    .then(resolve)
-                    .catch(reject);
-            }, 300);
+            moxios.requests
+                .mostRecent()
+                .respondWith(apiSessionRegistration())
+                .then(resolve)
+                .catch(reject);
         });
     });
 };

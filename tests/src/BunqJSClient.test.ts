@@ -1,8 +1,11 @@
+import "../TestHelpers/Prepare";
+
 import * as moxios from "moxios";
 import BunqJSClient from "../../src/BunqJSClient";
 
 import CustomDb from "../TestHelpers/CustomDb";
 import { randomHex } from "../TestHelpers/RandomData";
+import Prepare from "../TestHelpers/Prepare";
 import {
     installationRegistration,
     deviceServerRegistration,
@@ -29,6 +32,11 @@ const fakeApiKey = randomHex(64);
 const fakeEncryptionKey = randomHex(32);
 
 describe("BunqJSClient", () => {
+    beforeAll(async done => {
+        await Prepare();
+        done();
+    });
+
     beforeEach(function() {
         moxios.install();
     });
@@ -72,7 +80,7 @@ describe("BunqJSClient", () => {
     });
 
     describe("#install()", async () => {
-        it("installationRegistration without stored data", async () => {
+        it("installation without stored data", async () => {
             const app = new BunqJSClient(new CustomDb("install"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
