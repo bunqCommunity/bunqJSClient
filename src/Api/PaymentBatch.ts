@@ -2,11 +2,10 @@ import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import Amount from "../Types/Amount";
-import CounterpartyAlias from "../Types/CounterpartyAlias";
-import PaginationOptions from "../Types/PaginationOptions";
 import CounterPartyAliasCollection from "../Types/CounterPartyAliasCollection";
+import PaginationOptions from "../Types/PaginationOptions";
 
-export default class DraftPayment implements ApiEndpointInterface {
+export default class PaymentBatch implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;
 
@@ -32,17 +31,17 @@ export default class DraftPayment implements ApiEndpointInterface {
         options: any = {}
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/draft-payment"
+            "/payment-batch"
         );
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment/${paymentId}`
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch/${paymentId}`
             )
         );
 
         // return raw respone image
-        return response.Response[0].Payment;
+        return response.Response[0].payments;
     }
 
     /**
@@ -73,13 +72,13 @@ export default class DraftPayment implements ApiEndpointInterface {
         }
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/draft-payment",
+            "/payment-batch",
             "LIST"
         );
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment`,
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`,
                 {},
                 {
                     axiosOptions: {
@@ -98,7 +97,7 @@ export default class DraftPayment implements ApiEndpointInterface {
      * @param {number} monetaryAccountId
      * @param {string} description
      * @param {Amount} amount
-     * @param {CounterpartyAlias|CounterPartyAliasCollection} counterpartyAlias
+     * @param {CounterPartyAliasCollection} counterpartyAliasCollection
      * @param options
      * @returns {Promise<void>}
      */
@@ -107,38 +106,26 @@ export default class DraftPayment implements ApiEndpointInterface {
         monetaryAccountId: number,
         description: string,
         amount: Amount,
-        counterparty: CounterpartyAlias | CounterPartyAliasCollection,
+        counterpartyAliasCollection: CounterPartyAliasCollection,
         options: any = {}
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/draft-payment",
+            "/payment-batch",
             "POST"
         );
 
-        const entries = [];
-        if (Array.isArray(counterparty)) {
-            counterparty.map(counterpartyAlias => {
-                entries.push({
-                    counterparty_alias: counterpartyAlias,
-                    description: description,
-                    amount: amount
-                });
-            });
-        } else {
-            entries.push({
-                counterparty_alias: counterparty,
+        const payments = counterpartyAliasCollection.map(counterpartyAlias => {
+            return {
+                counterparty_alias: counterpartyAlias,
                 description: description,
                 amount: amount
-            });
-        }
+            };
+        });
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.post(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment`,
-                {
-                    entries: entries,
-                    number_of_required_accepts: 1
-                }
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`,
+                { payments: payments }
             )
         );
 
