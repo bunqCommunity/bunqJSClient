@@ -2,7 +2,6 @@ import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import Amount from "../Types/Amount";
-import CounterpartyAlias from "../Types/CounterpartyAlias";
 import CounterPartyAliasCollection from "../Types/CounterPartyAliasCollection";
 import PaginationOptions from "../Types/PaginationOptions";
 
@@ -115,7 +114,7 @@ export default class PaymentBatch implements ApiEndpointInterface {
             "POST"
         );
 
-        const content = counterpartyAliasCollection.map(counterpartyAlias => {
+        const payments = counterpartyAliasCollection.map(counterpartyAlias => {
             return {
                 counterparty_alias: counterpartyAlias,
                 description: description,
@@ -126,7 +125,7 @@ export default class PaymentBatch implements ApiEndpointInterface {
         const response = await limiter.run(async () =>
             this.ApiAdapter.post(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`,
-                content
+                { payments: payments }
             )
         );
 

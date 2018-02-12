@@ -4,6 +4,7 @@ import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import Amount from "../Types/Amount";
 import CounterpartyAlias from "../Types/CounterpartyAlias";
 import PaginationOptions from "../Types/PaginationOptions";
+import CounterPartyAliasCollection from "../Types/CounterPartyAliasCollection";
 
 export default class DraftPayment implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
@@ -97,7 +98,7 @@ export default class DraftPayment implements ApiEndpointInterface {
      * @param {number} monetaryAccountId
      * @param {string} description
      * @param {Amount} amount
-     * @param {CounterpartyAlias} counterpartyAlias
+     * @param {CounterpartyAlias|CounterPartyAliasCollection} counterpartyAlias
      * @param options
      * @returns {Promise<void>}
      */
@@ -106,7 +107,7 @@ export default class DraftPayment implements ApiEndpointInterface {
         monetaryAccountId: number,
         description: string,
         amount: Amount,
-        counterpartyAlias: CounterpartyAlias,
+        counterparty: CounterpartyAlias | CounterPartyAliasCollection,
         options: any = {}
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
@@ -114,17 +115,28 @@ export default class DraftPayment implements ApiEndpointInterface {
             "POST"
         );
 
+        const entries = [];
+        if (Array.isArray(counterparty)) {
+            counterparty.map(counterpartyAlias => {
+                entries.push({
+                    counterparty_alias: counterpartyAlias,
+                    description: description,
+                    amount: amount
+                });
+            });
+        } else {
+            entries.push({
+                counterparty_alias: counterparty,
+                description: description,
+                amount: amount
+            });
+        }
+
         const response = await limiter.run(async () =>
             this.ApiAdapter.post(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment`,
                 {
-                    entries: [
-                        {
-                            counterparty_alias: counterpartyAlias,
-                            description: description,
-                            amount: amount
-                        }
-                    ],
+                    entries: entries,
                     number_of_required_accepts: 1
                 }
             )
