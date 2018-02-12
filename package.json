@@ -4,12 +4,16 @@
   "license": "MIT",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --colors",
-    "build:dev": "cross-env NODE_ENV=development webpack --debug --watch --progress --colors"
+    "build:dev": "cross-env NODE_ENV=development webpack --debug --watch --progress --colors",
+    "test": "cross-env CI=true jest --coverage --verbose",
+    "test:dev": "cross-env CI=true jest --watch --verbose"
   },
   "main": "./index.js",
   "module": "./src/BunqJSClient.ts",
   "dependencies": {},
   "devDependencies": {
+    "@types/jest": "^21.1.8",
+    "@types/moxios": "^0.4.8",
     "@types/node": "^8.0.34",
     "awaiting": "^2.0.1",
     "axios": "^0.16.2",
@@ -28,9 +32,13 @@
     "clean-webpack-plugin": "^0.1.17",
     "cross-env": "^4.0.0",
     "es6-promise-promise": "^1.0.0",
+    "jest": "^21.2.1",
     "loglevel": "^1.4.1",
+    "moxios": "^0.4.0",
     "node-forge": "^0.7.1",
+    "node-json-db": "^0.7.3",
     "store": "^2.0.12",
+    "ts-jest": "^21.2.4",
     "ts-loader": "^2.3.7",
     "typescript": "^2.5.3",
     "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
@@ -39,7 +47,6 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "description": "A web based project that is aimed at allowing single page applications to do all interactions with Bunq without proxying through other services.  All data is stored client-side and requests are created and signed using [forge](https://github.com/digitalbazaar/forge).",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BunqCommunity/BunqJSClient.git"
@@ -48,5 +55,25 @@
   "bugs": {
     "url": "https://github.com/BunqCommunity/BunqJSClient/issues"
   },
-  "homepage": "https://github.com/BunqCommunity/BunqJSClient#readme"
+  "homepage": "https://github.com/BunqCommunity/BunqJSClient#readme",
+  "jest": {
+    "mapCoverage": true,
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/",
+      ".html",
+      "/tests/custom-db/*",
+      "/package.json"
+    ]
+  }
 }
