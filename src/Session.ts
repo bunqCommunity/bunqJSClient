@@ -95,6 +95,7 @@ export default class Session {
             // setup the required rsa keypair
             await this.setupKeypair();
         }
+        return true;
     }
 
     /**
@@ -105,6 +106,7 @@ export default class Session {
      */
     public async setupKeypair(
         forceNewKeypair: boolean = false,
+        bitSize: number = 2048,
         ignoreCI: boolean = false
     ) {
         if (
@@ -116,7 +118,11 @@ export default class Session {
         }
 
         // check if we are in a CI environment
-        if (typeof process !== "undefined" && process.env.CI === "true") {
+        if (
+            typeof process !== "undefined" &&
+            process.env.CI === "true" &&
+            ignoreCI === false
+        ) {
             // use the stored CI variables instead of creating a new on
             this.publicKeyPem = process.env.CI_PUBLIC_KEY_PEM;
             this.privateKeyPem = process.env.CI_PRIVATE_KEY_PEM;
@@ -125,7 +131,7 @@ export default class Session {
             this.privateKey = await privateKeyFromPem(this.privateKeyPem);
         } else {
             // generate a new keypair and format as pem
-            const keyPair = await createKeyPair();
+            const keyPair = await createKeyPair(bitSize);
             const { publicKey, privateKey } = await keyPairToPem(keyPair);
 
             this.publicKey = keyPair.publicKey;
@@ -268,6 +274,12 @@ export default class Session {
      */
     private decryptSession = async encryptedSession => {
         const IV = await this.asyncStorageGet(this.storageIvLocation);
+
+        if (this.encryptionKey === false) {
+            throw new Error(
+                "No encryption key is set, failed to decrypt session"
+            );
+        }
 
         // attempt to decrypt the string
         const decryptedSession = await decryptString(

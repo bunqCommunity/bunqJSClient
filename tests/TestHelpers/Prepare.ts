@@ -6,9 +6,6 @@ export default async () => {
         const keyPair = await createKeyPair(1024);
         const { publicKey, privateKey } = await keyPairToPem(keyPair);
 
-        console.log("Generated public key: ", publicKey);
-        console.log("Generated private key: ", privateKey);
-
         // store the values in the environment
         process.env.CI_PUBLIC_KEY_PEM = publicKey;
         process.env.CI_PRIVATE_KEY_PEM = privateKey;
