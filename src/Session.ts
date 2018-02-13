@@ -120,7 +120,7 @@ export default class Session {
         // check if we are in a CI environment
         if (
             typeof process !== "undefined" &&
-            process.env.CI === "true" &&
+            process.env.ENV_CI === "true" &&
             ignoreCI === false
         ) {
             // use the stored CI variables instead of creating a new on
@@ -163,8 +163,8 @@ export default class Session {
             // decrypt the stored sesion
             session = await this.decryptSession(encryptedSession);
         } catch (error) {
-            this.logger.error("Failed to decrypt session");
-            this.logger.error(error);
+            this.logger.debug("Failed to decrypt session");
+            this.logger.debug(error);
             // failed to decrypt the session, return false
             return false;
         }
@@ -176,7 +176,7 @@ export default class Session {
             session.apiKey !== this.apiKey
         ) {
             this.logger.debug(
-                "Api key changed or is different 'api key could be empty'"
+                "Api key changed or is different, api key could be empty"
             );
             return false;
         }

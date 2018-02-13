@@ -16,6 +16,7 @@ import {
 
 const fakeApiKey = randomHex(64);
 const fakeEncryptionKey = randomHex(32);
+const fakeEncryptionKey2 = randomHex(32);
 
 /**
  * Create a default app to use in tests
@@ -247,7 +248,7 @@ describe("Session", () => {
             expect(loadSession === false);
         });
 
-        it("should detect if the api key changes", async () => {
+        it("should detect if the environment changes and invalidate storage", async () => {
             const session = new Session(
                 new CustomDb("SessionStoreSession4"),
                 Logger
@@ -266,12 +267,45 @@ describe("Session", () => {
             const storeSession = await session.storeSession();
             expect(storeSession);
 
-            // setup a session with default options
+            // setup a session with a different environment
             const setupResult2 = await session.setup(
                 fakeApiKey,
                 [],
                 "PRODUCTION",
                 fakeEncryptionKey
+            );
+            expect(setupResult2);
+
+            // session should be invalidated because environment is different
+            const loadSession = await session.loadSession();
+            expect(loadSession === false);
+        });
+
+        it("should detect if the api key changes and invalidate storage", async () => {
+            const session = new Session(
+                new CustomDb("SessionStoreSession4"),
+                Logger
+            );
+
+            // setup a session with default options
+            const setupResult = await session.setup(
+                fakeApiKey,
+                [],
+                "SANDBOX",
+                fakeEncryptionKey
+            );
+            expect(setupResult);
+
+            // store the session in the storage interface
+            const storeSession = await session.storeSession();
+            expect(storeSession);
+
+            // setup a session with a different api key
+            const setupResult2 = await session.setup(
+                fakeApiKey,
+                [],
+                "SANDBOX",
+                fakeEncryptionKey2
             );
             expect(setupResult2);
 

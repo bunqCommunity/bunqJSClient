@@ -5,8 +5,8 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --colors",
     "build:dev": "cross-env NODE_ENV=development webpack --debug --watch --progress --colors",
-    "test": "cross-env CI=true jest --coverage --verbose",
-    "test:dev": "cross-env CI=true jest --watch --verbose"
+    "test": "cross-env ENV_CI=true jest --verbose --config jest.config.js",
+    "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --verbose --watch --config jest.config.js"
   },
   "main": "./index.js",
   "module": "./src/BunqJSClient.ts",
@@ -55,25 +55,5 @@
   "bugs": {
     "url": "https://github.com/BunqCommunity/BunqJSClient/issues"
   },
-  "homepage": "https://github.com/BunqCommunity/BunqJSClient#readme",
-  "jest": {
-    "mapCoverage": true,
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/dist/",
-      ".html",
-      "/tests/custom-db/*",
-      "/package.json"
-    ]
-  }
+  "homepage": "https://github.com/BunqCommunity/BunqJSClient#readme"
 }
