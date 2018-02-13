@@ -48,12 +48,12 @@ describe("BunqJSClient", () => {
     describe("#construct()", () => {
         it("should create a new instance", () => {
             const app = new BunqJSClient(new CustomDb("construct1"));
-            expect(app instanceof BunqJSClient).toBeTruthy();
+            expect(app).toBeInstanceOf(BunqJSClient);
         });
 
         it("should create a new instance without a custom storage interface", () => {
             const app = new BunqJSClient();
-            expect(app instanceof BunqJSClient).toBeTruthy();
+            expect(app).toBeInstanceOf(BunqJSClient);
         });
     });
 
@@ -63,9 +63,9 @@ describe("BunqJSClient", () => {
 
             await app.run(fakeApiKey);
 
-            expect(app.Session.environment === "SANDBOX");
-            expect(app.Session.apiKey === fakeApiKey);
-            expect(app.Session.encryptionKey === fakeEncryptionKey);
+            expect(app.Session.environment).toBe("SANDBOX");
+            expect(app.Session.apiKey).toBe(fakeApiKey);
+            expect(app.Session.encryptionKey).toBeFalsy();
         });
 
         it("run with custom options", async () => {
@@ -73,9 +73,9 @@ describe("BunqJSClient", () => {
 
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
-            expect(app.Session.environment === "SANDBOX");
-            expect(app.Session.apiKey === fakeApiKey);
-            expect(app.Session.encryptionKey === fakeEncryptionKey);
+            expect(app.Session.environment).toBe("SANDBOX");
+            expect(app.Session.apiKey).toBe(fakeApiKey);
+            expect(app.Session.encryptionKey).toBe(fakeEncryptionKey);
         });
     });
 
@@ -100,8 +100,8 @@ describe("BunqJSClient", () => {
             // re-run, it should be done instantly since the device registration is done already
             await app.install();
 
-            expect(app.Session.installToken === installToken);
-            expect(app.Session.serverPublicKeyPem === serverPublicKeyPem);
+            expect(app.Session.installToken).toBe(installToken);
+            expect(app.Session.serverPublicKeyPem).toBe(serverPublicKeyPem);
         });
     });
 
@@ -131,7 +131,7 @@ describe("BunqJSClient", () => {
             // re-run, it should be done instantly since the installationRegistration is done already
             await app.registerDevice();
 
-            expect(app.Session.deviceId === deviceId);
+            expect(app.Session.deviceId === deviceId).toBeTruthy();
         });
 
         it("device registration fails and resets session data", async () => {
@@ -156,7 +156,7 @@ describe("BunqJSClient", () => {
             });
             await deviceRegistrationPromise;
 
-            expect(app.Session.deviceId === deviceId);
+            expect(app.Session.deviceId === deviceId).toBeTruthy();
         });
     });
 
@@ -193,10 +193,10 @@ describe("BunqJSClient", () => {
             // re-run, it should be done instantly since the installationRegistration is done already
             await app.registerSession();
 
-            expect(app.Session.sessionId === sessionId);
-            expect(app.Session.sessionToken === sessionToken);
-            expect(app.Session.sessionTokenId === sessionTokenId);
-            expect(app.Session.userInfo === deviceId);
+            expect(app.Session.sessionId).toBe(sessionId);
+            expect(app.Session.sessionToken).toBe(sessionToken);
+            expect(app.Session.sessionTokenId).toBe(sessionTokenId);
+            expect(app.Session.userInfo).not.toBe({});
         });
     });
 
@@ -224,10 +224,10 @@ describe("BunqJSClient", () => {
             await sessionHandler;
 
             // first check if the values are currently set
-            expect(app.Session.sessionId === sessionId);
-            expect(app.Session.sessionToken === sessionToken);
-            expect(app.Session.sessionTokenId === sessionTokenId);
-            expect(app.Session.userInfo === deviceId);
+            expect(app.Session.sessionId).toBe(sessionId);
+            expect(app.Session.sessionToken).toBe(sessionToken);
+            expect(app.Session.sessionTokenId).toBe(sessionTokenId);
+            expect(Object.keys(app.Session.userInfo).length > 0).toBeTruthy();
 
             const destroySessionPromise = app.destroySession();
             await new Promise((resolve, reject) => {
@@ -244,11 +244,11 @@ describe("BunqJSClient", () => {
             });
             await destroySessionPromise;
 
-            // the values should be unset now
-            expect(app.Session.sessionId === null);
-            expect(app.Session.sessionToken === null);
-            expect(app.Session.sessionTokenId === null);
-            expect(app.Session.userInfo === {});
+            // the values should be unset now and either null/empty
+            expect(app.Session.sessionId).toBeNull();
+            expect(app.Session.sessionToken).toBeNull();
+            expect(app.Session.sessionTokenId).toBeNull();
+            expect(Object.keys(app.Session.userInfo).length === 0).toBeTruthy();
         });
     });
 
@@ -277,8 +277,8 @@ describe("BunqJSClient", () => {
 
             const userInfo = await app.getUser("UserCompany", false);
 
-            expect(userInfo.id === 42);
-            expect(userInfo.name === "bunq");
+            expect(userInfo.id).toBe(42);
+            expect(userInfo.name).toBe("bunq");
         });
 
         it("should return undefined", async () => {
@@ -305,7 +305,7 @@ describe("BunqJSClient", () => {
 
             const userInfo = await app.getUser("InvalidType", false);
 
-            expect(userInfo === undefined);
+            expect(userInfo).toBe(undefined);
         });
     });
 
@@ -333,11 +333,13 @@ describe("BunqJSClient", () => {
             await sessionHandler;
 
             const users = await app.getUsers(false);
-            expect(users.length >= 1);
+
+            expect(Object.keys(users).length >= 1).toBeTruthy();
 
             const userInfo = users.UserCompany;
-            expect(userInfo.id === 42);
-            expect(userInfo.name === "bunq");
+
+            expect(userInfo.id).toBe(42);
+            expect(userInfo.name).toBe("bunq");
         });
     });
 });

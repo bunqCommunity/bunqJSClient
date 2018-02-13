@@ -17,6 +17,6 @@ import "../../src/Api/index";
 
 describe("coverage-imports", () => {
     it("should do nothing", () => {
-        expect(true);
+        expect(true).toBeTruthy();;
     });
 });

@@ -3,7 +3,7 @@ import { createKeyPair, keyPairToPem } from "../../src/Crypto/Rsa";
 export default async () => {
     try {
         // create a new keypair once and create pem strings
-        const keyPair = await createKeyPair(1024);
+        const keyPair = await createKeyPair(512);
         const { publicKey, privateKey } = await keyPairToPem(keyPair);
 
         // store the values in the environment
