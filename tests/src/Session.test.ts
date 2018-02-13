@@ -15,6 +15,7 @@ import {
 } from "../TestHelpers/DefaultResponses";
 
 const fakeApiKey = randomHex(64);
+const fakeApiKey2 = randomHex(64);
 const fakeEncryptionKey = randomHex(32);
 const fakeEncryptionKey2 = randomHex(32);
 
@@ -171,29 +172,9 @@ describe("Session", () => {
     });
 
     describe("#storeSession()", () => {
-        it("should store the session data in the storage interface", async () => {
-            const session = new Session(
-                new CustomDb("SessionStoreSession1"),
-                Logger
-            );
-
-            // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
-            expect(setupResult);
-
-            // store the session in the storage interface
-            const storeSession = await session.storeSession();
-            expect(storeSession);
-        });
-
         it("should store and load the session data in the storage interface", async () => {
             const session = new Session(
-                new CustomDb("SessionStoreSession2"),
+                new CustomDb("SessionStoreSession1"),
                 Logger
             );
 
@@ -215,42 +196,30 @@ describe("Session", () => {
             expect(loadSession);
         });
 
-        it("should invalidate the stored session when environment changes", async () => {
+        it("should throw an error if an invalid environment is given", async () => {
             const session = new Session(
-                new CustomDb("SessionStoreSession3"),
+                new CustomDb("SessionStoreSession2"),
                 Logger
             );
 
-            // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
-            expect(setupResult);
-
-            // store the session in the storage interface
-            const storeSession = await session.storeSession();
-            expect(storeSession);
-
-            // setup a session with default options
-            const setupResult2 = await session.setup(
-                fakeApiKey,
-                [],
-                "PRODUCTION",
-                fakeEncryptionKey
-            );
-            expect(setupResult2);
-
-            // session should be invalidated because environment is different
-            const loadSession = await session.loadSession();
-            expect(loadSession === false);
+            // setup a session with default options and an invalid environment
+            session
+                .setup(fakeApiKey, [], "SANDBOX_AB", fakeEncryptionKey)
+                .then(() => {
+                    // this shouldn't succeed so this is considered an error
+                    expect(false);
+                })
+                .catch(error => {
+                    // error was expected
+                    expect(true);
+                });
         });
+    });
 
+    describe("#loadSession()", () => {
         it("should detect if the environment changes and invalidate storage", async () => {
             const session = new Session(
-                new CustomDb("SessionStoreSession4"),
+                new CustomDb("SessionLoadSession1"),
                 Logger
             );
 
@@ -281,9 +250,9 @@ describe("Session", () => {
             expect(loadSession === false);
         });
 
-        it("should detect if the api key changes and invalidate storage", async () => {
+        it("should detect if the encryption key changes and invalidate storage", async () => {
             const session = new Session(
-                new CustomDb("SessionStoreSession4"),
+                new CustomDb("SessionLoadSession2"),
                 Logger
             );
 
@@ -312,6 +281,132 @@ describe("Session", () => {
             // session should be invalidated because environment is different
             const loadSession = await session.loadSession();
             expect(loadSession === false);
+        });
+
+        it("should detect if the stored api key is different from the current key and invalidate storage", async () => {
+            const session = new Session(
+                new CustomDb("SessionLoadSession3"),
+                Logger
+            );
+
+            // setup a session with default options
+            const setupResult = await session.setup(
+                fakeApiKey,
+                [],
+                "SANDBOX",
+                fakeEncryptionKey
+            );
+            expect(setupResult);
+
+            // store the session in the storage interface
+            const storeSession = await session.storeSession();
+            expect(storeSession);
+
+            // setup a session with a different api key
+            const setupResult2 = await session.setup(
+                fakeApiKey2,
+                [],
+                "SANDBOX",
+                fakeEncryptionKey
+            );
+            expect(setupResult2);
+
+            // session should be invalidated because environment is different
+            const loadSession = await session.loadSession();
+            expect(loadSession === false);
+        });
+
+        it("should detect if the stored api key is different from the current key and invalidate storage", async () => {
+            const session = new Session(
+                new CustomDb("SessionLoadSession4"),
+                Logger
+            );
+
+            // setup a session with default options
+            const setupResult = await session.setup(
+                fakeApiKey,
+                [],
+                "SANDBOX",
+                fakeEncryptionKey
+            );
+            expect(setupResult);
+
+            // store the session in the storage interface
+            const storeSession = await session.storeSession();
+            expect(storeSession);
+
+            // setup a session with a different api key
+            const setupResult2 = await session.setup(
+                fakeApiKey2,
+                [],
+                "SANDBOX",
+                fakeEncryptionKey
+            );
+            expect(setupResult2);
+
+            // session should be invalidated because environment is different
+            const loadSession = await session.loadSession();
+            expect(loadSession === false);
+        });
+    });
+
+    describe("#set environmentType", () => {
+        it("should detect invalid environments and throw an error", async () => {
+            const session = new Session(
+                new CustomDb("SessionEnvironmentType1"),
+                Logger
+            );
+
+            expect(() => {
+                // set an invalid environment
+                session.environmentType = "AFD";
+            }).toThrow();
+        });
+    });
+
+    describe("#verifySessionInstallation()", () => {
+        it("should return true if the current session is valid", async () => {
+            const session = new Session(
+                new CustomDb("SessionVerifySessionInstallation1"),
+                Logger
+            );
+
+            const setupResult = await session.setup(
+                fakeApiKey,
+                [],
+                "SANDBOX",
+                fakeEncryptionKey
+            );
+            expect(setupResult);
+
+            // set expiry to current time
+            session.sessionId  = 12345678901234;
+            session.sessionExpiryTime = new Date();
+
+            const result = session.verifySessionInstallation();
+            expect(result);
+        });
+
+        it("should return false if the current session time is outdated", async () => {
+            const session = new Session(
+                new CustomDb("SessionVerifySessionInstallation2"),
+                Logger
+            );
+
+            const setupResult = await session.setup(
+                fakeApiKey,
+                [],
+                "SANDBOX",
+                fakeEncryptionKey
+            );
+            expect(setupResult);
+
+            // set expiry to a time far in the past
+            session.sessionId  = 12345678901234;
+            session.sessionExpiryTime = new Date(1018559124411);
+
+            const result = session.verifySessionInstallation();
+            expect(result === false);
         });
     });
 });
