@@ -1,5 +1,3 @@
-import "../TestHelpers/Prepare";
-
 import * as moxios from "moxios";
 import BunqJSClient from "../../src/BunqJSClient";
 

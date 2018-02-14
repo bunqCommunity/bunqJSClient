@@ -1,59 +1,15 @@
-import "../TestHelpers/Prepare";
-
 import * as moxios from "moxios";
 import Logger from "../../src/Helpers/Logger";
-import BunqJSClient from "../../src/BunqJSClient";
 import Session from "../../src/Session";
 
 import CustomDb from "../TestHelpers/CustomDb";
 import { randomHex } from "../TestHelpers/RandomData";
 import Prepare from "../TestHelpers/Prepare";
-import {
-    installationRegistration,
-    deviceServerRegistration,
-    sessionRegistration
-} from "../TestHelpers/DefaultResponses";
 
 const fakeApiKey = randomHex(64);
 const fakeApiKey2 = randomHex(64);
 const fakeEncryptionKey = randomHex(32);
 const fakeEncryptionKey2 = randomHex(32);
-
-/**
- * Create a default app to use in tests
- * @param {string} apiKey
- * @param {string} dbName
- * @param {Array} runOptions
- * @returns {Promise<BunqJSClient>}
- */
-const setupApp = async (
-    dbName: string,
-    apiKey: string = fakeApiKey,
-    runOptions = [[], "SANDBOX", fakeEncryptionKey]
-) => {
-    const app = new BunqJSClient(new CustomDb(dbName));
-    await app.run(apiKey, ...runOptions);
-
-    // installationRegistration
-    const installationPromise = app.install();
-    const installationHandler = installationRegistration(moxios);
-    await installationPromise;
-    await installationHandler;
-
-    // device registration
-    const devicePromise = app.registerDevice();
-    const deviceHandler = deviceServerRegistration(moxios);
-    await devicePromise;
-    await deviceHandler;
-
-    // session registration
-    const sessionPromise = app.registerSession();
-    const sessionHandler = sessionRegistration(moxios);
-    await sessionPromise;
-    await sessionHandler;
-
-    return app;
-};
 
 describe("Session", () => {
     beforeAll(async done => {
@@ -285,39 +241,6 @@ describe("Session", () => {
 
         it("should detect if the stored api key is different from the current key and invalidate storage", async () => {
             const session = new Session(
-                new CustomDb("SessionLoadSession3"),
-                Logger
-            );
-
-            // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
-            expect(setupResult);
-
-            // store the session in the storage interface
-            const storeSession = await session.storeSession();
-            expect(storeSession);
-
-            // setup a session with a different api key
-            const setupResult2 = await session.setup(
-                fakeApiKey2,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
-            expect(setupResult2);
-
-            // session should be invalidated because environment is different
-            const loadSession = await session.loadSession();
-            expect(loadSession === false);
-        });
-
-        it("should detect if the stored api key is different from the current key and invalidate storage", async () => {
-            const session = new Session(
                 new CustomDb("SessionLoadSession4"),
                 Logger
             );
@@ -380,7 +303,7 @@ describe("Session", () => {
             expect(setupResult);
 
             // set expiry to current time
-            session.sessionId  = 12345678901234;
+            session.sessionId = 12345678901234;
             session.sessionExpiryTime = new Date();
 
             const result = session.verifySessionInstallation();
@@ -402,7 +325,7 @@ describe("Session", () => {
             expect(setupResult);
 
             // set expiry to a time far in the past
-            session.sessionId  = 12345678901234;
+            session.sessionId = 12345678901234;
             session.sessionExpiryTime = new Date(1018559124411);
 
             const result = session.verifySessionInstallation();

@@ -30,6 +30,7 @@
     "babel-preset-es2017": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "clean-webpack-plugin": "^0.1.17",
+    "coveralls": "^3.0.0",
     "cross-env": "^4.0.0",
     "es6-promise-promise": "^1.0.0",
     "jest": "^21.2.1",

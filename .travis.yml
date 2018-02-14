@@ -13,3 +13,4 @@ cache:
 
 script:
   - yarn run test
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
