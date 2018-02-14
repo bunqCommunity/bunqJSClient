@@ -1,4 +1,4 @@
-# BunqJSClient ![build status for master branch](https://api.travis-ci.org/BunqCommunity/BunqJSClient.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/BunqCommunity/BunqJSClient/badge.svg?branch=master)](https://coveralls.io/github/BunqCommunity/BunqJSClient?branch=master)
+# BunqJSClient ![build status for master branch](https://api.travis-ci.org/BunqCommunity/BunqJSClient.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/BunqCommunity/BunqJSClient/badge.svg?branch=)](https://coveralls.io/github/BunqCommunity/BunqJSClient?branch=)
 A web based project that is aimed at allowing single page applications to do all interactions with Bunq without proxying through other services. 
 All data is stored client-side and requests are created and signed using [forge](https://github.com/digitalbazaar/forge).
 
