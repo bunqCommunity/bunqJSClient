@@ -27,11 +27,12 @@ export default class RequestLimitFactory {
             case "DELETE":
                 rateLimit = 5;
                 break;
-            default:
             case "GET":
             case "LIST":
                 rateLimit = 3;
                 break;
+            default:
+                throw new Error("Invalid method given");
         }
 
         this.limiters[limiterKey] = {

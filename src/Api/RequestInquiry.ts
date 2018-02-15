@@ -134,11 +134,11 @@ export default class RequestInquiry implements ApiEndpointInterface {
         }
         if (defaultOptions.minimum_age !== false) {
             if (
-                defaultOptions.minimum_age < 12 &&
+                defaultOptions.minimum_age < 12 ||
                 defaultOptions.minimum_age > 100
             ) {
                 throw new Error(
-                    "Invalid minimum_age. Value has to be 12 <= minimum_age <= 100"
+                    "Invalid minimum_age. Value has to be 12 >= minimum_age <= 100"
                 );
             }
             requestOptions.minimum_age = defaultOptions.minimum_age;
