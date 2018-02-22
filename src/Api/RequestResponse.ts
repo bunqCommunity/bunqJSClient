@@ -119,8 +119,13 @@ export default class RequestResponse implements ApiEndpointInterface {
         // if request is accepted we set the shipping and amount details
         if (status === "ACCEPTED") {
             requestOptions.amount_responded = defaultOptions.amount_responded;
-            requestOptions.address_shipping = defaultOptions.address_shipping;
-            requestOptions.address_billing = defaultOptions.address_billing;
+            if (defaultOptions.address_shipping) {
+                requestOptions.address_shipping =
+                    defaultOptions.address_shipping;
+            }
+            if (defaultOptions.address_billing) {
+                requestOptions.address_billing = defaultOptions.address_billing;
+            }
         }
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
