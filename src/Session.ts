@@ -44,7 +44,7 @@ export default class Session {
     public deviceId: number = null;
 
     // session info
-    public sessionToken: string | number = null;
+    public sessionToken: string = null;
     public sessionTokenId: string | number = null;
     public sessionId: number = null;
     public sessionExpiryTime?: Date = null;
@@ -215,10 +215,24 @@ export default class Session {
         this.deviceId = session.deviceId;
         this.userInfo = session.userInfo;
 
+        this.logger.error(`sessionId: ${session.sessionId}`);
         this.logger.error(`installCreated: ${session.installCreated}`);
         this.logger.error(`installUpdated: ${session.installUpdated}`);
         this.logger.error(`sessionExpiryTime: ${session.sessionExpiryTime}`);
         this.logger.error(`deviceId: ${session.deviceId}`);
+
+        try {
+            this.logger.error(
+                `sessionToken: ${session.sessionToken === null
+                    ? null
+                    : session.sessionToken.substring(0, 5)}`
+            );
+            this.logger.error(
+                `installToken: ${session.installToken === null
+                    ? null
+                    : session.installToken.substring(0, 5)}`
+            );
+        } catch (error) {}
 
         return true;
     }
@@ -387,12 +401,15 @@ export default class Session {
         this.logger.error(" === Testing installation === ");
         const installationValid =
             this.serverPublicKey !== null && this.installToken !== null;
+
         this.logger.error("Installation valid: " + installationValid);
         this.logger.error("this.serverPublicKey = " + this.serverPublicKey);
         this.logger.error(
-            "this.installToken = " +
-                (this.installToken === null ? null : this.installToken.length)
+            `this.installToken = ${this.installToken === null
+                ? null
+                : this.installToken.substring(0, 5)}`
         );
+
         return installationValid;
     }
 
@@ -414,14 +431,21 @@ export default class Session {
      */
     public verifySessionInstallation() {
         this.logger.error(" === Testing session installation === ");
+        this.logger.error(`this.sessionId = ${this.sessionId}`);
+        this.logger.error(
+            `this.sessionToken = ${this.sessionToken === null
+                ? null
+                : this.sessionToken.substring(0, 5)}`
+        );
+
         if (this.sessionId === null) {
-            this.logger.error("Session valid: sessionId null");
+            this.logger.error("Session invalid: sessionId null");
             return false;
         }
 
         const currentTime = new Date();
         if (this.sessionExpiryTime.getTime() <= currentTime.getTime()) {
-            this.logger.error("Session valid: expired");
+            this.logger.error("Session invalid: expired");
             this.logger.error(
                 "this.sessionExpiryTime.getTime() = " +
                     this.sessionExpiryTime.getTime()

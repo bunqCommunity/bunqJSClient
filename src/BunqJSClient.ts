@@ -8,6 +8,8 @@ import LoggerInterface from "./Interfaces/LoggerInterface";
 import { publicKeyFromPem } from "./Crypto/Rsa";
 import ApiEndpoints from "./Api/index";
 
+import ErrorCodes from "./Helpers/ErrorCodes";
+
 export default class BunqJSClient {
     public storageInterface: StorageInteface;
     public logger: LoggerInterface;
@@ -17,7 +19,16 @@ export default class BunqJSClient {
     public Session: Session;
     public ApiAdapter: ApiAdapter;
 
+    /**
+     * Contains object with all API endpoints
+     */
     public api: any;
+
+    /**
+     * A list of all custom BunqJSClient error codes to make error handling easier
+     * @type {{INSTALLATION_HAS_SESSION}}
+     */
+    public errorCodes: any = ErrorCodes;
 
     /**
      * @param {StorageInterface} storageInterface
@@ -142,9 +153,25 @@ export default class BunqJSClient {
      */
     public async registerSession() {
         if (this.Session.verifySessionInstallation() === false) {
-            const response = await this.api.sessionServer.add();
+            let response = null;
+            try {
+                response = await this.api.sessionServer.add();
+            } catch (error) {
+                if (error.response && error.response.Error) {
+                    const responseError = error.response.Error[0];
+                    const description = responseError.error_description;
 
-            this.logger.error("response.token.created:" + response.token.created);
+                    this.logger.error("bunq API error: " + description);
+                }
+                throw {
+                    errorCode: this.errorCodes.INSTALLATION_HAS_SESSION,
+                    error: error
+                };
+            }
+
+            this.logger.error(
+                "response.token.created:" + response.token.created
+            );
 
             // based on account setting we set a expire date
             const createdDate = new Date(response.token.created);
