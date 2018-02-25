@@ -154,7 +154,7 @@ export default class BunqJSClient {
                         response.user_info.UserCompany.session_timeout
                 );
                 this.logger.error(
-                    "Received response.user_info.UserCompany.session_timeout from api:" +
+                    "Received response.user_info.UserCompany.session_timeout from api: " +
                         response.user_info.UserCompany.session_timeout
                 );
             } else if (response.user_info.UserPerson !== undefined) {
@@ -163,7 +163,7 @@ export default class BunqJSClient {
                         response.user_info.UserPerson.session_timeout
                 );
                 this.logger.error(
-                    "Received response.user_info.UserPerson.session_timeout from api:" +
+                    "Received response.user_info.UserPerson.session_timeout from api: " +
                         response.user_info.UserPerson.session_timeout
                 );
             } else if (response.user_info.UserLight !== undefined) {
@@ -172,7 +172,7 @@ export default class BunqJSClient {
                         response.user_info.UserLight.session_timeout
                 );
                 this.logger.error(
-                    "Received response.user_info.UserLight.session_timeout from api:" +
+                    "Received response.user_info.UserLight.session_timeout from api: " +
                         response.user_info.UserLight.session_timeout
                 );
             }
@@ -184,7 +184,8 @@ export default class BunqJSClient {
             this.Session.sessionTokenId = response.token.id;
             this.Session.userInfo = response.user_info;
 
-            this.logger.error("calculated createdDate:" + createdDate);
+            this.logger.error("calculated expireDate: " + createdDate);
+            this.logger.error("calculated current date: " + new Date());
 
             // update storage
             await this.Session.storeSession();
