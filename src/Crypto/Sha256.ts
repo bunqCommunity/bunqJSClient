@@ -48,16 +48,14 @@ export const verifyString = async (
     const messageDigest = forgeSha256.create();
     messageDigest.update(data, "utf8");
 
-    // decode the base64 signature
-    const rawSignature = forgeUtil.decode64(signature);
-
     try {
+        // decode the base64 signature
+        const rawSignature = forgeUtil.decode64(signature);
+
         // verify the signature with the public key
-        const verified = publicKey.verify(messageDigest, rawSignature);
-        Logger.debug(verified);
-        return true;
+        return publicKey.verify(messageDigest, rawSignature);
     } catch (ex) {
-        Logger.error(ex);
+        Logger.debug(ex);
         return false;
     }
 };

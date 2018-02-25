@@ -1,2 +1,6 @@
 /node_modules/
 /.idea/
+
+# test files
+coverage
+tests/custom-db

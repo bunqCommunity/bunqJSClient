@@ -1,16 +1,20 @@
 {
   "name": "@bunq-community/bunq-js-client",
-  "version": "0.10.4",
+  "version": "0.12.0",
   "license": "MIT",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --colors",
     "build:dev": "cross-env NODE_ENV=development webpack --debug --watch --progress --colors",
+    "test": "cross-env ENV_CI=true jest --verbose --config jest.config.js",
+    "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --verbose --watch --config jest.config.js",
     "publish-beta": "npm publish --tag=next"
   },
   "main": "./index.js",
   "module": "./src/BunqJSClient.ts",
   "dependencies": {},
   "devDependencies": {
+    "@types/jest": "^21.1.8",
+    "@types/moxios": "^0.4.8",
     "@types/node": "^8.0.34",
     "awaiting": "^2.0.1",
     "axios": "^0.16.2",
@@ -27,11 +31,16 @@
     "babel-preset-es2017": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "clean-webpack-plugin": "^0.1.17",
+    "coveralls": "^3.0.0",
     "cross-env": "^4.0.0",
     "es6-promise-promise": "^1.0.0",
+    "jest": "^21.2.1",
     "loglevel": "^1.4.1",
+    "moxios": "^0.4.0",
     "node-forge": "^0.7.1",
+    "node-json-db": "^0.7.3",
     "store": "^2.0.12",
+    "ts-jest": "^21.2.4",
     "ts-loader": "^2.3.7",
     "typescript": "^2.5.3",
     "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
@@ -40,7 +49,6 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "description": "A web based project that is aimed at allowing single page applications to do all interactions with Bunq without proxying through other services.  All data is stored client-side and requests are created and signed using [forge](https://github.com/digitalbazaar/forge).",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BunqCommunity/BunqJSClient.git"

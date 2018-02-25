@@ -44,7 +44,8 @@ export default class Session {
     public deviceId: number = null;
 
     // session info
-    public sessionToken: string = null;
+    public sessionToken: string | number = null;
+    public sessionTokenId: string | number = null;
     public sessionId: number = null;
     public sessionExpiryTime?: Date = null;
     public userInfo: any = {};
@@ -94,14 +95,20 @@ export default class Session {
             // setup the required rsa keypair
             await this.setupKeypair();
         }
+        return true;
     }
 
     /**
      * Setup the keypair and generate a new one when required
-     * @param forceNewKeypair
-     * @returns {Promise.<boolean>}
+     * @param {boolean} forceNewKeypair
+     * @param {boolean} ignoreCI - if true the hardcoded certs won't be used even if process.env.CI is set
+     * @returns {Promise<boolean>}
      */
-    public async setupKeypair(forceNewKeypair: boolean = false) {
+    public async setupKeypair(
+        forceNewKeypair: boolean = false,
+        bitSize: number = 2048,
+        ignoreCI: boolean = false
+    ) {
         if (
             forceNewKeypair === false &&
             this.publicKey !== null &&
@@ -110,14 +117,29 @@ export default class Session {
             return true;
         }
 
-        // generate a new keypair and format as pem
-        const keyPair = await createKeyPair();
-        const { publicKey, privateKey } = await keyPairToPem(keyPair);
+        // check if we are in a CI environment
+        if (
+            typeof process !== "undefined" &&
+            process.env.ENV_CI === "true" &&
+            ignoreCI === false
+        ) {
+            // use the stored CI variables instead of creating a new on
+            this.publicKeyPem = process.env.CI_PUBLIC_KEY_PEM;
+            this.privateKeyPem = process.env.CI_PRIVATE_KEY_PEM;
 
-        this.publicKey = keyPair.publicKey;
-        this.privateKey = keyPair.privateKey;
-        this.publicKeyPem = publicKey;
-        this.privateKeyPem = privateKey;
+            this.publicKey = await publicKeyFromPem(this.publicKeyPem);
+            this.privateKey = await privateKeyFromPem(this.privateKeyPem);
+        } else {
+            // generate a new keypair and format as pem
+            const keyPair = await createKeyPair(bitSize);
+            const { publicKey, privateKey } = await keyPairToPem(keyPair);
+
+            this.publicKey = keyPair.publicKey;
+            this.privateKey = keyPair.privateKey;
+            this.publicKeyPem = publicKey;
+            this.privateKeyPem = privateKey;
+        }
+
         return true;
     }
 
@@ -143,8 +165,8 @@ export default class Session {
             // decrypt the stored sesion
             session = await this.decryptSession(encryptedSession);
         } catch (error) {
-            this.logger.error("Failed to decrypt session");
-            this.logger.error(error);
+            this.logger.debug("Failed to decrypt session");
+            this.logger.debug(error);
             // failed to decrypt the session, return false
             return false;
         }
@@ -246,6 +268,7 @@ export default class Session {
         this.userInfo = {};
         this.sessionId = null;
         this.sessionToken = null;
+        this.sessionTokenId = null;
         this.sessionExpiryTime = null;
 
         return await this.asyncStorageRemove(this.storageKeyLocation);
@@ -258,6 +281,12 @@ export default class Session {
      */
     private decryptSession = async encryptedSession => {
         const IV = await this.asyncStorageGet(this.storageIvLocation);
+
+        if (this.encryptionKey === false) {
+            throw new Error(
+                "No encryption key is set, failed to decrypt session"
+            );
+        }
 
         // attempt to decrypt the string
         const decryptedSession = await decryptString(

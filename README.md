@@ -1,4 +1,4 @@
-# BunqJSClient
+# BunqJSClient ![build status for master branch](https://api.travis-ci.org/BunqCommunity/BunqJSClient.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/BunqCommunity/BunqJSClient/badge.svg?branch=)](https://coveralls.io/github/BunqCommunity/BunqJSClient?branch=)
 A web based project that is aimed at allowing single page applications to do all interactions with Bunq without proxying through other services. 
 All data is stored client-side and requests are created and signed using [forge](https://github.com/digitalbazaar/forge).
 
@@ -62,48 +62,4 @@ const userCompany = await BunqClient.getUser("UserCompany", forceUpdate);
 ```
 
 ## Supported APIs
-For more details I suggest you look into the endpoints found at `src/Api/*`
-
-#### Attachments
-- [GET /attachment-public/{imageUUID}/content](https://doc.bunq.com/api/1/call/attachment-public-content/method/list)
-
-#### Bunq.me tabs
-- [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/bunqme-tabs/{tabId}](https://doc.bunq.com/api/1/call/bunq-me-tab/method/get)
-- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/bunqme-tabs](https://doc.bunq.com/api/1/call/bunq-me-tab/method/list)
-- [POST /v1/user/{userId}/monetary-account/{monetaryAccountId}/bunqme-tabs](https://doc.bunq.com/api/1/call/bunq-me-tab/method/post)
-
-#### Device-server
-- [POST /v1/device-server](https://doc.bunq.com/api/1/call/installation/method/post)
-
-#### Installation
-- [POST /v1/installation](https://doc.bunq.com/api/1/call/installation/method/post)
-
-#### Master Card Action
-- [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/mastercard-action/{masterCardActionId}](https://doc.bunq.com/api/1/call/master-card-action/method/get)
-- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/mastercard-action](https://doc.bunq.com/api/1/call/master-card-action/method/list)
-
-#### MonetaryAccounts
-- [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}](https://doc.bunq.com/api/1/call/monetary-account/method/get)
-- [LIST /v1/user/{userId}/monetary-account](https://doc.bunq.com/api/1/call/monetary-account/method/list)
-
-#### Payment
-- [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment/{paymentId}](https://doc.bunq.com/api/1/call/payment/method/get)
-- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/request-inquiry/method/list)
-- [POST /v1/user/{userId}/monetary-account/{monetaryAccountId}/payment](https://doc.bunq.com/api/1/call/request-inquiry/method/post)
-
-#### Request inquiry
-- [POST /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry](https://doc.bunq.com/api/1/call/request-inquiry/method/post)
-- [PUT /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry/{requestInquiryId}](https://doc.bunq.com/api/1/call/request-inquiry/method/put)
-- [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry/{requestInquiryId}](https://doc.bunq.com/api/1/call/request-inquiry/method/get)
-- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-inquiry](https://doc.bunq.com/api/1/call/request-inquiry/method/list)
-
-#### Request response
-- [PUT /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-response/{requestResponseId}](https://doc.bunq.com/api/1/call/request-response/method/put)
-- [GET /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-response/{requestResponseId}](https://doc.bunq.com/api/1/call/request-response/method/get)
-- [LIST /v1/user/{userId}/monetary-account/{monetaryAccountId}/request-response](https://doc.bunq.com/api/1/call/request-response/method/list)
-
-#### Session
-- [DELETE /v1/session/{sessionId}](https://doc.bunq.com/api/1/call/session/method/delete)
-
-#### Session-server
-- [POST /v1/session-server](https://doc.bunq.com/api/1/call/session-server/method/post)
+For more details look into the endpoints found at `src/Api/*`

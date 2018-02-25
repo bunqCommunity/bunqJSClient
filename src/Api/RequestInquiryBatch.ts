@@ -5,8 +5,9 @@ import Amount from "../Types/Amount";
 import CounterpartyAlias from "../Types/CounterpartyAlias";
 import PaginationOptions from "../Types/PaginationOptions";
 import RequestInquiryPostOptions from "../Types/RequestInquiryPostOptions";
+import CounterPartyAliasCollection from "../Types/CounterPartyAliasCollection";
 
-export default class RequestInquiry implements ApiEndpointInterface {
+export default class RequestInquiryBatch implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;
 
@@ -30,13 +31,13 @@ export default class RequestInquiry implements ApiEndpointInterface {
         requestInquiryId: number
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-inquiry",
+            "/request-inquiry-batch",
             "GET"
         );
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry/${requestInquiryId}`
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry-batch/${requestInquiryId}`
             )
         );
 
@@ -71,13 +72,13 @@ export default class RequestInquiry implements ApiEndpointInterface {
         }
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-inquiry",
+            "/request-inquiry-batch",
             "LIST"
         );
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry`,
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry-batch`,
                 {},
                 {
                     axiosOptions: {
@@ -102,60 +103,62 @@ export default class RequestInquiry implements ApiEndpointInterface {
     public async post(
         userId: number,
         monetaryAccountId: number,
-        description: string,
-        amount_inquired: Amount,
-        counterpartyAlias: CounterpartyAlias,
+        requestInquiries: any,
+        status: string | boolean = false,
         options: RequestInquiryPostOptions
     ) {
-        const defaultOptions = {
-            status: false,
-            minimum_age: false,
-            allow_bunqme: false,
-            redirect_url: false,
-            require_address: "NONE",
-            merchant_reference: false,
-            ...options
+        // this object will contain the actual request content
+        const requestData: any = {
+            total_amount_inquired: 0
         };
-
-        const requestOptions: any = {
-            counterparty_alias: counterpartyAlias,
-            description: description,
-            amount_inquired: amount_inquired,
-            allow_bunqme: defaultOptions.allow_bunqme,
-            require_address: defaultOptions.require_address
-        };
-
-        if (defaultOptions.status !== false) {
-            requestOptions.status = defaultOptions.status;
+        let totalAmountInquired = 0;
+        if (status !== false) {
+            requestData.status = status;
         }
-        if (defaultOptions.merchant_reference !== false) {
-            requestOptions.merchant_reference =
-                defaultOptions.merchant_reference;
-        }
-        if (defaultOptions.minimum_age !== false) {
+
+        // go through the counterparties and generate a list of request inquiries
+        const requestInquiryList = [];
+        requestInquiries.map(requestInquiry => {
+            // validate the minimum age
             if (
-                defaultOptions.minimum_age < 12 ||
-                defaultOptions.minimum_age > 100
+                requestInquiry.minimum_age &&
+                requestInquiry.minimum_age !== false
             ) {
-                throw new Error(
-                    "Invalid minimum_age. Value has to be 12 >= minimum_age <= 100"
-                );
+                if (
+                    requestInquiry.minimum_age < 12 ||
+                    requestInquiry.minimum_age > 100
+                ) {
+                    throw new Error(
+                        "Invalid minimum_age. Value has to be 12 >= minimum_age <= 100"
+                    );
+                }
             }
-            requestOptions.minimum_age = defaultOptions.minimum_age;
-        }
-        if (defaultOptions.redirect_url !== false) {
-            requestOptions.redirect_url = defaultOptions.redirect_url;
-        }
+
+            // update the total amount
+            totalAmountInquired += parseFloat(
+                requestInquiry.amount_inquired.value
+            );
+
+            // inquiry is valid, add to the list
+            requestInquiryList.push(requestInquiry);
+        });
+
+        // add the list of request inquiries to this batch and set the total amount
+        requestData.request_inquiries = requestInquiries;
+        requestData.total_amount_inquired = {
+            value: totalAmountInquired + "",
+            currency: "EUR"
+        };
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-inquiry",
+            "/request-inquiry-batch",
             "POST"
         );
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.post(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry`,
-                requestOptions
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry-batch`,
+                requestData
             )
         );
 
@@ -176,13 +179,13 @@ export default class RequestInquiry implements ApiEndpointInterface {
         status: string = "REVOKED"
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-inquiry",
+            "/request-inquiry-batch",
             "PUT"
         );
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.put(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry/${requestInquiryId}`,
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry-batch/${requestInquiryId}`,
                 {
                     status: status
                 }

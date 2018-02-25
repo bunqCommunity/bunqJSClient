@@ -295,12 +295,15 @@ export default class ApiAdapter {
         // generate the full template
         const template: string = `${response.status}\n${headers}\n\n${data}`;
 
+        // response verification is disabled
+        return true;
+
         // verify the string and return results
-        return await verifyString(
-            template,
-            this.Session.serverPublicKey,
-            response.headers["x-bunq-server-signature"]
-        );
+        // return await verifyString(
+        //     template,
+        //     this.Session.serverPublicKey,
+        //     response.headers["x-bunq-server-signature"]
+        // );
     }
 
     /**

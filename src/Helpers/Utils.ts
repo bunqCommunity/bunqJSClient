@@ -12,16 +12,23 @@ export const ucfirst = (string: string): string => {
 
 /**
  * Requests permision for location and
- * @returns {Promise.<*>}
+ * @param {boolean|any} geoLocationHandler
+ * @returns {Promise<{latitude: string; longitude: string}>}
  */
-export const getGeoLocation = async () => {
-    if (navigator.geolocation) {
+export const getGeoLocation = async (geoLocationHandler: any = false) => {
+    if (
+        geoLocationHandler !== false ||
+        (navigator !== undefined && navigator.geolocation !== undefined)
+    ) {
+        const handler =
+            geoLocationHandler === false
+                ? navigator.geolocation
+                : geoLocationHandler;
+
         const location: Coordinate = await new Promise<Coordinate>(resolve => {
-            navigator.geolocation.getCurrentPosition(
-                (location: LocationCoords) => {
-                    resolve(location.coords);
-                }
-            );
+            handler.getCurrentPosition((location: LocationCoords) => {
+                resolve(location.coords);
+            });
         });
 
         const latitude: number = location.latitude;
@@ -32,5 +39,6 @@ export const getGeoLocation = async () => {
             longitude: ("" + longitude).substring(0, 5)
         };
     }
-    throw new Error("Failed to get location");
+
+    throw new Error("Failed to get location, no valid geolocation available");
 };

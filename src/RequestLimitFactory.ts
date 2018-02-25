@@ -22,13 +22,17 @@ export default class RequestLimitFactory {
         switch (method) {
             case "PUT":
                 rateLimit = 2;
+                break;
             case "POST":
             case "DELETE":
                 rateLimit = 5;
-            default:
+                break;
             case "GET":
             case "LIST":
                 rateLimit = 3;
+                break;
+            default:
+                throw new Error("Invalid method given");
         }
 
         this.limiters[limiterKey] = {
