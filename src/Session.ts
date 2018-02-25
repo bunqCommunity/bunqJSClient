@@ -221,6 +221,18 @@ export default class Session {
         this.logger.error(`sessionExpiryTime: ${session.sessionExpiryTime}`);
         this.logger.error(`deviceId: ${session.deviceId}`);
 
+        // if we have a stored installation but no session we reset to prevent
+        // creating two sessions for a single installation
+        if (this.verifyInstallation() && !this.verifySessionInstallation()) {
+            const apiKey = this.apiKey + ""; // copy key while preventing reference issues
+
+            // reset session and set the apiKey again to the original value
+            await this.destroySession();
+            this.apiKey = apiKey;
+
+            return false;
+        }
+
         try {
             this.logger.error(
                 `sessionToken: ${session.sessionToken === null
