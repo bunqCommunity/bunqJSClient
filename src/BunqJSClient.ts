@@ -8,6 +8,8 @@ import LoggerInterface from "./Interfaces/LoggerInterface";
 import { publicKeyFromPem } from "./Crypto/Rsa";
 import ApiEndpoints from "./Api/index";
 
+import ErrorCodes from "./Helpers/ErrorCodes";
+
 export default class BunqJSClient {
     public storageInterface: StorageInteface;
     public logger: LoggerInterface;
@@ -17,7 +19,16 @@ export default class BunqJSClient {
     public Session: Session;
     public ApiAdapter: ApiAdapter;
 
+    /**
+     * Contains object with all API endpoints
+     */
     public api: any;
+
+    /**
+     * A list of all custom BunqJSClient error codes to make error handling easier
+     * @type {{INSTALLATION_HAS_SESSION}}
+     */
+    public errorCodes: any = ErrorCodes;
 
     /**
      * @param {StorageInterface} storageInterface
@@ -50,6 +61,8 @@ export default class BunqJSClient {
         environment: string = "SANDBOX",
         encryptionKey: string | boolean = false
     ) {
+        this.logger.error("BunqJSClient run");
+
         this.apiKey = apiKey;
         this.allowedIps = allowedIps;
 
@@ -140,7 +153,25 @@ export default class BunqJSClient {
      */
     public async registerSession() {
         if (this.Session.verifySessionInstallation() === false) {
-            const response = await this.api.sessionServer.add();
+            let response = null;
+            try {
+                response = await this.api.sessionServer.add();
+            } catch (error) {
+                if (error.response && error.response.Error) {
+                    const responseError = error.response.Error[0];
+                    const description = responseError.error_description;
+
+                    this.logger.error("bunq API error: " + description);
+                }
+                throw {
+                    errorCode: this.errorCodes.INSTALLATION_HAS_SESSION,
+                    error: error
+                };
+            }
+
+            this.logger.error(
+                "response.token.created:" + response.token.created
+            );
 
             // based on account setting we set a expire date
             const createdDate = new Date(response.token.created);
@@ -149,14 +180,26 @@ export default class BunqJSClient {
                     createdDate.getSeconds() +
                         response.user_info.UserCompany.session_timeout
                 );
+                this.logger.error(
+                    "Received response.user_info.UserCompany.session_timeout from api: " +
+                        response.user_info.UserCompany.session_timeout
+                );
             } else if (response.user_info.UserPerson !== undefined) {
                 createdDate.setSeconds(
                     createdDate.getSeconds() +
                         response.user_info.UserPerson.session_timeout
                 );
+                this.logger.error(
+                    "Received response.user_info.UserPerson.session_timeout from api: " +
+                        response.user_info.UserPerson.session_timeout
+                );
             } else if (response.user_info.UserLight !== undefined) {
                 createdDate.setSeconds(
                     createdDate.getSeconds() +
+                        response.user_info.UserLight.session_timeout
+                );
+                this.logger.error(
+                    "Received response.user_info.UserLight.session_timeout from api: " +
                         response.user_info.UserLight.session_timeout
                 );
             }
@@ -167,6 +210,9 @@ export default class BunqJSClient {
             this.Session.sessionToken = response.token.token;
             this.Session.sessionTokenId = response.token.id;
             this.Session.userInfo = response.user_info;
+
+            this.logger.error("calculated expireDate: " + createdDate);
+            this.logger.error("calculated current date: " + new Date());
 
             // update storage
             await this.Session.storeSession();

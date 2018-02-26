@@ -6,7 +6,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress --colors",
     "build:dev": "cross-env NODE_ENV=development webpack --debug --watch --progress --colors",
     "test": "cross-env ENV_CI=true jest --verbose --config jest.config.js",
-    "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --verbose --watch --config jest.config.js"
+    "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --verbose --watch --config jest.config.js",
+    "publish-beta": "npm publish --tag=next"
   },
   "main": "./index.js",
   "module": "./src/BunqJSClient.ts",
