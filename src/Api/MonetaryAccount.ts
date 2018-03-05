@@ -37,7 +37,7 @@ export default class MonetaryAccount implements ApiEndpointInterface {
         );
 
         // return raw respone image
-        return response.Response;
+        return response.Response[0];
     }
 
     /**

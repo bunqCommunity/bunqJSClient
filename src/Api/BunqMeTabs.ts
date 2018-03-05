@@ -2,7 +2,6 @@ import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import Amount from "../Types/Amount";
-import CounterpartyAlias from "../Types/CounterpartyAlias";
 import PaginationOptions from "../Types/PaginationOptions";
 
 export default class BunqMeTabs implements ApiEndpointInterface {
@@ -41,8 +40,7 @@ export default class BunqMeTabs implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
-        return response.Response[0].Payment;
+        return response.Response[0];
     }
 
     /**

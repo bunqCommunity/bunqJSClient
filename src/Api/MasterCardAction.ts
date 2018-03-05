@@ -18,6 +18,31 @@ export default class MasterCardAction implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
+     * @param {number} requestResponseId
+     * @returns {Promise<any>}
+     */
+    public async get(
+        userId: number,
+        monetaryAccountId: number,
+        masterCardActionId: number
+    ) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/mastercard-action",
+            "GET"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/mastercard-action/${masterCardActionId}`
+            )
+        );
+
+        return response.Response[0];
+    }
+
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
      * @param {PaymentsListOptions} options
      * @returns {Promise<any>}
      */
@@ -56,32 +81,6 @@ export default class MasterCardAction implements ApiEndpointInterface {
                         params: params
                     }
                 }
-            )
-        );
-
-        // return raw respone image
-        return response.Response;
-    }
-
-    /**
-     * @param {number} userId
-     * @param {number} monetaryAccountId
-     * @param {number} requestResponseId
-     * @returns {Promise<any>}
-     */
-    public async get(
-        userId: number,
-        monetaryAccountId: number,
-        masterCardActionId: number
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/mastercard-action",
-            "GET"
-        );
-
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/mastercard-action/${masterCardActionId}`
             )
         );
 

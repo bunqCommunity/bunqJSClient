@@ -41,7 +41,7 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
             )
         );
 
-        return response.Response;
+        return response.Response[0];
     }
 
     /**

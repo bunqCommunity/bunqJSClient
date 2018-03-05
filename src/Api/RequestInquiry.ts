@@ -40,7 +40,7 @@ export default class RequestInquiry implements ApiEndpointInterface {
             )
         );
 
-        return response.Response;
+        return response.Response[0];
     }
 
     /**

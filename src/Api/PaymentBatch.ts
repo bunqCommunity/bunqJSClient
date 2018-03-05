@@ -41,7 +41,7 @@ export default class PaymentBatch implements ApiEndpointInterface {
         );
 
         // return raw respone image
-        return response.Response[0].payments;
+        return response.Response[0];
     }
 
     /**

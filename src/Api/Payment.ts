@@ -39,7 +39,7 @@ export default class Payment implements ApiEndpointInterface {
         );
 
         // return raw respone image
-        return response.Response[0].Payment;
+        return response.Response[0];
     }
 
     /**
