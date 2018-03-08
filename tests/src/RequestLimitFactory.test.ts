@@ -78,10 +78,7 @@ describe("RequestLimitFactory", () => {
             );
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
 
-            const limiterWrapper = factory.getLimiter(
-                "/endpoint",
-                "PUT"
-            );
+            const limiterWrapper = factory.getLimiter("/endpoint", "PUT");
             expect(limiterWrapper.limiter).toBeInstanceOf(RequestLimiter);
 
             // both limiters should be the same instance
@@ -96,13 +93,79 @@ describe("RequestLimitFactory", () => {
             );
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
 
-            const limiterWrapper = factory.getLimiter(
-                "/endpoint"
-            );
+            const limiterWrapper = factory.getLimiter("/endpoint");
             expect(limiterWrapper.limiter).toBeInstanceOf(RequestLimiter);
 
             // both limiters should be the same instance
             expect(requestLimiter).toBe(limiterWrapper.limiter);
+        });
+    });
+
+    describe("#removeLimiter()", () => {
+        it("should remove a stored limiter with custom options", async () => {
+            const factory = new RequestLimitFactory();
+            const requestLimiter: RequestLimiter = factory.create(
+                "/endpoint",
+                "PUT"
+            );
+            expect(requestLimiter).toBeInstanceOf(RequestLimiter);
+
+            const removed = factory.removeLimiter("/endpoint", "PUT");
+            expect(removed).toBeTruthy();
+        });
+
+        it("should remove a stored limiter with default options", async () => {
+            const factory = new RequestLimitFactory();
+            const requestLimiter: RequestLimiter = factory.create("/endpoint");
+            expect(requestLimiter).toBeInstanceOf(RequestLimiter);
+
+            const removed = factory.removeLimiter("/endpoint");
+            expect(removed).toBeTruthy();
+        });
+
+        it("should return false if limiter doesn't exist", async () => {
+            const factory = new RequestLimitFactory();
+            const requestLimiter: RequestLimiter = factory.create("/endpoint");
+            expect(requestLimiter).toBeInstanceOf(RequestLimiter);
+
+            const removed = factory.removeLimiter("/endpoint-invalid");
+            expect(removed).toBeFalsy();
+        });
+    });
+
+    describe("#getAllLimiters()", () => {
+        it("should return 2 stored limiters", async () => {
+            const factory = new RequestLimitFactory();
+            const requestLimiter: RequestLimiter = factory.create(
+                "/endpoint",
+                "PUT"
+            );
+            const requestLimiter2: RequestLimiter = factory.create(
+                "/endpoint",
+                "GET"
+            );
+            expect(requestLimiter).toBeInstanceOf(RequestLimiter);
+            expect(requestLimiter2).toBeInstanceOf(RequestLimiter);
+
+            const limiters = factory.getAllLimiters();
+            expect(Object.keys(limiters).length).toBe(2);
+        });
+    });
+
+    describe("#clearLimiters()", () => {
+        it("should remove all stored limiters", async () => {
+            const factory = new RequestLimitFactory();
+            const requestLimiter: RequestLimiter = factory.create(
+                "/endpoint",
+                "PUT"
+            );
+            expect(requestLimiter).toBeInstanceOf(RequestLimiter);
+
+            factory.clearLimiters();
+
+            const limiters = factory.getAllLimiters();
+
+            expect(Object.keys(limiters).length).toBe(0);
         });
     });
 });
