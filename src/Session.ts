@@ -148,7 +148,7 @@ export default class Session {
      * @returns {Promise.<boolean>}
      */
     public async loadSession() {
-        this.logger.error(" === Loading session data === ");
+        this.logger.debug(" === Loading session data === ");
         // try to load the session interface
         const encryptedSession = await this.asyncStorageGet(
             this.storageKeyLocation
@@ -156,7 +156,7 @@ export default class Session {
 
         // no session found stored
         if (encryptedSession === undefined || encryptedSession === null) {
-            this.logger.error("No stored session found");
+            this.logger.debug("No stored session found");
             return false;
         }
 
@@ -177,7 +177,7 @@ export default class Session {
             this.apiKey !== null &&
             session.apiKey !== this.apiKey
         ) {
-            this.logger.error(
+            this.logger.debug(
                 "Api key changed or is different (api key could be empty)"
             );
             return false;
@@ -185,7 +185,7 @@ export default class Session {
 
         // different environment stored, destroy old session
         if (session.environment !== this.environment) {
-            this.logger.error("Environment changed, delete existing session");
+            this.logger.debug("Environment changed, delete existing session");
             await this.destroySession();
             return false;
         }
@@ -215,11 +215,11 @@ export default class Session {
         this.deviceId = session.deviceId;
         this.userInfo = session.userInfo;
 
-        this.logger.error(`sessionId: ${session.sessionId}`);
-        this.logger.error(`installCreated: ${session.installCreated}`);
-        this.logger.error(`installUpdated: ${session.installUpdated}`);
-        this.logger.error(`sessionExpiryTime: ${session.sessionExpiryTime}`);
-        this.logger.error(`deviceId: ${session.deviceId}`);
+        this.logger.debug(`sessionId: ${session.sessionId}`);
+        this.logger.debug(`installCreated: ${session.installCreated}`);
+        this.logger.debug(`installUpdated: ${session.installUpdated}`);
+        this.logger.debug(`sessionExpiryTime: ${session.sessionExpiryTime}`);
+        this.logger.debug(`deviceId: ${session.deviceId}`);
 
         // if we have a stored installation but no session we reset to prevent
         // creating two sessions for a single installation
@@ -234,12 +234,12 @@ export default class Session {
         }
 
         try {
-            this.logger.error(
+            this.logger.debug(
                 `sessionToken: ${session.sessionToken === null
                     ? null
                     : session.sessionToken.substring(0, 5)}`
             );
-            this.logger.error(
+            this.logger.debug(
                 `installToken: ${session.installToken === null
                     ? null
                     : session.installToken.substring(0, 5)}`
@@ -487,13 +487,13 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     public verifyInstallation(): boolean {
-        this.logger.error(" === Testing installation === ");
+        this.logger.debug(" === Testing installation === ");
         const installationValid =
             this.serverPublicKey !== null && this.installToken !== null;
 
-        this.logger.error("Installation valid: " + installationValid);
-        this.logger.error("this.serverPublicKey = " + this.serverPublicKey);
-        this.logger.error(
+        this.logger.debug("Installation valid: " + installationValid);
+        this.logger.debug("this.serverPublicKey = " + this.serverPublicKey);
+        this.logger.debug(
             `this.installToken = ${this.installToken === null
                 ? null
                 : this.installToken.substring(0, 5)}`
@@ -507,10 +507,10 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     public verifyDeviceInstallation() {
-        this.logger.error(" === Testing device installation === ");
+        this.logger.debug(" === Testing device installation === ");
         const deviceValid = this.deviceId !== null;
-        this.logger.error("Device valid: " + deviceValid);
-        this.logger.error("this.deviceId: " + this.deviceId);
+        this.logger.debug("Device valid: " + deviceValid);
+        this.logger.debug("this.deviceId: " + this.deviceId);
         return deviceValid;
     }
 
@@ -519,33 +519,33 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     public verifySessionInstallation() {
-        this.logger.error(" === Testing session installation === ");
-        this.logger.error(`this.sessionId = ${this.sessionId}`);
-        this.logger.error(
+        this.logger.debug(" === Testing session installation === ");
+        this.logger.debug(`this.sessionId = ${this.sessionId}`);
+        this.logger.debug(
             `this.sessionToken = ${this.sessionToken === null
                 ? null
                 : this.sessionToken.substring(0, 5)}`
         );
 
         if (this.sessionId === null) {
-            this.logger.error("Session invalid: sessionId null");
+            this.logger.debug("Session invalid: sessionId null");
             return false;
         }
 
         const currentTime = new Date();
         if (this.sessionExpiryTime.getTime() <= currentTime.getTime()) {
-            this.logger.error("Session invalid: expired");
-            this.logger.error(
+            this.logger.debug("Session invalid: expired");
+            this.logger.debug(
                 "this.sessionExpiryTime.getTime() = " +
                     this.sessionExpiryTime.getTime()
             );
-            this.logger.error(
+            this.logger.debug(
                 "currentTime.getTime() = " + currentTime.getTime()
             );
             return false;
         }
 
-        this.logger.error("Session valid: true");
+        this.logger.debug("Session valid: true");
         return true;
     }
 

@@ -61,7 +61,7 @@ export default class BunqJSClient {
         environment: string = "SANDBOX",
         encryptionKey: string | boolean = false
     ) {
-        this.logger.error("BunqJSClient run");
+        this.logger.debug("BunqJSClient run");
 
         this.apiKey = apiKey;
         this.allowedIps = allowedIps;
@@ -169,7 +169,7 @@ export default class BunqJSClient {
                 };
             }
 
-            this.logger.error(
+            this.logger.debug(
                 "response.token.created:" + response.token.created
             );
 
@@ -180,7 +180,7 @@ export default class BunqJSClient {
                     createdDate.getSeconds() +
                         response.user_info.UserCompany.session_timeout
                 );
-                this.logger.error(
+                this.logger.debug(
                     "Received response.user_info.UserCompany.session_timeout from api: " +
                         response.user_info.UserCompany.session_timeout
                 );
@@ -189,7 +189,7 @@ export default class BunqJSClient {
                     createdDate.getSeconds() +
                         response.user_info.UserPerson.session_timeout
                 );
-                this.logger.error(
+                this.logger.debug(
                     "Received response.user_info.UserPerson.session_timeout from api: " +
                         response.user_info.UserPerson.session_timeout
                 );
@@ -198,7 +198,7 @@ export default class BunqJSClient {
                     createdDate.getSeconds() +
                         response.user_info.UserLight.session_timeout
                 );
-                this.logger.error(
+                this.logger.debug(
                     "Received response.user_info.UserLight.session_timeout from api: " +
                         response.user_info.UserLight.session_timeout
                 );
@@ -211,8 +211,8 @@ export default class BunqJSClient {
             this.Session.sessionTokenId = response.token.id;
             this.Session.userInfo = response.user_info;
 
-            this.logger.error("calculated expireDate: " + createdDate);
-            this.logger.error("calculated current date: " + new Date());
+            this.logger.debug("calculated expireDate: " + createdDate);
+            this.logger.debug("calculated current date: " + new Date());
 
             // update storage
             await this.Session.storeSession();
