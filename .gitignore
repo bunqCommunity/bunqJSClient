@@ -4,3 +4,5 @@
 # test files
 coverage
 tests/custom-db
+
+yarn-error.log

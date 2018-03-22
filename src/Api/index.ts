@@ -15,12 +15,14 @@ import RequestInquiryBatch from "./RequestInquiryBatch";
 import RequestResponse from "./RequestResponse";
 import SessionServer from "./SessionServer";
 import User from "./User";
+import CardCvc2 from "./CardCvc2";
 
 export default (ApiAdapter: ApiAdapter) => {
     return {
         attachmentContent: new AttachementContent(ApiAdapter),
         bunqMeTabs: new BunqMeTabs(ApiAdapter),
         card: new Card(ApiAdapter),
+        cardCvc2: new CardCvc2(ApiAdapter),
         deviceRegistration: new DeviceRegistration(ApiAdapter),
         draftPayment: new DraftPayment(ApiAdapter),
         installation: new Installation(ApiAdapter),

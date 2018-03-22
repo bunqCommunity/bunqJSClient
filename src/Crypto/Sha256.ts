@@ -16,6 +16,23 @@ export const stringToHash = async (string: string) => {
 };
 
 /**
+ * Encrypts a string using a publicKey
+ * @param {string} data
+ * @param publicKey
+ * @returns {Promise<string>}
+ */
+export const encryptString = async (data: string, publicKey: any) => {
+    // create a new message digest for our string
+    const messageDigest = forgeSha256.create();
+    messageDigest.update(data, "utf8");
+
+    // sign it with a private key
+    const signatureBytes = publicKey.encrypt(messageDigest);
+    // encode to base 64 and return it
+    return forgeUtil.encode64(signatureBytes);
+};
+
+/**
  * Signs a string using a privateKey
  * @param {string} data
  * @param privateKey

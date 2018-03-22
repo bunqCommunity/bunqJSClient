@@ -85,7 +85,6 @@ export default class RequestResponse implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
         return response.Response;
     }
 
