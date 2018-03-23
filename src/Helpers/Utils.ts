@@ -15,30 +15,30 @@ export const ucfirst = (string: string): string => {
  * @param {boolean|any} geoLocationHandler
  * @returns {Promise<{latitude: string; longitude: string}>}
  */
-export const getGeoLocation = async (geoLocationHandler: any = false) => {
-    if (
-        geoLocationHandler !== false ||
-        (navigator !== undefined && navigator.geolocation !== undefined)
-    ) {
-        const handler =
-            geoLocationHandler === false
-                ? navigator.geolocation
-                : geoLocationHandler;
-
-        const location: Coordinate = await new Promise<Coordinate>(resolve => {
-            handler.getCurrentPosition((location: LocationCoords) => {
-                resolve(location.coords);
-            });
-        });
-
-        const latitude: number = location.latitude;
-        const longitude: number = location.longitude;
-
-        return {
-            latitude: ("" + latitude).substring(0, 5),
-            longitude: ("" + longitude).substring(0, 5)
-        };
-    }
-
-    throw new Error("Failed to get location, no valid geolocation available");
-};
+// export const getGeoLocation = async (geoLocationHandler: any = false) => {
+//     if (
+//         geoLocationHandler !== false ||
+//         (navigator !== undefined && navigator.geolocation !== undefined)
+//     ) {
+//         const handler =
+//             geoLocationHandler === false
+//                 ? navigator.geolocation
+//                 : geoLocationHandler;
+//
+//         const location: Coordinate = await new Promise<Coordinate>(resolve => {
+//             handler.getCurrentPosition((location: LocationCoords) => {
+//                 resolve(location.coords);
+//             });
+//         });
+//
+//         const latitude: number = location.latitude;
+//         const longitude: number = location.longitude;
+//
+//         return {
+//             latitude: ("" + latitude).substring(0, 5),
+//             longitude: ("" + longitude).substring(0, 5)
+//         };
+//     }
+//
+//     throw new Error("Failed to get location, no valid geolocation available");
+// };

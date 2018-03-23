@@ -1,4 +1,4 @@
-import { ucfirst, getGeoLocation } from "../../../src/Helpers/Utils";
+import { ucfirst } from "../../../src/Helpers/Utils";
 
 const fakeGeolocation = {
     getCurrentPosition: callback => {
@@ -26,17 +26,17 @@ describe("Util", () => {
         });
     });
 
-    describe("#getGeoLocation()", () => {
-        it("should work with our custom geolocation handler", async () => {
-            const location = await getGeoLocation(fakeGeolocation);
-            expect(location).toHaveProperty("longitude");
-            expect(location).toHaveProperty("latitude");
-        });
-
-        it("should throw an error since navigator.location isn't available", () => {
-            getGeoLocation()
-                .then(() => expect(false))
-                .catch(() => expect(true));
-        });
-    });
+    // describe("#getGeoLocation()", () => {
+    //     it("should work with our custom geolocation handler", async () => {
+    //         const location = await getGeoLocation(fakeGeolocation);
+    //         expect(location).toHaveProperty("longitude");
+    //         expect(location).toHaveProperty("latitude");
+    //     });
+    //
+    //     it("should throw an error since navigator.location isn't available", () => {
+    //         getGeoLocation()
+    //             .then(() => expect(false))
+    //             .catch(() => expect(true));
+    //     });
+    // });
 });
