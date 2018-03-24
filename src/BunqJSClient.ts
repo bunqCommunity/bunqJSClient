@@ -1,4 +1,5 @@
 const store = require("store");
+import axios from "axios";
 
 import ApiAdapter from "./ApiAdapter";
 import Session from "./Session";
@@ -218,6 +219,47 @@ export default class BunqJSClient {
             await this.Session.storeSession();
         }
         return true;
+    }
+
+    public async createCredentials() {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/credential-password-ip-request",
+            "POST"
+        );
+
+        // send a unsigned request to the endpoint to create a new credential password ip
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.post(
+                `https://api.tinker.bunq.com/v1/credential-password-ip-request`,
+                {},
+                {},
+                {
+                    disableSigning: true
+                }
+            )
+        );
+
+        return response.Response[0].UserCredentialPasswordIpRequest;
+    }
+
+    public async checkCredentialStatus(uuid: string) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/credential-password-ip-request",
+            "GET"
+        );
+
+        // send a unsigned request to the endpoint to create a new credential password ip with the uuid
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `https://api.tinker.bunq.com/v1/credential-password-ip-request/${uuid}`,
+                {},
+                {
+                    disableSigning: true
+                }
+            )
+        );
+
+        return response.Response[0].UserCredentialPasswordIpRequest;
     }
 
     /**
