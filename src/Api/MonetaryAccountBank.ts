@@ -45,19 +45,14 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
      * @param {number} userId
      * @returns {Promise<void>}
      */
-    public async list(
-        userId: number
-    ) {
-
+    public async list(userId: number) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
             "/monetary-account-bank",
             "LIST"
         );
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account-bank`
-            )
+            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-bank`)
         );
 
         return response.Response;
@@ -86,19 +81,53 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
         );
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.post(
-                `/v1/user/${userId}/monetary-account-bank`,
+            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account-bank`, {
+                currency: currency,
+                description: description,
+                daily_limit: {
+                    value: dailyLimit,
+                    currency: currency
+                },
+                setting: {
+                    color: color,
+                    default_avatar_status: "AVATAR_DEFAULT"
+                }
+            })
+        );
+
+        return response.Response;
+    }
+
+    /**
+     * @param {number} userId
+     * @param {number} accountId
+     * @param {"CANCELLED"} status
+     * @param {"REDEMPTION_VOLUNTARY"} sub_status
+     * @param {string} reason
+     * @param options
+     * @returns {Promise<any>}
+     */
+    public async putCancel(
+        userId: number,
+        accountId: number,
+        status: "CANCELLED",
+        sub_status: "REDEMPTION_VOLUNTARY",
+        reason: string,
+        options: any = {}
+    ) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/monetary-account-bank",
+            "PUT"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/monetary-account-bank/${accountId}`,
                 {
-                    currency: currency,
-                    description: description,
-                    daily_limit: {
-                        value: dailyLimit,
-                        currency: currency
-                    },
-                    setting: {
-                        color: color,
-                        default_avatar_status: 'AVATAR_DEFAULT'
-                    }
+                    status: status,
+                    sub_status: sub_status,
+                    reason: "OTHER",
+                    reason_description: reason
                 }
             )
         );
