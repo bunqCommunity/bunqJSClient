@@ -221,6 +221,10 @@ export default class BunqJSClient {
         return true;
     }
 
+    /**
+     * Create a new credential password ip
+     * @returns {Promise<any>}
+     */
     public async createCredentials() {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
             "/credential-password-ip-request",
@@ -242,6 +246,11 @@ export default class BunqJSClient {
         return response.Response[0].UserCredentialPasswordIpRequest;
     }
 
+    /**
+     * Check if a credential password ip has been accepted
+     * @param {string} uuid
+     * @returns {Promise<any>}
+     */
     public async checkCredentialStatus(uuid: string) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
             "/credential-password-ip-request",
