@@ -15,6 +15,7 @@ import PaymentBatch from "./PaymentBatch";
 import RequestInquiry from "./RequestInquiry";
 import RequestInquiryBatch from "./RequestInquiryBatch";
 import RequestResponse from "./RequestResponse";
+import SandboxUser from "./SandboxUser";
 import SessionServer from "./SessionServer";
 import User from "./User";
 import CardCvc2 from "./CardCvc2";
@@ -41,6 +42,7 @@ export default (ApiAdapter: ApiAdapter) => {
         requestInquiryBatch: new RequestInquiryBatch(ApiAdapter),
         requestResponse: new RequestResponse(ApiAdapter),
         sessionServer: new SessionServer(ApiAdapter),
+        sandboxUser: new SandboxUser(ApiAdapter),
         user: new User(ApiAdapter)
     };
 };
