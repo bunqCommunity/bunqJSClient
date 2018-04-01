@@ -18,14 +18,14 @@ export default class CustomerStatementExportContent
     /**
      *
      * @param options
-     * @returns {Promise<any>}
+     * @returns {Promise<Blob>}
      */
     public async list(
         userId: number,
         accountId: number,
         customerStatementId: number,
         options: any = {}
-    ) {
+    ): Promise<Blob> {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
             "/customer-statement-export/content",
             "LIST"
@@ -33,7 +33,13 @@ export default class CustomerStatementExportContent
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${accountId}/customer-statement/${customerStatementId}/content`
+                `/v1/user/${userId}/monetary-account/${accountId}/customer-statement/${customerStatementId}/content`,
+                {},
+                {
+                    axiosOptions: {
+                        responseType: "blob"
+                    }
+                }
             )
         );
 
