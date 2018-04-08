@@ -1,9 +1,8 @@
 import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
-import Amount from "../Types/Amount";
-import CounterpartyAlias from "../Types/CounterpartyAlias";
-import PaginationOptions from "../Types/PaginationOptions";
+import Schedule from "../Types/Schedule";
+import PaymentRequestObjectCollection from "../Types/PaymentRequestObjectCollection";
 
 export default class SchedulePaymentBatch implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
@@ -20,109 +19,33 @@ export default class SchedulePaymentBatch implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
-     * @param {number} paymentId
-     * @param options
-     * @returns {Promise<void>}
-     */
-    public async get(
-        userId: number,
-        monetaryAccountId: number,
-        paymentId: number,
-        options: any = {}
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment");
-
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment/${paymentId}`
-            )
-        );
-
-        return response.Response[0];
-    }
-
-    /**
-     * @param {number} userId
-     * @param {number} monetaryAccountId
-     * @param {PaymentsListOptions} options
-     * @returns {Promise<void>}
-     */
-    public async list(
-        userId: number,
-        monetaryAccountId: number,
-        options: PaginationOptions = {
-            count: 50,
-            newer_id: false,
-            older_id: false
-        }
-    ) {
-        const params: any = {};
-
-        if (options.count !== undefined) {
-            params.count = options.count;
-        }
-        if (options.newer_id !== false && options.newer_id !== undefined) {
-            params.newer_id = options.newer_id;
-        }
-        if (options.older_id !== false && options.older_id !== undefined) {
-            params.older_id = options.older_id;
-        }
-
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/payment",
-            "LIST"
-        );
-
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment`,
-                {},
-                {
-                    axiosOptions: {
-                        params: params
-                    }
-                }
-            )
-        );
-
-        // return raw respone image
-        return response.Response;
-    }
-
-    /**
-     * @param {number} userId
-     * @param {number} monetaryAccountId
-     * @param {string} description
-     * @param {Amount} amount
-     * @param {CounterpartyAlias} counterpartyAlias
+     * @param {PaymentRequestObject} paymentRequestObject
+     * @param {Schedule} schedule
      * @param options
      * @returns {Promise<void>}
      */
     public async post(
         userId: number,
         monetaryAccountId: number,
-        description: string,
-        amount: Amount,
-        counterpartyAlias: CounterpartyAlias,
+        paymentRequestObjectCollection: PaymentRequestObjectCollection,
+        schedule: Schedule,
         options: any = {}
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/payment",
+            "/schedule-payment-batch",
             "POST"
         );
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.post(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment`,
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment-batch`,
                 {
-                    counterparty_alias: counterpartyAlias,
-                    description: description,
-                    amount: amount
+                    payments: paymentRequestObjectCollection,
+                    schedule: schedule
                 }
             )
         );
 
-        // return raw respone image
         return response.Response;
     }
 }

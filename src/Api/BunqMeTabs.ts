@@ -87,7 +87,6 @@ export default class BunqMeTabs implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
         return response.Response;
     }
 
@@ -129,7 +128,6 @@ export default class BunqMeTabs implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
         return response.Response;
     }
 
@@ -160,7 +158,6 @@ export default class BunqMeTabs implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
         return response.Response;
     }
 }

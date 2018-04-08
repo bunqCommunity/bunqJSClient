@@ -41,7 +41,6 @@ export default class DraftPayment implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
         return response.Response[0];
     }
 
@@ -89,7 +88,6 @@ export default class DraftPayment implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
         return response.Response;
     }
 
@@ -142,7 +140,6 @@ export default class DraftPayment implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
         return response.Response;
     }
 }

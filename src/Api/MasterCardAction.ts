@@ -84,7 +84,6 @@ export default class MasterCardAction implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
         return response.Response;
     }
 }

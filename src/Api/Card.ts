@@ -36,7 +36,6 @@ export default class Card implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
         return response.Response;
     }
 
@@ -82,7 +81,6 @@ export default class Card implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
         return response.Response;
     }
 }

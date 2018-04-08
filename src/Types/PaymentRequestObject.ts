@@ -1,10 +1,10 @@
 import CounterpartyAlias from "./CounterpartyAlias";
 import Amount from "./Amount";
 
-type PaymentRequestObject = {
+export type PaymentRequestObject = {
     description: string;
     amount: Amount;
-    counterpartyAlias: CounterpartyAlias;
+    counterparty_alias: CounterpartyAlias;
     attachment?: any[];
     merchant_reference?: string;
     allow_bunqto?: boolean;

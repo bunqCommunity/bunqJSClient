@@ -85,7 +85,6 @@ export default class Payment implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
         return response.Response;
     }
 
@@ -122,7 +121,6 @@ export default class Payment implements ApiEndpointInterface {
             )
         );
 
-        // return raw respone image
         return response.Response;
     }
 }
