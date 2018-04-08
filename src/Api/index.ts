@@ -19,6 +19,8 @@ import SandboxUser from "./SandboxUser";
 import SessionServer from "./SessionServer";
 import User from "./User";
 import CardCvc2 from "./CardCvc2";
+import SchedulePayment from "./SchedulePayment";
+import SchedulePaymentBatch from "./SchedulePaymentBatch";
 
 export default (ApiAdapter: ApiAdapter) => {
     return {
@@ -43,6 +45,8 @@ export default (ApiAdapter: ApiAdapter) => {
         requestResponse: new RequestResponse(ApiAdapter),
         sessionServer: new SessionServer(ApiAdapter),
         sandboxUser: new SandboxUser(ApiAdapter),
+        schedulePayment: new SchedulePayment(ApiAdapter),
+        schedulePaymentBatch: new SchedulePaymentBatch(ApiAdapter),
         user: new User(ApiAdapter)
     };
 };

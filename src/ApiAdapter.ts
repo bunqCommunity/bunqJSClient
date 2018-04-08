@@ -1,12 +1,7 @@
 import axios from "axios";
-const forge = require("./Crypto/CustomForge");
 import { AxiosRequestConfig } from "axios";
 import * as Url from "url";
-import {
-    encryptString as encryptStringRsa,
-    signString,
-    verifyString
-} from "./Crypto/Sha256";
+import { signString } from "./Crypto/Sha256";
 import Session from "./Session";
 import Header from "./Types/Header";
 import { ucfirst } from "./Helpers/Utils";
