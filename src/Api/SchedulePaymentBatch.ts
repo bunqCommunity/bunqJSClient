@@ -19,6 +19,33 @@ export default class SchedulePaymentBatch implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
+     * @param {number} paymentId
+     * @param options
+     * @returns {Promise<void>}
+     */
+    public async delete(
+        userId: number,
+        monetaryAccountId: number,
+        paymentId: number,
+        options: any = {}
+    ) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/schedule-payment-batch",
+            "DELETE"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.delete(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment-batch/${paymentId}`
+            )
+        );
+
+        return response.Response;
+    }
+
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
      * @param {PaymentRequestObject} paymentRequestObject
      * @param {Schedule} schedule
      * @param options
