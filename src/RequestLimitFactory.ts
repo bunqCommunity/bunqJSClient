@@ -36,7 +36,7 @@ export default class RequestLimitFactory {
         }
 
         this.limiters[limiterKey] = {
-            limiter: new RequestLimiter(rateLimit, 3750),
+            limiter: new RequestLimiter(rateLimit, 3350),
             method,
             endpoint
         };
