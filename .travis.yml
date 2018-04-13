@@ -13,4 +13,4 @@ cache:
 script:
   - yarn global add codecov
   - yarn run test
-#  - codecov --file=coverage/coverage-final.json
+  - bash <(curl -s https://codecov.io/bash)
