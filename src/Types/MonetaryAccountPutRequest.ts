@@ -10,7 +10,7 @@ export type MonetaryAccountPutRequest = {
     reason?: "OTHER";
     reason_description?: string;
     notification_filters?: NotificationFilter[];
-    setting: {
+    setting?: {
         color?: string;
         default_avatar_status?: "AVATAR_DEFAULT";
         restriction_chat?: "ALLOW_INCOMING" | "BLOCK_INCOMING";

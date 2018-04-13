@@ -39,11 +39,17 @@ export default class AttachementContent implements ApiEndpointInterface {
 
         // return data as base64
         if (options.base64 === true) {
-            return new Promise(resolve => {
-                // create a new filereader and transform response blob data into a base64 url
-                const reader = new FileReader();
-                reader.readAsDataURL(response);
-                reader.onload = () => resolve(reader.result);
+            return new Promise((resolve, reject) => {
+                if (response instanceof Buffer) {
+                    // buffers are simply encoded as base64
+                    resolve(response.toString("base64"));
+                } else {
+                    // create a new filereader and transform response blob data into a base64 url
+                    const reader = new FileReader();
+                    reader.readAsDataURL(response);
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
+                }
             });
         }
 

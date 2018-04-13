@@ -1,5 +1,6 @@
 import {
     signString,
+    encryptString,
     stringToHash,
     verifyString
 } from "../../../src/Crypto/Sha256";
@@ -37,6 +38,16 @@ describe("Sha256", () => {
             );
 
             await signString(INPUT_STRING, PRIVATE_KEY);
+        });
+    });
+
+    describe("#encryptString ()", () => {
+        it("should encrypt data without errors", async () => {
+            const PUBLIC_KEY = await publicKeyFromPem(
+                process.env.CI_PUBLIC_KEY_PEM
+            );
+
+            await encryptString(INPUT_STRING, PUBLIC_KEY);
         });
     });
 

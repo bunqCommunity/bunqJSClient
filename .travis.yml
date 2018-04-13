@@ -12,5 +12,6 @@ cache:
     - "node_modules"
 
 script:
+  - yarn global add codecov
   - yarn run test
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - codecov

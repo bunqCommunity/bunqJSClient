@@ -1,7 +1,7 @@
 type CounterpartyAlias = {
     type: string;
     value: string;
-    name: string | void;
+    name?: string;
 };
 
 export default CounterpartyAlias;

@@ -44,9 +44,17 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
 
     /**
      * @param {number} userId
+     * @param {PaginationOptions} options
      * @returns {Promise<void>}
      */
-    public async list(userId: number) {
+    public async list(
+        userId: number,
+        options: PaginationOptions = {
+            count: 25,
+            newer_id: false,
+            older_id: false
+        }
+    ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
             "/monetary-account-bank",
             "LIST"
