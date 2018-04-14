@@ -14,6 +14,7 @@ export const defaultResponse = async moxios => {
                     response: {
                         Response: [
                             {
+                                UserCredentialPasswordIpRequest: {},
                                 ApiKey: {
                                     api_key: "key"
                                 },
@@ -21,7 +22,10 @@ export const defaultResponse = async moxios => {
                                 Id: {
                                     id: ""
                                 },
-                                Payment: {}
+                                Payment: {},
+                                UserCompany: {},
+                                UserLight: {},
+                                UserPerson: {},
                             },
                             {
                                 Token: {

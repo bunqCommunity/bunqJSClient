@@ -158,8 +158,8 @@ export default class BunqJSClient {
             try {
                 response = await this.api.sessionServer.add();
             } catch (error) {
-                if (error.response && error.response.Error) {
-                    const responseError = error.response.Error[0];
+                if (error.response && error.response.data.Error) {
+                    const responseError = error.response.data.Error[0];
                     const description = responseError.error_description;
 
                     this.logger.error("bunq API error: " + description);
@@ -203,6 +203,8 @@ export default class BunqJSClient {
                     "Received response.user_info.UserLight.session_timeout from api: " +
                         response.user_info.UserLight.session_timeout
                 );
+            }else{
+                throw new Error("No supported account type found! (Not one of UserLight, UserPerson or UserCompany)")
             }
 
             // set the new info

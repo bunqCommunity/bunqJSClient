@@ -7,7 +7,7 @@ import Prepare from "../TestHelpers/Prepare";
 import {
     installationRegistration,
     deviceServerRegistration,
-    sessionRegistration
+    sessionRegistration, defaultResponse
 } from "../TestHelpers/DefaultResponses";
 
 import {
@@ -25,6 +25,7 @@ import {
     sessionToken,
     sessionTokenId
 } from "../TestData/api-session-registration";
+import SetupApp from "../TestHelpers/SetupApp";
 
 const fakeApiKey = randomHex(64);
 const fakeEncryptionKey = randomHex(32);
@@ -132,7 +133,7 @@ describe("BunqJSClient", () => {
             expect(app.Session.deviceId === deviceId).toBeTruthy();
         });
 
-        it("device registration fails and resets session data", async () => {
+        it("device registration rejects request with status 400 and resets session data", async () => {
             const app = new BunqJSClient(new CustomDb("device"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
@@ -143,18 +144,41 @@ describe("BunqJSClient", () => {
 
             const deviceRegistrationPromise = app.registerDevice();
 
-            await new Promise((resolve, reject) => {
+            new Promise((resolve, reject) => {
                 moxios.wait(() => {
                     moxios.requests
                         .mostRecent()
-                        .respondWith(apiDeviceServer(true))
+                        .respondWith(apiDeviceServer(400))
                         .then(resolve)
                         .catch(reject);
                 });
             });
-            await deviceRegistrationPromise;
 
-            expect(app.Session.deviceId === deviceId).toBeTruthy();
+            await expect(deviceRegistrationPromise).rejects.toBeTruthy();
+        });
+
+        it("device registration rejects request with status 500", async () => {
+            const app = new BunqJSClient(new CustomDb("device"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            const installationPromise = app.install();
+            const installationHandler = installationRegistration(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            const deviceRegistrationPromise = app.registerDevice();
+
+            new Promise((resolve, reject) => {
+                moxios.wait(() => {
+                    moxios.requests
+                        .mostRecent()
+                        .respondWith(apiDeviceServer(500))
+                        .then(resolve)
+                        .catch(reject);
+                });
+            });
+
+            await expect(deviceRegistrationPromise).rejects.toBeTruthy();
         });
     });
 
@@ -195,6 +219,208 @@ describe("BunqJSClient", () => {
             expect(app.Session.sessionToken).toBe(sessionToken);
             expect(app.Session.sessionTokenId).toBe(sessionTokenId);
             expect(app.Session.userInfo).not.toBe({});
+        });
+
+        it("session registration without stored data and UserLight response", async () => {
+            const app = new BunqJSClient(new CustomDb("session"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            // installationRegistration
+            const installationPromise = app.install();
+            const installationHandler = installationRegistration(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            // device registration
+            const devicePromise = app.registerDevice();
+            const deviceHandler = deviceServerRegistration(moxios);
+            await devicePromise;
+            await deviceHandler;
+
+            const sessionRegistrationPromise = app.registerSession();
+
+            await new Promise((resolve, reject) => {
+                moxios.wait(() => {
+                    moxios.requests
+                        .mostRecent()
+                        .respondWith(apiSessionRegistration(true, "UserLight"))
+                        .then(resolve)
+                        .catch(reject);
+                });
+            });
+            await sessionRegistrationPromise;
+
+            // re-run, it should be done instantly since the installationRegistration is done already
+            await app.registerSession();
+
+            expect(app.Session.sessionId).toBe(sessionId);
+            expect(app.Session.sessionToken).toBe(sessionToken);
+            expect(app.Session.sessionTokenId).toBe(sessionTokenId);
+            expect(app.Session.userInfo).not.toBe({});
+        });
+
+        it("session registration without stored data and UserPerson response", async () => {
+            const app = new BunqJSClient(new CustomDb("session"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            // installationRegistration
+            const installationPromise = app.install();
+            const installationHandler = installationRegistration(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            // device registration
+            const devicePromise = app.registerDevice();
+            const deviceHandler = deviceServerRegistration(moxios);
+            await devicePromise;
+            await deviceHandler;
+
+            const sessionRegistrationPromise = app.registerSession();
+
+            await new Promise((resolve, reject) => {
+                moxios.wait(() => {
+                    moxios.requests
+                        .mostRecent()
+                        .respondWith(apiSessionRegistration(true, "UserPerson"))
+                        .then(resolve)
+                        .catch(reject);
+                });
+            });
+            await sessionRegistrationPromise;
+
+            // re-run, it should be done instantly since the installationRegistration is done already
+            await app.registerSession();
+
+            expect(app.Session.sessionId).toBe(sessionId);
+            expect(app.Session.sessionToken).toBe(sessionToken);
+            expect(app.Session.sessionTokenId).toBe(sessionTokenId);
+            expect(app.Session.userInfo).not.toBe({});
+        });
+
+        it("session registration fails if invalid user type is returned", async () => {
+            const app = new BunqJSClient(new CustomDb("session"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            // installationRegistration
+            const installationPromise = app.install();
+            const installationHandler = installationRegistration(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            // device registration
+            const devicePromise = app.registerDevice();
+            const deviceHandler = deviceServerRegistration(moxios);
+            await devicePromise;
+            await deviceHandler;
+
+            const sessionRegistrationPromise = app.registerSession();
+
+            new Promise((resolve, reject) => {
+                moxios.wait(() => {
+                    moxios.requests
+                        .mostRecent()
+                        .respondWith(apiSessionRegistration(true, "UserPersonInvalid"))
+                        .then(resolve)
+                        .catch(reject);
+                });
+            });
+
+            // wait for it to reject
+            await expect(sessionRegistrationPromise).rejects.toBeTruthy();
+        });
+
+        it("session registration rejects if request fails with status 500", async () => {
+            const app = new BunqJSClient(new CustomDb("session"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            // installationRegistration
+            const installationPromise = app.install();
+            const installationHandler = installationRegistration(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            // device registration
+            const devicePromise = app.registerDevice();
+            const deviceHandler = deviceServerRegistration(moxios);
+            await devicePromise;
+            await deviceHandler;
+
+            const sessionRegistrationPromise = app.registerSession();
+
+            new Promise((resolve, reject) => {
+                moxios.wait(() => {
+                    moxios.requests
+                        .mostRecent()
+                        .respondWith(apiSessionRegistration(500))
+                        .then(resolve)
+                        .catch(reject);
+                });
+            });
+
+            // wait for it to reject
+            await expect(sessionRegistrationPromise).rejects.toBeTruthy();
+        });
+
+        it("session registration rejects if request fails with status 400", async () => {
+            const app = new BunqJSClient(new CustomDb("session"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            // installationRegistration
+            const installationPromise = app.install();
+            const installationHandler = installationRegistration(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            // device registration
+            const devicePromise = app.registerDevice();
+            const deviceHandler = deviceServerRegistration(moxios);
+            await devicePromise;
+            await deviceHandler;
+
+            const sessionRegistrationPromise = app.registerSession();
+
+            new Promise((resolve, reject) => {
+                moxios.wait(() => {
+                    moxios.requests
+                        .mostRecent()
+                        .respondWith(apiSessionRegistration(400))
+                        .then(resolve)
+                        .catch(reject);
+                });
+            });
+
+            // wait for it to reject
+            await expect(sessionRegistrationPromise).rejects.toBeTruthy();
+        });
+    });
+
+    describe("#createCredentials()", () => {
+        it("create a session and remove it", async () => {
+            const bunqApp = await SetupApp("CreateCredentials");
+
+            // create new credentials
+            const checkCredentialStatus = bunqApp.createCredentials();
+
+            // return a default response
+            await defaultResponse(moxios)
+
+            // wait for credential status
+            await checkCredentialStatus;
+        });
+    });
+
+    describe("#checkCredentialStatus()", () => {
+        it("create a session and remove it", async () => {
+            const bunqApp = await SetupApp("CheckCredentialStatus");
+
+            // create new credentials
+            const checkCredentialStatus = bunqApp.checkCredentialStatus("UUID");
+
+            // return a default response
+            await defaultResponse(moxios)
+
+            // wait for credential status
+            await checkCredentialStatus;
         });
     });
 
@@ -252,26 +478,7 @@ describe("BunqJSClient", () => {
 
     describe("#getUser()", () => {
         it("should return UserCompany object", async () => {
-            const app = new BunqJSClient(new CustomDb("getUser1"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
-
-            // installationRegistration
-            const installationPromise = app.install();
-            const installationHandler = installationRegistration(moxios);
-            await installationPromise;
-            await installationHandler;
-
-            // device registration
-            const devicePromise = app.registerDevice();
-            const deviceHandler = deviceServerRegistration(moxios);
-            await devicePromise;
-            await deviceHandler;
-
-            // session registration
-            const sessionPromise = app.registerSession();
-            const sessionHandler = sessionRegistration(moxios);
-            await sessionPromise;
-            await sessionHandler;
+            const app = await SetupApp("GetUser");
 
             const userInfo = await app.getUser("UserCompany", false);
 
@@ -280,55 +487,28 @@ describe("BunqJSClient", () => {
         });
 
         it("should return undefined", async () => {
-            const app = new BunqJSClient(new CustomDb("getUser2"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
-
-            // installationRegistration
-            const installationPromise = app.install();
-            const installationHandler = installationRegistration(moxios);
-            await installationPromise;
-            await installationHandler;
-
-            // device registration
-            const devicePromise = app.registerDevice();
-            const deviceHandler = deviceServerRegistration(moxios);
-            await devicePromise;
-            await deviceHandler;
-
-            // session registration
-            const sessionPromise = app.registerSession();
-            const sessionHandler = sessionRegistration(moxios);
-            await sessionPromise;
-            await sessionHandler;
+            const app = await SetupApp("GetUser2");
 
             const userInfo = await app.getUser("InvalidType", false);
 
             expect(userInfo).toBe(undefined);
         });
+
+        it("should do an api call if force mode is set", async () => {
+            const app = await SetupApp("GetUser3");
+
+            const getUserPromise = app.getUser("UserCompany", true);
+
+            // return a default response
+            await defaultResponse(moxios)
+
+            await expect(getUserPromise).resolves.toBeTruthy();
+        });
     });
 
     describe("#getUsers()", () => {
         it("should return a list with one UserCompany object", async () => {
-            const app = new BunqJSClient(new CustomDb("getUsers"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
-
-            // installationRegistration
-            const installationPromise = app.install();
-            const installationHandler = installationRegistration(moxios);
-            await installationPromise;
-            await installationHandler;
-
-            // device registration
-            const devicePromise = app.registerDevice();
-            const deviceHandler = deviceServerRegistration(moxios);
-            await devicePromise;
-            await deviceHandler;
-
-            // session registration
-            const sessionPromise = app.registerSession();
-            const sessionHandler = sessionRegistration(moxios);
-            await sessionPromise;
-            await sessionHandler;
+            const app = await SetupApp("GetUsers");
 
             const users = await app.getUsers(false);
 
@@ -338,6 +518,17 @@ describe("BunqJSClient", () => {
 
             expect(userInfo.id).toBe(42);
             expect(userInfo.name).toBe("bunq");
+        });
+
+        it("should do an api call if force mode is set", async () => {
+            const app = await SetupApp("GetUsers2");
+
+            const getUsersPromise = app.getUsers(true);
+
+            // return a default response
+            await defaultResponse(moxios)
+
+            await expect(getUsersPromise).resolves.toBeTruthy();
         });
     });
 });
