@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "sourceMap": true,
+    "sourceMap": false,
     "noImplicitAny": false,
     "module": "commonjs",
     "target": "es2017",
@@ -13,5 +13,11 @@
       "es2017",
       "dom"
     ]
-  }
+  },
+  "exclude": [
+    "**/*.test.ts"
+  ],
+  "include": [
+    "src/**/*"
+  ]
 }

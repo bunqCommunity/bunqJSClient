@@ -19,7 +19,7 @@ let config = {
         libraryTarget: "umd",
         umdNamedDefine: true,
         path: BUILD_DIR,
-        filename: OUTPUT_DIR + "[name].js",
+        filename: OUTPUT_DIR + "[name].min.js",
         publicPath: "/dist/",
         chunkFilename: OUTPUT_DIR + "[name].[chunkhash].bundle.js"
     },

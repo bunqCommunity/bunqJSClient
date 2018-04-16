@@ -3,14 +3,17 @@
   "version": "0.15.7",
   "license": "MIT",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --progress --colors",
-    "build:dev": "cross-env NODE_ENV=development webpack --debug --watch --progress --colors",
+    "build": "npm run build-webpack && npm run build-ts",
+    "build-webpack": "cross-env NODE_ENV=production webpack --progress --colors",
+    "build-ts": "tsc --listFiles",
     "test": "cross-env ENV_CI=true jest --verbose --config jest.config.js",
     "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --verbose --watch --config jest.config.js",
-    "publish-beta": "npm publish --tag=next"
+    "publish-beta": "npm publish --tag=next",
+    "preversion": "npm run build"
   },
   "main": "./index.js",
-  "module": "./src/BunqJSClient.ts",
+  "typings": "./src",
+  "types": "./src",
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^21.1.8",
