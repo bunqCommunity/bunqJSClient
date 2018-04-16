@@ -1,6 +1,6 @@
 {
   "name": "@bunq-community/bunq-js-client",
-  "version": "0.15.7",
+  "version": "0.16.0",
   "license": "MIT",
   "scripts": {
     "build": "npm run build-webpack && npm run build-ts",
