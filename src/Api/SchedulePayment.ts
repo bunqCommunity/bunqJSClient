@@ -151,4 +151,41 @@ export default class SchedulePayment implements ApiEndpointInterface {
 
         return response.Response;
     }
+
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
+     * @param {number} scheduledPaymentId
+     * @param {PaymentRequestObject} paymentRequestObject
+     * @param {Schedule} schedule
+     * @param options
+     * @returns {Promise<void>}
+     */
+    public async put(
+        userId: number,
+        monetaryAccountId: number,
+        scheduledPaymentId: number,
+        paymentRequestObject: PaymentRequestObject,
+        schedule: Schedule,
+        options: any = {}
+    ) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/schedule-payment",
+            "PUT"
+        );
+
+        const requestObject = {
+            payment: paymentRequestObject,
+            schedule: schedule
+        };
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment/${scheduledPaymentId}`,
+                requestObject
+            )
+        );
+
+        return response.Response;
+    }
 }
