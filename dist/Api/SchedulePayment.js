@@ -78,5 +78,23 @@ class SchedulePayment {
         const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment`, requestObject));
         return response.Response;
     }
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
+     * @param {number} scheduledPaymentId
+     * @param {PaymentRequestObject} paymentRequestObject
+     * @param {Schedule} schedule
+     * @param options
+     * @returns {Promise<void>}
+     */
+    async put(userId, monetaryAccountId, scheduledPaymentId, paymentRequestObject, schedule, options = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment", "PUT");
+        const requestObject = {
+            payment: paymentRequestObject,
+            schedule: schedule
+        };
+        const response = await limiter.run(async () => this.ApiAdapter.put(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment/${scheduledPaymentId}`, requestObject));
+        return response.Response;
+    }
 }
 exports.default = SchedulePayment;
