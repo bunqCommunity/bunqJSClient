@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const AttachementContent_1 = require("./AttachementContent");
 const BunqMeTabs_1 = require("./BunqMeTabs");
 const Card_1 = require("./Card");
+const CardCvc2_1 = require("./CardCvc2");
 const CustomerStatementExport_1 = require("./CustomerStatementExport");
 const CustomerStatementExportContent_1 = require("./CustomerStatementExportContent");
 const DeviceRegistration_1 = require("./DeviceRegistration");
@@ -17,12 +18,13 @@ const RequestInquiry_1 = require("./RequestInquiry");
 const RequestInquiryBatch_1 = require("./RequestInquiryBatch");
 const RequestResponse_1 = require("./RequestResponse");
 const SandboxUser_1 = require("./SandboxUser");
-const SessionServer_1 = require("./SessionServer");
-const User_1 = require("./User");
-const CardCvc2_1 = require("./CardCvc2");
 const Schedule_1 = require("./Schedule");
 const SchedulePayment_1 = require("./SchedulePayment");
 const SchedulePaymentBatch_1 = require("./SchedulePaymentBatch");
+const SessionServer_1 = require("./SessionServer");
+const User_1 = require("./User");
+const UserCompany_1 = require("./UserCompany");
+const UserPerson_1 = require("./UserPerson");
 exports.default = (ApiAdapter) => {
     return {
         attachmentContent: new AttachementContent_1.default(ApiAdapter),
@@ -47,6 +49,8 @@ exports.default = (ApiAdapter) => {
         schedule: new Schedule_1.default(ApiAdapter),
         schedulePayment: new SchedulePayment_1.default(ApiAdapter),
         schedulePaymentBatch: new SchedulePaymentBatch_1.default(ApiAdapter),
-        user: new User_1.default(ApiAdapter)
+        user: new User_1.default(ApiAdapter),
+        userCompany: new UserCompany_1.default(ApiAdapter),
+        userPerson: new UserPerson_1.default(ApiAdapter)
     };
 };

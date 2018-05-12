@@ -2,6 +2,7 @@ import ApiAdapter from "../ApiAdapter";
 import AttachementContent from "./AttachementContent";
 import BunqMeTabs from "./BunqMeTabs";
 import Card from "./Card";
+import CardCvc2 from "./CardCvc2";
 import CustomerStatementExport from "./CustomerStatementExport";
 import CustomerStatementExportContent from "./CustomerStatementExportContent";
 import DeviceRegistration from "./DeviceRegistration";
@@ -16,12 +17,13 @@ import RequestInquiry from "./RequestInquiry";
 import RequestInquiryBatch from "./RequestInquiryBatch";
 import RequestResponse from "./RequestResponse";
 import SandboxUser from "./SandboxUser";
-import SessionServer from "./SessionServer";
-import User from "./User";
-import CardCvc2 from "./CardCvc2";
 import Schedule from "./Schedule";
 import SchedulePayment from "./SchedulePayment";
 import SchedulePaymentBatch from "./SchedulePaymentBatch";
+import SessionServer from "./SessionServer";
+import User from "./User";
+import UserCompany from "./UserCompany";
+import UserPerson from "./UserPerson";
 
 export default (ApiAdapter: ApiAdapter) => {
     return {
@@ -49,6 +51,8 @@ export default (ApiAdapter: ApiAdapter) => {
         schedule: new Schedule(ApiAdapter),
         schedulePayment: new SchedulePayment(ApiAdapter),
         schedulePaymentBatch: new SchedulePaymentBatch(ApiAdapter),
-        user: new User(ApiAdapter)
+        user: new User(ApiAdapter),
+        userCompany: new UserCompany(ApiAdapter),
+        userPerson: new UserPerson(ApiAdapter)
     };
 };
