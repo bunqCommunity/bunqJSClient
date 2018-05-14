@@ -5,7 +5,7 @@ All data is stored client-side and requests are created and signed using [forge]
 
 On its own the BunqJSClient doesn't do anything, you'll need to build an interface around it like we do with [BunqDesktop](https://github.com/BunqCommunity/BunqDesktop).
 
-This project is focussed on the browser and isn't officially supported yet for usage with NodeJS servers. 
+This project is focussed on the browser and isn't officially supported yet for usage with NodeJS servers. If you do want to use NodeJS you can still easily create a custom storage handler (since the default is Localstorage right now) like described in the [installation](#installation) section.
 
 ## Installation
 Install the library
@@ -60,6 +60,9 @@ const users = await BunqClient.getUsers(forceUpdate);
 
 // get only the userCompany account if one is set
 const userCompany = await BunqClient.getUser("UserCompany", forceUpdate);
+
+// get all payments for a user and monetary account
+const payments = await BunqJSClient.api.payment.list(userId, accountId);
 ```
 
 ## Supported APIs
