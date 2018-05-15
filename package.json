@@ -19,7 +19,7 @@
     "@types/jest": "^21.1.8",
     "@types/moxios": "^0.4.8",
     "@types/node": "^8.0.34",
-    "awaiting": "^2.0.1",
+    "awaiting": "^3.0.0",
     "axios": "^0.16.2",
     "babel": "^6.23.0",
     "babel-cli": "^6.24.1",

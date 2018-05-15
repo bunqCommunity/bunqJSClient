@@ -80,7 +80,7 @@ describe("BunqJSClient", () => {
 
     describe("#install()", async () => {
         it("installation without stored data", async () => {
-            const app = new BunqJSClient(new CustomDb("install"));
+            const app = new BunqJSClient(new CustomDb("install1"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
             const installPromise = app.install();
@@ -106,7 +106,7 @@ describe("BunqJSClient", () => {
 
     describe("#registerDevice()", () => {
         it("device registration without stored data", async () => {
-            const app = new BunqJSClient(new CustomDb("device"));
+            const app = new BunqJSClient(new CustomDb("device1"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
             const installationPromise = app.install();
@@ -134,7 +134,7 @@ describe("BunqJSClient", () => {
         });
 
         it("device registration rejects request with status 400 and resets session data", async () => {
-            const app = new BunqJSClient(new CustomDb("device"));
+            const app = new BunqJSClient(new CustomDb("device2"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
             const installationPromise = app.install();
@@ -158,7 +158,7 @@ describe("BunqJSClient", () => {
         });
 
         it("device registration rejects request with status 500", async () => {
-            const app = new BunqJSClient(new CustomDb("device"));
+            const app = new BunqJSClient(new CustomDb("device3"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
             const installationPromise = app.install();
@@ -184,7 +184,7 @@ describe("BunqJSClient", () => {
 
     describe("#registerSession()", () => {
         it("session registration without stored data", async () => {
-            const app = new BunqJSClient(new CustomDb("session"));
+            const app = new BunqJSClient(new CustomDb("session1"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
             // installationRegistration
@@ -222,7 +222,7 @@ describe("BunqJSClient", () => {
         });
 
         it("session registration without stored data and UserLight response", async () => {
-            const app = new BunqJSClient(new CustomDb("session"));
+            const app = new BunqJSClient(new CustomDb("session2"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
             // installationRegistration
@@ -260,7 +260,7 @@ describe("BunqJSClient", () => {
         });
 
         it("session registration without stored data and UserPerson response", async () => {
-            const app = new BunqJSClient(new CustomDb("session"));
+            const app = new BunqJSClient(new CustomDb("session3"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
             // installationRegistration
@@ -298,7 +298,7 @@ describe("BunqJSClient", () => {
         });
 
         it("session registration fails if invalid user type is returned", async () => {
-            const app = new BunqJSClient(new CustomDb("session"));
+            const app = new BunqJSClient(new CustomDb("session4"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
             // installationRegistration
@@ -330,7 +330,7 @@ describe("BunqJSClient", () => {
         });
 
         it("session registration rejects if request fails with status 500", async () => {
-            const app = new BunqJSClient(new CustomDb("session"));
+            const app = new BunqJSClient(new CustomDb("session5"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
             // installationRegistration
@@ -362,7 +362,7 @@ describe("BunqJSClient", () => {
         });
 
         it("session registration rejects if request fails with status 400", async () => {
-            const app = new BunqJSClient(new CustomDb("session"));
+            const app = new BunqJSClient(new CustomDb("session6"));
             await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
 
             // installationRegistration

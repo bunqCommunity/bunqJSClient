@@ -58,7 +58,7 @@ export default class RequestLimiter {
                     const result = queueItem.callable();
 
                     // check if the callback has a promise and catch any rejections
-                    if (result.then) result.catch(Logger.error);
+                    if (result && result.then) result.catch(Logger.error);
 
                     queueItem.resolve(result);
                 } catch (error) {
