@@ -21,6 +21,7 @@ const SandboxUser_1 = require("./SandboxUser");
 const Schedule_1 = require("./Schedule");
 const SchedulePayment_1 = require("./SchedulePayment");
 const SchedulePaymentBatch_1 = require("./SchedulePaymentBatch");
+const ShareInviteBankInquiry_1 = require("./ShareInviteBankInquiry");
 const ShareInviteBankResponse_1 = require("./ShareInviteBankResponse");
 const SessionServer_1 = require("./SessionServer");
 const User_1 = require("./User");
@@ -50,6 +51,7 @@ exports.default = (ApiAdapter) => {
         schedule: new Schedule_1.default(ApiAdapter),
         schedulePayment: new SchedulePayment_1.default(ApiAdapter),
         schedulePaymentBatch: new SchedulePaymentBatch_1.default(ApiAdapter),
+        shareInviteBankInquiry: new ShareInviteBankInquiry_1.default(ApiAdapter),
         shareInviteBankResponse: new ShareInviteBankResponse_1.default(ApiAdapter),
         user: new User_1.default(ApiAdapter),
         userCompany: new UserCompany_1.default(ApiAdapter),

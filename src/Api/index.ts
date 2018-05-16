@@ -20,6 +20,7 @@ import SandboxUser from "./SandboxUser";
 import Schedule from "./Schedule";
 import SchedulePayment from "./SchedulePayment";
 import SchedulePaymentBatch from "./SchedulePaymentBatch";
+import ShareInviteBankInquiry from "./ShareInviteBankInquiry";
 import ShareInviteBankResponse from "./ShareInviteBankResponse";
 import SessionServer from "./SessionServer";
 import User from "./User";
@@ -52,6 +53,7 @@ export default (ApiAdapter: ApiAdapter) => {
         schedule: new Schedule(ApiAdapter),
         schedulePayment: new SchedulePayment(ApiAdapter),
         schedulePaymentBatch: new SchedulePaymentBatch(ApiAdapter),
+        shareInviteBankInquiry: new ShareInviteBankInquiry(ApiAdapter),
         shareInviteBankResponse: new ShareInviteBankResponse(ApiAdapter),
         user: new User(ApiAdapter),
         userCompany: new UserCompany(ApiAdapter),
