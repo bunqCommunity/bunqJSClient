@@ -993,7 +993,7 @@ describe("API", () => {
     describe("SchedulePayment", () => {
         it("#GET", async () => {
             const request = bunqApp.api.schedulePayment.get(1, 2, 3);
-            await sessionRegistration(moxios);
+            await defaultResponse(moxios);
             const response = await request;
 
             expect(response).not.toBeNull();
@@ -1001,7 +1001,7 @@ describe("API", () => {
 
         it("#LIST", async () => {
             const request = bunqApp.api.schedulePayment.list(1, 2);
-            await sessionRegistration(moxios);
+            await defaultResponse(moxios);
             const response = await request;
 
             expect(response).not.toBeNull();
@@ -1013,7 +1013,7 @@ describe("API", () => {
                 older_id: 2,
                 count: 50
             });
-            await sessionRegistration(moxios);
+            await defaultResponse(moxios);
             const response = await request;
 
             expect(response).not.toBeNull();
@@ -1040,7 +1040,7 @@ describe("API", () => {
                     recurrence_size: 1
                 }
             );
-            await sessionRegistration(moxios);
+            await defaultResponse(moxios);
             const response = await request;
 
             expect(response).not.toBeNull();
@@ -1076,7 +1076,29 @@ describe("API", () => {
 
         it("#DELETE", async () => {
             const request = bunqApp.api.schedulePayment.delete(1, 2, 3);
-            await sessionRegistration(moxios);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+    });
+
+    describe("ShareInviteBankResponse", () => {
+        it("#LIST", async () => {
+            const request = bunqApp.api.shareInviteBankResponse.list(1);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#LIST - with pagination options", async () => {
+            const request = bunqApp.api.shareInviteBankResponse.list(1, {
+                newer_id: 1,
+                older_id: 2,
+                count: 50
+            });
+            await defaultResponse(moxios);
             const response = await request;
 
             expect(response).not.toBeNull();

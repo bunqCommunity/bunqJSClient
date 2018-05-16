@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Schedule {
+class ShareInviteBankResponse {
     /**
      * @param {ApiAdapter} ApiAdapter
      */
@@ -10,11 +10,10 @@ class Schedule {
     }
     /**
      * @param {number} userId
-     * @param {number} monetaryAccountId
      * @param {PaginationOptions} options
      * @returns {Promise<void>}
      */
-    async list(userId, monetaryAccountId, options = {
+    async list(userId, options = {
             count: 50,
             newer_id: false,
             older_id: false
@@ -29,8 +28,8 @@ class Schedule {
         if (options.older_id !== false && options.older_id !== undefined) {
             params.older_id = options.older_id;
         }
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule", "LIST");
-        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule`, {}, {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-response", "LIST");
+        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/share-invite-bank-response`, {}, {
             axiosOptions: {
                 params: params
             }
@@ -38,4 +37,4 @@ class Schedule {
         return response.Response;
     }
 }
-exports.default = Schedule;
+exports.default = ShareInviteBankResponse;

@@ -3,7 +3,7 @@ import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import PaginationOptions from "../Types/PaginationOptions";
 
-export default class Schedule implements ApiEndpointInterface {
+export default class ShareInviteBankResponse implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;
 
@@ -17,13 +17,11 @@ export default class Schedule implements ApiEndpointInterface {
 
     /**
      * @param {number} userId
-     * @param {number} monetaryAccountId
      * @param {PaginationOptions} options
      * @returns {Promise<void>}
      */
     public async list(
         userId: number,
-        monetaryAccountId: number,
         options: PaginationOptions = {
             count: 50,
             newer_id: false,
@@ -43,13 +41,13 @@ export default class Schedule implements ApiEndpointInterface {
         }
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/schedule",
+            "/share-invite-bank-response",
             "LIST"
         );
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule`,
+                `/v1/user/${userId}/share-invite-bank-response`,
                 {},
                 {
                     axiosOptions: {
