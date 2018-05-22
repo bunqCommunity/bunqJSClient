@@ -43,8 +43,11 @@ class BunqJSClient {
                 // log the error
                 this.logger.error(error);
             });
-            // set the timer again for a shorter duration (max 5 minutes)
-            this.setExpiryTimer(true);
+            // delay for 10 seconds to compensate for the early reset trigger
+            setTimeout(() => {
+                // set the timer again for a shorter duration (max 5 minutes)
+                this.setExpiryTimer(true);
+            }, 10000);
         };
         this.storageInterface = storageInterface;
         this.logger = loggerInterface;
@@ -220,6 +223,10 @@ class BunqJSClient {
      * Sets an automatic timer to keep the session alive when possible
      */
     setExpiryTimer(shortTimeout = false) {
+        if (typeof process !== "undefined" && process.env.ENV_CI === "true") {
+            // disable in CI
+            return false;
+        }
         if (this.Session.sessionExpiryTime) {
             const currentTime = new Date();
             // calculate amount of milliseconds until expire time

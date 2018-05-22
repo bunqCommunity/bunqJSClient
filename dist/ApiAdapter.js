@@ -191,8 +191,10 @@ class ApiAdapter {
             return "";
         });
         // manually include the user agent
-        if (Object.prototype.toString.call(global.process) === '[object process]') {
-            headerStrings.push(`User-Agent: Node-${process.version}`);
+        if (typeof navigator === "undefined") {
+            const nodeUserAgent = `Node-${process.version}`;
+            requestConfig.headers["User-Agent"] = nodeUserAgent;
+            headerStrings.push(`User-Agent: ${nodeUserAgent}`);
         }
         else {
             headerStrings.push(`User-Agent: ${navigator.userAgent}`);

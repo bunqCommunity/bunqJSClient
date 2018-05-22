@@ -346,8 +346,11 @@ export default class BunqJSClient {
                 this.logger.error(error);
             });
 
-        // set the timer again for a shorter duration (max 5 minutes)
-        this.setExpiryTimer(true);
+        // delay for 10 seconds to compensate for the early reset trigger
+        setTimeout(() => {
+            // set the timer again for a shorter duration (max 5 minutes)
+            this.setExpiryTimer(true);
+        }, 10000);
     };
 
     /**
