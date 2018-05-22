@@ -1,5 +1,4 @@
 const store = require("store");
-import axios from "axios";
 
 import ApiAdapter from "./ApiAdapter";
 import Session from "./Session";
@@ -10,6 +9,8 @@ import { publicKeyFromPem } from "./Crypto/Rsa";
 import ApiEndpoints from "./Api/index";
 
 import ErrorCodes from "./Helpers/ErrorCodes";
+
+const FIVE_MINUTES_MS = 300000;
 
 export default class BunqJSClient {
     public storageInterface: StorageInteface;
@@ -74,6 +75,9 @@ export default class BunqJSClient {
             environment,
             encryptionKey
         );
+
+        // set our automatic timer to check for expiry time
+        this.setExpiryTimer();
 
         // setup the api adapter using our session
         await this.ApiAdapter.setup();
@@ -175,40 +179,43 @@ export default class BunqJSClient {
             );
 
             // based on account setting we set a expire date
-            const createdDate = new Date(response.token.created);
+            const createdDate = new Date(response.token.created + " UTC");
+            let sessionTimeout;
             if (response.user_info.UserCompany !== undefined) {
-                createdDate.setSeconds(
-                    createdDate.getSeconds() +
-                        response.user_info.UserCompany.session_timeout
-                );
+                sessionTimeout = response.user_info.UserCompany.session_timeout;
                 this.logger.debug(
                     "Received response.user_info.UserCompany.session_timeout from api: " +
                         response.user_info.UserCompany.session_timeout
                 );
             } else if (response.user_info.UserPerson !== undefined) {
-                createdDate.setSeconds(
-                    createdDate.getSeconds() +
-                        response.user_info.UserPerson.session_timeout
-                );
+                sessionTimeout = response.user_info.UserPerson.session_timeout;
+
                 this.logger.debug(
                     "Received response.user_info.UserPerson.session_timeout from api: " +
                         response.user_info.UserPerson.session_timeout
                 );
             } else if (response.user_info.UserLight !== undefined) {
-                createdDate.setSeconds(
-                    createdDate.getSeconds() +
-                        response.user_info.UserLight.session_timeout
-                );
+                sessionTimeout = response.user_info.UserLight.session_timeout;
+
                 this.logger.debug(
                     "Received response.user_info.UserLight.session_timeout from api: " +
                         response.user_info.UserLight.session_timeout
                 );
-            }else{
-                throw new Error("No supported account type found! (Not one of UserLight, UserPerson or UserCompany)")
+            } else {
+                throw new Error(
+                    "No supported account type found! (Not one of UserLight, UserPerson or UserCompany)"
+                );
             }
 
-            // set the new info
+            // turn time into MS
+            sessionTimeout = sessionTimeout * 1000;
+
+            // calculate the expiry time
+            createdDate.setTime(createdDate.getTime() + sessionTimeout);
+
+            // set the session information
             this.Session.sessionExpiryTime = createdDate;
+            this.Session.sessionTimeout = sessionTimeout;
             this.Session.sessionId = response.id;
             this.Session.sessionToken = response.token.token;
             this.Session.sessionTokenId = response.token.id;
@@ -219,6 +226,9 @@ export default class BunqJSClient {
 
             // update storage
             await this.Session.storeSession();
+
+            // update the timer
+            this.setExpiryTimer();
         }
         return true;
     }
@@ -274,6 +284,68 @@ export default class BunqJSClient {
     }
 
     /**
+     * Sets an automatic timer to keep the session alive when possible
+     */
+    public setExpiryTimer(shortTimeout = false) {
+        if (this.Session.sessionExpiryTime) {
+            const currentTime = new Date();
+
+            // calculate amount of milliseconds until expire time
+            let expiresInMilliseconds =
+                this.Session.sessionExpiryTime.getTime() -
+                currentTime.getTime();
+
+            // if shortTimeout is set which is after we already extended the session maximize the expiry to 5 minutes
+            if (shortTimeout) {
+                expiresInMilliseconds =
+                    this.Session.sessionTimeout > FIVE_MINUTES_MS
+                        ? FIVE_MINUTES_MS
+                        : this.Session.sessionTimeout;
+            }
+
+            // 10 seconds before it expires we want to reset it
+            const timeoutRequestDuration = expiresInMilliseconds - 10 * 1000;
+
+            // clear existing timer if required
+            this.clearExpiryTimer();
+
+            // set the timeout
+            this.Session.sessionExpiryTimeChecker = setTimeout(
+                this.expiryTimerCallback,
+                timeoutRequestDuration
+            );
+        }
+    }
+
+    /**
+     * Resets the session expiry timer
+     */
+    public clearExpiryTimer = () => {
+        if (this.Session.sessionExpiryTimeChecker !== null) {
+            clearTimeout(this.Session.sessionExpiryTimeChecker);
+        }
+    };
+
+    /**
+     * Handles the expiry timer checker callback
+     */
+    private expiryTimerCallback = () => {
+        // update users, don't wait for it to finish
+        this.getUsers(true)
+            .then(users => {
+                // do nothing
+                this.logger.debug("Triggered session refresh");
+            })
+            .catch(error => {
+                // log the error
+                this.logger.error(error);
+            });
+
+        // set the timer again for a shorter duration (max 5 minutes)
+        this.setExpiryTimer(true);
+    };
+
+    /**
      * Destroys the current session and all variables associated with it
      * @returns {Promise<void>}
      */
@@ -288,6 +360,11 @@ export default class BunqJSClient {
                 await this.api.sessionServer.delete();
             } catch (ex) {}
         }
+
+        // clear the session timer if set
+        this.clearExpiryTimer();
+
+        // destroy the stored session
         await this.Session.destroySession();
     }
 
@@ -300,6 +377,7 @@ export default class BunqJSClient {
             // update the user info and update session data
             this.Session.userInfo = await this.api.user.list();
         }
+
         // return the user if we have one
         return this.Session.userInfo[userType];
     }

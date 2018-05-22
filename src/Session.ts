@@ -48,6 +48,8 @@ export default class Session {
     public sessionTokenId: string | number = null;
     public sessionId: number = null;
     public sessionExpiryTime?: Date = null;
+    public sessionTimeout: number = 0;
+    public sessionExpiryTimeChecker?: any = null;
     public userInfo: any = {};
 
     // key used to store our data
@@ -211,6 +213,7 @@ export default class Session {
         this.installUpdated = session.installUpdated;
         this.sessionId = session.sessionId;
         this.sessionToken = session.sessionToken;
+        this.sessionTimeout = session.sessionTimeout;
         this.sessionExpiryTime = new Date(session.sessionExpiryTime);
         this.deviceId = session.deviceId;
         this.userInfo = session.userInfo;
@@ -266,6 +269,7 @@ export default class Session {
             sessionId: this.sessionId,
             sessionToken: this.sessionToken,
             sessionExpiryTime: this.sessionExpiryTime,
+            sessionTimeout: this.sessionTimeout,
             userInfo: this.userInfo,
             deviceId: this.deviceId
         };
@@ -295,6 +299,7 @@ export default class Session {
         this.sessionId = null;
         this.sessionToken = null;
         this.sessionTokenId = null;
+        this.sessionTimeout = null;
         this.sessionExpiryTime = null;
 
         return await this.asyncStorageRemove(this.storageKeyLocation);
