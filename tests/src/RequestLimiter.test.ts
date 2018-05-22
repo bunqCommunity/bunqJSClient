@@ -1,8 +1,14 @@
+import Prepare from "../TestHelpers/Prepare";
+
 const awaiting = require("awaiting");
 import RequestLimitFactory from "../../src/RequestLimitFactory";
 import RequestLimiter from "../../src/RequestLimiter";
 
 describe("RequestLimiter", () => {
+    beforeEach(function() {
+        Prepare();
+    });
+
     describe("#wrapCallable()", () => {
         it("should create and return a new RequestLimiter", async () => {
             const factory = new RequestLimitFactory();

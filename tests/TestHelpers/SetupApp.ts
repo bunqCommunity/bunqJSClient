@@ -1,13 +1,14 @@
 import * as moxios from "moxios";
 import BunqJSClient from "../../src/BunqJSClient";
 
-import CustomDb from "../TestHelpers/CustomDb";
-import { randomHex } from "../TestHelpers/RandomData";
+import Prepare from "./Prepare";
+import CustomDb from "./CustomDb";
+import { randomHex } from "./RandomData";
 import {
     installationRegistration,
     deviceServerRegistration,
     sessionRegistration
-} from "../TestHelpers/DefaultResponses";
+} from "./DefaultResponses";
 
 const fakeApiKey = randomHex(64);
 const fakeEncryptionKey = randomHex(32);
@@ -19,11 +20,13 @@ const fakeEncryptionKey = randomHex(32);
  * @param {Array} runOptions
  * @returns {Promise<BunqJSClient>}
  */
-export default  async (
+export default async (
     dbName: string,
     apiKey: string = fakeApiKey,
     runOptions = [[], "SANDBOX", fakeEncryptionKey]
 ) => {
+    Prepare();
+
     const app = new BunqJSClient(new CustomDb(dbName));
     await app.run(apiKey, ...runOptions);
 

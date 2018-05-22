@@ -19,10 +19,7 @@ export default class User implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<any>}
      */
-    public async get(
-        userId: number,
-        options: any = {}
-    ) {
+    public async get(userId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
             "/user",
             "GET"

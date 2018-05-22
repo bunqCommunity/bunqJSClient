@@ -12,9 +12,8 @@ const fakeEncryptionKey = randomHex(32);
 const fakeEncryptionKey2 = randomHex(32);
 
 describe("Session", () => {
-    beforeAll(async done => {
-        await Prepare();
-        done();
+    beforeEach(function() {
+        Prepare();
     });
 
     beforeEach(function() {

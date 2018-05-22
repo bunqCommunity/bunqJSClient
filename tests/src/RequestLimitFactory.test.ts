@@ -1,9 +1,14 @@
 import RequestLimitFactory from "../../src/RequestLimitFactory";
 import RequestLimiter from "../../src/RequestLimiter";
+import Prepare from "../TestHelpers/Prepare";
 
 const METHODS = ["GET", "POST", "DELETE", "LIST", "PUT"];
 
 describe("RequestLimitFactory", () => {
+    beforeEach(function() {
+        Prepare();
+    });
+
     describe("#create()", () => {
         it("should create and return a new RequestLimiter for all valid methods", async () => {
             const factory = new RequestLimitFactory();

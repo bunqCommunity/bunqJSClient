@@ -287,6 +287,11 @@ export default class BunqJSClient {
      * Sets an automatic timer to keep the session alive when possible
      */
     public setExpiryTimer(shortTimeout = false) {
+        if (typeof process !== "undefined" && process.env.ENV_CI === "true") {
+            // disable in CI
+            return false;
+        }
+
         if (this.Session.sessionExpiryTime) {
             const currentTime = new Date();
 

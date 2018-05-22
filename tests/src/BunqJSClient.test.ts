@@ -395,7 +395,7 @@ describe("BunqJSClient", () => {
     });
 
     describe("#createCredentials()", () => {
-        it("create a session and remove it", async () => {
+        it("create a new credential", async () => {
             const bunqApp = await SetupApp("CreateCredentials");
 
             // create new credentials
@@ -410,7 +410,7 @@ describe("BunqJSClient", () => {
     });
 
     describe("#checkCredentialStatus()", () => {
-        it("create a session and remove it", async () => {
+        it("check the status of a set of credentials", async () => {
             const bunqApp = await SetupApp("CheckCredentialStatus");
 
             // create new credentials
