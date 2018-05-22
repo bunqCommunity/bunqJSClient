@@ -191,7 +191,12 @@ class ApiAdapter {
             return "";
         });
         // manually include the user agent
-        headerStrings.push(`User-Agent: ${navigator.userAgent}`);
+        if (Object.prototype.toString.call(global.process) === '[object process]') {
+            headerStrings.push(`User-Agent: Node-${process.version}`);
+        }
+        else {
+            headerStrings.push(`User-Agent: ${navigator.userAgent}`);
+        }
         // sort alphabetically
         headerStrings.sort();
         // remove empty strings and join into a list of headers for the template
