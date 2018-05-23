@@ -43,11 +43,8 @@ class BunqJSClient {
                 // log the error
                 this.logger.error(error);
             });
-            // delay for 10 seconds to compensate for the early reset trigger
-            setTimeout(() => {
-                // set the timer again for a shorter duration (max 5 minutes)
-                this.setExpiryTimer(true);
-            }, 10000);
+            // set the timer again for a shorter duration (max 5 minutes)
+            this.setExpiryTimer(true);
         };
         this.storageInterface = storageInterface;
         this.logger = loggerInterface;
@@ -239,8 +236,8 @@ class BunqJSClient {
                         ? FIVE_MINUTES_MS
                         : this.Session.sessionTimeout;
             }
-            // 10 seconds before it expires we want to reset it
-            const timeoutRequestDuration = expiresInMilliseconds - 10 * 1000;
+            // 15 seconds before it expires we want to reset it
+            const timeoutRequestDuration = expiresInMilliseconds - 15000;
             // clear existing timer if required
             this.clearExpiryTimer();
             // set the timeout

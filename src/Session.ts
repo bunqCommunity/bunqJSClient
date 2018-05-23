@@ -229,9 +229,18 @@ export default class Session {
         if (this.verifyInstallation() && !this.verifySessionInstallation()) {
             const apiKey = this.apiKey + ""; // copy key while preventing reference issues
 
-            // reset session and set the apiKey again to the original value
-            await this.destroySession();
-            this.apiKey = apiKey;
+            if (this.verifySessionExpiry() === false) {
+                // session expired so we don't have to destroy the device and installation
+                this.logger.debug(`reseting api session data`);
+
+                await this.destroyApiSession(true);
+            }else{
+                // reset all data and reset the apiKey
+                this.logger.debug(`reseting all data`);
+
+                await this.destroySession();
+                this.apiKey = apiKey;
+            }
 
             return false;
         }
@@ -285,6 +294,36 @@ export default class Session {
      */
     public async destroySession() {
         this.apiKey = null;
+        this.userInfo = {};
+
+        await this.destroyApiSession();
+        await this.destroyApiInstallation();
+        await this.destroyApiDeviceInstallation();
+
+        return await this.asyncStorageRemove(this.storageKeyLocation);
+    }
+
+    /**
+     * Destroys only the data associated with the api session
+     * @param {boolean} save
+     * @returns {Promise<undefined>}
+     */
+    public async destroyApiSession(save: boolean = false) {
+        this.sessionId = null;
+        this.sessionToken = null;
+        this.sessionTokenId = null;
+        this.sessionTimeout = null;
+        this.sessionExpiryTime = null;
+
+        if (save) return await this.asyncStorageRemove(this.storageKeyLocation);
+    }
+
+    /**
+     * Destroys only the data associated with the installation
+     * @param {boolean} save
+     * @returns {Promise<undefined>}
+     */
+    public async destroyApiInstallation(save: boolean = false) {
         this.publicKey = null;
         this.publicKeyPem = null;
         this.privateKey = null;
@@ -294,15 +333,19 @@ export default class Session {
         this.installUpdated = null;
         this.installCreated = null;
         this.installToken = null;
-        this.deviceId = null;
-        this.userInfo = {};
-        this.sessionId = null;
-        this.sessionToken = null;
-        this.sessionTokenId = null;
-        this.sessionTimeout = null;
-        this.sessionExpiryTime = null;
 
-        return await this.asyncStorageRemove(this.storageKeyLocation);
+        if (save) return await this.asyncStorageRemove(this.storageKeyLocation);
+    }
+
+    /**
+     * Destroys only the data associated with the device installation
+     * @param {boolean} save
+     * @returns {Promise<undefined>}
+     */
+    public async destroyApiDeviceInstallation(save: boolean = false) {
+        this.deviceId = null;
+
+        if (save) await this.asyncStorageRemove(this.storageKeyLocation);
     }
 
     /**
@@ -489,7 +532,7 @@ export default class Session {
 
     /**
      * Checks if this session has a succesful installation stored
-     * @returns {Promise<boolean>}
+     * @returns {boolean}
      */
     public verifyInstallation(): boolean {
         this.logger.debug(" === Testing installation === ");
@@ -509,21 +552,23 @@ export default class Session {
 
     /**
      * Checks if this session has a succesful device installation stored
-     * @returns {Promise<boolean>}
+     * @returns {boolean}
      */
-    public verifyDeviceInstallation() {
+    public verifyDeviceInstallation(): boolean {
         this.logger.debug(" === Testing device installation === ");
         const deviceValid = this.deviceId !== null;
+
         this.logger.debug("Device valid: " + deviceValid);
         this.logger.debug("this.deviceId: " + this.deviceId);
+
         return deviceValid;
     }
 
     /**
      * Checks if this session has a succesful session setup
-     * @returns {Promise<boolean>}
+     * @returns {boolean}
      */
-    public verifySessionInstallation() {
+    public verifySessionInstallation(): boolean {
         this.logger.debug(" === Testing session installation === ");
         this.logger.debug(`this.sessionId = ${this.sessionId}`);
         this.logger.debug(
@@ -537,6 +582,19 @@ export default class Session {
             return false;
         }
 
+        if (!this.verifySessionExpiry()) {
+            return false;
+        }
+
+        this.logger.debug("Session valid: true");
+        return true;
+    }
+
+    /**
+     * Checks if session has expired yet
+     * @returns {boolean}
+     */
+    public verifySessionExpiry(): boolean {
         const currentTime = new Date();
         if (this.sessionExpiryTime.getTime() <= currentTime.getTime()) {
             this.logger.debug("Session invalid: expired");
@@ -549,8 +607,6 @@ export default class Session {
             );
             return false;
         }
-
-        this.logger.debug("Session valid: true");
         return true;
     }
 
