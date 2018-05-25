@@ -245,7 +245,7 @@ class BunqJSClient {
         }
     }
     /**
-     * Destroys the current session and all variables associated with it
+     * Destroys the current installation and session and all variables associated with it
      * @returns {Promise<void>}
      */
     async destroySession() {
@@ -262,6 +262,16 @@ class BunqJSClient {
         this.clearExpiryTimer();
         // destroy the stored session
         await this.Session.destroySession();
+    }
+    /**
+     * Destroys the current session and all variables associated with it
+     * @returns {Promise<void>}
+     */
+    async destroyApiSession() {
+        // clear the session timer if set
+        this.clearExpiryTimer();
+        // destroy the stored session
+        await this.Session.destroyApiSession();
     }
     /**
      * Returns the registered user for the session of a specific type

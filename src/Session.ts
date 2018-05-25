@@ -173,27 +173,7 @@ export default class Session {
             return false;
         }
 
-        // api keys dont match, this session is outdated
-        if (
-            this.apiKey !== false &&
-            this.apiKey !== null &&
-            session.apiKey !== this.apiKey
-        ) {
-            this.logger.debug(
-                "Api key changed or is different (api key could be empty)"
-            );
-            return false;
-        }
-
-        // different environment stored, destroy old session
-        if (session.environment !== this.environment) {
-            this.logger.debug("Environment changed, delete existing session");
-            await this.destroySession();
-            return false;
-        }
-
         // overwrite our current properties with the stored version
-        this.environment = session.environment;
         this.publicKeyPem = session.publicKeyPem;
         this.privateKeyPem = session.privateKeyPem;
         this.serverPublicKeyPem = session.serverPublicKeyPem;
@@ -223,6 +203,26 @@ export default class Session {
         this.logger.debug(`installUpdated: ${session.installUpdated}`);
         this.logger.debug(`sessionExpiryTime: ${session.sessionExpiryTime}`);
         this.logger.debug(`deviceId: ${session.deviceId}`);
+
+        // api keys dont match, this session is outdated
+        if (
+            this.apiKey !== false &&
+            this.apiKey !== null &&
+            session.apiKey !== this.apiKey
+        ) {
+            this.logger.debug(
+                "Api key changed or is different (api key could be empty)"
+            );
+            return false;
+        }
+
+        // different environment stored, destroy old session
+        if (session.environment !== this.environment) {
+            this.logger.debug("Environment changed, delete existing session");
+            await this.destroySession();
+            return false;
+        }
+        this.environment = session.environment;
 
         // if we have a stored installation but no session we reset to prevent
         // creating two sessions for a single installation
