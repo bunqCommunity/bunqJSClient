@@ -168,6 +168,14 @@ class Session {
      * @returns {Promise<void>}
      */
     async setup(apiKey, allowedIps = [], environment = "SANDBOX", encryptionKey = false) {
+        if (this.apiKey !== null && this.apiKey !== apiKey) {
+            this.logger.debug("current apiKey not null and changed");
+        }
+        if (this.environment !== null && environment !== this.environment) {
+            this.logger.debug("current environmentType not null and changed");
+            // we can't keep the session data if the environment changes
+            await this.destroySession();
+        }
         this.apiKey = apiKey;
         this.allowdIps = allowedIps;
         this.environmentType = environment;
@@ -242,6 +250,20 @@ class Session {
             // failed to decrypt the session, return false
             return false;
         }
+        // api keys dont match, this session is outdated
+        if (this.apiKey !== false &&
+            this.apiKey !== null &&
+            session.apiKey !== this.apiKey) {
+            this.logger.debug("Api key changed or is different (api key could be empty)");
+            return false;
+        }
+        // different environment stored, destroy old session
+        if (session.environment !== this.environment) {
+            this.logger.debug("Environment changed, delete existing session");
+            await this.destroySession();
+            return false;
+        }
+        this.environment = session.environment;
         // overwrite our current properties with the stored version
         this.publicKeyPem = session.publicKeyPem;
         this.privateKeyPem = session.privateKeyPem;
@@ -269,20 +291,6 @@ class Session {
         this.logger.debug(`installUpdated: ${session.installUpdated}`);
         this.logger.debug(`sessionExpiryTime: ${session.sessionExpiryTime}`);
         this.logger.debug(`deviceId: ${session.deviceId}`);
-        // api keys dont match, this session is outdated
-        if (this.apiKey !== false &&
-            this.apiKey !== null &&
-            session.apiKey !== this.apiKey) {
-            this.logger.debug("Api key changed or is different (api key could be empty)");
-            return false;
-        }
-        // different environment stored, destroy old session
-        if (session.environment !== this.environment) {
-            this.logger.debug("Environment changed, delete existing session");
-            await this.destroySession();
-            return false;
-        }
-        this.environment = session.environment;
         // if we have a stored installation but no session we reset to prevent
         // creating two sessions for a single installation
         if (this.verifyInstallation() && !this.verifySessionInstallation()) {
@@ -341,6 +349,7 @@ class Session {
      * @returns {Promise<void>}
      */
     async destroySession() {
+        this.logger.debug(` -> #destroySession() `);
         this.apiKey = null;
         this.userInfo = {};
         await this.destroyApiSession();
@@ -354,6 +363,7 @@ class Session {
      * @returns {Promise<undefined>}
      */
     async destroyApiSession(save = false) {
+        this.logger.debug(` -> #destroyApiSession(${save}) `);
         this.sessionId = null;
         this.sessionToken = null;
         this.sessionTokenId = null;
@@ -368,6 +378,7 @@ class Session {
      * @returns {Promise<undefined>}
      */
     async destroyApiInstallation(save = false) {
+        this.logger.debug(` -> #destroyApiInstallation(${save}) `);
         this.publicKey = null;
         this.publicKeyPem = null;
         this.privateKey = null;
@@ -386,6 +397,7 @@ class Session {
      * @returns {Promise<undefined>}
      */
     async destroyApiDeviceInstallation(save = false) {
+        this.logger.debug(` -> #destroyApiDeviceInstallation(${save}) `);
         this.deviceId = null;
         if (save)
             await this.asyncStorageRemove(this.storageKeyLocation);

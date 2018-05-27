@@ -26,7 +26,8 @@ export default class Installation implements ApiEndpointInterface {
             },
             {},
             {
-                disableSigning: true
+                disableSigning: true,
+                unauthenticated: true
             }
         );
 

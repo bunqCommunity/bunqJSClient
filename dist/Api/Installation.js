@@ -16,7 +16,8 @@ class Installation {
         const result = await this.ApiAdapter.post("/v1/installation", {
             client_public_key: this.Session.publicKeyPem
         }, {}, {
-            disableSigning: true
+            disableSigning: true,
+            unauthenticated: true
         });
         return {
             id: result.Response[0].Id.id,

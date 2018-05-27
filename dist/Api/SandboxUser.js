@@ -15,7 +15,9 @@ class SandboxUser {
     async post(options = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/sandbox-user", "POST");
         const response = await limiter.run(async () => this.ApiAdapter.post(`https://sandbox.public.api.bunq.com/v1/sandbox-user`, {}, {}, {
-            disableSigning: true
+            // no signing and no authentication
+            disableSigning: true,
+            unauthenticated: true
         }));
         return response.Response[0].ApiKey.api_key;
     }

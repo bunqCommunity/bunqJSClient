@@ -26,7 +26,7 @@ class ApiAdapter {
     /**
      * @param {string} url
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     async get(url, headers = {}, options = {}) {
@@ -36,7 +36,7 @@ class ApiAdapter {
     /**
      * @param {string} url
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     async delete(url, headers = {}, options = {}) {
@@ -47,7 +47,7 @@ class ApiAdapter {
      * @param {string} url
      * @param data
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     async post(url, data = {}, headers = {}, options = {}) {
@@ -58,7 +58,7 @@ class ApiAdapter {
      * @param {string} url
      * @param data
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     async put(url, data = {}, headers = {}, options = {}) {
@@ -69,7 +69,7 @@ class ApiAdapter {
      * @param {string} url
      * @param data
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     async list(url, data = {}, headers = {}, options = {}) {
@@ -81,16 +81,18 @@ class ApiAdapter {
      * @param {string} method
      * @param data
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<any>}
      */
     async request(url, method = "GET", data = {}, headers = {}, options = {}) {
-        // use session token or fallback to install taken if we have one
-        if (this.Session.sessionToken !== null) {
-            headers["X-Bunq-Client-Authentication"] = this.Session.sessionToken;
-        }
-        else if (this.Session.installToken !== null) {
-            headers["X-Bunq-Client-Authentication"] = this.Session.installToken;
+        if (options.unauthenticated !== true) {
+            // use session token or fallback to install taken if we have one
+            if (this.Session.sessionToken !== null) {
+                headers["X-Bunq-Client-Authentication"] = this.Session.sessionToken;
+            }
+            else if (this.Session.installToken !== null) {
+                headers["X-Bunq-Client-Authentication"] = this.Session.installToken;
+            }
         }
         // create a config for this request
         let requestConfig = Object.assign({ url: `${url}`, method: method, data: data, headers: this.createHeaders(headers) }, options.axiosOptions);
