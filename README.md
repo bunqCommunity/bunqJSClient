@@ -1,6 +1,6 @@
 # BunqJSClient ![build status for master branch](https://api.travis-ci.org/BunqCommunity/BunqJSClient.svg?branch=master) [![codecov](https://codecov.io/gh/BunqCommunity/BunqJSClient/branch/master/graph/badge.svg)](https://codecov.io/gh/BunqCommunity/BunqJSClient)
 
-A web based project that is aimed at allowing single page applications to do all interactions with Bunq without proxying through other services. 
+A web based project that is aimed at allowing single page applications to do all interactions with bunq without proxying through other services. 
 All data is stored client-side and requests are created and signed using [forge](https://github.com/digitalbazaar/forge).
 
 On its own the BunqJSClient doesn't do anything, you'll need to build an interface around it like we do with [BunqDesktop](https://github.com/BunqCommunity/BunqDesktop).

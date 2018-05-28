@@ -27,7 +27,7 @@ class ApiAdapter {
     /**
      * @param {string} url
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     async get(url, headers = {}, options = {}) {
@@ -37,7 +37,7 @@ class ApiAdapter {
     /**
      * @param {string} url
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     async delete(url, headers = {}, options = {}) {
@@ -48,7 +48,7 @@ class ApiAdapter {
      * @param {string} url
      * @param data
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     async post(url, data = {}, headers = {}, options = {}) {
@@ -59,7 +59,7 @@ class ApiAdapter {
      * @param {string} url
      * @param data
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     async put(url, data = {}, headers = {}, options = {}) {
@@ -70,7 +70,7 @@ class ApiAdapter {
      * @param {string} url
      * @param data
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     async list(url, data = {}, headers = {}, options = {}) {
@@ -82,16 +82,18 @@ class ApiAdapter {
      * @param {string} method
      * @param data
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<any>}
      */
     async request(url, method = "GET", data = {}, headers = {}, options = {}) {
-        // use session token or fallback to install taken if we have one
-        if (this.Session.sessionToken !== null) {
-            headers["X-Bunq-Client-Authentication"] = this.Session.sessionToken;
-        }
-        else if (this.Session.installToken !== null) {
-            headers["X-Bunq-Client-Authentication"] = this.Session.installToken;
+        if (options.unauthenticated !== true) {
+            // use session token or fallback to install taken if we have one
+            if (this.Session.sessionToken !== null) {
+                headers["X-Bunq-Client-Authentication"] = this.Session.sessionToken;
+            }
+            else if (this.Session.installToken !== null) {
+                headers["X-Bunq-Client-Authentication"] = this.Session.installToken;
+            }
         }
         // create a config for this request
         let requestConfig = Object.assign({ url: `${url}`, method: method, data: data, headers: this.createHeaders(headers) }, options.axiosOptions);
@@ -112,21 +114,22 @@ class ApiAdapter {
         }
         // Send the request to Bunq
         const response = await axios_1.default.request(requestConfig);
-        // attempt to verify the Bunq response
-        const verifyResult = await this.verifyResponse(response);
-        if (
-        // verification not ignored
-        options.ignoreVerification !== true &&
+        // don't do this stip if disabled
+        if (options.ignoreVerification !== true) {
+            // attempt to verify the bunq response
+            const verifyResult = await this.verifyResponse(response);
+            if (
             // verification is invalid
             !verifyResult &&
-            // not in a CI environment
-            !process.env.ENV_CI) {
-            // invalid response in a non-ci environment
-            throw {
-                errorCode: ErrorCodes_1.default.INVALID_RESPONSE_RECEIVED,
-                error: "We couldn't verify the received response",
-                response: response
-            };
+                // not in a CI environment
+                !process.env.ENV_CI) {
+                // invalid response in a non-ci environment
+                throw {
+                    errorCode: ErrorCodes_1.default.INVALID_RESPONSE_RECEIVED,
+                    error: "We couldn't verify the received response",
+                    response: response
+                };
+            }
         }
         return response;
     }

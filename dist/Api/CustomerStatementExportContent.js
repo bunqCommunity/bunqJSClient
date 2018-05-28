@@ -16,6 +16,7 @@ class CustomerStatementExportContent {
     async list(userId, accountId, customerStatementId, options = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/customer-statement-export/content", "LIST");
         const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${accountId}/customer-statement/${customerStatementId}/content`, {}, {
+            ignoreVerification: true,
             axiosOptions: {
                 responseType: "blob"
             }

@@ -8,6 +8,7 @@ import Header from "./Types/Header";
 import ErrorCodes, { INVALID_RESPONSE_RECEIVED } from "./Helpers/ErrorCodes";
 import RequestLimitFactory from "./RequestLimitFactory";
 import LoggerInterface from "./Interfaces/LoggerInterface";
+import ApiAdapterOptions from "./Types/ApiAdapterOptions";
 
 // these headers are set by default
 export const DEFAULT_HEADERS: Header = {
@@ -41,10 +42,14 @@ export default class ApiAdapter {
     /**
      * @param {string} url
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
-    public async get(url: string, headers: any = {}, options: any = {}) {
+    public async get(
+        url: string,
+        headers: any = {},
+        options: ApiAdapterOptions = {}
+    ) {
         const response = await this.request(url, "GET", {}, headers, options);
         return response.data;
     }
@@ -52,10 +57,14 @@ export default class ApiAdapter {
     /**
      * @param {string} url
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
-    public async delete(url: string, headers: any = {}, options: any = {}) {
+    public async delete(
+        url: string,
+        headers: any = {},
+        options: ApiAdapterOptions = {}
+    ) {
         const response = await this.request(
             url,
             "DELETE",
@@ -70,14 +79,14 @@ export default class ApiAdapter {
      * @param {string} url
      * @param data
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     public async post(
         url: string,
         data: any = {},
         headers: any = {},
-        options: any = {}
+        options: ApiAdapterOptions = {}
     ) {
         const response = await this.request(
             url,
@@ -93,14 +102,14 @@ export default class ApiAdapter {
      * @param {string} url
      * @param data
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     public async put(
         url: string,
         data: any = {},
         headers: any = {},
-        options: any = {}
+        options: ApiAdapterOptions = {}
     ) {
         const response = await this.request(url, "PUT", data, headers, options);
         return response.data;
@@ -110,14 +119,14 @@ export default class ApiAdapter {
      * @param {string} url
      * @param data
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
     public async list(
         url: string,
         data: any = {},
         headers: any = {},
-        options: any = {}
+        options: ApiAdapterOptions = {}
     ) {
         const response = await this.request(
             url,
@@ -134,7 +143,7 @@ export default class ApiAdapter {
      * @param {string} method
      * @param data
      * @param headers
-     * @param options
+     * @param {ApiAdapterOptions} options
      * @returns {Promise<any>}
      */
     private async request(
@@ -142,13 +151,19 @@ export default class ApiAdapter {
         method = "GET",
         data: any = {},
         headers: any = {},
-        options: any = {}
+        options: ApiAdapterOptions = {}
     ) {
-        // use session token or fallback to install taken if we have one
-        if (this.Session.sessionToken !== null) {
-            headers["X-Bunq-Client-Authentication"] = this.Session.sessionToken;
-        } else if (this.Session.installToken !== null) {
-            headers["X-Bunq-Client-Authentication"] = this.Session.installToken;
+        if (options.unauthenticated !== true) {
+            // use session token or fallback to install taken if we have one
+            if (this.Session.sessionToken !== null) {
+                headers[
+                    "X-Bunq-Client-Authentication"
+                ] = this.Session.sessionToken;
+            } else if (this.Session.installToken !== null) {
+                headers[
+                    "X-Bunq-Client-Authentication"
+                ] = this.Session.installToken;
+            }
         }
 
         // create a config for this request
@@ -181,23 +196,24 @@ export default class ApiAdapter {
         // Send the request to Bunq
         const response = await axios.request(requestConfig);
 
-        // attempt to verify the Bunq response
-        const verifyResult = await this.verifyResponse(response);
+        // don't do this stip if disabled
+        if (options.ignoreVerification !== true) {
+            // attempt to verify the bunq response
+            const verifyResult = await this.verifyResponse(response);
 
-        if (
-            // verification not ignored
-            options.ignoreVerification !== true &&
-            // verification is invalid
-            !verifyResult &&
-            // not in a CI environment
-            !process.env.ENV_CI
-        ) {
-            // invalid response in a non-ci environment
-            throw {
-                errorCode: ErrorCodes.INVALID_RESPONSE_RECEIVED,
-                error: "We couldn't verify the received response",
-                response: response
-            };
+            if (
+                // verification is invalid
+                !verifyResult &&
+                // not in a CI environment
+                !process.env.ENV_CI
+            ) {
+                // invalid response in a non-ci environment
+                throw {
+                    errorCode: ErrorCodes.INVALID_RESPONSE_RECEIVED,
+                    error: "We couldn't verify the received response",
+                    response: response
+                };
+            }
         }
 
         return response;

@@ -384,7 +384,7 @@ export default class BunqJSClient {
         this.clearExpiryTimer();
 
         // destroy the stored session
-        await this.Session.destroyApiSession();
+        await this.Session.destroyApiSession(true);
     }
 
     /**

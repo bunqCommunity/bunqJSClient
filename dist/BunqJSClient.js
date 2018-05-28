@@ -273,7 +273,7 @@ class BunqJSClient {
         // clear the session timer if set
         this.clearExpiryTimer();
         // destroy the stored session
-        await this.Session.destroyApiSession();
+        await this.Session.destroyApiSession(true);
     }
     /**
      * Returns the registered user for the session of a specific type

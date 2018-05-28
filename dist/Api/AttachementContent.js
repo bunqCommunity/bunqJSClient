@@ -16,6 +16,7 @@ class AttachementContent {
     async get(attachmendUUID, options = { base64: true }) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/attachment-public/content", "GET");
         const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/attachment-public/${attachmendUUID}/content`, {}, {
+            ignoreVerification: true,
             axiosOptions: {
                 responseType: "blob"
             }

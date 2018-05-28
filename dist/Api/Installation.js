@@ -17,7 +17,8 @@ class Installation {
             client_public_key: this.Session.publicKeyPem
         }, {}, {
             ignoreVerification: true,
-            disableSigning: true
+            disableSigning: true,
+            unauthenticated: true
         });
         return {
             id: result.Response[0].Id.id,
