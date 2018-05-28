@@ -30,6 +30,7 @@ export default class AttachementContent implements ApiEndpointInterface {
                 `/v1/attachment-public/${attachmendUUID}/content`,
                 {},
                 {
+                    ignoreVerification: true,
                     axiosOptions: {
                         responseType: "blob"
                     }

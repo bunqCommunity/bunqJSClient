@@ -114,21 +114,22 @@ class ApiAdapter {
         }
         // Send the request to Bunq
         const response = await axios_1.default.request(requestConfig);
-        // attempt to verify the Bunq response
-        const verifyResult = await this.verifyResponse(response);
-        if (
-        // verification not ignored
-        options.ignoreVerification !== true &&
+        // don't do this stip if disabled
+        if (options.ignoreVerification !== true) {
+            // attempt to verify the bunq response
+            const verifyResult = await this.verifyResponse(response);
+            if (
             // verification is invalid
             !verifyResult &&
-            // not in a CI environment
-            !process.env.ENV_CI) {
-            // invalid response in a non-ci environment
-            throw {
-                errorCode: ErrorCodes_1.default.INVALID_RESPONSE_RECEIVED,
-                error: "We couldn't verify the received response",
-                response: response
-            };
+                // not in a CI environment
+                !process.env.ENV_CI) {
+                // invalid response in a non-ci environment
+                throw {
+                    errorCode: ErrorCodes_1.default.INVALID_RESPONSE_RECEIVED,
+                    error: "We couldn't verify the received response",
+                    response: response
+                };
+            }
         }
         return response;
     }

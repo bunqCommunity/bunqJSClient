@@ -153,13 +153,16 @@ export default class ApiAdapter {
         headers: any = {},
         options: ApiAdapterOptions = {}
     ) {
-
-        if(options.unauthenticated !== true){
+        if (options.unauthenticated !== true) {
             // use session token or fallback to install taken if we have one
             if (this.Session.sessionToken !== null) {
-                headers["X-Bunq-Client-Authentication"] = this.Session.sessionToken;
+                headers[
+                    "X-Bunq-Client-Authentication"
+                ] = this.Session.sessionToken;
             } else if (this.Session.installToken !== null) {
-                headers["X-Bunq-Client-Authentication"] = this.Session.installToken;
+                headers[
+                    "X-Bunq-Client-Authentication"
+                ] = this.Session.installToken;
             }
         }
 
@@ -193,23 +196,24 @@ export default class ApiAdapter {
         // Send the request to Bunq
         const response = await axios.request(requestConfig);
 
-        // attempt to verify the Bunq response
-        const verifyResult = await this.verifyResponse(response);
+        // don't do this stip if disabled
+        if (options.ignoreVerification !== true) {
+            // attempt to verify the bunq response
+            const verifyResult = await this.verifyResponse(response);
 
-        if (
-            // verification not ignored
-            options.ignoreVerification !== true &&
-            // verification is invalid
-            !verifyResult &&
-            // not in a CI environment
-            !process.env.ENV_CI
-        ) {
-            // invalid response in a non-ci environment
-            throw {
-                errorCode: ErrorCodes.INVALID_RESPONSE_RECEIVED,
-                error: "We couldn't verify the received response",
-                response: response
-            };
+            if (
+                // verification is invalid
+                !verifyResult &&
+                // not in a CI environment
+                !process.env.ENV_CI
+            ) {
+                // invalid response in a non-ci environment
+                throw {
+                    errorCode: ErrorCodes.INVALID_RESPONSE_RECEIVED,
+                    error: "We couldn't verify the received response",
+                    response: response
+                };
+            }
         }
 
         return response;
