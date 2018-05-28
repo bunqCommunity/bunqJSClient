@@ -59,7 +59,7 @@ exports.verifyString = async (data, publicKey, signature) => {
         // decode the base64 signature
         const rawSignature = forgeUtil.decode64(signature);
         // verify the signature with the public key
-        return publicKey.verify(messageDigest, rawSignature);
+        return publicKey.verify(messageDigest.digest().getBytes(), rawSignature);
     }
     catch (ex) {
         Logger_1.default.debug(ex);

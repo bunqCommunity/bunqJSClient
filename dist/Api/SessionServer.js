@@ -15,6 +15,8 @@ class SessionServer {
     async add(options = {}) {
         const result = await this.ApiAdapter.post("/v1/session-server", {
             secret: this.Session.apiKey
+        }, {}, {
+            ignoreVerification: true
         });
         return {
             id: result.Response[0].Id.id,

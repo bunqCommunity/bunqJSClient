@@ -23,6 +23,10 @@ export default class SessionServer implements ApiEndpointInterface {
             "/v1/session-server",
             {
                 secret: this.Session.apiKey
+            },
+            {},
+            {
+                ignoreVerification: true
             }
         );
 
@@ -38,9 +42,7 @@ export default class SessionServer implements ApiEndpointInterface {
      * @returns {Promise<{id; token: any; user_info}>}
      */
     public async delete(options: any = {}) {
-        await this.ApiAdapter.delete(
-            `/v1/session/${this.Session.sessionId}`
-        );
+        await this.ApiAdapter.delete(`/v1/session/${this.Session.sessionId}`);
 
         return true;
     }
