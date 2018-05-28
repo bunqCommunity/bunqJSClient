@@ -67,3 +67,15 @@ const payments = await BunqJSClient.api.payment.list(userId, accountId);
 
 ## Supported APIs
 For more details look into the endpoints found at `src/Api/*`
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars2.githubusercontent.com/u/7481136?v=4" width="80px;"/><br /><sub><b>Gregory Goijaerts</b></sub>](https://github.com/Crecket)<br />[💻](https://github.com/BunqCommunity/BunqJSClient/commits?author=Crecket "Code") [🎨](#design-Crecket "Design") [📖](https://github.com/BunqCommunity/BunqJSClient/commits?author=Crecket "Documentation") [🚇](#infra-Crecket "Infrastructure (Hosting, Build-Tools, etc)") [👀](#review-Crecket "Reviewed Pull Requests") [📦](#platform-Crecket "Packaging/porting to new platform") [💬](#question-Crecket "Answering Questions") [🐛](https://github.com/BunqCommunity/BunqJSClient/issues?q=author%3ACrecket "Bug reports") | [<img src="https://avatars0.githubusercontent.com/u/5704510?v=4" width="80px;"/><br /><sub><b>Robbert Klarenbeek</b></sub>](https://github.com/robbertkl)<br />[💻](https://github.com/BunqCommunity/BunqJSClient/commits?author=robbertkl "Code") [🐛](https://github.com/BunqCommunity/BunqJSClient/issues?q=author%3Arobbertkl "Bug reports") | [<img src="https://avatars0.githubusercontent.com/u/6396615?v=4" width="80px;"/><br /><sub><b>basst85</b></sub>](https://github.com/basst85)<br />[🐛](https://github.com/BunqCommunity/BunqJSClient/issues?q=author%3Abasst85 "Bug reports") [💻](https://github.com/BunqCommunity/BunqJSClient/commits?author=basst85 "Code") | [<img src="https://avatars0.githubusercontent.com/u/9350879?v=4" width="80px;"/><br /><sub><b>Pascal Drewes</b></sub>](https://drewez.nl/)<br />[🐛](https://github.com/BunqCommunity/BunqJSClient/issues?q=author%3AWant100Cookies "Bug reports") [💻](https://github.com/BunqCommunity/BunqJSClient/commits?author=Want100Cookies "Code") | [<img src="https://avatars3.githubusercontent.com/u/3186640?v=4" width="80px;"/><br /><sub><b>Emile Bons</b></sub>](http://www.emilebons.nl)<br />[💻](https://github.com/BunqCommunity/BunqJSClient/commits?author=EmileBons "Code") |
+| :---: | :---: | :---: | :---: | :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!

@@ -9,7 +9,8 @@
     "test": "cross-env ENV_CI=true jest --verbose --config jest.config.js",
     "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --verbose --watch --config jest.config.js",
     "publish-beta": "npm publish --tag=next",
-    "preversion": "npm run build"
+    "preversion": "npm run build",
+    "add-contributer": "all-contributors add"
   },
   "main": "./index.js",
   "typings": "./src",
@@ -19,6 +20,7 @@
     "@types/jest": "^21.1.8",
     "@types/moxios": "^0.4.8",
     "@types/node": "^8.0.34",
+    "all-contributors-cli": "^4.11.1",
     "awaiting": "^3.0.0",
     "axios": "^0.16.2",
     "babel": "^6.23.0",

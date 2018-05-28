@@ -199,6 +199,7 @@ class BunqJSClient {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip-request", "POST");
         // send a unsigned request to the endpoint to create a new credential password ip
         const response = await limiter.run(async () => this.ApiAdapter.post(`https://api.tinker.bunq.com/v1/credential-password-ip-request`, {}, {}, {
+            ignoreVerification: true,
             disableSigning: true
         }));
         return response.Response[0].UserCredentialPasswordIpRequest;
@@ -212,6 +213,7 @@ class BunqJSClient {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip-request", "GET");
         // send a unsigned request to the endpoint to create a new credential password ip with the uuid
         const response = await limiter.run(async () => this.ApiAdapter.get(`https://api.tinker.bunq.com/v1/credential-password-ip-request/${uuid}`, {}, {
+            ignoreVerification: true,
             disableSigning: true
         }));
         return response.Response[0].UserCredentialPasswordIpRequest;

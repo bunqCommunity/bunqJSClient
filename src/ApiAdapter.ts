@@ -1,10 +1,11 @@
 import axios from "axios";
 import { AxiosRequestConfig } from "axios";
 import * as Url from "url";
-import { signString } from "./Crypto/Sha256";
+import { signString, verifyString } from "./Crypto/Sha256";
+import { ucfirst } from "./Helpers/Utils";
 import Session from "./Session";
 import Header from "./Types/Header";
-import { ucfirst } from "./Helpers/Utils";
+import ErrorCodes, { INVALID_RESPONSE_RECEIVED } from "./Helpers/ErrorCodes";
 import RequestLimitFactory from "./RequestLimitFactory";
 import LoggerInterface from "./Interfaces/LoggerInterface";
 
@@ -181,11 +182,23 @@ export default class ApiAdapter {
         const response = await axios.request(requestConfig);
 
         // attempt to verify the Bunq response
-        // const verifyResult = await this.verifyResponse(response);
-        //
-        // if (!verifyResult) {
-        //     throw new Error("We couldn't verify the received response");
-        // }
+        const verifyResult = await this.verifyResponse(response);
+
+        if (
+            // verification not ignored
+            options.ignoreVerification !== true &&
+            // verification is invalid
+            !verifyResult &&
+            // not in a CI environment
+            !process.env.ENV_CI
+        ) {
+            // invalid response in a non-ci environment
+            throw {
+                errorCode: ErrorCodes.INVALID_RESPONSE_RECEIVED,
+                error: "We couldn't verify the received response",
+                response: response
+            };
+        }
 
         return response;
     }
@@ -326,8 +339,14 @@ export default class ApiAdapter {
             return this.Session.installToken === null;
         }
 
+        // fallback values for invalid response objects
+        if (!response.status) response.status = 200;
+        if (!response.request) response.request = {};
+        if (!response.headers) response.headers = {};
+
         // create a list of headers
         const headerStrings = [];
+
         Object.keys(response.headers).map(headerKey => {
             const headerParts = headerKey.split("-");
             // add uppercase back since axios makes every header key lowercase
@@ -358,6 +377,9 @@ export default class ApiAdapter {
             case "string":
                 data = response.request.response;
                 break;
+            case "undefined":
+                data = "";
+                break;
             default:
                 data = response.request.response.toString();
                 break;
@@ -366,15 +388,17 @@ export default class ApiAdapter {
         // generate the full template
         const template: string = `${response.status}\n${headers}\n\n${data}`;
 
-        // response verification is disabled
-        return true;
+        // only validate if a server signature is set
+        if (!response.headers["x-bunq-server-signature"]) {
+            return false;
+        }
 
         // verify the string and return results
-        // return await verifyString(
-        //     template,
-        //     this.Session.serverPublicKey,
-        //     response.headers["x-bunq-server-signature"]
-        // );
+        return await verifyString(
+            template,
+            this.Session.serverPublicKey,
+            response.headers["x-bunq-server-signature"]
+        );
     }
 
     /**
