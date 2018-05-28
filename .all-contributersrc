@@ -1,0 +1,29 @@
+{
+  "projectName": "BunqJSClient",
+  "projectOwner": "BunqCommunity",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 80,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Crecket",
+      "name": "Gregory Goijaerts",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/7481136?v=4",
+      "profile": "https://github.com/Crecket",
+      "contributions": [
+        "code",
+        "design",
+        "doc",
+        "infra",
+        "review",
+        "platform",
+        "question",
+        "bug"
+      ]
+    }
+  ]
+}

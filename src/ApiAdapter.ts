@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AxiosRequestConfig } from "axios";
 import * as Url from "url";
-import { signString } from "./Crypto/Sha256";
+import { signString, verifyString } from "./Crypto/Sha256";
 import Session from "./Session";
 import Header from "./Types/Header";
 import { ucfirst } from "./Helpers/Utils";
@@ -181,11 +181,11 @@ export default class ApiAdapter {
         const response = await axios.request(requestConfig);
 
         // attempt to verify the Bunq response
-        // const verifyResult = await this.verifyResponse(response);
-        //
-        // if (!verifyResult) {
-        //     throw new Error("We couldn't verify the received response");
-        // }
+        const verifyResult = await this.verifyResponse(response);
+
+        if (!verifyResult) {
+            throw new Error("We couldn't verify the received response");
+        }
 
         return response;
     }
@@ -366,15 +366,12 @@ export default class ApiAdapter {
         // generate the full template
         const template: string = `${response.status}\n${headers}\n\n${data}`;
 
-        // response verification is disabled
-        return true;
-
         // verify the string and return results
-        // return await verifyString(
-        //     template,
-        //     this.Session.serverPublicKey,
-        //     response.headers["x-bunq-server-signature"]
-        // );
+        return await verifyString(
+            template,
+            this.Session.serverPublicKey,
+            response.headers["x-bunq-server-signature"]
+        );
     }
 
     /**
