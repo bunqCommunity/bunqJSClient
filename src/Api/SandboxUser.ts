@@ -30,6 +30,7 @@ export default class SandboxUser implements ApiEndpointInterface {
                 {},
                 {},
                 {
+                    ignoreVerification: true,
                     disableSigning: true
                 }
             )

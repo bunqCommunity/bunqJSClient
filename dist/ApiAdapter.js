@@ -4,6 +4,7 @@ const axios_1 = require("axios");
 const Url = require("url");
 const Sha256_1 = require("./Crypto/Sha256");
 const Utils_1 = require("./Helpers/Utils");
+const ErrorCodes_1 = require("./Helpers/ErrorCodes");
 const RequestLimitFactory_1 = require("./RequestLimitFactory");
 // these headers are set by default
 exports.DEFAULT_HEADERS = {
@@ -112,11 +113,21 @@ class ApiAdapter {
         // Send the request to Bunq
         const response = await axios_1.default.request(requestConfig);
         // attempt to verify the Bunq response
-        // const verifyResult = await this.verifyResponse(response);
-        //
-        // if (!verifyResult) {
-        //     throw new Error("We couldn't verify the received response");
-        // }
+        const verifyResult = await this.verifyResponse(response);
+        if (
+        // verification not ignored
+        options.ignoreVerification !== true &&
+            // verification is invalid
+            !verifyResult &&
+            // not in a CI environment
+            !process.env.ENV_CI) {
+            // invalid response in a non-ci environment
+            throw {
+                errorCode: ErrorCodes_1.default.INVALID_RESPONSE_RECEIVED,
+                error: "We couldn't verify the received response",
+                response: response
+            };
+        }
         return response;
     }
     /**
@@ -228,6 +239,13 @@ class ApiAdapter {
             // no public key so we can't verify, return true if we aren't installed yet
             return this.Session.installToken === null;
         }
+        // fallback values for invalid response objects
+        if (!response.status)
+            response.status = 200;
+        if (!response.request)
+            response.request = {};
+        if (!response.headers)
+            response.headers = {};
         // create a list of headers
         const headerStrings = [];
         Object.keys(response.headers).map(headerKey => {
@@ -252,20 +270,21 @@ class ApiAdapter {
             case "string":
                 data = response.request.response;
                 break;
+            case "undefined":
+                data = "";
+                break;
             default:
                 data = response.request.response.toString();
                 break;
         }
         // generate the full template
         const template = `${response.status}\n${headers}\n\n${data}`;
-        // response verification is disabled
-        return true;
+        // only validate if a server signature is set
+        if (!response.headers["x-bunq-server-signature"]) {
+            return false;
+        }
         // verify the string and return results
-        // return await verifyString(
-        //     template,
-        //     this.Session.serverPublicKey,
-        //     response.headers["x-bunq-server-signature"]
-        // );
+        return await Sha256_1.verifyString(template, this.Session.serverPublicKey, response.headers["x-bunq-server-signature"]);
     }
     /**
      * Generates a list of the required headers

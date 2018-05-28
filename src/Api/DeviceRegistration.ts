@@ -32,7 +32,11 @@ export default class DeviceRegistration implements ApiEndpointInterface {
 
         const response = await this.ApiAdapter.post(
             "/v1/device-server",
-            postData
+            postData,
+            {},
+            {
+                ignoreVerification: true
+            }
         );
 
         // return the device id

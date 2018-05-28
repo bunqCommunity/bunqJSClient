@@ -16,6 +16,7 @@ class Installation {
         const result = await this.ApiAdapter.post("/v1/installation", {
             client_public_key: this.Session.publicKeyPem
         }, {}, {
+            ignoreVerification: true,
             disableSigning: true
         });
         return {

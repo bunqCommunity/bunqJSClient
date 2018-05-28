@@ -250,6 +250,7 @@ export default class BunqJSClient {
                 {},
                 {},
                 {
+                    ignoreVerification: true,
                     disableSigning: true
                 }
             )
@@ -275,6 +276,7 @@ export default class BunqJSClient {
                 `https://api.tinker.bunq.com/v1/credential-password-ip-request/${uuid}`,
                 {},
                 {
+                    ignoreVerification: true,
                     disableSigning: true
                 }
             )
