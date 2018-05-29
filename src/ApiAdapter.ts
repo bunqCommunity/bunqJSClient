@@ -2,10 +2,10 @@ import axios from "axios";
 import { AxiosRequestConfig } from "axios";
 import * as Url from "url";
 import { signString, verifyString } from "./Crypto/Sha256";
-import { ucfirst } from "./Helpers/Utils";
+import { arrayBufferToString, ucfirst } from "./Helpers/Utils";
 import Session from "./Session";
 import Header from "./Types/Header";
-import ErrorCodes, { INVALID_RESPONSE_RECEIVED } from "./Helpers/ErrorCodes";
+import ErrorCodes from "./Helpers/ErrorCodes";
 import RequestLimitFactory from "./RequestLimitFactory";
 import LoggerInterface from "./Interfaces/LoggerInterface";
 import ApiAdapterOptions from "./Types/ApiAdapterOptions";
@@ -362,7 +362,6 @@ export default class ApiAdapter {
 
         // create a list of headers
         const headerStrings = [];
-
         Object.keys(response.headers).map(headerKey => {
             const headerParts = headerKey.split("-");
             // add uppercase back since axios makes every header key lowercase
@@ -381,25 +380,31 @@ export default class ApiAdapter {
             }
         });
 
+        // serialize the data
+        let data: string = "";
+
+        const contentType = response.headers["content-type"];
+        if (contentType === "application/json") {
+            switch (typeof response.request.response) {
+                case "string":
+                    data = response.request.response;
+                    break;
+                case "undefined":
+                    data = "";
+                    break;
+                default:
+                    data = response.request.response.toString();
+                    break;
+            }
+        } else {
+            data = arrayBufferToString(response.data);
+        }
+
         // sort alphabetically
         headerStrings.sort();
 
         // join into a list of headers for the template
         const headers = headerStrings.join("\n");
-
-        // serialize the data
-        let data: string = "";
-        switch (typeof response.request.response) {
-            case "string":
-                data = response.request.response;
-                break;
-            case "undefined":
-                data = "";
-                break;
-            default:
-                data = response.request.response.toString();
-                break;
-        }
 
         // generate the full template
         const template: string = `${response.status}\n${headers}\n\n${data}`;

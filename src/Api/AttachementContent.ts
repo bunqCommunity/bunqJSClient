@@ -30,9 +30,8 @@ export default class AttachementContent implements ApiEndpointInterface {
                 `/v1/attachment-public/${attachmendUUID}/content`,
                 {},
                 {
-                    ignoreVerification: true,
                     axiosOptions: {
-                        responseType: "blob"
+                        responseType: "arraybuffer"
                     }
                 }
             )
@@ -45,9 +44,11 @@ export default class AttachementContent implements ApiEndpointInterface {
                     // buffers are simply encoded as base64
                     resolve(response.toString("base64"));
                 } else {
+                    const blob = new Blob([response], { type: "image/png" });
+
                     // create a new filereader and transform response blob data into a base64 url
                     const reader = new FileReader();
-                    reader.readAsDataURL(response);
+                    reader.readAsDataURL(blob);
                     reader.onload = () => resolve(reader.result);
                     reader.onerror = error => reject(error);
                 }

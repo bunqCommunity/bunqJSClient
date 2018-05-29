@@ -11,6 +11,15 @@ export const ucfirst = (string: string): string => {
 };
 
 /**
+ * Turns an arraybuffer into a valid binary string
+ * @param {ArrayBuffer} arrayBuffer
+ * @returns {string}
+ */
+export const arrayBufferToString = arrayBuffer => {
+    return String.fromCharCode.apply(null, new Uint8Array(arrayBuffer));
+};
+
+/**
  * Requests permision for location and
  * @param {boolean|any} geoLocationHandler
  * @returns {Promise<{latitude: string; longitude: string}>}

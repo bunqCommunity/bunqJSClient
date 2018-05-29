@@ -63,7 +63,7 @@ export const verifyString = async (
 ) => {
     // create a new message digest for our string
     const messageDigest = forgeSha256.create();
-    messageDigest.update(data, "utf8");
+    messageDigest.update(data, "raw");
 
     try {
         // decode the base64 signature

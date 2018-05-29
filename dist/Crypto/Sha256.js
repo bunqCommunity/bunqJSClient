@@ -54,7 +54,7 @@ exports.signString = async (data, privateKey) => {
 exports.verifyString = async (data, publicKey, signature) => {
     // create a new message digest for our string
     const messageDigest = forgeSha256.create();
-    messageDigest.update(data, "utf8");
+    messageDigest.update(data, "raw");
     try {
         // decode the base64 signature
         const rawSignature = forgeUtil.decode64(signature);

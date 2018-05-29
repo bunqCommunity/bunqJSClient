@@ -5,7 +5,7 @@
   "scripts": {
     "build": "npm run build-webpack && npm run build-ts",
     "build-webpack": "cross-env NODE_ENV=production webpack --progress --colors",
-    "build-ts": "tsc --listFiles",
+    "build-ts": "tsc --listFiles --newline lf",
     "test": "cross-env ENV_CI=true jest --verbose --config jest.config.js",
     "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --verbose --watch --config jest.config.js",
     "publish-beta": "npm publish --tag=next",

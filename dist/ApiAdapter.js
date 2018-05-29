@@ -263,23 +263,29 @@ class ApiAdapter {
                 headerStrings.push(`${headerKeyFixed}: ${response.headers[headerKey]}`);
             }
         });
+        // serialize the data
+        let data = "";
+        const contentType = response.headers["content-type"];
+        if (contentType === "application/json") {
+            switch (typeof response.request.response) {
+                case "string":
+                    data = response.request.response;
+                    break;
+                case "undefined":
+                    data = "";
+                    break;
+                default:
+                    data = response.request.response.toString();
+                    break;
+            }
+        }
+        else {
+            data = Utils_1.arrayBufferToString(response.data);
+        }
         // sort alphabetically
         headerStrings.sort();
         // join into a list of headers for the template
         const headers = headerStrings.join("\n");
-        // serialize the data
-        let data = "";
-        switch (typeof response.request.response) {
-            case "string":
-                data = response.request.response;
-                break;
-            case "undefined":
-                data = "";
-                break;
-            default:
-                data = response.request.response.toString();
-                break;
-        }
         // generate the full template
         const template = `${response.status}\n${headers}\n\n${data}`;
         // only validate if a server signature is set

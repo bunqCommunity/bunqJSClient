@@ -36,14 +36,15 @@ export default class CustomerStatementExportContent
                 `/v1/user/${userId}/monetary-account/${accountId}/customer-statement/${customerStatementId}/content`,
                 {},
                 {
-                    ignoreVerification: true,
                     axiosOptions: {
-                        responseType: "blob"
+                        responseType: "arraybuffer"
                     }
                 }
             )
         );
 
-        return response;
+        const blob = new Blob([response]);
+
+        return blob;
     }
 }
