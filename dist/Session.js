@@ -171,7 +171,9 @@ class Session {
         if (this.apiKey !== null && this.apiKey !== apiKey) {
             this.logger.debug("current apiKey not null and changed");
         }
-        if (this.environment !== null && environment !== this.environment) {
+        if (this.environment !== null &&
+            environment !== this.environment &&
+            apiKey !== false) {
             this.logger.debug("current environmentType not null and changed");
             // we can't keep the session data if the environment changes
             await this.destroySession();
