@@ -2,6 +2,12 @@ import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import PaginationOptions from "../Types/PaginationOptions";
+import CounterpartyAlias from "../Types/CounterpartyAlias";
+import {
+    ShareInviteBankInquiryPostOptions,
+    ShareInviteBankInquiryPostShareDetail,
+    ShareInviteBankInquiryPostStatus
+} from "../Types/ShareInviteBankInquiryPost";
 
 export default class ShareInviteBankInquiry implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
@@ -13,6 +19,56 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
     constructor(ApiAdapter: ApiAdapter) {
         this.ApiAdapter = ApiAdapter;
         this.Session = ApiAdapter.Session;
+    }
+
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
+     * @param {CounterpartyAlias} counterpartyAlias
+     * @param {ShareInviteBankInquiryPostShareDetail} shareDetail
+     * @param {ShareInviteBankInquiryPostStatus} status
+     * @param {ShareInviteBankInquiryPostOptions} options
+     * @returns {Promise<any>}
+     */
+    public async post(
+        userId: number,
+        monetaryAccountId: number,
+        counterpartyAlias: CounterpartyAlias,
+        shareDetail: ShareInviteBankInquiryPostShareDetail,
+        status: ShareInviteBankInquiryPostStatus = "PENDING",
+        options: ShareInviteBankInquiryPostOptions = {
+            share_type: "STANDARD"
+        }
+    ) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/share-invite-bank-inquiry",
+            "POST"
+        );
+
+        const postData: any = {
+            counter_user_alias: counterpartyAlias,
+            share_detail: shareDetail,
+            status: status
+        };
+
+        if (options.share_type) {
+            postData.share_type = options.share_type;
+        }
+        if (options.start_date) {
+            postData.start_date = options.start_date;
+        }
+        if (options.end_date) {
+            postData.end_date = options.end_date;
+        }
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry`,
+                postData
+            )
+        );
+
+        return response.Response;
     }
 
     /**
