@@ -10,6 +10,21 @@ class ShareInviteBankResponse {
     }
     /**
      * @param {number} userId
+     * @param {number} accountId
+     * @param {PaginationOptions} options
+     * @returns {Promise<void>}
+     */
+    async get(userId, shareInviteBankResponseId, options = {
+            count: 50,
+            newer_id: false,
+            older_id: false
+        }) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-response", "GET");
+        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/share-invite-bank-response/${shareInviteBankResponseId}`));
+        return response.Response;
+    }
+    /**
+     * @param {number} userId
      * @param {PaginationOptions} options
      * @returns {Promise<void>}
      */
@@ -33,6 +48,22 @@ class ShareInviteBankResponse {
             axiosOptions: {
                 params: params
             }
+        }));
+        return response.Response;
+    }
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
+     * @param {CounterpartyAlias} counterpartyAlias
+     * @param {ShareInviteBankInquiryPostShareDetail} shareDetail
+     * @param {ShareInviteBankInquiryPostStatus} status
+     * @param {ShareInviteBankInquiryPostOptions} options
+     * @returns {Promise<any>}
+     */
+    async put(userId, shareInviteBankResponseId, status) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-response", "PUT");
+        const response = await limiter.run(async () => this.ApiAdapter.put(`/v1/user/${userId}/share-invite-bank-response/${shareInviteBankResponseId}`, {
+            status: status
         }));
         return response.Response;
     }

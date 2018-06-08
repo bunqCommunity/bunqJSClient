@@ -26,7 +26,7 @@ export default class SandboxUser implements ApiEndpointInterface {
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.post(
-                `https://sandbox.public.api.bunq.com/v1/sandbox-user`,
+                `/v1/sandbox-user`,
                 {},
                 {},
                 {

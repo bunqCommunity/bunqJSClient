@@ -14,7 +14,7 @@ type UrlEnviromentType = {
 
 export const ALLOWED_ENVIROMENTS: string[] = ["SANDBOX", "PRODUCTION"];
 export const URL_ENVIROMENTS: UrlEnviromentType = {
-    SANDBOX: "https://sandbox.public.api.bunq.com",
+    SANDBOX: "https://public-api.sandbox.bunq.com",
     PRODUCTION: "https://api.bunq.com"
 };
 

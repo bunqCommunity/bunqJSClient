@@ -7,7 +7,7 @@ import {
     ShareInviteBankInquiryPostOptions,
     ShareInviteBankInquiryPostShareDetail,
     ShareInviteBankInquiryPostStatus
-} from "../Types/ShareInviteBankInquiryPost";
+} from "../Types/ShareInviteBankInquiry";
 
 export default class ShareInviteBankInquiry implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
@@ -19,6 +19,83 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
     constructor(ApiAdapter: ApiAdapter) {
         this.ApiAdapter = ApiAdapter;
         this.Session = ApiAdapter.Session;
+    }
+
+    /**
+     * @param {number} userId
+     * @param {number} accountId
+     * @param {PaginationOptions} options
+     * @returns {Promise<void>}
+     */
+    public async get(
+        userId: number,
+        accountId: number,
+        shareInviteBankInquiryId: number,
+        options: PaginationOptions = {
+            count: 50,
+            newer_id: false,
+            older_id: false
+        }
+    ) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/share-invite-bank-inquiry",
+            "GET"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${accountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`
+            )
+        );
+
+        return response.Response;
+    }
+
+    /**
+     * @param {number} userId
+     * @param {number} accountId
+     * @param {PaginationOptions} options
+     * @returns {Promise<void>}
+     */
+    public async list(
+        userId: number,
+        accountId: number,
+        options: PaginationOptions = {
+            count: 50,
+            newer_id: false,
+            older_id: false
+        }
+    ) {
+        const params: any = {};
+
+        if (options.count !== undefined) {
+            params.count = options.count;
+        }
+        if (options.newer_id !== false && options.newer_id !== undefined) {
+            params.newer_id = options.newer_id;
+        }
+        if (options.older_id !== false && options.older_id !== undefined) {
+            params.older_id = options.older_id;
+        }
+
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/share-invite-bank-inquiry",
+            "LIST"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${accountId}/share-invite-bank-inquiry`,
+                {},
+                {
+                    axiosOptions: {
+                        params: params
+                    }
+                }
+            )
+        );
+
+        return response.Response;
     }
 
     /**
@@ -73,45 +150,48 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
 
     /**
      * @param {number} userId
-     * @param {number} accountId
-     * @param {PaginationOptions} options
-     * @returns {Promise<void>}
+     * @param {number} monetaryAccountId
+     * @param {CounterpartyAlias} counterpartyAlias
+     * @param {ShareInviteBankInquiryPostShareDetail} shareDetail
+     * @param {ShareInviteBankInquiryPostStatus} status
+     * @param {ShareInviteBankInquiryPostOptions} options
+     * @returns {Promise<any>}
      */
-    public async list(
+    public async put(
         userId: number,
-        accountId: number,
-        options: PaginationOptions = {
-            count: 50,
-            newer_id: false,
-            older_id: false
+        monetaryAccountId: number,
+        counterpartyAlias: CounterpartyAlias,
+        shareDetail: ShareInviteBankInquiryPostShareDetail,
+        status: ShareInviteBankInquiryPostStatus = "PENDING",
+        options: ShareInviteBankInquiryPostOptions = {
+            share_type: "STANDARD"
         }
     ) {
-        const params: any = {};
-
-        if (options.count !== undefined) {
-            params.count = options.count;
-        }
-        if (options.newer_id !== false && options.newer_id !== undefined) {
-            params.newer_id = options.newer_id;
-        }
-        if (options.older_id !== false && options.older_id !== undefined) {
-            params.older_id = options.older_id;
-        }
-
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
             "/share-invite-bank-inquiry",
-            "LIST"
+            "PUT"
         );
 
+        const postData: any = {
+            counter_user_alias: counterpartyAlias,
+            share_detail: shareDetail,
+            status: status
+        };
+
+        if (options.share_type) {
+            postData.share_type = options.share_type;
+        }
+        if (options.start_date) {
+            postData.start_date = options.start_date;
+        }
+        if (options.end_date) {
+            postData.end_date = options.end_date;
+        }
+
         const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${accountId}/share-invite-bank-inquiry`,
-                {},
-                {
-                    axiosOptions: {
-                        params: params
-                    }
-                }
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry`,
+                postData
             )
         );
 

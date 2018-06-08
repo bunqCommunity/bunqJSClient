@@ -4,7 +4,7 @@ const Rsa_1 = require("./Crypto/Rsa");
 const Aes_1 = require("./Crypto/Aes");
 exports.ALLOWED_ENVIROMENTS = ["SANDBOX", "PRODUCTION"];
 exports.URL_ENVIROMENTS = {
-    SANDBOX: "https://sandbox.public.api.bunq.com",
+    SANDBOX: "https://public-api.sandbox.bunq.com",
     PRODUCTION: "https://api.bunq.com"
 };
 class Session {
