@@ -91,7 +91,7 @@ class ShareInviteBankInquiry {
      * @param {ShareInviteBankInquiryPostOptions} options
      * @returns {Promise<any>}
      */
-    async put(userId, monetaryAccountId, counterpartyAlias, shareDetail, status = "PENDING", options = {
+    async put(userId, monetaryAccountId, shareInviteBankInquiryId, counterpartyAlias, shareDetail, status = "PENDING", options = {
         share_type: "STANDARD"
     }) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "PUT");
@@ -109,7 +109,7 @@ class ShareInviteBankInquiry {
         if (options.end_date) {
             postData.end_date = options.end_date;
         }
-        const response = await limiter.run(async () => this.ApiAdapter.put(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry`, postData));
+        const response = await limiter.run(async () => this.ApiAdapter.put(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`, postData));
         return response.Response;
     }
     /**
@@ -121,7 +121,7 @@ class ShareInviteBankInquiry {
      */
     async putStatus(userId, monetaryAccountId, shareInviteBankInquiryId, status) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "PUT");
-        const response = await limiter.run(async () => this.ApiAdapter.put(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry`, {
+        const response = await limiter.run(async () => this.ApiAdapter.put(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`, {
             status: status
         }));
         return response.Response;

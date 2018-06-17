@@ -160,6 +160,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
     public async put(
         userId: number,
         monetaryAccountId: number,
+        shareInviteBankInquiryId: number,
         counterpartyAlias: CounterpartyAlias,
         shareDetail: ShareInviteBankInquiryPostShareDetail,
         status: ShareInviteBankInquiryPostStatus = "PENDING",
@@ -190,7 +191,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.put(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry`,
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`,
                 postData
             )
         );
@@ -218,7 +219,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.put(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry`,
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`,
                 {
                     status: status
                 }
