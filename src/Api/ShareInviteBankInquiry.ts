@@ -197,4 +197,34 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
 
         return response.Response;
     }
+
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
+     * @param {number} shareInviteBankInquiryId
+     * @param {ShareInviteBankInquiryPostStatus} status
+     * @returns {Promise<any>}
+     */
+    public async putStatus(
+        userId: number,
+        monetaryAccountId: number,
+        shareInviteBankInquiryId: number,
+        status: ShareInviteBankInquiryPostStatus
+    ) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/share-invite-bank-inquiry",
+            "PUT"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry`,
+                {
+                    status: status
+                }
+            )
+        );
+
+        return response.Response;
+    }
 }

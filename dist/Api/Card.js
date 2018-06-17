@@ -24,10 +24,10 @@ class Card {
      * @returns {Promise<void>}
      */
     async list(userId, options = {
-            count: 25,
-            newer_id: false,
-            older_id: false
-        }) {
+        count: 25,
+        newer_id: false,
+        older_id: false
+    }) {
         const params = {};
         if (options.count !== undefined) {
             params.count = options.count;

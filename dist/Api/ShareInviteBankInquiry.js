@@ -15,10 +15,10 @@ class ShareInviteBankInquiry {
      * @returns {Promise<void>}
      */
     async get(userId, accountId, shareInviteBankInquiryId, options = {
-            count: 50,
-            newer_id: false,
-            older_id: false
-        }) {
+        count: 50,
+        newer_id: false,
+        older_id: false
+    }) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "GET");
         const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${accountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`));
         return response.Response;
@@ -30,10 +30,10 @@ class ShareInviteBankInquiry {
      * @returns {Promise<void>}
      */
     async list(userId, accountId, options = {
-            count: 50,
-            newer_id: false,
-            older_id: false
-        }) {
+        count: 50,
+        newer_id: false,
+        older_id: false
+    }) {
         const params = {};
         if (options.count !== undefined) {
             params.count = options.count;
@@ -62,8 +62,8 @@ class ShareInviteBankInquiry {
      * @returns {Promise<any>}
      */
     async post(userId, monetaryAccountId, counterpartyAlias, shareDetail, status = "PENDING", options = {
-            share_type: "STANDARD"
-        }) {
+        share_type: "STANDARD"
+    }) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "POST");
         const postData = {
             counter_user_alias: counterpartyAlias,
@@ -92,8 +92,8 @@ class ShareInviteBankInquiry {
      * @returns {Promise<any>}
      */
     async put(userId, monetaryAccountId, counterpartyAlias, shareDetail, status = "PENDING", options = {
-            share_type: "STANDARD"
-        }) {
+        share_type: "STANDARD"
+    }) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "PUT");
         const postData = {
             counter_user_alias: counterpartyAlias,
@@ -110,6 +110,20 @@ class ShareInviteBankInquiry {
             postData.end_date = options.end_date;
         }
         const response = await limiter.run(async () => this.ApiAdapter.put(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry`, postData));
+        return response.Response;
+    }
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
+     * @param {number} shareInviteBankInquiryId
+     * @param {ShareInviteBankInquiryPostStatus} status
+     * @returns {Promise<any>}
+     */
+    async putStatus(userId, monetaryAccountId, shareInviteBankInquiryId, status) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "PUT");
+        const response = await limiter.run(async () => this.ApiAdapter.put(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry`, {
+            status: status
+        }));
         return response.Response;
     }
 }

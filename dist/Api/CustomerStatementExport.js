@@ -18,8 +18,8 @@ class CustomerStatementExport {
      * @returns {Promise<any>}
      */
     async post(userId, accountId, statement_format, date_start, date_end, options = {
-            regional_format: "EUROPEAN"
-        }) {
+        regional_format: "EUROPEAN"
+    }) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/customer-statement-export", "POST");
         const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${accountId}/customer-statement/`, {
             statement_format: statement_format,
