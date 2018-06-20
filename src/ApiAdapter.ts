@@ -50,7 +50,8 @@ export default class ApiAdapter {
         headers: any = {},
         options: ApiAdapterOptions = {}
     ) {
-        const response = await this.request(url, "GET", {}, headers, options);
+        const response = await this.request(url, "GET", "", headers, options);
+
         return response.data;
     }
 
@@ -172,6 +173,7 @@ export default class ApiAdapter {
             method: method,
             data: data,
             headers: this.createHeaders(headers),
+            transformResponse: undefined,
             ...options.axiosOptions
         };
 
@@ -215,6 +217,13 @@ export default class ApiAdapter {
                 };
             }
         }
+
+        try {
+            // attempt to turn string result back into json when possible
+            response.data = JSON.parse(response.data);
+
+            return response;
+        } catch (error) {}
 
         return response;
     }
@@ -385,15 +394,15 @@ export default class ApiAdapter {
 
         const contentType = response.headers["content-type"];
         if (contentType === "application/json") {
-            switch (typeof response.request.response) {
+            switch (typeof response.data) {
                 case "string":
-                    data = response.request.response;
+                    data = response.data;
                     break;
                 case "undefined":
                     data = "";
                     break;
                 default:
-                    data = response.request.response.toString();
+                    data = JSON.stringify(response.data);
                     break;
             }
         } else {
