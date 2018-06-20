@@ -3,7 +3,7 @@ const JSONStore = require('json-store');
 const LocalStorage = JSONStore(__dirname+'\\storage.json');
 
 const ENCRYPTION_KEY = "3c7a4d431a846ed33a3bb1b1fa9b5c26";
-const API_KEY = "sandbox_acc7c58c80f6a81017992e23b69479bc928729baff0ee026ca511df1";
+const API_KEY = "sandbox_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; // replace with your sandbox API-key
 const DEVICE_NAME = "NodeTest";
 const ENVIRONMENT = "SANDBOX"; // OR you can use PRODUCTION
 const PERMITTED_IPS = []; // empty array if you're not sure
