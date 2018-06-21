@@ -17,4 +17,4 @@ Before submitting a new bug report make sure you check the following things!
 To make things easier provide us with as much information as possible.
 - Include the error displayed on the error screen or listed in the error logs when possible.
 - Provide screenshots if a visual bug is involved.
-- List which versions you are using. For example `Windows 10 and BunqDesktop 0.6.4`.
+- List which versions you are using. For example `Windows 10 and bunqJSClient 0.21.2`.

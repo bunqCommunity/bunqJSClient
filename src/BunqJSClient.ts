@@ -27,7 +27,7 @@ export default class BunqJSClient {
     public api: any;
 
     /**
-     * A list of all custom BunqJSClient error codes to make error handling easier
+     * A list of all custom bunqJSClient error codes to make error handling easier
      * @type {{INSTALLATION_HAS_SESSION}}
      */
     public errorCodes: any = ErrorCodes;
@@ -63,7 +63,7 @@ export default class BunqJSClient {
         environment: string = "SANDBOX",
         encryptionKey: string | boolean = false
     ) {
-        this.logger.debug("BunqJSClient run");
+        this.logger.debug("bunqJSClient run");
 
         this.apiKey = apiKey;
         this.allowedIps = allowedIps;

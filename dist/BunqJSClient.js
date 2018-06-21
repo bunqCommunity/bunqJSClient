@@ -17,7 +17,7 @@ class BunqJSClient {
         this.apiKey = null;
         this.allowedIps = [];
         /**
-         * A list of all custom BunqJSClient error codes to make error handling easier
+         * A list of all custom bunqJSClient error codes to make error handling easier
          * @type {{INSTALLATION_HAS_SESSION}}
          */
         this.errorCodes = ErrorCodes_1.default;
@@ -60,7 +60,7 @@ class BunqJSClient {
      * @returns {Promise.<void>}
      */
     async run(apiKey, allowedIps = [], environment = "SANDBOX", encryptionKey = false) {
-        this.logger.debug("BunqJSClient run");
+        this.logger.debug("bunqJSClient run");
         this.apiKey = apiKey;
         this.allowedIps = allowedIps;
         // setup the session with our apiKey and ip whitelist

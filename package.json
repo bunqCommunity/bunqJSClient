@@ -47,11 +47,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BunqCommunity/BunqJSClient.git"
+    "url": "git+https://github.com/bunqCommunity/bunqJSClient.git"
   },
   "author": "",
   "bugs": {
-    "url": "https://github.com/BunqCommunity/BunqJSClient/issues"
+    "url": "https://github.com/bunqCommunity/bunqJSClient/issues"
   },
-  "homepage": "https://github.com/BunqCommunity/BunqJSClient#readme"
+  "homepage": "https://github.com/bunqCommunity/bunqJSClient#readme"
 }
