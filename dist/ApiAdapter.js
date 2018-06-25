@@ -112,8 +112,25 @@ class ApiAdapter {
             requestConfig.url = `${this.Session
                 .environmentUrl}${requestConfig.url}`;
         }
-        // Send the request to Bunq
-        const response = await axios_1.default.request(requestConfig);
+        let response;
+        try {
+            // attempt to send the request
+            response = await axios_1.default.request(requestConfig);
+        }
+        catch (error) {
+            // get the data from the request if it fails
+            if (error.response.data) {
+                // parse json response if possible
+                try {
+                    // attempt to turn string result back into json when possible
+                    error.response.data = JSON.parse(error.response.data);
+                    throw error;
+                }
+                catch (error) { }
+            }
+            // rethrow if no json data could be found
+            throw error;
+        }
         // don't do this stip if disabled
         if (options.ignoreVerification !== true) {
             // attempt to verify the bunq response
