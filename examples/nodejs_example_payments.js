@@ -24,36 +24,34 @@ const setup = async () => {
     ).catch(exception => {
         throw exception;
     });
-	
-    // register a new session
-    await BunqClient.registerSession(
-	).catch(error => {
-		throw error.response.data;
-    });
-}
 
-const getMonetaryAccounts = async (userid) => {
-	// get accounts
-	const accounts = await BunqClient.api.monetaryAccount.list(
-		userid
-	).catch(error => {
-		throw error;
-	});
-	
-	return accounts;
-}
+    // register a new session
+    await BunqClient.registerSession().catch(error => {
+        throw error.response.data;
+    });
+};
+
+const getMonetaryAccounts = async userid => {
+    // get accounts
+    const accounts = await BunqClient.api.monetaryAccount
+        .list(userid)
+        .catch(error => {
+            throw error;
+        });
+
+    return accounts;
+};
 
 const getPayments = async (userid, monetaryaccountid) => {
-	// get payments
-	const payments = await BunqClient.api.payment.list(
-		userid,
-		monetaryaccountid
-	).catch(error => {
-		throw error;
-	});
-	
-	return payments;
-}
+    // get payments
+    const payments = await BunqClient.api.payment
+        .list(userid, monetaryaccountid)
+        .catch(error => {
+            throw error;
+        });
+
+    return payments;
+};
 
 // shortcut to fetch the BunqJSClient users
 const getUsers = () => BunqClient.getUsers(true);
@@ -61,27 +59,30 @@ const getUsers = () => BunqClient.getUsers(true);
 // run setup and get payments
 setup()
     .then(async setup => {
-    const users = await getUsers();
+        const users = await getUsers();
 
-	getMonetaryAccounts(users.UserPerson.id)
-		.then(async accounts => {
-			getPayments(users.UserPerson.id, accounts[0].MonetaryAccountBank.id)
-				.then(async payments => {
-					// log payments to console
-					console.log(payments);
-					process.exit();
-				})
-				.catch(error => {
-					console.log(error);
-					process.exit();
-				});
-		})
-		.catch(error => {
-			console.log(error);
-			process.exit();
-		});
-	})
-	.catch(error => {
-		console.log(error);
-		process.exit();
-	});	
+        getMonetaryAccounts(users.UserPerson.id)
+            .then(async accounts => {
+                getPayments(
+                    users.UserPerson.id,
+                    accounts[0].MonetaryAccountBank.id
+                )
+                    .then(async payments => {
+                        // log payments to console
+                        console.log(payments);
+                        process.exit();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        process.exit();
+                    });
+            })
+            .catch(error => {
+                console.log(error);
+                process.exit();
+            });
+    })
+    .catch(error => {
+        console.log(error);
+        process.exit();
+    });
