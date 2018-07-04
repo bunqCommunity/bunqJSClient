@@ -159,8 +159,6 @@ class Session {
         this.storageInterface = storageInterface;
         this.logger = loggerInterface;
         this.environmentType = "SANDBOX";
-        this.storageKeyLocation = `BUNQJSCLIENT_${this.environment}_SESSION`;
-        this.storageIvLocation = `BUNQJSCLIENT_${this.environment}_IV`;
     }
     /**
      * Checks default values and looks in storage interface
@@ -472,6 +470,9 @@ class Session {
         if (exports.ALLOWED_ENVIROMENTS.includes(environmentType)) {
             this.environment = environmentType;
             this.environmentUrl = exports.URL_ENVIROMENTS[this.environment];
+            // set the storage location for the environment
+            this.storageKeyLocation = `BUNQJSCLIENT_${this.environment}_SESSION`;
+            this.storageIvLocation = `BUNQJSCLIENT_${this.environment}_IV`;
             return;
         }
         throw new Error("Invalid enviroment given. " + JSON.stringify(exports.ALLOWED_ENVIROMENTS));

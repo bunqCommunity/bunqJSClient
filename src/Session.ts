@@ -64,8 +64,6 @@ export default class Session {
         this.logger = loggerInterface;
 
         this.environmentType = "SANDBOX";
-        this.storageKeyLocation = `BUNQJSCLIENT_${this.environment}_SESSION`;
-        this.storageIvLocation = `BUNQJSCLIENT_${this.environment}_IV`;
     }
 
     /**
@@ -640,6 +638,10 @@ export default class Session {
         if (ALLOWED_ENVIROMENTS.includes(environmentType)) {
             this.environment = environmentType;
             this.environmentUrl = URL_ENVIROMENTS[this.environment];
+
+            // set the storage location for the environment
+            this.storageKeyLocation = `BUNQJSCLIENT_${this.environment}_SESSION`;
+            this.storageIvLocation = `BUNQJSCLIENT_${this.environment}_IV`;
             return;
         }
         throw new Error(

@@ -81,7 +81,10 @@ setup()
 
         // filter on the status to get a list of the active accounts
         const activeAccounts = accounts.filter(account => {
-            return account.status === "ACTIVE";
+            return (
+                account.MonetaryAccountBank &&
+                account.MonetaryAccountBank.status === "ACTIVE"
+            );
         });
 
         // get all payments for the first monetary account
