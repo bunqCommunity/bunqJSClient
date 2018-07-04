@@ -65,6 +65,9 @@ const userCompany = await BunqClient.getUser("UserCompany", forceUpdate);
 const payments = await bunqJSClient.api.payment.list(userId, accountId);
 ```
 
+## Examples
+There are a few examples which can be found in the `examples/` folder. `create_sandbox_apikey` will create and output a new sandbox key which you can use with the other examples.
+
 ## Supported APIs
 For more details look into the endpoints found at `src/Api/*`
 
