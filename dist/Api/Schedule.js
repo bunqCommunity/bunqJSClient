@@ -15,10 +15,10 @@ class Schedule {
      * @returns {Promise<void>}
      */
     async list(userId, monetaryAccountId, options = {
-            count: 50,
-            newer_id: false,
-            older_id: false
-        }) {
+        count: 50,
+        newer_id: false,
+        older_id: false
+    }) {
         const params = {};
         if (options.count !== undefined) {
             params.count = options.count;

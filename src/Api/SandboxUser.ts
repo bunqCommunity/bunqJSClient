@@ -1,6 +1,6 @@
 import ApiAdapter from "../ApiAdapter";
-import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
+import Session, { URL_ENVIROMENTS } from "../Session";
 
 export default class SandboxUser implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
@@ -26,7 +26,7 @@ export default class SandboxUser implements ApiEndpointInterface {
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.post(
-                `/v1/sandbox-user`,
+                `${URL_ENVIROMENTS.SANDBOX}/v1/sandbox-user`,
                 {},
                 {},
                 {
