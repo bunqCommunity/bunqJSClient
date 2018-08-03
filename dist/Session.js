@@ -12,6 +12,7 @@ class Session {
         this.apiKey = null;
         this.encryptionKey = false;
         this.allowdIps = [];
+        this.isOAuthKey = false;
         // rsa key storage
         this.publicKey = null;
         this.publicKeyPem = null;

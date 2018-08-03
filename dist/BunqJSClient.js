@@ -153,23 +153,31 @@ class BunqJSClient {
             // based on account setting we set a expire date
             const createdDate = new Date(response.token.created + " UTC");
             let sessionTimeout;
-            if (response.user_info.UserCompany !== undefined) {
-                sessionTimeout = response.user_info.UserCompany.session_timeout;
-                this.logger.debug("Received response.user_info.UserCompany.session_timeout from api: " +
-                    response.user_info.UserCompany.session_timeout);
-            }
-            else if (response.user_info.UserPerson !== undefined) {
-                sessionTimeout = response.user_info.UserPerson.session_timeout;
-                this.logger.debug("Received response.user_info.UserPerson.session_timeout from api: " +
-                    response.user_info.UserPerson.session_timeout);
-            }
-            else if (response.user_info.UserLight !== undefined) {
-                sessionTimeout = response.user_info.UserLight.session_timeout;
-                this.logger.debug("Received response.user_info.UserLight.session_timeout from api: " +
-                    response.user_info.UserLight.session_timeout);
+            // parse the correct user info from response
+            let userInfoParsed = this.getUserType(response.user_info);
+            // differentiate between oauth api keys and non-oauth api keys
+            if (userInfoParsed.isOAuth === false) {
+                // get the session timeout
+                sessionTimeout = userInfoParsed.info.session_timeout;
+                this.logger.debug("Received userInfoParsed.info.session_timeout from api: " +
+                    userInfoParsed.info.session_timeout);
+                // set isOAuth to false
+                this.Session.isOAuthKey = false;
+                // set user info
+                this.Session.userInfo = response.user_info;
             }
             else {
-                throw new Error("No supported account type found! (Not one of UserLight, UserPerson or UserCompany)");
+                // parse the granted and request by user objects
+                const requestedByUserParsed = this.getUserType(userInfoParsed.info.requested_by_user);
+                const grantedByUserParsed = this.getUserType(userInfoParsed.info.granted_by_user);
+                // get the session timeout from request_by_user
+                sessionTimeout = requestedByUserParsed.info.session_timeout;
+                this.logger.debug("Received requestedByUserParsed.info.session_timeout from api: " +
+                    requestedByUserParsed.info.session_timeout);
+                // make sure we set isOAuth to true to handle it more easily
+                this.Session.isOAuthKey;
+                // set user info for granted by user
+                this.Session.userInfo = grantedByUserParsed.info;
             }
             // turn time into MS
             sessionTimeout = sessionTimeout * 1000;
@@ -181,7 +189,6 @@ class BunqJSClient {
             this.Session.sessionId = response.id;
             this.Session.sessionToken = response.token.token;
             this.Session.sessionTokenId = response.token.id;
-            this.Session.userInfo = response.user_info;
             this.logger.debug("calculated expireDate: " + createdDate);
             this.logger.debug("calculated current date: " + new Date());
             // update storage
@@ -298,6 +305,39 @@ class BunqJSClient {
         }
         // return the users
         return this.Session.userInfo;
+    }
+    /**
+     * Receives an object with an unknown user type and returns an object with
+     * the correct info and a isOAuth boolean
+     * @param userInfo
+     * @returns {{info: any; isOAuth: boolean}}
+     */
+    getUserType(userInfo) {
+        if (userInfo.UserCompany !== undefined) {
+            return {
+                info: userInfo.UserCompany,
+                isOAuth: false
+            };
+        }
+        else if (userInfo.UserPerson !== undefined) {
+            return {
+                info: userInfo.UserPerson,
+                isOAuth: false
+            };
+        }
+        else if (userInfo.UserLight !== undefined) {
+            return {
+                info: userInfo.UserLight,
+                isOAuth: false
+            };
+        }
+        else if (userInfo.UserApiKey !== undefined) {
+            return {
+                info: userInfo.UserApiKey,
+                isOAuth: true
+            };
+        }
+        throw new Error("No supported account type found! (Not one of UserLight, UserPerson or UserCompany)");
     }
 }
 exports.default = BunqJSClient;

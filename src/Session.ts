@@ -24,6 +24,7 @@ export default class Session {
     public apiKey: string | boolean = null;
     public encryptionKey: string | boolean = false;
     public allowdIps: string[] = [];
+    public isOAuthKey: boolean = false;
 
     // target enviroment and target envoriment api url
     public environment: string;
