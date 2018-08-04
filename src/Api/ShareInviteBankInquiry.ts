@@ -32,7 +32,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
         accountId: number,
         shareInviteBankInquiryId: number,
         options: PaginationOptions = {
-            count: 50,
+            count: 200,
             newer_id: false,
             older_id: false
         }
@@ -61,7 +61,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
         userId: number,
         accountId: number,
         options: PaginationOptions = {
-            count: 50,
+            count: 200,
             newer_id: false,
             older_id: false
         }

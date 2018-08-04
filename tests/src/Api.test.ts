@@ -444,7 +444,7 @@ describe("API", () => {
             const request = bunqApp.api.monetaryAccount.list(1, {
                 newer_id: 1,
                 older_id: 2,
-                count: 50
+                count: 200
             });
             await defaultResponse(moxios);
             const response = await request;
@@ -515,7 +515,7 @@ describe("API", () => {
             const request = bunqApp.api.monetaryAccountBank.list(1, {
                 newer_id: 1,
                 older_id: 2,
-                count: 50
+                count: 200
             });
             await defaultResponse(moxios);
             const response = await request;
@@ -545,7 +545,7 @@ describe("API", () => {
             const request = bunqApp.api.payment.list(1, 2, {
                 newer_id: 1,
                 older_id: 2,
-                count: 50
+                count: 200
             });
             await defaultResponse(moxios);
             const response = await request;
@@ -981,7 +981,7 @@ describe("API", () => {
             const request = bunqApp.api.schedule.list(1, 2, {
                 newer_id: 1,
                 older_id: 2,
-                count: 50
+                count: 200
             });
             await sessionRegistration(moxios);
             const response = await request;
@@ -1011,7 +1011,7 @@ describe("API", () => {
             const request = bunqApp.api.schedulePayment.list(1, 2, {
                 newer_id: 1,
                 older_id: 2,
-                count: 50
+                count: 200
             });
             await defaultResponse(moxios);
             const response = await request;
@@ -1096,7 +1096,7 @@ describe("API", () => {
             const request = bunqApp.api.shareInviteBankResponse.list(1, {
                 newer_id: 1,
                 older_id: 2,
-                count: 50
+                count: 200
             });
             await defaultResponse(moxios);
             const response = await request;

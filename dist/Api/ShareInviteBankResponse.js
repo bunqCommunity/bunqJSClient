@@ -15,10 +15,10 @@ class ShareInviteBankResponse {
      * @returns {Promise<void>}
      */
     async get(userId, shareInviteBankResponseId, options = {
-        count: 50,
-        newer_id: false,
-        older_id: false
-    }) {
+            count: 200,
+            newer_id: false,
+            older_id: false
+        }) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-response", "GET");
         const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/share-invite-bank-response/${shareInviteBankResponseId}`));
         return response.Response;
@@ -29,10 +29,10 @@ class ShareInviteBankResponse {
      * @returns {Promise<void>}
      */
     async list(userId, options = {
-        count: 50,
-        newer_id: false,
-        older_id: false
-    }) {
+            count: 200,
+            newer_id: false,
+            older_id: false
+        }) {
         const params = {};
         if (options.count !== undefined) {
             params.count = options.count;

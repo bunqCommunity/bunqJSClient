@@ -32,7 +32,7 @@ export default class ShareInviteBankResponse implements ApiEndpointInterface {
         userId: number,
         shareInviteBankResponseId: number,
         options: PaginationOptions = {
-            count: 50,
+            count: 200,
             newer_id: false,
             older_id: false
         }
@@ -59,7 +59,7 @@ export default class ShareInviteBankResponse implements ApiEndpointInterface {
     public async list(
         userId: number,
         options: PaginationOptions = {
-            count: 50,
+            count: 200,
             newer_id: false,
             older_id: false
         }

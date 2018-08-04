@@ -80,7 +80,7 @@ export default class SchedulePayment implements ApiEndpointInterface {
         userId: number,
         monetaryAccountId: number,
         options: PaginationOptions = {
-            count: 50,
+            count: 200,
             newer_id: false,
             older_id: false
         }
