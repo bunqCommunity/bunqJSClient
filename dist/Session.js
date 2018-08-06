@@ -371,7 +371,7 @@ class Session {
         this.sessionTimeout = null;
         this.sessionExpiryTime = null;
         if (save)
-            return await this.asyncStorageRemove(this.storageKeyLocation);
+            return await this.storeSession();
     }
     /**
      * Destroys only the data associated with the installation
@@ -390,7 +390,7 @@ class Session {
         this.installCreated = null;
         this.installToken = null;
         if (save)
-            return await this.asyncStorageRemove(this.storageKeyLocation);
+            return await this.storeSession();
     }
     /**
      * Destroys only the data associated with the device installation
@@ -401,7 +401,7 @@ class Session {
         this.logger.debug(` -> #destroyApiDeviceInstallation(${save}) `);
         this.deviceId = null;
         if (save)
-            await this.asyncStorageRemove(this.storageKeyLocation);
+            return await this.storeSession();
     }
     /**
      * Checks if this session has a succesful installation stored

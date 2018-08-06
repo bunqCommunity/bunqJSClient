@@ -332,7 +332,7 @@ export default class Session {
         this.sessionTimeout = null;
         this.sessionExpiryTime = null;
 
-        if (save) return await this.asyncStorageRemove(this.storageKeyLocation);
+        if (save) return await this.storeSession();
     }
 
     /**
@@ -353,7 +353,7 @@ export default class Session {
         this.installCreated = null;
         this.installToken = null;
 
-        if (save) return await this.asyncStorageRemove(this.storageKeyLocation);
+        if (save) return await this.storeSession();
     }
 
     /**
@@ -366,7 +366,7 @@ export default class Session {
 
         this.deviceId = null;
 
-        if (save) await this.asyncStorageRemove(this.storageKeyLocation);
+        if (save) return await this.storeSession();
     }
 
     /**
