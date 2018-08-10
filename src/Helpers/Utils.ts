@@ -16,7 +16,9 @@ export const ucfirst = (string: string): string => {
  * @returns {string}
  */
 export const arrayBufferToString = arrayBuffer => {
-    return String.fromCharCode.apply(null, new Uint8Array(arrayBuffer));
+    return new Uint8Array(arrayBuffer).reduce(function(data, byte) {
+        return data + String.fromCharCode(byte);
+    }, "");
 };
 
 /**

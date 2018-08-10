@@ -14,7 +14,9 @@ exports.ucfirst = (string) => {
  * @returns {string}
  */
 exports.arrayBufferToString = arrayBuffer => {
-    return String.fromCharCode.apply(null, new Uint8Array(arrayBuffer));
+    return new Uint8Array(arrayBuffer).reduce(function (data, byte) {
+        return data + String.fromCharCode(byte);
+    }, "");
 };
 /**
  * Requests permision for location and
