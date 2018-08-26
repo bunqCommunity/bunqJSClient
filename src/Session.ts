@@ -399,6 +399,8 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     private encryptSession = async sessionData => {
+        if(!this.encryptionKey) return false;
+
         // attempt to decrypt the string
         const encryptedData = await encryptString(
             sessionData,
@@ -429,6 +431,8 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     public storeEncryptedData = async (data: any, location: string) => {
+        if(!this.encryptionKey) return false;
+
         // attempt to decrypt the string
         const encryptedData = await encryptString(
             JSON.stringify(data),

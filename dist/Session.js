@@ -53,6 +53,8 @@ class Session {
          * @returns {Promise<boolean>}
          */
         this.encryptSession = async (sessionData) => {
+            if (!this.encryptionKey)
+                return false;
             // attempt to decrypt the string
             const encryptedData = await Aes_1.encryptString(sessionData, this.encryptionKey);
             // store the new IV and encrypted data
@@ -70,6 +72,8 @@ class Session {
          * @returns {Promise<boolean>}
          */
         this.storeEncryptedData = async (data, location) => {
+            if (!this.encryptionKey)
+                return false;
             // attempt to decrypt the string
             const encryptedData = await Aes_1.encryptString(JSON.stringify(data), this.encryptionKey);
             // store the new IV and encrypted data
