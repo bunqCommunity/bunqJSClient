@@ -53,7 +53,7 @@ exports.decryptString = async (encryptedString, key, iv) => {
     // get the raw bytes from the forge buffer
     const outputBytes = decipher.output.getBytes();
     // turn forge bytes into a regular buffer
-    const nodeBuffer = new Buffer(outputBytes, "binary");
+    const nodeBuffer = Buffer.from(outputBytes, "binary");
     // return the result as an utf8-encoded string
     return nodeBuffer.toString("utf8");
 };

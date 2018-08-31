@@ -12,18 +12,26 @@ Install the library
 ```bash
 yarn add @bunq-community/bunq-js-client
 ```
+
 Next create a new instance with an optional storage interface as the first parameter. 
 This defaults to [store.js](https://github.com/marcuswestin/store.js/) but any class 
-with the following methods: `get(key)`, `set(key, data)`, `remove(key)`. This library 
-supports Promises in the storage interface now!
+with the following methods: `get(key)`, `set(key, data)`, `remove(key)`.
+
+## Usage
+Install a storage helper if required and create a new client
 ```js
 import SomeStorageHelper from "some-storage-handler"; 
 
 const BunqClientCustom = new bunqJSClient(SomeStorageHelper);
 
-// OR use the default store.js
+// OR use the default store.js which only works in a browser environment
 const BunqClient = new bunqJSClient();
+
+// disables the automatic requests to keep the current session alive
+// instead it'll create a new session when it is required
+BunqClient.setKeepAlive(false);
 ```
+
 Next run the setup basic functions to get started
 ```js
 /**
@@ -50,6 +58,7 @@ const setup = async () => {
     await BunqClient.registerSession();
 }
 ```
+
 Now you can use the API in the bunq client to do requests and get the current users.
 ```js
 // force that the user info is retrieved from the API instead of local cache version
@@ -67,6 +76,8 @@ const payments = await bunqJSClient.api.payment.list(userId, accountId);
 
 ## Examples
 There are a few examples which can be found in the `examples/` folder. `create_sandbox_apikey` will create and output a new sandbox key which you can use with the other examples.
+
+The example uses [dotenv](https://github.com/motdotla/dotenv) so make sure to copy the `.env.example` file to `.env` and enter the correct values.
 
 ## Supported APIs
 For more details look into the endpoints found at `src/Api/*`

@@ -260,14 +260,18 @@ export default class Session {
 
         try {
             this.logger.debug(
-                `sessionToken: ${session.sessionToken === null
-                    ? null
-                    : session.sessionToken.substring(0, 5)}`
+                `sessionToken: ${
+                    session.sessionToken === null
+                        ? null
+                        : session.sessionToken.substring(0, 5)
+                }`
             );
             this.logger.debug(
-                `installToken: ${session.installToken === null
-                    ? null
-                    : session.installToken.substring(0, 5)}`
+                `installToken: ${
+                    session.installToken === null
+                        ? null
+                        : session.installToken.substring(0, 5)
+                }`
             );
         } catch (error) {}
 
@@ -399,7 +403,7 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     private encryptSession = async sessionData => {
-        if(!this.encryptionKey) return false;
+        if (!this.encryptionKey) return false;
 
         // attempt to decrypt the string
         const encryptedData = await encryptString(
@@ -431,7 +435,7 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     public storeEncryptedData = async (data: any, location: string) => {
-        if(!this.encryptionKey) return false;
+        if (!this.encryptionKey) return false;
 
         // attempt to decrypt the string
         const encryptedData = await encryptString(
@@ -567,9 +571,11 @@ export default class Session {
         this.logger.debug("Installation valid: " + installationValid);
         this.logger.debug("this.serverPublicKey = " + this.serverPublicKey);
         this.logger.debug(
-            `this.installToken = ${this.installToken === null
-                ? null
-                : this.installToken.substring(0, 5)}`
+            `this.installToken = ${
+                this.installToken === null
+                    ? null
+                    : this.installToken.substring(0, 5)
+            }`
         );
 
         return installationValid;
@@ -594,12 +600,13 @@ export default class Session {
      * @returns {boolean}
      */
     public verifySessionInstallation(): boolean {
-        this.logger.debug(" === Testing session installation === ");
-        this.logger.debug(`this.sessionId = ${this.sessionId}`);
-        this.logger.debug(
-            `this.sessionToken = ${this.sessionToken === null
+        const sessionTokenDebug = `sessionToken = ${
+            this.sessionToken === null
                 ? null
-                : this.sessionToken.substring(0, 5)}`
+                : this.sessionToken.substring(0, 5)
+        }`;
+        this.logger.debug(
+            " === Testing session installation " + sessionTokenDebug
         );
 
         if (this.sessionId === null) {
@@ -645,7 +652,9 @@ export default class Session {
             this.environmentUrl = URL_ENVIROMENTS[this.environment];
 
             // set the storage location for the environment
-            this.storageKeyLocation = `BUNQJSCLIENT_${this.environment}_SESSION`;
+            this.storageKeyLocation = `BUNQJSCLIENT_${
+                this.environment
+            }_SESSION`;
             this.storageIvLocation = `BUNQJSCLIENT_${this.environment}_IV`;
             return;
         }

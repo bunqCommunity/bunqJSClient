@@ -26,7 +26,8 @@ export default class SessionServer implements ApiEndpointInterface {
             },
             {},
             {
-                ignoreVerification: true
+                ignoreVerification: true,
+                skipSessionCheck: true
             }
         );
 

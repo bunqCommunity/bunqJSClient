@@ -40,7 +40,9 @@
   "devDependencies": {
     "all-contributors-cli": "^4.11.1",
     "coveralls": "^3.0.0",
-    "cross-env": "^4.0.0"
+    "cross-env": "^5.2.0",
+    "dotenv": "^6.0.0",
+    "json-store": "^1.0.0"
   },
   "engines": {
     "node": ">=8.0.0"

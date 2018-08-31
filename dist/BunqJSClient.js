@@ -17,6 +17,17 @@ class BunqJSClient {
         this.apiKey = null;
         this.allowedIps = [];
         /**
+         * Decides whether the session is kept alive (which will be slightly faster)
+         * or creates a new session when required
+         * @type {boolean}
+         */
+        this.keepAlive = true;
+        /**
+         * Contains the promise for fetching a new session to prevent duplicate requests
+         * @type {boolean}
+         */
+        this.fetchingNewSession = false;
+        /**
          * A list of all custom bunqJSClient error codes to make error handling easier
          * @type {{INSTALLATION_HAS_SESSION}}
          */
@@ -33,6 +44,11 @@ class BunqJSClient {
          * Handles the expiry timer checker callback
          */
         this.expiryTimerCallback = () => {
+            // check if keepAlive is enabled
+            if (this.keepAlive === false) {
+                this.clearExpiryTimer();
+                return false;
+            }
             // update users, don't wait for it to finish
             this.getUsers(true)
                 .then(users => {
@@ -51,7 +67,7 @@ class BunqJSClient {
         // create a new session instance
         this.Session = new Session_1.default(this.storageInterface, this.logger);
         // setup the api adapter using our session context
-        this.ApiAdapter = new ApiAdapter_1.default(this.Session, this.logger);
+        this.ApiAdapter = new ApiAdapter_1.default(this.Session, this.logger, this);
         // register our api endpoints
         this.api = index_1.default(this.ApiAdapter);
     }
@@ -69,6 +85,15 @@ class BunqJSClient {
         this.setExpiryTimer();
         // setup the api adapter using our session
         await this.ApiAdapter.setup();
+    }
+    /**
+     * If true, polling requests will be sent to try and keep the current session
+     * alive instead of creating a new session when required
+     * If false, a new session will be created when required
+     * @param {boolean} keepAlive
+     */
+    setKeepAlive(keepAlive) {
+        this.keepAlive = keepAlive;
     }
     /**
      * Installs this application
@@ -134,68 +159,89 @@ class BunqJSClient {
      */
     async registerSession() {
         if (this.Session.verifySessionInstallation() === false) {
-            let response = null;
             try {
-                response = await this.api.sessionServer.add();
+                // generate the session using the bunq API
+                this.fetchingNewSession = this.generateSession();
+                // wait for it to finish
+                await this.fetchingNewSession;
             }
-            catch (error) {
-                if (error.response && error.response.data.Error) {
-                    const responseError = error.response.data.Error[0];
-                    const description = responseError.error_description;
-                    this.logger.error("bunq API error: " + description);
-                }
-                throw {
-                    errorCode: this.errorCodes.INSTALLATION_HAS_SESSION,
-                    error: error
-                };
+            catch (exception) {
+                // set fetching status to false
+                this.fetchingNewSession = false;
+                // re-throw the exception
+                throw exception;
             }
-            this.logger.debug("response.token.created:" + response.token.created);
-            // based on account setting we set a expire date
-            const createdDate = new Date(response.token.created + " UTC");
-            let sessionTimeout;
-            // parse the correct user info from response
-            let userInfoParsed = this.getUserType(response.user_info);
-            // differentiate between oauth api keys and non-oauth api keys
-            if (userInfoParsed.isOAuth === false) {
-                // get the session timeout
-                sessionTimeout = userInfoParsed.info.session_timeout;
-                this.logger.debug("Received userInfoParsed.info.session_timeout from api: " +
-                    userInfoParsed.info.session_timeout);
-                // set isOAuth to false
-                this.Session.isOAuthKey = false;
-                // set user info
-                this.Session.userInfo = response.user_info;
-            }
-            else {
-                // parse the granted and request by user objects
-                const requestedByUserParsed = this.getUserType(userInfoParsed.info.requested_by_user);
-                const grantedByUserParsed = this.getUserType(userInfoParsed.info.granted_by_user);
-                // get the session timeout from request_by_user
-                sessionTimeout = requestedByUserParsed.info.session_timeout;
-                this.logger.debug("Received requestedByUserParsed.info.session_timeout from api: " +
-                    requestedByUserParsed.info.session_timeout);
-                // make sure we set isOAuth to true to handle it more easily
-                this.Session.isOAuthKey;
-                // set user info for granted by user
-                this.Session.userInfo = grantedByUserParsed.info;
-            }
-            // turn time into MS
-            sessionTimeout = sessionTimeout * 1000;
-            // calculate the expiry time
-            createdDate.setTime(createdDate.getTime() + sessionTimeout);
-            // set the session information
-            this.Session.sessionExpiryTime = createdDate;
-            this.Session.sessionTimeout = sessionTimeout;
-            this.Session.sessionId = response.id;
-            this.Session.sessionToken = response.token.token;
-            this.Session.sessionTokenId = response.token.id;
-            this.logger.debug("calculated expireDate: " + createdDate);
-            this.logger.debug("calculated current date: " + new Date());
-            // update storage
-            await this.Session.storeSession();
-            // update the timer
-            this.setExpiryTimer();
+            // finished fetching/checking status so set to false
+            this.fetchingNewSession = false;
         }
+        return true;
+    }
+    /**
+     * Send the actual request and handle it
+     * @returns {Promise<boolean>}
+     */
+    async generateSession() {
+        let response = null;
+        try {
+            this.logger.debug(" === Attempting to fetch session");
+            response = await this.api.sessionServer.add();
+        }
+        catch (error) {
+            if (error.response && error.response.data.Error) {
+                const responseError = error.response.data.Error[0];
+                const description = responseError.error_description;
+                this.logger.error("bunq API error: " + description);
+            }
+            throw {
+                errorCode: this.errorCodes.INSTALLATION_HAS_SESSION,
+                error: error
+            };
+        }
+        this.logger.debug("response.token.created:" + response.token.created);
+        // based on account setting we set a expire date
+        const createdDate = new Date(response.token.created + " UTC");
+        let sessionTimeout;
+        // parse the correct user info from response
+        let userInfoParsed = this.getUserType(response.user_info);
+        // differentiate between oauth api keys and non-oauth api keys
+        if (userInfoParsed.isOAuth === false) {
+            // get the session timeout
+            sessionTimeout = userInfoParsed.info.session_timeout;
+            this.logger.debug("Received userInfoParsed.info.session_timeout from api: " +
+                userInfoParsed.info.session_timeout);
+            // set isOAuth to false
+            this.Session.isOAuthKey = false;
+            // set user info
+            this.Session.userInfo = response.user_info;
+        }
+        else {
+            // parse the granted and request by user objects
+            const requestedByUserParsed = this.getUserType(userInfoParsed.info.requested_by_user);
+            const grantedByUserParsed = this.getUserType(userInfoParsed.info.granted_by_user);
+            // get the session timeout from request_by_user
+            sessionTimeout = requestedByUserParsed.info.session_timeout;
+            this.logger.debug("Received requestedByUserParsed.info.session_timeout from api: " +
+                requestedByUserParsed.info.session_timeout);
+            // make sure we set isOAuth to true to handle it more easily
+            this.Session.isOAuthKey;
+            // set user info for granted by user
+            this.Session.userInfo = grantedByUserParsed.info;
+        }
+        // turn time into MS
+        sessionTimeout = sessionTimeout * 1000;
+        // calculate the expiry time
+        createdDate.setTime(createdDate.getTime() + sessionTimeout);
+        // set the session information
+        this.Session.sessionExpiryTime = createdDate;
+        this.Session.sessionTimeout = sessionTimeout;
+        this.Session.sessionId = response.id;
+        this.Session.sessionToken = response.token.token;
+        this.Session.sessionTokenId = response.token.id;
+        this.logger.debug("calculated expireDate: " + createdDate + " current date: " + new Date());
+        // update storage
+        await this.Session.storeSession();
+        // update the timer
+        this.setExpiryTimer();
         return true;
     }
     /**
@@ -207,7 +253,8 @@ class BunqJSClient {
         // send a unsigned request to the endpoint to create a new credential password ip
         const response = await limiter.run(async () => this.ApiAdapter.post(`https://api.tinker.bunq.com/v1/credential-password-ip-request`, {}, {}, {
             ignoreVerification: true,
-            disableSigning: true
+            disableSigning: true,
+            skipSessionCheck: true
         }));
         return response.Response[0].UserCredentialPasswordIpRequest;
     }
@@ -221,7 +268,8 @@ class BunqJSClient {
         // send a unsigned request to the endpoint to create a new credential password ip with the uuid
         const response = await limiter.run(async () => this.ApiAdapter.get(`https://api.tinker.bunq.com/v1/credential-password-ip-request/${uuid}`, {}, {
             ignoreVerification: true,
-            disableSigning: true
+            disableSigning: true,
+            skipSessionCheck: true
         }));
         return response.Response[0].UserCredentialPasswordIpRequest;
     }
@@ -231,6 +279,11 @@ class BunqJSClient {
     setExpiryTimer(shortTimeout = false) {
         if (typeof process !== "undefined" && process.env.ENV_CI === "true") {
             // disable in CI
+            return false;
+        }
+        // check if keepAlive is enabled
+        if (this.keepAlive === false) {
+            this.clearExpiryTimer();
             return false;
         }
         if (this.Session.sessionExpiryTime) {

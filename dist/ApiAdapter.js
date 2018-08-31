@@ -15,9 +15,10 @@ exports.DEFAULT_HEADERS = {
     "X-Bunq-Geolocation": "0 0 0 0 000"
 };
 class ApiAdapter {
-    constructor(Session, loggerInterface) {
+    constructor(Session, loggerInterface, BunqJSClient) {
         this.Session = Session;
         this.logger = loggerInterface;
+        this.BunqJSClient = BunqJSClient;
         this.RequestLimitFactory = new RequestLimitFactory_1.default();
         this.language = "en_US";
         this.region = "nl_NL";
@@ -86,6 +87,21 @@ class ApiAdapter {
      * @returns {Promise<any>}
      */
     async request(url, method = "GET", data = {}, headers = {}, options = {}) {
+        this.logger.debug(`${method}: ${url}`);
+        if (!options.skipSessionCheck) {
+            // check if a new session is being fetched
+            if (this.BunqJSClient.fetchingNewSession) {
+                // wait for the new session to be loaded
+                await this.BunqJSClient.fetchingNewSession;
+            }
+            else {
+                // check if keepAlive is enabled and continue if it isn't
+                if (this.BunqJSClient.keepAlive === false) {
+                    // check if a valid session is set
+                    await this.BunqJSClient.registerSession();
+                }
+            }
+        }
         if (options.unauthenticated !== true) {
             // use session token or fallback to install taken if we have one
             if (this.Session.sessionToken !== null) {
@@ -109,8 +125,7 @@ class ApiAdapter {
         }
         if (requestConfig.url[0] === "/") {
             // complete relative urls
-            requestConfig.url = `${this.Session
-                .environmentUrl}${requestConfig.url}`;
+            requestConfig.url = `${this.Session.environmentUrl}${requestConfig.url}`;
         }
         let response;
         try {

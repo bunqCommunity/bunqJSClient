@@ -19,7 +19,8 @@ class SandboxUser {
             // no signing and no authentication
             disableSigning: true,
             unauthenticated: true,
-            ignoreVerification: true
+            ignoreVerification: true,
+            skipSessionCheck: true
         }));
         return response.Response[0].ApiKey.api_key;
     }

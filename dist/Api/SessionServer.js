@@ -16,7 +16,8 @@ class SessionServer {
         const result = await this.ApiAdapter.post("/v1/session-server", {
             secret: this.Session.apiKey
         }, {}, {
-            ignoreVerification: true
+            ignoreVerification: true,
+            skipSessionCheck: true
         });
         return {
             id: result.Response[0].Id.id,

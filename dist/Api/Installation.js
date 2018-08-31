@@ -18,7 +18,8 @@ class Installation {
         }, {}, {
             ignoreVerification: true,
             disableSigning: true,
-            unauthenticated: true
+            unauthenticated: true,
+            skipSessionCheck: true
         });
         return {
             id: result.Response[0].Id.id,

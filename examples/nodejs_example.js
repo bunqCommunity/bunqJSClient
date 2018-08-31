@@ -1,14 +1,12 @@
-const BunqJSClient = require("@bunq-community/bunq-js-client").default;
+require("dotenv").config();
+
+// const BunqJSClient = require("@bunq-community/bunq-js-client").default;
+const BunqJSClient = require("../dist/BunqJSClient").default;
 
 // setup a custom store which works in a node environment
 const customStore = require("./custom_store")(__dirname + "\\storage.json");
 
 // your api details
-const ENCRYPTION_KEY = "3c7a4d431a846ed33a3bb1b1fa9b5c26";
-const API_KEY =
-    "sandbox_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; // replace with your sandbox API-key
-const DEVICE_NAME = "NodeTest";
-const ENVIRONMENT = "SANDBOX"; // OR you can use PRODUCTION
 const PERMITTED_IPS = []; // empty array if you're not sure
 
 const BunqClient = new BunqJSClient(customStore);
@@ -16,13 +14,17 @@ const BunqClient = new BunqJSClient(customStore);
 const setup = async () => {
     // load and refresh bunq client
     await BunqClient.run(
-        API_KEY,
+        process.env.API_KEY,
         PERMITTED_IPS,
-        ENVIRONMENT,
-        ENCRYPTION_KEY
+        process.env.ENVIRONMENT,
+        process.env.ENCRYPTION_KEY
     ).catch(exception => {
         throw exception;
     });
+
+    // disable keepalive since the server will be online a lot
+    // without needing a constantly active session
+    BunqClient.setKeepAlive(false);
 
     // create/re-use a system installation
     await BunqClient.install().catch(error => {
@@ -30,7 +32,7 @@ const setup = async () => {
     });
 
     // create/re-use a device installation
-    await BunqClient.registerDevice(DEVICE_NAME).catch(error => {
+    await BunqClient.registerDevice(process.env.DEVICE_NAME).catch(error => {
         throw error.response.data;
     });
 
@@ -70,21 +72,24 @@ setup()
         // get user info connected to this account
         const users = await getUsers();
 
-        console.log("\nUsers");
-        console.log(users);
+        // console.log("\nUsers");
+        // console.log(users);
 
         // get accounts list
         const accounts = await getMonetaryAccounts(users.UserPerson.id);
 
-        console.log("\n\nAccounts");
-        console.log(accounts);
+        // console.log("\n\nAccounts");
+        // console.log(accounts);
 
         // filter on the status to get a list of the active accounts
         const activeAccounts = accounts.filter(account => {
-            return (
-                account.MonetaryAccountBank &&
-                account.MonetaryAccountBank.status === "ACTIVE"
-            );
+            if (account.MonetaryAccountBank) {
+                return account.MonetaryAccountBank.status === "ACTIVE";
+            }
+            if (account.MonetaryAccountJoint) {
+                return account.MonetaryAccountJoint.status === "ACTIVE";
+            }
+            return false;
         });
 
         // get all payments for the first monetary account

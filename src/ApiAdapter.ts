@@ -3,6 +3,7 @@ import { AxiosRequestConfig } from "axios";
 import * as Url from "url";
 import { signString, verifyString } from "./Crypto/Sha256";
 import { arrayBufferToString, ucfirst } from "./Helpers/Utils";
+import BunqJSClient from "./BunqJSClient";
 import Session from "./Session";
 import Header from "./Types/Header";
 import ErrorCodes from "./Helpers/ErrorCodes";
@@ -20,16 +21,23 @@ export const DEFAULT_HEADERS: Header = {
 };
 
 export default class ApiAdapter {
-    public logger: LoggerInterface;
     public Session: Session;
+    public logger: LoggerInterface;
+    public BunqJSClient: BunqJSClient;
+
     public RequestLimitFactory: RequestLimitFactory;
     public language: string;
     public region: string;
     public geoLocation: string;
 
-    constructor(Session: Session, loggerInterface: LoggerInterface) {
+    constructor(
+        Session: Session,
+        loggerInterface: LoggerInterface,
+        BunqJSClient: BunqJSClient
+    ) {
         this.Session = Session;
         this.logger = loggerInterface;
+        this.BunqJSClient = BunqJSClient;
         this.RequestLimitFactory = new RequestLimitFactory();
 
         this.language = "en_US";
@@ -154,6 +162,23 @@ export default class ApiAdapter {
         headers: any = {},
         options: ApiAdapterOptions = {}
     ) {
+        this.logger.debug(`${method}: ${url}`)
+
+        if(!options.skipSessionCheck){
+            // check if a new session is being fetched
+            if (this.BunqJSClient.fetchingNewSession) {
+                // wait for the new session to be loaded
+                await this.BunqJSClient.fetchingNewSession;
+            } else {
+                // check if keepAlive is enabled and continue if it isn't
+                if (this.BunqJSClient.keepAlive === false) {
+                    // check if a valid session is set
+                    await this.BunqJSClient.registerSession();
+                }
+            }
+        }
+
+
         if (options.unauthenticated !== true) {
             // use session token or fallback to install taken if we have one
             if (this.Session.sessionToken !== null) {
@@ -191,8 +216,9 @@ export default class ApiAdapter {
 
         if (requestConfig.url[0] === "/") {
             // complete relative urls
-            requestConfig.url = `${this.Session
-                .environmentUrl}${requestConfig.url}`;
+            requestConfig.url = `${this.Session.environmentUrl}${
+                requestConfig.url
+            }`;
         }
 
         let response;
@@ -321,18 +347,18 @@ export default class ApiAdapter {
         const methodUrl: string = `${requestConfig.method} ${url}`;
 
         // create a list of headers
-        const headerStrings = Object.keys(
-            requestConfig.headers
-        ).map(headerKey => {
-            if (
-                headerKey.includes("X-Bunq") ||
-                headerKey.includes("Cache-Control") ||
-                headerKey.includes("User-Agent")
-            ) {
-                return `${headerKey}: ${requestConfig.headers[headerKey]}`;
+        const headerStrings = Object.keys(requestConfig.headers).map(
+            headerKey => {
+                if (
+                    headerKey.includes("X-Bunq") ||
+                    headerKey.includes("Cache-Control") ||
+                    headerKey.includes("User-Agent")
+                ) {
+                    return `${headerKey}: ${requestConfig.headers[headerKey]}`;
+                }
+                return "";
             }
-            return "";
-        });
+        );
 
         // manually include the user agent
         if (typeof navigator === "undefined") {

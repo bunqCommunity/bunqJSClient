@@ -437,11 +437,10 @@ class Session {
      * @returns {boolean}
      */
     verifySessionInstallation() {
-        this.logger.debug(" === Testing session installation === ");
-        this.logger.debug(`this.sessionId = ${this.sessionId}`);
-        this.logger.debug(`this.sessionToken = ${this.sessionToken === null
+        const sessionTokenDebug = `sessionToken = ${this.sessionToken === null
             ? null
-            : this.sessionToken.substring(0, 5)}`);
+            : this.sessionToken.substring(0, 5)}`;
+        this.logger.debug(" === Testing session installation " + sessionTokenDebug);
         if (this.sessionId === null) {
             this.logger.debug("Session invalid: sessionId null");
             return false;
