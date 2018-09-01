@@ -215,21 +215,8 @@ class BunqJSClient {
             this.Session.userInfo = response.user_info;
         }
         else {
-            // parse the granted and request by user objects
-            const requestedByUserParsed = this.getUserType(userInfoParsed.info.requested_by_user);
-            const grantedByUserParsed = this.getUserType(userInfoParsed.info.granted_by_user);
-            // get the session timeout from request_by_user
-            sessionTimeout = requestedByUserParsed.info.session_timeout;
-            this.logger.debug("Received requestedByUserParsed.info.session_timeout from api: " +
-                requestedByUserParsed.info.session_timeout);
-            // set user id if none is set
-            if (!grantedByUserParsed.id) {
-                grantedByUserParsed.id = userInfoParsed.id;
-            }
-            // make sure we set isOAuth to true to handle it more easily
-            this.Session.isOAuthKey;
-            // set user info for granted by user
-            this.Session.userInfo = grantedByUserParsed.info;
+            // parse the user info
+            sessionTimeout = this.parseOauthUser(userInfoParsed);
         }
         // turn time into MS
         sessionTimeout = sessionTimeout * 1000;
@@ -250,6 +237,29 @@ class BunqJSClient {
         // update the timer
         this.setExpiryTimer();
         return true;
+    }
+    /**
+     * Handles the oauth type users
+     * @param userInfoParsed
+     * @returns {any}
+     */
+    parseOauthUser(userInfoParsed) {
+        // parse the granted and request by user objects
+        const requestedByUserParsed = this.getUserType(userInfoParsed.info.requested_by_user);
+        const grantedByUserParsed = this.getUserType(userInfoParsed.info.granted_by_user);
+        // get the session timeout from request_by_user
+        const sessionTimeout = requestedByUserParsed.info.session_timeout;
+        this.logger.debug("Received requestedByUserParsed.info.session_timeout from api: " +
+            requestedByUserParsed.info.session_timeout);
+        // set user id if none is set
+        if (!grantedByUserParsed.info.id) {
+            grantedByUserParsed.info.id = userInfoParsed.info.id;
+        }
+        // make sure we set isOAuth to true to handle it more easily
+        this.Session.isOAuthKey;
+        // set user info for granted by user
+        this.Session.userInfo["UserApiKey"] = grantedByUserParsed.info;
+        return sessionTimeout;
     }
     /**
      * Create a new credential password ip
@@ -349,7 +359,18 @@ class BunqJSClient {
     async getUser(userType, updated = false) {
         if (updated) {
             // update the user info and update session data
-            this.Session.userInfo = await this.api.user.list();
+            const userList = await this.api.user.list();
+            // parse user type from user list
+            const userInfoParsed = this.getUserType(userList);
+            if (userInfoParsed.isOAuth) {
+                // get info from the userapikey object
+                this.parseOauthUser(userInfoParsed);
+            }
+            else {
+                // set updated info
+                this.Session.userInfo[userInfoParsed.type] =
+                    userInfoParsed.info;
+            }
         }
         // return the user if we have one
         return this.Session.userInfo[userType];
@@ -361,7 +382,18 @@ class BunqJSClient {
     async getUsers(updated = false) {
         if (updated) {
             // update the user info and update session data
-            this.Session.userInfo = await this.api.user.list();
+            const userList = await this.api.user.list();
+            // parse user type from user list
+            const userInfoParsed = this.getUserType(userList);
+            if (userInfoParsed.isOAuth) {
+                // get info from the userapikey object
+                this.parseOauthUser(userInfoParsed);
+            }
+            else {
+                // set updated info
+                this.Session.userInfo[userInfoParsed.type] =
+                    userInfoParsed.info;
+            }
         }
         // return the users
         return this.Session.userInfo;
@@ -376,24 +408,28 @@ class BunqJSClient {
         if (userInfo.UserCompany !== undefined) {
             return {
                 info: userInfo.UserCompany,
+                type: "UserCompany",
                 isOAuth: false
             };
         }
         else if (userInfo.UserPerson !== undefined) {
             return {
                 info: userInfo.UserPerson,
+                type: "UserPerson",
                 isOAuth: false
             };
         }
         else if (userInfo.UserLight !== undefined) {
             return {
                 info: userInfo.UserLight,
+                type: "UserLight",
                 isOAuth: false
             };
         }
         else if (userInfo.UserApiKey !== undefined) {
             return {
                 info: userInfo.UserApiKey,
+                type: "UserApiKey",
                 isOAuth: true
             };
         }
