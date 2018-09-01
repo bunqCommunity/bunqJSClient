@@ -231,7 +231,7 @@ export default class BunqJSClient {
         let sessionTimeout;
 
         // parse the correct user info from response
-        let userInfoParsed = this.getUserType(response.user_info);
+        let userInfoParsed: any = this.getUserType(response.user_info);
 
         // differentiate between oauth api keys and non-oauth api keys
         if (userInfoParsed.isOAuth === false) {
@@ -247,11 +247,12 @@ export default class BunqJSClient {
             // set user info
             this.Session.userInfo = response.user_info;
         } else {
+
             // parse the granted and request by user objects
-            const requestedByUserParsed = this.getUserType(
+            const requestedByUserParsed: any = this.getUserType(
                 userInfoParsed.info.requested_by_user
             );
-            const grantedByUserParsed = this.getUserType(
+            const grantedByUserParsed: any = this.getUserType(
                 userInfoParsed.info.granted_by_user
             );
 
@@ -262,6 +263,11 @@ export default class BunqJSClient {
                 "Received requestedByUserParsed.info.session_timeout from api: " +
                     requestedByUserParsed.info.session_timeout
             );
+
+            // set user id if none is set
+            if (!grantedByUserParsed.id) {
+                grantedByUserParsed.id = userInfoParsed.id;
+            }
 
             // make sure we set isOAuth to true to handle it more easily
             this.Session.isOAuthKey;
@@ -282,7 +288,12 @@ export default class BunqJSClient {
         this.Session.sessionToken = response.token.token;
         this.Session.sessionTokenId = response.token.id;
 
-        this.logger.debug("calculated expireDate: " + createdDate + " current date: " + new Date());
+        this.logger.debug(
+            "calculated expireDate: " +
+                createdDate +
+                " current date: " +
+                new Date()
+        );
 
         // update storage
         await this.Session.storeSession();
@@ -518,7 +529,7 @@ export default class BunqJSClient {
         }
 
         throw new Error(
-            "No supported account type found! (Not one of UserLight, UserPerson or UserCompany)"
+            "No supported account type found! (Not one of UserLight, UserPerson, UserApiKey or UserCompany)"
         );
     }
 }

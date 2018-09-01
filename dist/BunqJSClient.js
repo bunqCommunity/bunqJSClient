@@ -222,6 +222,10 @@ class BunqJSClient {
             sessionTimeout = requestedByUserParsed.info.session_timeout;
             this.logger.debug("Received requestedByUserParsed.info.session_timeout from api: " +
                 requestedByUserParsed.info.session_timeout);
+            // set user id if none is set
+            if (!grantedByUserParsed.id) {
+                grantedByUserParsed.id = userInfoParsed.id;
+            }
             // make sure we set isOAuth to true to handle it more easily
             this.Session.isOAuthKey;
             // set user info for granted by user
@@ -237,7 +241,10 @@ class BunqJSClient {
         this.Session.sessionId = response.id;
         this.Session.sessionToken = response.token.token;
         this.Session.sessionTokenId = response.token.id;
-        this.logger.debug("calculated expireDate: " + createdDate + " current date: " + new Date());
+        this.logger.debug("calculated expireDate: " +
+            createdDate +
+            " current date: " +
+            new Date());
         // update storage
         await this.Session.storeSession();
         // update the timer
@@ -390,7 +397,7 @@ class BunqJSClient {
                 isOAuth: true
             };
         }
-        throw new Error("No supported account type found! (Not one of UserLight, UserPerson or UserCompany)");
+        throw new Error("No supported account type found! (Not one of UserLight, UserPerson, UserApiKey or UserCompany)");
     }
 }
 exports.default = BunqJSClient;
