@@ -11,6 +11,13 @@ const PERMITTED_IPS = []; // empty array if you're not sure
 
 const BunqClient = new BunqJSClient(customStore);
 
+const defaultErrorLogger = error => {
+    if (error.response) {
+        throw error.response.data;
+    }
+    throw error;
+};
+
 const setup = async () => {
     // load and refresh bunq client
     await BunqClient.run(
@@ -27,19 +34,15 @@ const setup = async () => {
     BunqClient.setKeepAlive(false);
 
     // create/re-use a system installation
-    await BunqClient.install().catch(error => {
-        throw error.response.data;
-    });
+    await BunqClient.install().catch(defaultErrorLogger);
 
     // create/re-use a device installation
-    await BunqClient.registerDevice(process.env.DEVICE_NAME).catch(error => {
-        throw error.response.data;
-    });
+    await BunqClient.registerDevice(process.env.DEVICE_NAME).catch(
+        defaultErrorLogger
+    );
 
     // create/re-use a bunq session installation
-    await BunqClient.registerSession().catch(error => {
-        throw error.response.data;
-    });
+    await BunqClient.registerSession().catch(defaultErrorLogger);
 };
 
 const getMonetaryAccounts = async userid => {

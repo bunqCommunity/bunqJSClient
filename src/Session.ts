@@ -4,7 +4,7 @@ import {
     publicKeyFromPem,
     privateKeyFromPem
 } from "./Crypto/Rsa";
-import { encryptString, decryptString } from "./Crypto/Aes";
+import { encryptString, decryptString, validateKey } from "./Crypto/Aes";
 import StorageInterface from "./Interfaces/StorageInterface";
 import LoggerInterface from "./Interfaces/LoggerInterface";
 
@@ -78,16 +78,14 @@ export default class Session {
         environment: string = "SANDBOX",
         encryptionKey: string | boolean = false
     ) {
-        if (this.apiKey !== null && this.apiKey !== apiKey) {
-            this.logger.debug("current apiKey not null and changed");
+        if (this.apiKey && this.apiKey !== apiKey) {
+            this.logger.debug("current apiKey set and changed");
         }
         if (
             this.environment !== null &&
             environment !== this.environment &&
-            apiKey !== false
+            !!apiKey
         ) {
-            this.logger.debug("current environmentType not null and changed");
-
             // we can't keep the session data if the environment changes
             await this.destroySession();
         }
@@ -95,12 +93,18 @@ export default class Session {
         this.apiKey = apiKey;
         this.allowdIps = allowedIps;
         this.environmentType = environment;
-        this.encryptionKey = encryptionKey;
 
         // nothing to do if we don't have an encryption key
-        if (encryptionKey === false) {
+        if (!encryptionKey) {
             return false;
         }
+
+        // validate the key
+        if (!validateKey(encryptionKey)) {
+            throw new Error("Invalid EAS key given! Invalid characters or length (16,24,32 length)");
+        }
+
+        this.encryptionKey = encryptionKey;
 
         // check if storage interface has a session stored
         const loadedStorage = await this.loadSession();
@@ -606,7 +610,7 @@ export default class Session {
                 : this.sessionToken.substring(0, 5)
         }`;
         this.logger.debug(
-            " === Testing session installation " + sessionTokenDebug
+            " === Testing session installation, " + sessionTokenDebug
         );
 
         if (this.sessionId === null) {

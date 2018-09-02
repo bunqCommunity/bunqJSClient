@@ -35,14 +35,19 @@ BunqClient.setKeepAlive(false);
 Next run the setup basic functions to get started
 ```js
 /**
-* A 16-byte encryption key
-* @see https://github.com/digitalbazaar/forge#pkcs5
-*/
+ * A 16-byte encryption key, check the examples (create_encryption_key.js) 
+ * on how to create one
+ * @see https://github.com/digitalbazaar/forge#pkcs5
+ */
 const ENCRYPTION_KEY = "3c7a4d431a846ed33a3bb1b1fa9b5c26";
-const API_KEY = "abcd-1234-abcd-1234";
-const DEVICE_NAME = "My Device";
+const API_KEY = "abcd-1234-abcd-1234"; // Your bunq API key
+/**
+ * The device name which will show in the installation notification that bunq sends
+ * this also lets users manage their keys more easily
+ */ 
+const DEVICE_NAME = "My Device"; 
 const ENVIRONMENT = "SANDBOX"; // OR you can use PRODUCTION
-const PERMITTED_IPS = []; // empty array if you're not sure
+const PERMITTED_IPS = []; // empty array if you're not sure, by defaul the current IP is used
 
 const setup = async () => {
     // run the bunq application with our API key

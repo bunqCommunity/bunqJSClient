@@ -112,6 +112,13 @@ export default class BunqJSClient {
      */
     public async install() {
         if (this.Session.verifyInstallation() === false) {
+            // check if Session is ready to execute the request
+            if (!this.Session.publicKey) {
+                throw new Error(
+                    "No public key is set yet, make sure you setup an encryption key with BunqJSClient->setup()"
+                );
+            }
+
             const response = await this.api.installation.add();
 
             // update the session properties

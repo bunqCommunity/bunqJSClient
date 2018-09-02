@@ -4,6 +4,25 @@ const forge = require("./CustomForge");
 const forgeCipher = forge.cipher;
 const forgeUtil = forge.util;
 /**
+ * Returns boolean based on given key validity
+ * @param key
+ * @returns {Promise<boolean>}
+ */
+exports.validateKey = key => {
+    try {
+        const keyBytes = forgeUtil.hexToBytes(key);
+        // check key length
+        switch (keyBytes.length) {
+            case 16:
+            case 24:
+            case 32:
+                return true;
+        }
+    }
+    catch (ex) { }
+    return false;
+};
+/**
  * Encrypt a string with a pre-defined encryption key
  * @param string
  * @param encryptionKey
@@ -48,7 +67,7 @@ exports.decryptString = async (encryptedString, key, iv) => {
     // check the decipher results
     const result = decipher.finish();
     if (!result) {
-        throw new Error("Failed to decrypt string");
+        throw new Error("Failed to decrypt string, the encryption string might have changed");
     }
     // get the raw bytes from the forge buffer
     const outputBytes = decipher.output.getBytes();

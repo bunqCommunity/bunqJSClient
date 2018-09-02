@@ -171,24 +171,27 @@ class Session {
      * @returns {Promise<void>}
      */
     async setup(apiKey, allowedIps = [], environment = "SANDBOX", encryptionKey = false) {
-        if (this.apiKey !== null && this.apiKey !== apiKey) {
-            this.logger.debug("current apiKey not null and changed");
+        if (this.apiKey && this.apiKey !== apiKey) {
+            this.logger.debug("current apiKey set and changed");
         }
         if (this.environment !== null &&
             environment !== this.environment &&
-            apiKey !== false) {
-            this.logger.debug("current environmentType not null and changed");
+            !!apiKey) {
             // we can't keep the session data if the environment changes
             await this.destroySession();
         }
         this.apiKey = apiKey;
         this.allowdIps = allowedIps;
         this.environmentType = environment;
-        this.encryptionKey = encryptionKey;
         // nothing to do if we don't have an encryption key
-        if (encryptionKey === false) {
+        if (!encryptionKey) {
             return false;
         }
+        // validate the key
+        if (!Aes_1.validateKey(encryptionKey)) {
+            throw new Error("Invalid EAS key given! Invalid characters or length (16,24,32 length)");
+        }
+        this.encryptionKey = encryptionKey;
         // check if storage interface has a session stored
         const loadedStorage = await this.loadSession();
         // if there is no stored session but we have an key we setup a new keypair
@@ -440,7 +443,7 @@ class Session {
         const sessionTokenDebug = `sessionToken = ${this.sessionToken === null
             ? null
             : this.sessionToken.substring(0, 5)}`;
-        this.logger.debug(" === Testing session installation " + sessionTokenDebug);
+        this.logger.debug(" === Testing session installation, " + sessionTokenDebug);
         if (this.sessionId === null) {
             this.logger.debug("Session invalid: sessionId null");
             return false;
