@@ -75,6 +75,9 @@ setup()
         // get user info connected to this account
         const users = await getUsers();
 
+        // get the direct user object
+        const userInfo = users[Object.keys(users)[0]];
+    
         // console.log("\nUsers");
         // console.log(users);
 
@@ -97,7 +100,7 @@ setup()
 
         // get all payments for the first monetary account
         const payments = await getPayments(
-            users.UserPerson.id,
+            userInfo.id,
             activeAccounts[0].MonetaryAccountBank.id
         );
 
