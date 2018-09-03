@@ -1,4 +1,5 @@
 const store = require("store");
+import axios from "axios";
 
 import ApiAdapter from "./ApiAdapter";
 import Session from "./Session";
@@ -375,6 +376,94 @@ export default class BunqJSClient {
         );
 
         return response.Response[0].UserCredentialPasswordIpRequest;
+    }
+
+    /**
+     *
+     * @param {string} clientId
+     * @param {string} clientSecret
+     * @param {string} redirectUri
+     * @param {string} code
+     * @param {string|false} state
+     * @param {string} grantType
+     * @returns {Promise<string>}
+     */
+    public async exchangeOAuthToken(
+        clientId: string,
+        clientSecret: string,
+        redirectUri: string,
+        code: string,
+        state: string | false = false,
+        grantType: string = "authorization_code"
+    ): Promise<string> {
+        const url = this.formatOAuthKeyExchangeUrl(
+            clientId,
+            clientSecret,
+            redirectUri,
+            code,
+            grantType
+        );
+
+        // send the request
+        const response = await axios({
+            method: "POST",
+            url: url
+        });
+        const data = response.data;
+
+        // check if a state has to be checked and validate it
+        if (state && state !== data.state) {
+            throw new Error("Given state does not match token exchange state!");
+        }
+
+        return data.access_token;
+    }
+
+    /**
+     * Formats a correct bunq OAuth url to begin the login flow
+     * @param {string} clientId
+     * @param {string} redirectUri
+     * @param {string|false} state
+     * @returns {string}
+     */
+    public formatOAuthAuthorizationRequestUrl(
+        clientId: string,
+        redirectUri: string,
+        state: string | false = false
+    ): string {
+        const stateParam = state ? `&state=${state}` : "";
+        return (
+            `https://oauth.bunq.com/auth?response_type=code&` +
+            `client_id=${clientId}&` +
+            `redirect_uri=${redirectUri}` +
+            stateParam
+        );
+    }
+
+    /**
+     * Formats the given parameters into the url used for the token exchange
+     * @param {string} clientId
+     * @param {string} clientSecret
+     * @param {string} redirectUri
+     * @param {string} code
+     * @param {string} grantType
+     * @returns {string}
+     */
+    public formatOAuthKeyExchangeUrl(
+        clientId: string,
+        clientSecret: string,
+        redirectUri: string,
+        code: string,
+        grantType: string = "authorization_code"
+    ) {
+        return (
+            `https://api.oauth.bunq.com/v1/token?` +
+            `grant_type=${grantType}&` +
+            `code=${code}&` +
+            `client_id=${clientId}&` +
+            `client_secret=${clientSecret}&` +
+            `redirect_uri=${redirectUri}`
+        );
     }
 
     /**
