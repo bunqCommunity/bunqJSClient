@@ -82,7 +82,7 @@ setup()
         // console.log(users);
 
         // get accounts list
-        const accounts = await getMonetaryAccounts(users.UserPerson.id);
+        const accounts = await getMonetaryAccounts(userInfo.id);
 
         // console.log("\n\nAccounts");
         // console.log(accounts);
