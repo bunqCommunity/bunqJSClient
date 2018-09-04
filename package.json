@@ -8,8 +8,7 @@
     "test": "cross-env ENV_CI=true jest --verbose --config jest.config.js",
     "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --verbose --watch --config jest.config.js",
     "publish-beta": "npm publish --tag=next",
-    "preversion": "npm run build",
-    "add-contributer": "all-contributors add"
+    "preversion": "npm run build"
   },
   "main": "./index.js",
   "typings": "./src",
@@ -38,7 +37,6 @@
     "typescript": "^2.5.3"
   },
   "devDependencies": {
-    "all-contributors-cli": "^4.11.1",
     "coveralls": "^3.0.0",
     "cross-env": "^5.2.0",
     "dotenv": "^6.0.0",
