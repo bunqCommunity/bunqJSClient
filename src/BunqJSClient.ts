@@ -469,7 +469,7 @@ export default class BunqJSClient {
         grantType: string = "authorization_code"
     ) {
         const baseUrl = sandbox
-            ? "https://api.oauth.sandbox.bunq.com"
+            ? "https://api-oauth.sandbox.bunq.com"
             : "https://api.oauth.bunq.com";
 
         return (

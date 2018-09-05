@@ -350,7 +350,7 @@ class BunqJSClient {
      */
     formatOAuthKeyExchangeUrl(clientId, clientSecret, redirectUri, code, sandbox = false, grantType = "authorization_code") {
         const baseUrl = sandbox
-            ? "https://api.oauth.sandbox.bunq.com"
+            ? "https://api-oauth.sandbox.bunq.com"
             : "https://api.oauth.bunq.com";
         return (`${baseUrl}/v1/token?` +
             `grant_type=${grantType}&` +
