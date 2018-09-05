@@ -302,11 +302,12 @@ class BunqJSClient {
      * @param {string} redirectUri
      * @param {string} code
      * @param {string|false} state
+     * @param {boolean} sandbox
      * @param {string} grantType
      * @returns {Promise<string>}
      */
-    async exchangeOAuthToken(clientId, clientSecret, redirectUri, code, state = false, grantType = "authorization_code") {
-        const url = this.formatOAuthKeyExchangeUrl(clientId, clientSecret, redirectUri, code, grantType);
+    async exchangeOAuthToken(clientId, clientSecret, redirectUri, code, state = false, sandbox = false, grantType = "authorization_code") {
+        const url = this.formatOAuthKeyExchangeUrl(clientId, clientSecret, redirectUri, code, sandbox, grantType);
         // send the request
         const response = await axios_1.default({
             method: "POST",
@@ -324,11 +325,15 @@ class BunqJSClient {
      * @param {string} clientId
      * @param {string} redirectUri
      * @param {string|false} state
+     * @param {boolean} sandbox
      * @returns {string}
      */
-    formatOAuthAuthorizationRequestUrl(clientId, redirectUri, state = false) {
+    formatOAuthAuthorizationRequestUrl(clientId, redirectUri, state = false, sandbox = false) {
         const stateParam = state ? `&state=${state}` : "";
-        return (`https://oauth.bunq.com/auth?response_type=code&` +
+        const baseUrl = sandbox
+            ? "https://oauth.sandbox.bunq.com"
+            : "https://oauth.bunq.com";
+        return (`${baseUrl}/auth?response_type=code&` +
             `client_id=${clientId}&` +
             `redirect_uri=${redirectUri}` +
             stateParam);
@@ -339,11 +344,15 @@ class BunqJSClient {
      * @param {string} clientSecret
      * @param {string} redirectUri
      * @param {string} code
+     * @param {boolean} sandbox
      * @param {string} grantType
      * @returns {string}
      */
-    formatOAuthKeyExchangeUrl(clientId, clientSecret, redirectUri, code, grantType = "authorization_code") {
-        return (`https://api.oauth.bunq.com/v1/token?` +
+    formatOAuthKeyExchangeUrl(clientId, clientSecret, redirectUri, code, sandbox = false, grantType = "authorization_code") {
+        const baseUrl = sandbox
+            ? "https://api.oauth.sandbox.bunq.com"
+            : "https://api.oauth.bunq.com";
+        return (`${baseUrl}/v1/token?` +
             `grant_type=${grantType}&` +
             `code=${code}&` +
             `client_id=${clientId}&` +

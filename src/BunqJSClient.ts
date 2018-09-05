@@ -385,6 +385,7 @@ export default class BunqJSClient {
      * @param {string} redirectUri
      * @param {string} code
      * @param {string|false} state
+     * @param {boolean} sandbox
      * @param {string} grantType
      * @returns {Promise<string>}
      */
@@ -394,6 +395,7 @@ export default class BunqJSClient {
         redirectUri: string,
         code: string,
         state: string | false = false,
+        sandbox: boolean = false,
         grantType: string = "authorization_code"
     ): Promise<string> {
         const url = this.formatOAuthKeyExchangeUrl(
@@ -401,6 +403,7 @@ export default class BunqJSClient {
             clientSecret,
             redirectUri,
             code,
+            sandbox,
             grantType
         );
 
@@ -424,16 +427,23 @@ export default class BunqJSClient {
      * @param {string} clientId
      * @param {string} redirectUri
      * @param {string|false} state
+     * @param {boolean} sandbox
      * @returns {string}
      */
     public formatOAuthAuthorizationRequestUrl(
         clientId: string,
         redirectUri: string,
-        state: string | false = false
+        state: string | false = false,
+        sandbox: boolean = false
     ): string {
         const stateParam = state ? `&state=${state}` : "";
+
+        const baseUrl = sandbox
+            ? "https://oauth.sandbox.bunq.com"
+            : "https://oauth.bunq.com";
+
         return (
-            `https://oauth.bunq.com/auth?response_type=code&` +
+            `${baseUrl}/auth?response_type=code&` +
             `client_id=${clientId}&` +
             `redirect_uri=${redirectUri}` +
             stateParam
@@ -446,6 +456,7 @@ export default class BunqJSClient {
      * @param {string} clientSecret
      * @param {string} redirectUri
      * @param {string} code
+     * @param {boolean} sandbox
      * @param {string} grantType
      * @returns {string}
      */
@@ -454,10 +465,15 @@ export default class BunqJSClient {
         clientSecret: string,
         redirectUri: string,
         code: string,
+        sandbox: boolean = false,
         grantType: string = "authorization_code"
     ) {
+        const baseUrl = sandbox
+            ? "https://api.oauth.sandbox.bunq.com"
+            : "https://api.oauth.bunq.com";
+
         return (
-            `https://api.oauth.bunq.com/v1/token?` +
+            `${baseUrl}/v1/token?` +
             `grant_type=${grantType}&` +
             `code=${code}&` +
             `client_id=${clientId}&` +
