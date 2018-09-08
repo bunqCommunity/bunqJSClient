@@ -11,6 +11,8 @@ import Installation from "./Installation";
 import MasterCardAction from "./MasterCardAction";
 import MonetaryAccount from "./MonetaryAccount";
 import MonetaryAccountBank from "./MonetaryAccountBank";
+import NoteAttachment from "./NoteAttachment";
+import NoteText from "./NoteText";
 import Payment from "./Payment";
 import PaymentBatch from "./PaymentBatch";
 import RequestInquiry from "./RequestInquiry";
@@ -43,6 +45,8 @@ export default (ApiAdapter: ApiAdapter) => {
         masterCardAction: new MasterCardAction(ApiAdapter),
         monetaryAccount: new MonetaryAccount(ApiAdapter),
         monetaryAccountBank: new MonetaryAccountBank(ApiAdapter),
+        noteText: new NoteText(ApiAdapter),
+        noteAttachment: new NoteAttachment(ApiAdapter),
         payment: new Payment(ApiAdapter),
         paymentBatch: new PaymentBatch(ApiAdapter),
         requestInquiry: new RequestInquiry(ApiAdapter),
