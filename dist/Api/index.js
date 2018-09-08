@@ -12,6 +12,8 @@ const Installation_1 = require("./Installation");
 const MasterCardAction_1 = require("./MasterCardAction");
 const MonetaryAccount_1 = require("./MonetaryAccount");
 const MonetaryAccountBank_1 = require("./MonetaryAccountBank");
+const NoteAttachment_1 = require("./NoteAttachment");
+const NoteText_1 = require("./NoteText");
 const Payment_1 = require("./Payment");
 const PaymentBatch_1 = require("./PaymentBatch");
 const RequestInquiry_1 = require("./RequestInquiry");
@@ -41,6 +43,8 @@ exports.default = (ApiAdapter) => {
         masterCardAction: new MasterCardAction_1.default(ApiAdapter),
         monetaryAccount: new MonetaryAccount_1.default(ApiAdapter),
         monetaryAccountBank: new MonetaryAccountBank_1.default(ApiAdapter),
+        noteText: new NoteText_1.default(ApiAdapter),
+        noteAttachment: new NoteAttachment_1.default(ApiAdapter),
         payment: new Payment_1.default(ApiAdapter),
         paymentBatch: new PaymentBatch_1.default(ApiAdapter),
         requestInquiry: new RequestInquiry_1.default(ApiAdapter),
