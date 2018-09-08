@@ -316,7 +316,7 @@ export default class BunqJSClient {
         }
 
         // make sure we set isOAuth to true to handle it more easily
-        this.Session.isOAuthKey;
+        this.Session.isOAuthKey = true;
 
         // set user info for granted by user
         this.Session.userInfo["UserApiKey"] = grantedByUserParsed.info;
