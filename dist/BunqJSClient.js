@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const store = require("store");
+const axios_1 = require("axios");
 const ApiAdapter_1 = require("./ApiAdapter");
 const Session_1 = require("./Session");
 const Logger_1 = require("./Helpers/Logger");
@@ -260,7 +261,7 @@ class BunqJSClient {
             grantedByUserParsed.info.id = userInfoParsed.info.id;
         }
         // make sure we set isOAuth to true to handle it more easily
-        this.Session.isOAuthKey;
+        this.Session.isOAuthKey = true;
         // set user info for granted by user
         this.Session.userInfo["UserApiKey"] = grantedByUserParsed.info;
         return sessionTimeout;
@@ -293,6 +294,70 @@ class BunqJSClient {
             skipSessionCheck: true
         }));
         return response.Response[0].UserCredentialPasswordIpRequest;
+    }
+    /**
+     *
+     * @param {string} clientId
+     * @param {string} clientSecret
+     * @param {string} redirectUri
+     * @param {string} code
+     * @param {string|false} state
+     * @param {boolean} sandbox
+     * @param {string} grantType
+     * @returns {Promise<string>}
+     */
+    async exchangeOAuthToken(clientId, clientSecret, redirectUri, code, state = false, sandbox = false, grantType = "authorization_code") {
+        const url = this.formatOAuthKeyExchangeUrl(clientId, clientSecret, redirectUri, code, sandbox, grantType);
+        // send the request
+        const response = await axios_1.default({
+            method: "POST",
+            url: url
+        });
+        const data = response.data;
+        // check if a state has to be checked and validate it
+        if (state && state !== data.state) {
+            throw new Error("Given state does not match token exchange state!");
+        }
+        return data.access_token;
+    }
+    /**
+     * Formats a correct bunq OAuth url to begin the login flow
+     * @param {string} clientId
+     * @param {string} redirectUri
+     * @param {string|false} state
+     * @param {boolean} sandbox
+     * @returns {string}
+     */
+    formatOAuthAuthorizationRequestUrl(clientId, redirectUri, state = false, sandbox = false) {
+        const stateParam = state ? `&state=${state}` : "";
+        const baseUrl = sandbox
+            ? "https://oauth.sandbox.bunq.com"
+            : "https://oauth.bunq.com";
+        return (`${baseUrl}/auth?response_type=code&` +
+            `client_id=${clientId}&` +
+            `redirect_uri=${redirectUri}` +
+            stateParam);
+    }
+    /**
+     * Formats the given parameters into the url used for the token exchange
+     * @param {string} clientId
+     * @param {string} clientSecret
+     * @param {string} redirectUri
+     * @param {string} code
+     * @param {boolean} sandbox
+     * @param {string} grantType
+     * @returns {string}
+     */
+    formatOAuthKeyExchangeUrl(clientId, clientSecret, redirectUri, code, sandbox = false, grantType = "authorization_code") {
+        const baseUrl = sandbox
+            ? "https://api-oauth.sandbox.bunq.com"
+            : "https://api.oauth.bunq.com";
+        return (`${baseUrl}/v1/token?` +
+            `grant_type=${grantType}&` +
+            `code=${code}&` +
+            `client_id=${clientId}&` +
+            `client_secret=${clientSecret}&` +
+            `redirect_uri=${redirectUri}`);
     }
     /**
      * Sets an automatic timer to keep the session alive when possible

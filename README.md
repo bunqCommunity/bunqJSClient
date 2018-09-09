@@ -80,6 +80,30 @@ const userCompany = await BunqClient.getUser("UserCompany", forceUpdate);
 const payments = await bunqJSClient.api.payment.list(userId, accountId);
 ```
 
+## OAuth authentication
+You can use the helper function to format a correct url to start the login flow:
+```
+const url = bunqJSClient.formatOAuthAuthorizationRequestUrl(
+    clientId, 
+    redirectUri, 
+    optionalState = false
+);
+```
+
+Next when the user grants access use the returned code parameter with:
+```
+const authorizationCode = await bunqJSClient.exchangeOAuthToken(
+    clientId, 
+    clientSecret, 
+    redirectUri, 
+    code, 
+    grantType: string = "authorization_code",
+    state: string | false = false
+)
+```
+
+This will return the if successful `access_token` which is a valid API key. Using this key will give you access to the limited `UserApiKey` user object. For more details on the limitations of a OAuth connection check out the official together topic [here](https://together.bunq.com/d/3016-oauth).
+
 ## Examples
 There are a few examples which can be found in the `examples/` folder. `create_sandbox_apikey` will create and output a new sandbox key which you can use with the other examples.
 

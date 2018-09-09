@@ -334,6 +334,7 @@ export default class Session {
     public async destroyApiSession(save: boolean = false) {
         this.logger.debug(` -> #destroyApiSession(${save}) `);
 
+        this.userInfo = {};
         this.sessionId = null;
         this.sessionToken = null;
         this.sessionTokenId = null;
