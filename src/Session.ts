@@ -87,7 +87,7 @@ export default class Session {
             !!apiKey
         ) {
             // we can't keep the session data if the environment changes
-            await this.destroySession();
+            await this.destroyInstallationMemory();
         }
 
         this.apiKey = apiKey;
@@ -101,7 +101,9 @@ export default class Session {
 
         // validate the key
         if (!validateKey(encryptionKey)) {
-            throw new Error("Invalid EAS key given! Invalid characters or length (16,24,32 length)");
+            throw new Error(
+                "Invalid EAS key given! Invalid characters or length (16,24,32 length)"
+            );
         }
 
         this.encryptionKey = encryptionKey;
@@ -167,7 +169,9 @@ export default class Session {
      * @returns {Promise.<boolean>}
      */
     public async loadSession() {
-        this.logger.debug(" === Loading session data === ");
+        this.logger.debug(
+            " === Loading session data === " + this.storageKeyLocation
+        );
         // try to load the session interface
         const encryptedSession = await this.asyncStorageGet(
             this.storageKeyLocation
@@ -243,22 +247,12 @@ export default class Session {
 
         // if we have a stored installation but no session we reset to prevent
         // creating two sessions for a single installation
-        if (this.verifyInstallation() && !this.verifySessionInstallation()) {
-            const apiKey = this.apiKey + ""; // copy key while preventing reference issues
-
-            if (this.verifySessionExpiry() === false) {
-                // session expired so we don't have to destroy the device and installation
-                this.logger.debug(`reseting api session data`);
-
-                await this.destroyApiSession(true);
-            } else {
-                // reset all data and reset the apiKey
-                this.logger.debug(`reseting all data`);
-
-                await this.destroySession();
-                this.apiKey = apiKey;
-            }
-
+        if (
+            this.verifyInstallation() &&
+            this.verifyDeviceInstallation() &&
+            !this.verifySessionInstallation()
+        ) {
+            await this.destroyApiSession(true);
             return false;
         }
 
@@ -324,6 +318,32 @@ export default class Session {
         await this.destroyApiDeviceInstallation();
 
         return await this.asyncStorageRemove(this.storageKeyLocation);
+    }
+
+    /**
+     * Removes info from the object, keeps stored data in
+     * @param {boolean} save
+     * @returns {Promise<boolean>}
+     */
+    public async destroyInstallationMemory() {
+        this.userInfo = {};
+        this.sessionId = null;
+        this.sessionToken = null;
+        this.sessionTokenId = null;
+        this.sessionTimeout = null;
+        this.sessionExpiryTime = null;
+
+        this.publicKey = null;
+        this.publicKeyPem = null;
+        this.privateKey = null;
+        this.privateKeyPem = null;
+        this.serverPublicKey = null;
+        this.serverPublicKeyPem = null;
+        this.installUpdated = null;
+        this.installCreated = null;
+        this.installToken = null;
+
+        this.deviceId = null;
     }
 
     /**
