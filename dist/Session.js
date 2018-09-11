@@ -455,18 +455,12 @@ class Session {
      * @returns {boolean}
      */
     verifySessionInstallation() {
-        const sessionTokenDebug = `sessionToken = ${this.sessionToken === null
-            ? null
-            : this.sessionToken.substring(0, 5)}`;
-        this.logger.debug(" === Testing session installation, " + sessionTokenDebug);
         if (this.sessionId === null) {
-            this.logger.debug("Session invalid: sessionId null");
+            this.logger.debug(" === Session invalid: sessionId null === ");
             return false;
         }
-        if (!this.verifySessionExpiry()) {
+        if (!this.verifySessionExpiry())
             return false;
-        }
-        this.logger.debug("Session valid: true");
         return true;
     }
     /**
@@ -476,7 +470,7 @@ class Session {
     verifySessionExpiry() {
         const currentTime = new Date();
         if (this.sessionExpiryTime.getTime() <= currentTime.getTime()) {
-            this.logger.debug("Session invalid: expired");
+            this.logger.debug(" === Session invalid: expired === ");
             this.logger.debug("this.sessionExpiryTime.getTime() = " +
                 this.sessionExpiryTime.getTime());
             this.logger.debug("currentTime.getTime() = " + currentTime.getTime());

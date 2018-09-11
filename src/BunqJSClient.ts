@@ -508,20 +508,8 @@ export default class BunqJSClient {
         }
 
         if (this.Session.sessionExpiryTime) {
-            const currentTime = new Date();
-
             // calculate amount of milliseconds until expire time
-            let expiresInMilliseconds =
-                this.Session.sessionExpiryTime.getTime() -
-                currentTime.getTime();
-
-            // if shortTimeout is set which is after we already extended the session maximize the expiry to 5 minutes
-            if (shortTimeout) {
-                expiresInMilliseconds =
-                    this.Session.sessionTimeout > FIVE_MINUTES_MS
-                        ? FIVE_MINUTES_MS
-                        : this.Session.sessionTimeout;
-            }
+            const expiresInMilliseconds = this.calculateSessionExpiry();
 
             // 15 seconds before it expires we want to reset it
             const timeoutRequestDuration = expiresInMilliseconds - 15000;
@@ -569,6 +557,24 @@ export default class BunqJSClient {
 
         // set the timer again for a shorter duration (max 5 minutes)
         this.setExpiryTimer(true);
+    };
+
+    /**
+     * Calculate in how many milliseconds the session will expire
+     * @param {boolean} shortTimeout
+     * @returns {number}
+     */
+    public calculateSessionExpiry = (shortTimeout = false) => {
+        // if shortTimeout is set maximize the expiry to 5 minutes
+        if (shortTimeout) {
+            return !this.Session.sessionTimeout ||
+                this.Session.sessionTimeout > FIVE_MINUTES_MS
+                ? FIVE_MINUTES_MS
+                : this.Session.sessionTimeout;
+        }
+
+        const currentTime = new Date();
+        return this.Session.sessionExpiryTime.getTime() - currentTime.getTime();
     };
 
     /**

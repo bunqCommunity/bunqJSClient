@@ -101,6 +101,20 @@ class ApiAdapter {
                     await this.BunqJSClient.registerSession();
                 }
             }
+            // calculate amount of milliseconds until expire time
+            const expiresInMilliseconds = this.BunqJSClient.calculateSessionExpiry();
+            if (expiresInMilliseconds < 30000) {
+                // this request will extend the expiry timer
+                const extendByMilliseconds = this.BunqJSClient.calculateSessionExpiry(true);
+                // add milliseconds to current time
+                const currentDate = new Date();
+                currentDate.setTime(currentDate.getTime() + extendByMilliseconds);
+                // set updated session expiry time
+                this.Session.sessionExpiryTime = currentDate;
+                this.logger.debug(`Request in last 30 seconds: (${expiresInMilliseconds /
+                    1000})`);
+                this.logger.debug(`Set session expiry to ${this.Session.sessionExpiryTime}`);
+            }
         }
         if (options.unauthenticated !== true) {
             // use session token or fallback to install taken if we have one
