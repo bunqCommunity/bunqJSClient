@@ -196,11 +196,17 @@ class BunqJSClient {
                 const responseError = error.response.data.Error[0];
                 const description = responseError.error_description;
                 this.logger.error("bunq API error: " + description);
+                if (description ===
+                    "Authentication token already has a user session.") {
+                    // add custom error code
+                    throw {
+                        errorCode: this.errorCodes.INSTALLATION_HAS_SESSION,
+                        error: error
+                    };
+                }
             }
-            throw {
-                errorCode: this.errorCodes.INSTALLATION_HAS_SESSION,
-                error: error
-            };
+            // rethrow the exact error
+            throw error;
         }
         this.logger.debug("response.token.created:" + response.token.created);
         // based on account setting we set a expire date
