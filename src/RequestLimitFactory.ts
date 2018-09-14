@@ -8,10 +8,7 @@ export default class RequestLimitFactory {
      * @param {string} method
      * @returns {any}
      */
-    public create(
-        endpoint: string,
-        method: string = "GET"
-    ): RequestLimiter {
+    public create(endpoint: string, method: string = "GET"): RequestLimiter {
         const limiterKey = `${endpoint}${method}`;
 
         if (this.limiters[limiterKey]) {

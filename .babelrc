@@ -1,14 +1,24 @@
 {
   "presets": [
-    ["env", {
-      "targets": {
-        "browsers": ["last 2 versions"]
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": [
+            "last 2 versions"
+          ]
+        }
       }
-    }]
+    ]
   ],
   "plugins": [
-    "transform-object-rest-spread",
-    ["transform-runtime", { "polyfill": false }],
-    "syntax-dynamic-import"
+    "@babel/plugin-proposal-object-rest-spread",
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "polyfill": false
+      }
+    ],
+    "@babel/plugin-syntax-dynamic-import"
   ]
 }

@@ -19,20 +19,14 @@ export default class UserPerson implements ApiEndpointInterface {
      * @param {any} userInfo
      * @returns {Promise<void>}
      */
-    public async put(
-        userId: number,
-        userInfo: any
-    ) {
+    public async put(userId: number, userInfo: any) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create(
             "/user-person",
             "PUT"
         );
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.put(
-                `/v1/user-person/${userId}`,
-                userInfo
-            )
+            this.ApiAdapter.put(`/v1/user-person/${userId}`, userInfo)
         );
 
         return response.Response;

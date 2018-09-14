@@ -2,4 +2,4 @@ import PaymentRequestObject from "./PaymentRequestObject";
 
 export type PaymentRequestObjectCollection = PaymentRequestObject[];
 
-export default PaymentRequestObjectCollection
+export default PaymentRequestObjectCollection;

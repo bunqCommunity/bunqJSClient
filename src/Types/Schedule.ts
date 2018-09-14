@@ -1,4 +1,10 @@
-export type RecurrenceUnit = "ONCE"|"HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY"|"YEARLY";
+export type RecurrenceUnit =
+    | "ONCE"
+    | "HOURLY"
+    | "DAILY"
+    | "WEEKLY"
+    | "MONTHLY"
+    | "YEARLY";
 
 type Schedule = {
     time_start: string;

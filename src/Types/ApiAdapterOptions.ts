@@ -5,6 +5,6 @@ type ApiAdapterOptions = {
     unauthenticated?: boolean;
     disableSigning?: boolean;
     skipSessionCheck?: boolean;
-}
+};
 
 export default ApiAdapterOptions;

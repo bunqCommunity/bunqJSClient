@@ -70,7 +70,10 @@ export const verifyString = async (
         const rawSignature = forgeUtil.decode64(signature);
 
         // verify the signature with the public key
-        return publicKey.verify(messageDigest.digest().getBytes(), rawSignature);
+        return publicKey.verify(
+            messageDigest.digest().getBytes(),
+            rawSignature
+        );
     } catch (ex) {
         Logger.debug(ex);
         return false;

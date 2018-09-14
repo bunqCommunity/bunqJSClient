@@ -27,10 +27,10 @@ class PaymentBatch {
      * @returns {Promise<void>}
      */
     async list(userId, monetaryAccountId, options = {
-        count: 200,
-        newer_id: false,
-        older_id: false
-    }) {
+            count: 200,
+            newer_id: false,
+            older_id: false
+        }) {
         const params = {};
         if (options.count !== undefined) {
             params.count = options.count;

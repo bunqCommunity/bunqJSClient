@@ -4,4 +4,4 @@ export default interface LoggerInterface {
     error(value: any): void;
     debug(value: any): void;
     trace(value: any): void;
-};
+}

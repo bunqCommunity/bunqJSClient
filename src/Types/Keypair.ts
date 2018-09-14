@@ -1,6 +1,6 @@
 type KeyPair = {
-  publicKey: any;
-  privateKey: any;
+    publicKey: any;
+    privateKey: any;
 };
 
 export default KeyPair;
