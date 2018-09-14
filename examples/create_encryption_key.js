@@ -60,7 +60,7 @@ const generateRandomKey = keySize => {
  *
  * @type {number}
  */
-const KEY_SIZE = 64;
+const KEY_SIZE = 32;
 
 // the password used to derive a key, could be any string
 const password = "Some Password You Can Derive A Key From";
