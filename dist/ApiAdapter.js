@@ -148,7 +148,7 @@ class ApiAdapter {
         }
         catch (error) {
             // get the data from the request if it fails
-            if (error.response.data) {
+            if (error.response && error.response.data) {
                 // parse json response if possible
                 try {
                     // attempt to turn string result back into json when possible
