@@ -3,6 +3,8 @@ import * as path from "path";
 import apiInstallationRegistration from "../TestData/api-installation";
 import apiDeviceRegistration from "../TestData/api-installation";
 import apiSessionRegistration from "../TestData/api-session-registration";
+import useOauthResponse from "../TestData/api-user-oauth";
+import oauthAuthorizationResponse from "../TestData/oauth-authorization";
 
 export const defaultResponse = async moxios => {
     await new Promise((resolve, reject) => {
@@ -76,6 +78,31 @@ export const sessionRegistration = async moxios => {
             moxios.requests
                 .mostRecent()
                 .respondWith(apiSessionRegistration())
+                .then(resolve)
+                .catch(reject);
+        });
+    });
+};
+
+export const sessionRegistrationOAuthUser = async moxios => {
+    await new Promise((resolve, reject) => {
+        moxios.wait(() => {
+            moxios.requests
+                .mostRecent()
+                .respondWith(useOauthResponse())
+                .then(resolve)
+                .catch(reject);
+        });
+    });
+};
+
+
+export const oauthUserAuthorization = async moxios => {
+    await new Promise((resolve, reject) => {
+        moxios.wait(() => {
+            moxios.requests
+                .mostRecent()
+                .respondWith(oauthAuthorizationResponse())
                 .then(resolve)
                 .catch(reject);
         });

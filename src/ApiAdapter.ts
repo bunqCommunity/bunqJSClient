@@ -126,29 +126,6 @@ export default class ApiAdapter {
 
     /**
      * @param {string} url
-     * @param data
-     * @param headers
-     * @param {ApiAdapterOptions} options
-     * @returns {Promise<void>}
-     */
-    public async list(
-        url: string,
-        data: any = {},
-        headers: any = {},
-        options: ApiAdapterOptions = {}
-    ) {
-        const response = await this.request(
-            url,
-            "LIST",
-            data,
-            headers,
-            options
-        );
-        return response.data;
-    }
-
-    /**
-     * @param {string} url
      * @param {string} method
      * @param data
      * @param headers

@@ -5,9 +5,12 @@ import CustomDb from "../TestHelpers/CustomDb";
 import { randomHex } from "../TestHelpers/RandomData";
 import Prepare from "../TestHelpers/Prepare";
 import {
+    sessionRegistrationOAuthUser,
+    oauthUserAuthorization,
     installationRegistration,
     deviceServerRegistration,
-    sessionRegistration, defaultResponse
+    sessionRegistration,
+    defaultResponse
 } from "../TestHelpers/DefaultResponses";
 
 import {
@@ -25,6 +28,12 @@ import {
     sessionToken,
     sessionTokenId
 } from "../TestData/api-session-registration";
+import {
+    default as apiOauthSessionRegistration,
+    sessionId as sessionIdOauth,
+    sessionToken as sessionTokenOauth,
+    sessionTokenId as sessionTokenIdOauth
+} from "../TestData/api-user-oauth";
 import SetupApp from "../TestHelpers/SetupApp";
 
 const fakeApiKey = randomHex(64);
@@ -78,6 +87,20 @@ describe("BunqJSClient", () => {
         });
     });
 
+    describe("#setKeepAlive()", () => {
+        it("should be false and true after using the function", async () => {
+            const app = new BunqJSClient(new CustomDb("setKeepAlive"));
+
+            app.setKeepAlive(false);
+
+            expect(app.keepAlive).toBeFalsy();
+
+            app.setKeepAlive(true);
+
+            expect(app.keepAlive).toBeTruthy();
+        });
+    });
+
     describe("#install()", async () => {
         it("installation without stored data", async () => {
             const app = new BunqJSClient(new CustomDb("install1"));
@@ -101,6 +124,19 @@ describe("BunqJSClient", () => {
 
             expect(app.Session.installToken).toBe(installToken);
             expect(app.Session.serverPublicKeyPem).toBe(serverPublicKeyPem);
+        });
+
+        it("installation without session public key", async () => {
+            const app = new BunqJSClient(new CustomDb("install2"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            // forcibly remove public key
+            app.Session.publicKey = false;
+
+            const installPromise = app.install();
+
+            // expect it to reject
+            expect(installPromise).rejects.toBeTruthy();
         });
     });
 
@@ -319,7 +355,9 @@ describe("BunqJSClient", () => {
                 moxios.wait(() => {
                     moxios.requests
                         .mostRecent()
-                        .respondWith(apiSessionRegistration(true, "UserPersonInvalid"))
+                        .respondWith(
+                            apiSessionRegistration(true, "UserPersonInvalid")
+                        )
                         .then(resolve)
                         .catch(reject);
                 });
@@ -392,6 +430,38 @@ describe("BunqJSClient", () => {
             // wait for it to reject
             await expect(sessionRegistrationPromise).rejects.toBeTruthy();
         });
+
+        it("session registration rejects if request fails with status 400", async () => {
+            const app = new BunqJSClient(new CustomDb("session6"));
+            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+
+            // installationRegistration
+            const installationPromise = app.install();
+            const installationHandler = installationRegistration(moxios);
+            await installationPromise;
+            await installationHandler;
+
+            // device registration
+            const devicePromise = app.registerDevice();
+            const deviceHandler = deviceServerRegistration(moxios);
+            await devicePromise;
+            await deviceHandler;
+
+            const sessionRegistrationPromise = app.registerSession();
+
+            new Promise((resolve, reject) => {
+                moxios.wait(() => {
+                    moxios.requests
+                        .mostRecent()
+                        .respondWith(apiOauthSessionRegistration())
+                        .then(resolve)
+                        .catch(reject);
+                });
+            });
+
+            // wait for it to reject
+            await expect(sessionRegistrationPromise).resolves.toBeTruthy();
+        });
     });
 
     describe("#createCredentials()", () => {
@@ -402,7 +472,7 @@ describe("BunqJSClient", () => {
             const checkCredentialStatus = bunqApp.createCredentials();
 
             // return a default response
-            await defaultResponse(moxios)
+            await defaultResponse(moxios);
 
             // wait for credential status
             await checkCredentialStatus;
@@ -417,7 +487,7 @@ describe("BunqJSClient", () => {
             const checkCredentialStatus = bunqApp.checkCredentialStatus("UUID");
 
             // return a default response
-            await defaultResponse(moxios)
+            await defaultResponse(moxios);
 
             // wait for credential status
             await checkCredentialStatus;
@@ -476,6 +546,191 @@ describe("BunqJSClient", () => {
         });
     });
 
+    describe("#exchangeOAuthToken()", () => {
+        it("should request oauth authorization and return an access token", async () => {
+            const app = await SetupApp("exchangeOAuthToken1");
+
+            const request = app.exchangeOAuthToken(
+                "clientId",
+                "clientSecret",
+                "redirectUri",
+                "codeValue",
+                false,
+                false,
+                "authorization_code"
+            );
+            await oauthUserAuthorization(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("should check the state if set", async () => {
+            const app = await SetupApp("exchangeOAuthToken2");
+
+            const request = app.exchangeOAuthToken(
+                "clientId",
+                "clientSecret",
+                "redirectUri",
+                "codeValue",
+                "some-state-value",
+                false,
+                "authorization_code"
+            );
+            await oauthUserAuthorization(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("should use default values", async () => {
+            const app = await SetupApp("exchangeOAuthToken3");
+
+            const request = app.exchangeOAuthToken(
+                "clientId",
+                "clientSecret",
+                "redirectUri",
+                "codeValue"
+            );
+            await oauthUserAuthorization(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("should throw an error if state is invalid", async () => {
+            const app = await SetupApp("exchangeOAuthToken4");
+
+            const request = app.exchangeOAuthToken(
+                "clientId",
+                "clientSecret",
+                "redirectUri",
+                "codeValue",
+                "some-state-valu2e",
+                false,
+                "authorization_code"
+            );
+            expect(request).rejects.toBeTruthy();
+        });
+    });
+
+    describe("#formatOAuthAuthorizationRequestUrl()", () => {
+        it("should return the required production url for an oauth authorization request", async () => {
+            const app = await SetupApp("formatOAuthAuthorizationRequestUrl1");
+
+            const expectedUrl =
+                "https://oauth.bunq.com/auth?response_type=code&client_id=clientId&redirect_uri=redirectUri";
+
+            const string = await app.formatOAuthAuthorizationRequestUrl(
+                "clientId",
+                "redirectUri",
+                false,
+                false
+            );
+
+            expect(string).toBe(expectedUrl);
+        });
+
+        it("should return the required sandbox url for an oauth authorization request", async () => {
+            const app = await SetupApp("formatOAuthAuthorizationRequestUrl2");
+
+            const expectedUrl =
+                "https://oauth.sandbox.bunq.com/auth?response_type=code&client_id=clientId&redirect_uri=redirectUri";
+
+            const string = await app.formatOAuthAuthorizationRequestUrl(
+                "clientId",
+                "redirectUri",
+                false,
+                true
+            );
+
+            expect(string).toBe(expectedUrl);
+        });
+
+        it("should return a valid url with default values", async () => {
+            const app = await SetupApp("formatOAuthAuthorizationRequestUrl3");
+
+            const expectedUrl =
+                "https://oauth.bunq.com/auth?response_type=code&client_id=clientId&redirect_uri=redirectUri";
+
+            const string = await app.formatOAuthAuthorizationRequestUrl(
+                "clientId",
+                "redirectUri"
+            );
+
+            expect(string).toBe(expectedUrl);
+        });
+
+        it("should return a valid url with a custom state", async () => {
+            const app = await SetupApp("formatOAuthAuthorizationRequestUrl4");
+
+            const expectedUrl =
+                "https://oauth.bunq.com/auth?response_type=code&client_id=clientId&redirect_uri=redirectUri&state=state_value";
+
+            const string = await app.formatOAuthAuthorizationRequestUrl(
+                "clientId",
+                "redirectUri",
+                "state_value"
+            );
+
+            expect(string).toBe(expectedUrl);
+        });
+    });
+
+    describe("#formatOAuthKeyExchangeUrl()", () => {
+        it("should return the required production url for an oauth token exchange request", async () => {
+            const app = await SetupApp("formatOAuthKeyExchangeUrl1");
+
+            const expectedUrl =
+                "https://api.oauth.bunq.com/v1/token?grant_type=authorization_code&code=received_code&client_id=clientId&client_secret=clientSecret&redirect_uri=redirectUri";
+
+            const string = await app.formatOAuthKeyExchangeUrl(
+                "clientId",
+                "clientSecret",
+                "redirectUri",
+                "received_code",
+                false,
+                "authorization_code"
+            );
+
+            expect(string).toBe(expectedUrl);
+        });
+
+        it("should return the required sandbox url for an oauth token exchange request", async () => {
+            const app = await SetupApp("formatOAuthKeyExchangeUrl2");
+
+            const expectedUrl =
+                "https://api-oauth.sandbox.bunq.com/v1/token?grant_type=authorization_code&code=received_code&client_id=clientId&client_secret=clientSecret&redirect_uri=redirectUri";
+
+            const string = await app.formatOAuthKeyExchangeUrl(
+                "clientId",
+                "clientSecret",
+                "redirectUri",
+                "received_code",
+                true,
+                "authorization_code"
+            );
+
+            expect(string).toBe(expectedUrl);
+        });
+
+        it("should return a valid url with default values", async () => {
+            const app = await SetupApp("formatOAuthKeyExchangeUrl3");
+
+            const expectedUrl =
+                "https://api.oauth.bunq.com/v1/token?grant_type=authorization_code&code=received_code&client_id=clientId&client_secret=clientSecret&redirect_uri=redirectUri";
+
+            const string = await app.formatOAuthKeyExchangeUrl(
+                "clientId",
+                "clientSecret",
+                "redirectUri",
+                "received_code"
+            );
+
+            expect(string).toBe(expectedUrl);
+        });
+    });
+
     describe("#getUser()", () => {
         it("should return UserCompany object", async () => {
             const app = await SetupApp("GetUser");
@@ -500,7 +755,7 @@ describe("BunqJSClient", () => {
             const getUserPromise = app.getUser("UserCompany", true);
 
             // return a default response
-            await defaultResponse(moxios)
+            await defaultResponse(moxios);
 
             await expect(getUserPromise).resolves.toBeTruthy();
         });
@@ -526,9 +781,17 @@ describe("BunqJSClient", () => {
             const getUsersPromise = app.getUsers(true);
 
             // return a default response
-            await defaultResponse(moxios)
+            await defaultResponse(moxios);
 
             await expect(getUsersPromise).resolves.toBeTruthy();
+        });
+    });
+
+    describe("#destroyApiSession()", () => {
+        it("should return a list with one UserCompany object", async () => {
+            const app = await SetupApp("DestroyApiSession1");
+
+            await app.destroyApiSession();
         });
     });
 });

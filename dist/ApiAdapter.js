@@ -69,17 +69,6 @@ class ApiAdapter {
     }
     /**
      * @param {string} url
-     * @param data
-     * @param headers
-     * @param {ApiAdapterOptions} options
-     * @returns {Promise<void>}
-     */
-    async list(url, data = {}, headers = {}, options = {}) {
-        const response = await this.request(url, "LIST", data, headers, options);
-        return response.data;
-    }
-    /**
-     * @param {string} url
      * @param {string} method
      * @param data
      * @param headers

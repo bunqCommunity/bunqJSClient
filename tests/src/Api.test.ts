@@ -83,12 +83,10 @@ describe("API", () => {
         });
 
         it("#POST", async () => {
-            const request = bunqApp.api.bunqMeTabs.post(
-                5,
-                12,
-                "description",
-                "12.00"
-            );
+            const request = bunqApp.api.bunqMeTabs.post(5, 12, "description", {
+                value: "12.00",
+                currency: "EUR"
+            });
             await defaultResponse(moxios);
             const response = await request;
 
@@ -524,6 +522,300 @@ describe("API", () => {
         });
     });
 
+    describe("NoteAttachment", () => {
+        it("#GET", async () => {
+            const request = bunqApp.api.noteAttachment.get(
+                "payment",
+                1,
+                2,
+                3,
+                4
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#GET - secondary id", async () => {
+            const request = bunqApp.api.noteAttachment.get(
+                "schedule",
+                1,
+                2,
+                3,
+                4,
+                5
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#LIST", async () => {
+            const request = bunqApp.api.noteAttachment.list("payment", 1, 2, 3);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#LIST - secondary id", async () => {
+            const request = bunqApp.api.noteAttachment.list(
+                "payment",
+                1,
+                2,
+                3,
+                4
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#LIST - with pagination options", async () => {
+            const request = bunqApp.api.noteAttachment.list(
+                "payment",
+                1,
+                2,
+                3,
+                4,
+                {
+                    newer_id: 1,
+                    older_id: 2,
+                    count: 200
+                }
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#POST", async () => {
+            const request = bunqApp.api.noteAttachment.post(
+                "payment",
+                1,
+                2,
+                3,
+                1234,
+                "Some description"
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#POST - secondary id", async () => {
+            const request = bunqApp.api.noteAttachment.post(
+                "payment",
+                1,
+                2,
+                3,
+                4,
+                "Some description",
+                5
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#PUT", async () => {
+            const request = bunqApp.api.noteAttachment.put(
+                "payment",
+                1,
+                2,
+                3,
+                4,
+                5,
+                "Some description"
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#PUT - secondary id", async () => {
+            const request = bunqApp.api.noteAttachment.put(
+                "payment",
+                1,
+                2,
+                3,
+                4,
+                5,
+                "Some description",
+                6
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#DELETE", async () => {
+            const request = bunqApp.api.noteAttachment.delete(
+                "payment",
+                1,
+                2,
+                3,
+                4
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#DELETE - secondary id", async () => {
+            const request = bunqApp.api.noteAttachment.delete(
+                "whitelist",
+                1,
+                2,
+                3,
+                4,
+                5
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+    });
+
+    describe("NoteText", () => {
+        it("#GET", async () => {
+            const request = bunqApp.api.noteText.get("payment", 1, 2, 3, 4);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#GET - secondary id", async () => {
+            const request = bunqApp.api.noteText.get("schedule", 1, 2, 3, 4, 5);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#LIST", async () => {
+            const request = bunqApp.api.noteText.list("payment", 1, 2, 3);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#LIST - secondary id", async () => {
+            const request = bunqApp.api.noteText.list("payment", 1, 2, 3, 4);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#LIST - with pagination options", async () => {
+            const request = bunqApp.api.noteText.list("payment", 1, 2, 3, 4, {
+                newer_id: 1,
+                older_id: 2,
+                count: 200
+            });
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#POST", async () => {
+            const request = bunqApp.api.noteText.post(
+                "payment",
+                1,
+                2,
+                3,
+                "Some description"
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#POST - secondary id", async () => {
+            const request = bunqApp.api.noteText.post(
+                "whitelist",
+                1,
+                2,
+                3,
+                "Some description",
+                4
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#PUT", async () => {
+            const request = bunqApp.api.noteText.put(
+                "payment",
+                1,
+                2,
+                3,
+                4,
+                "Some description"
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#PUT - secondary id", async () => {
+            const request = bunqApp.api.noteText.put(
+                "payment",
+                1,
+                2,
+                3,
+                4,
+                "Some description",
+                6
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#DELETE", async () => {
+            const request = bunqApp.api.noteText.delete("payment", 1, 2, 3, 4);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#DELETE - secondary id", async () => {
+            const request = bunqApp.api.noteText.delete(
+                "payment",
+                1,
+                2,
+                3,
+                4,
+                5
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+    });
+
     describe("Payments", () => {
         it("#GET", async () => {
             const request = bunqApp.api.payment.get(1, 2, 3);
@@ -944,6 +1236,39 @@ describe("API", () => {
             expect(response).not.toBeNull();
         });
 
+        it("#PUT - with custom address", async () => {
+            bunqApp = await SetupApp("ApiPutRequestResponse");
+
+            const request = bunqApp.api.requestResponse.put(
+                1,
+                2,
+                3,
+                "ACCEPTED",
+                {
+                    address_shipping: {
+                        street: "",
+                        house_number: "",
+                        po_box: false,
+                        postal_code: "",
+                        city: "",
+                        country: ""
+                    },
+                    address_billing: {
+                        street: "",
+                        house_number: "",
+                        po_box: false,
+                        postal_code: "",
+                        city: "",
+                        country: ""
+                    }
+                }
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
         it("#PUT - with accepted status", async () => {
             const request = bunqApp.api.requestResponse.put(
                 1,
@@ -1083,21 +1408,17 @@ describe("API", () => {
         });
     });
 
-    describe("ShareInviteBankResponse", () => {
-        it("#LIST", async () => {
-            const request = bunqApp.api.shareInviteBankResponse.list(1);
+    describe("SessionServer", () => {
+        it("#ADD", async () => {
+            const request = bunqApp.api.sessionServer.add();
             await defaultResponse(moxios);
             const response = await request;
 
             expect(response).not.toBeNull();
         });
 
-        it("#LIST - with pagination options", async () => {
-            const request = bunqApp.api.shareInviteBankResponse.list(1, {
-                newer_id: 1,
-                older_id: 2,
-                count: 200
-            });
+        it("#DELETE", async () => {
+            const request = bunqApp.api.sessionServer.delete();
             await defaultResponse(moxios);
             const response = await request;
 
@@ -1156,17 +1477,239 @@ describe("API", () => {
         });
     });
 
-    describe("SessionServer", () => {
-        it("#ADD", async () => {
-            const request = bunqApp.api.sessionServer.add();
+    describe("ShareInviteBankInquiry", () => {
+        it("#GET", async () => {
+            const request = bunqApp.api.shareInviteBankInquiry.get(1, 2, 3);
             await defaultResponse(moxios);
             const response = await request;
 
             expect(response).not.toBeNull();
         });
 
-        it("#DELETE", async () => {
-            const request = bunqApp.api.sessionServer.delete();
+        it("#LIST", async () => {
+            const request = bunqApp.api.shareInviteBankInquiry.list(1, 2, {});
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#LIST - defaults", async () => {
+            const request = bunqApp.api.shareInviteBankInquiry.list(1, 2);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#LIST - with pagination options", async () => {
+            const request = bunqApp.api.shareInviteBankInquiry.list(1, 2, {
+                newer_id: 1,
+                older_id: 2,
+                count: 200
+            });
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#POST", async () => {
+            const request = bunqApp.api.shareInviteBankInquiry.post(
+                1,
+                2,
+                {
+                    type: "EMAIL",
+                    value: "mail@mail.com"
+                },
+                {
+                    ShareDetailPayment: {
+                        make_payments: true,
+                        make_draft_payments: true,
+                        view_balance: true,
+                        view_old_events: true,
+                        view_new_events: true
+                    }
+                },
+                "PENDING",
+                {}
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#POST - defaults", async () => {
+            const request = bunqApp.api.shareInviteBankInquiry.post(
+                1,
+                2,
+                {
+                    type: "EMAIL",
+                    value: "mail@mail.com"
+                },
+                {
+                    ShareDetailPayment: {
+                        make_payments: true,
+                        make_draft_payments: true,
+                        view_balance: true,
+                        view_old_events: true,
+                        view_new_events: true
+                    }
+                }
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#POST - specific options", async () => {
+            const request = bunqApp.api.shareInviteBankInquiry.post(
+                1,
+                2,
+                {
+                    type: "EMAIL",
+                    value: "mail@mail.com"
+                },
+                {
+                    ShareDetailPayment: {
+                        make_payments: true,
+                        make_draft_payments: true,
+                        view_balance: true,
+                        view_old_events: true,
+                        view_new_events: true
+                    }
+                },
+                "REVOKED",
+                {
+                    share_type: "STANDARD",
+                    start_date: new Date(),
+                    end_date: new Date()
+                }
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#PUT", async () => {
+            const request = bunqApp.api.shareInviteBankInquiry.put(
+                1,
+                2,
+                3,
+                {
+                    type: "EMAIL",
+                    value: "mail@mail.com"
+                },
+                {
+                    ShareDetailPayment: {
+                        make_payments: true,
+                        make_draft_payments: true,
+                        view_balance: true,
+                        view_old_events: true,
+                        view_new_events: true
+                    }
+                },
+                "REVOKED",
+                {
+                    share_type: "STANDARD",
+                    start_date: new Date(),
+                    end_date: new Date()
+                }
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#PUT - defaults", async () => {
+            const request = bunqApp.api.shareInviteBankInquiry.put(
+                1,
+                2,
+                3,
+                {
+                    type: "EMAIL",
+                    value: "mail@mail.com"
+                },
+                {
+                    ShareDetailPayment: {
+                        make_payments: true,
+                        make_draft_payments: true,
+                        view_balance: true,
+                        view_old_events: true,
+                        view_new_events: true
+                    }
+                }
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#PUT - putStatus", async () => {
+            // create a bunqjsclient to be used in the tests
+            bunqApp = await SetupApp("ApiGeneral-shareInviteBankInquiry");
+
+            const request = bunqApp.api.shareInviteBankInquiry.putStatus(
+                1,
+                2,
+                3,
+                "PENDING"
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+    });
+
+    describe("ShareInviteBankResponse", () => {
+        it("#GET", async () => {
+            const request = bunqApp.api.shareInviteBankResponse.get(1, 2);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#LIST", async () => {
+            const request = bunqApp.api.shareInviteBankResponse.list(1, {});
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#LIST - defaults", async () => {
+            const request = bunqApp.api.shareInviteBankResponse.list(1);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#LIST - with pagination options", async () => {
+            const request = bunqApp.api.shareInviteBankResponse.list(1, {
+                newer_id: 1,
+                older_id: 2,
+                count: 200
+            });
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#PUT", async () => {
+            const request = bunqApp.api.shareInviteBankResponse.put(
+                1,
+                2,
+                "ACCEPTED"
+            );
             await defaultResponse(moxios);
             const response = await request;
 
