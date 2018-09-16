@@ -48,7 +48,7 @@
     "node-forge": "^0.7.1",
     "node-json-db": "^0.7.3",
     "store": "^2.0.12",
-    "ts-jest": "^21.2.4",
+    "ts-jest": "^23.1.4",
     "typescript": "^2.5.3"
   },
   "devDependencies": {
