@@ -129,4 +129,34 @@ export default class PaymentBatch implements ApiEndpointInterface {
 
         return response.Response;
     }
+
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
+     * @param {string} description
+     * @param {Amount} amount
+     * @param {CounterPartyAliasCollection} counterpartyAliasCollection
+     * @param options
+     * @returns {Promise<void>}
+     */
+    public async postRaw(
+        userId: number,
+        monetaryAccountId: number,
+        payments: any[],
+        options: any = {}
+    ) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(
+            "/payment-batch",
+            "POST"
+        );
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`,
+                { payments: payments }
+            )
+        );
+
+        return response.Response;
+    }
 }

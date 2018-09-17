@@ -70,5 +70,19 @@ class PaymentBatch {
         const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`, { payments: payments }));
         return response.Response;
     }
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
+     * @param {string} description
+     * @param {Amount} amount
+     * @param {CounterPartyAliasCollection} counterpartyAliasCollection
+     * @param options
+     * @returns {Promise<void>}
+     */
+    async postRaw(userId, monetaryAccountId, payments, options = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment-batch", "POST");
+        const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`, { payments: payments }));
+        return response.Response;
+    }
 }
 exports.default = PaymentBatch;
