@@ -30,7 +30,7 @@ exports.validateKey = key => {
  */
 exports.encryptString = async (string, encryptionKey) => {
     // create a random initialization vector
-    const iv = forge.random.getBytesSync(16);
+    const iv = forge.random.getBytesSync(32);
     // turn hex-encoded key into bytes
     const encryptionKeyBytes = forgeUtil.hexToBytes(encryptionKey);
     // create a new aes-cbc cipher with our key

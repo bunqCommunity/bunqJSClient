@@ -6,7 +6,7 @@ const forge = require("node-forge");
  * @param iv
  * @returns {{key: the|*, iv: the|*}}
  */
-const derivePassword = (password, keySize = 16, iv = false) => {
+const derivePassword = (password, keySize = 32, iv = false) => {
     // generate a random iv
     let passwordIv;
     if (iv) {
