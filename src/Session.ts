@@ -100,6 +100,14 @@ export default class Session {
                 10000
             );
 
+            // if already set and changed, we reset data stored in memory
+            if (
+                this.apiKeyIdentifier &&
+                this.apiKeyIdentifier !== derivedApiKey.key
+            ) {
+                await this.destroyInstallationMemory();
+            }
+
             this.apiKeyIdentifier = derivedApiKey.key;
         }
 
@@ -339,6 +347,7 @@ export default class Session {
      * @returns {Promise<boolean>}
      */
     public async destroyInstallationMemory() {
+        this.logger.debug(` -> #destroyInstallationMemory() `);
         this.userInfo = {};
         this.sessionId = null;
         this.sessionToken = null;

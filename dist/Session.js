@@ -185,6 +185,11 @@ class Session {
         // create a unique identifier for this api key
         if (typeof apiKey === "string") {
             const derivedApiKey = await Pbkdf2_1.derivePasswordKey(apiKey.substring(0, 8), apiKey.substring(8, 16), 10000);
+            // if already set and changed, we reset data stored in memory
+            if (this.apiKeyIdentifier &&
+                this.apiKeyIdentifier !== derivedApiKey.key) {
+                await this.destroyInstallationMemory();
+            }
             this.apiKeyIdentifier = derivedApiKey.key;
         }
         this.apiKey = apiKey;
@@ -369,6 +374,7 @@ class Session {
      * @returns {Promise<boolean>}
      */
     async destroyInstallationMemory() {
+        this.logger.debug(` -> #destroyInstallationMemory() `);
         this.userInfo = {};
         this.sessionId = null;
         this.sessionToken = null;
