@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Rsa_1 = require("./Crypto/Rsa");
 const Aes_1 = require("./Crypto/Aes");
+const Pbkdf2_1 = require("./Crypto/Pbkdf2");
 exports.ALLOWED_ENVIROMENTS = ["SANDBOX", "PRODUCTION"];
 exports.URL_ENVIROMENTS = {
     SANDBOX: "https://public-api.sandbox.bunq.com",
@@ -10,6 +11,7 @@ exports.URL_ENVIROMENTS = {
 class Session {
     constructor(storageInterface, loggerInterface) {
         this.apiKey = null;
+        this.apiKeyIdentifier = null;
         this.encryptionKey = false;
         this.allowdIps = [];
         this.isOAuthKey = false;
@@ -179,6 +181,11 @@ class Session {
             !!apiKey) {
             // we can't keep the session data if the environment changes
             await this.destroyInstallationMemory();
+        }
+        // create a unique identifier for this api key
+        if (typeof apiKey === "string") {
+            const derivedApiKey = await Pbkdf2_1.derivePasswordKey(apiKey.substring(0, 8), apiKey.substring(8, 16), 10000);
+            this.apiKeyIdentifier = derivedApiKey.key;
         }
         this.apiKey = apiKey;
         this.allowdIps = allowedIps;
@@ -487,8 +494,8 @@ class Session {
             this.environment = environmentType;
             this.environmentUrl = exports.URL_ENVIROMENTS[this.environment];
             // set the storage location for the environment
-            this.storageKeyLocation = `BUNQJSCLIENT_${this.environment}_SESSION`;
-            this.storageIvLocation = `BUNQJSCLIENT_${this.environment}_IV`;
+            this.storageKeyLocation = `BUNQJSCLIENT_${this.environment}_SESSION_${this.apiKeyIdentifier}`;
+            this.storageIvLocation = `BUNQJSCLIENT_${this.environment}_IV_${this.apiKeyIdentifier}`;
             return;
         }
         throw new Error("Invalid enviroment given. " + JSON.stringify(exports.ALLOWED_ENVIROMENTS));

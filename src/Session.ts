@@ -5,6 +5,7 @@ import {
     privateKeyFromPem
 } from "./Crypto/Rsa";
 import { encryptString, decryptString, validateKey } from "./Crypto/Aes";
+import { derivePasswordKey } from "./Crypto/Pbkdf2";
 import StorageInterface from "./Interfaces/StorageInterface";
 import LoggerInterface from "./Interfaces/LoggerInterface";
 
@@ -22,6 +23,7 @@ export default class Session {
     public storageInterface: StorageInterface;
     public logger: LoggerInterface;
     public apiKey: string | boolean = null;
+    public apiKeyIdentifier: string | boolean = null;
     public encryptionKey: string | boolean = false;
     public allowdIps: string[] = [];
     public isOAuthKey: boolean = false;
@@ -88,6 +90,17 @@ export default class Session {
         ) {
             // we can't keep the session data if the environment changes
             await this.destroyInstallationMemory();
+        }
+
+        // create a unique identifier for this api key
+        if (typeof apiKey === "string") {
+            const derivedApiKey = await derivePasswordKey(
+                apiKey.substring(0, 8),
+                apiKey.substring(8, 16),
+                10000
+            );
+
+            this.apiKeyIdentifier = derivedApiKey.key;
         }
 
         this.apiKey = apiKey;
@@ -667,8 +680,10 @@ export default class Session {
             // set the storage location for the environment
             this.storageKeyLocation = `BUNQJSCLIENT_${
                 this.environment
-            }_SESSION`;
-            this.storageIvLocation = `BUNQJSCLIENT_${this.environment}_IV`;
+            }_SESSION_${this.apiKeyIdentifier}`;
+            this.storageIvLocation = `BUNQJSCLIENT_${this.environment}_IV_${
+                this.apiKeyIdentifier
+            }`;
             return;
         }
         throw new Error(
