@@ -13,7 +13,7 @@ class Session {
         this.apiKey = null;
         this.apiKeyIdentifier = null;
         this.encryptionKey = false;
-        this.allowdIps = [];
+        this.allowedIps = [];
         this.isOAuthKey = false;
         // rsa key storage
         this.publicKey = null;
@@ -193,7 +193,7 @@ class Session {
             this.apiKeyIdentifier = derivedApiKey.key;
         }
         this.apiKey = apiKey;
-        this.allowdIps = allowedIps;
+        this.allowedIps = allowedIps;
         this.environmentType = environment;
         // nothing to do if we don't have an encryption key
         if (!encryptionKey) {

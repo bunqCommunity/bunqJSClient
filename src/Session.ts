@@ -25,7 +25,7 @@ export default class Session {
     public apiKey: string | boolean = null;
     public apiKeyIdentifier: string | boolean = null;
     public encryptionKey: string | boolean = false;
-    public allowdIps: string[] = [];
+    public allowedIps: string[] = [];
     public isOAuthKey: boolean = false;
 
     // target enviroment and target envoriment api url
@@ -112,7 +112,7 @@ export default class Session {
         }
 
         this.apiKey = apiKey;
-        this.allowdIps = allowedIps;
+        this.allowedIps = allowedIps;
         this.environmentType = environment;
 
         // nothing to do if we don't have an encryption key

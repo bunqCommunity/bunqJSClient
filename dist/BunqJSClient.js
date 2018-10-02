@@ -16,7 +16,6 @@ class BunqJSClient {
      */
     constructor(storageInterface = store, loggerInterface = Logger_1.default) {
         this.apiKey = null;
-        this.allowedIps = [];
         /**
          * Decides whether the session is kept alive (which will be slightly faster)
          * or creates a new session when required
@@ -95,9 +94,8 @@ class BunqJSClient {
     async run(apiKey, allowedIps = [], environment = "SANDBOX", encryptionKey = false) {
         this.logger.debug("bunqJSClient run");
         this.apiKey = apiKey;
-        this.allowedIps = allowedIps;
         // setup the session with our apiKey and ip whitelist
-        await this.Session.setup(this.apiKey, this.allowedIps, environment, encryptionKey);
+        await this.Session.setup(this.apiKey, allowedIps, environment, encryptionKey);
         // set our automatic timer to check for expiry time
         this.setExpiryTimer();
         // setup the api adapter using our session
@@ -144,7 +142,7 @@ class BunqJSClient {
             try {
                 const deviceId = await this.api.deviceRegistration.add({
                     description: deviceName,
-                    permitted_ips: this.allowedIps
+                    permitted_ips: this.Session.allowedIps
                 });
                 // update the session properties
                 this.Session.deviceId = deviceId;

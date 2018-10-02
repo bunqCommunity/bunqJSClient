@@ -48,7 +48,17 @@ const API_KEY = "abcd-1234-abcd-1234"; // Your bunq API key
  */ 
 const DEVICE_NAME = "My Device"; 
 const ENVIRONMENT = "SANDBOX"; // OR you can use PRODUCTION
-const PERMITTED_IPS = []; // empty array if you're not sure, by defaul the current IP is used
+
+/**
+ * Permitted IPs
+ * When you set your current IP address followed by a "*" you will enable
+ * wildcard mode for that session. You should usually let the user set
+ * this manually in the app but it is possible.
+ *
+ * Leave the array empty if you're not sure and bunq will register the IP
+ * used to send the request
+ */
+const PERMITTED_IPS = []; 
 
 const setup = async () => {
     // run the bunq application with our API key

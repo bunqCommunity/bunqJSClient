@@ -17,7 +17,6 @@ export default class BunqJSClient {
     public storageInterface: StorageInteface;
     public logger: LoggerInterface;
     public apiKey: string = null;
-    public allowedIps: string[] = [];
 
     public Session: Session;
     public ApiAdapter: ApiAdapter;
@@ -80,12 +79,11 @@ export default class BunqJSClient {
         this.logger.debug("bunqJSClient run");
 
         this.apiKey = apiKey;
-        this.allowedIps = allowedIps;
 
         // setup the session with our apiKey and ip whitelist
         await this.Session.setup(
             this.apiKey,
-            this.allowedIps,
+            allowedIps,
             environment,
             encryptionKey
         );
@@ -147,7 +145,7 @@ export default class BunqJSClient {
             try {
                 const deviceId = await this.api.deviceRegistration.add({
                     description: deviceName,
-                    permitted_ips: this.allowedIps
+                    permitted_ips: this.Session.allowedIps
                 });
 
                 // update the session properties

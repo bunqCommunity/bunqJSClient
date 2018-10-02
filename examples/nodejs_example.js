@@ -6,8 +6,19 @@ const BunqJSClient = require("../dist/BunqJSClient").default;
 // setup a custom store which works in a node environment
 const customStore = require("./custom_store")(__dirname + "\\storage.json");
 
-// your api details
-const PERMITTED_IPS = []; // empty array if you're not sure
+/**
+ * Permitted IPs
+ * When you set your current IP address followed by a "*" you will enable
+ * wildcard mode for that session. You should usually let the user set
+ * this manually in the app but it is possible.
+ *
+ * Leave the array empty if you're not sure and bunq will register the IP
+ * used to send the request
+ */
+const PERMITTED_IPS = [];
+
+// Wildcard example
+// const PERMITTED_IPS = ["1.2.3.4", "*"];
 
 const BunqClient = new BunqJSClient(customStore);
 
@@ -71,21 +82,19 @@ const getUsers = () => BunqClient.getUsers(true);
 
 // run setup and get payments
 setup()
-    .then(async setup => {
+    .then(async () => {
         // get user info connected to this account
         const users = await getUsers();
 
         // get the direct user object
         const userInfo = users[Object.keys(users)[0]];
-    
-        // console.log("\nUsers");
-        // console.log(users);
+
+        console.log("\nUsers: ", Object.keys(users).length, "\n");
 
         // get accounts list
         const accounts = await getMonetaryAccounts(userInfo.id);
 
-        // console.log("\n\nAccounts");
-        // console.log(accounts);
+        console.log("\nAccounts: ", accounts.length, "\n");
 
         // filter on the status to get a list of the active accounts
         const activeAccounts = accounts.filter(account => {
@@ -105,8 +114,7 @@ setup()
         );
 
         // log payments to console
-        console.log("\n\nPayments");
-        console.log(payments);
+        console.log("\nPayments: ", payments.length, "\n");
         process.exit();
     })
     .catch(error => {
