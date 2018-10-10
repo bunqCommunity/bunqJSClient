@@ -65,8 +65,7 @@ class RequestResponse {
         if (status === "ACCEPTED") {
             requestOptions.amount_responded = defaultOptions.amount_responded;
             if (defaultOptions.address_shipping) {
-                requestOptions.address_shipping =
-                    defaultOptions.address_shipping;
+                requestOptions.address_shipping = defaultOptions.address_shipping;
             }
             if (defaultOptions.address_billing) {
                 requestOptions.address_billing = defaultOptions.address_billing;

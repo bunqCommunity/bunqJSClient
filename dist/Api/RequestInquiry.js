@@ -70,12 +70,10 @@ class RequestInquiry {
             requestOptions.status = defaultOptions.status;
         }
         if (defaultOptions.merchant_reference !== false) {
-            requestOptions.merchant_reference =
-                defaultOptions.merchant_reference;
+            requestOptions.merchant_reference = defaultOptions.merchant_reference;
         }
         if (defaultOptions.minimum_age !== false) {
-            if (defaultOptions.minimum_age < 12 ||
-                defaultOptions.minimum_age > 100) {
+            if (defaultOptions.minimum_age < 12 || defaultOptions.minimum_age > 100) {
                 throw new Error("Invalid minimum_age. Value has to be 12 >= minimum_age <= 100");
             }
             requestOptions.minimum_age = defaultOptions.minimum_age;

@@ -67,7 +67,9 @@ class PaymentBatch {
                 amount: amount
             };
         });
-        const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`, { payments: payments }));
+        const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`, {
+            payments: payments
+        }));
         return response.Response;
     }
     /**
@@ -81,7 +83,9 @@ class PaymentBatch {
      */
     async postRaw(userId, monetaryAccountId, payments, options = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment-batch", "POST");
-        const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`, { payments: payments }));
+        const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`, {
+            payments: payments
+        }));
         return response.Response;
     }
 }

@@ -70,10 +70,8 @@ class RequestInquiryBatch {
         const requestInquiryList = [];
         requestInquiries.map(requestInquiry => {
             // validate the minimum age
-            if (requestInquiry.minimum_age &&
-                requestInquiry.minimum_age !== false) {
-                if (requestInquiry.minimum_age < 12 ||
-                    requestInquiry.minimum_age > 100) {
+            if (requestInquiry.minimum_age && requestInquiry.minimum_age !== false) {
+                if (requestInquiry.minimum_age < 12 || requestInquiry.minimum_age > 100) {
                     throw new Error("Invalid minimum_age. Value has to be 12 >= minimum_age <= 100");
                 }
             }

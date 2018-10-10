@@ -70,8 +70,7 @@ class BunqJSClient {
         this.calculateSessionExpiry = (shortTimeout = false) => {
             // if shortTimeout is set maximize the expiry to 5 minutes
             if (shortTimeout) {
-                return !this.Session.sessionTimeout ||
-                    this.Session.sessionTimeout > FIVE_MINUTES_MS
+                return !this.Session.sessionTimeout || this.Session.sessionTimeout > FIVE_MINUTES_MS
                     ? FIVE_MINUTES_MS
                     : this.Session.sessionTimeout;
             }
@@ -210,8 +209,7 @@ class BunqJSClient {
                 const responseError = error.response.data.Error[0];
                 const description = responseError.error_description;
                 this.logger.error("bunq API error: " + description);
-                if (description ===
-                    "Authentication token already has a user session.") {
+                if (description === "Authentication token already has a user session.") {
                     // add custom error code
                     throw {
                         errorCode: this.errorCodes.INSTALLATION_HAS_SESSION,
@@ -232,8 +230,7 @@ class BunqJSClient {
         if (userInfoParsed.isOAuth === false) {
             // get the session timeout
             sessionTimeout = userInfoParsed.info.session_timeout;
-            this.logger.debug("Received userInfoParsed.info.session_timeout from api: " +
-                userInfoParsed.info.session_timeout);
+            this.logger.debug("Received userInfoParsed.info.session_timeout from api: " + userInfoParsed.info.session_timeout);
             // set isOAuth to false
             this.Session.isOAuthKey = false;
             // set user info
@@ -253,10 +250,7 @@ class BunqJSClient {
         this.Session.sessionId = response.id;
         this.Session.sessionToken = response.token.token;
         this.Session.sessionTokenId = response.token.id;
-        this.logger.debug("calculated expireDate: " +
-            createdDate +
-            " current date: " +
-            new Date());
+        this.logger.debug("calculated expireDate: " + createdDate + " current date: " + new Date());
         // update storage
         await this.Session.storeSession();
         // update the timer
@@ -350,9 +344,7 @@ class BunqJSClient {
      */
     formatOAuthAuthorizationRequestUrl(clientId, redirectUri, state = false, sandbox = false) {
         const stateParam = state ? `&state=${state}` : "";
-        const baseUrl = sandbox
-            ? "https://oauth.sandbox.bunq.com"
-            : "https://oauth.bunq.com";
+        const baseUrl = sandbox ? "https://oauth.sandbox.bunq.com" : "https://oauth.bunq.com";
         return (`${baseUrl}/auth?response_type=code&` +
             `client_id=${clientId}&` +
             `redirect_uri=${redirectUri}` +
@@ -369,9 +361,7 @@ class BunqJSClient {
      * @returns {string}
      */
     formatOAuthKeyExchangeUrl(clientId, clientSecret, redirectUri, code, sandbox = false, grantType = "authorization_code") {
-        const baseUrl = sandbox
-            ? "https://api-oauth.sandbox.bunq.com"
-            : "https://api.oauth.bunq.com";
+        const baseUrl = sandbox ? "https://api-oauth.sandbox.bunq.com" : "https://api.oauth.bunq.com";
         return (`${baseUrl}/v1/token?` +
             `grant_type=${grantType}&` +
             `code=${code}&` +
@@ -448,8 +438,7 @@ class BunqJSClient {
             }
             else {
                 // set updated info
-                this.Session.userInfo[userInfoParsed.type] =
-                    userInfoParsed.info;
+                this.Session.userInfo[userInfoParsed.type] = userInfoParsed.info;
             }
         }
         // return the user if we have one
@@ -471,8 +460,7 @@ class BunqJSClient {
             }
             else {
                 // set updated info
-                this.Session.userInfo[userInfoParsed.type] =
-                    userInfoParsed.info;
+                this.Session.userInfo[userInfoParsed.type] = userInfoParsed.info;
             }
         }
         // return the users

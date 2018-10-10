@@ -100,8 +100,7 @@ class ApiAdapter {
                 currentDate.setTime(currentDate.getTime() + extendByMilliseconds);
                 // set updated session expiry time
                 this.Session.sessionExpiryTime = currentDate;
-                this.logger.debug(`Request in last 30 seconds: (${expiresInMilliseconds /
-                    1000})`);
+                this.logger.debug(`Request in last 30 seconds: (${expiresInMilliseconds / 1000})`);
                 this.logger.debug(`Set session expiry to ${this.Session.sessionExpiryTime}`);
             }
         }
@@ -230,8 +229,7 @@ class ApiAdapter {
         let url = requestConfig.url;
         const dataIsEncrypted = options.isEncrypted === true;
         // Check if one or more param is set and add it to the url
-        if (requestConfig.params &&
-            Object.keys(requestConfig.params).length > 0) {
+        if (requestConfig.params && Object.keys(requestConfig.params).length > 0) {
             const params = new Url.URLSearchParams(requestConfig.params);
             url = `${requestConfig.url}?${params.toString()}`;
         }
@@ -299,8 +297,7 @@ class ApiAdapter {
             // merge back to a string
             const headerKeyFixed = headerPartsFixed.join("-");
             // only verify bunq headers and ignore the server signature
-            if (headerKeyFixed.includes("X-Bunq") &&
-                !headerKeyFixed.includes("X-Bunq-Server-Signature")) {
+            if (headerKeyFixed.includes("X-Bunq") && !headerKeyFixed.includes("X-Bunq-Server-Signature")) {
                 headerStrings.push(`${headerKeyFixed}: ${response.headers[headerKey]}`);
             }
         });
