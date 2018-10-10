@@ -37,10 +37,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
             older_id: false
         }
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/share-invite-bank-inquiry",
-            "GET"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "GET");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -78,10 +75,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/share-invite-bank-inquiry",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -117,10 +111,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
             share_type: "STANDARD"
         }
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/share-invite-bank-inquiry",
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "POST");
 
         const postData: any = {
             counter_user_alias: counterpartyAlias,
@@ -168,10 +159,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
             share_type: "STANDARD"
         }
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/share-invite-bank-inquiry",
-            "PUT"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "PUT");
 
         const postData: any = {
             counter_user_alias: counterpartyAlias,
@@ -212,10 +200,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
         shareInviteBankInquiryId: number,
         status: ShareInviteBankInquiryPostStatus
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/share-invite-bank-inquiry",
-            "PUT"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "PUT");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.put(

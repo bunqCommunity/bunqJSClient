@@ -36,9 +36,7 @@ export default (ApiAdapter: ApiAdapter) => {
         card: new Card(ApiAdapter),
         cardCvc2: new CardCvc2(ApiAdapter),
         customerStatementExport: new CustomerStatementExport(ApiAdapter),
-        customerStatementExportContent: new CustomerStatementExportContent(
-            ApiAdapter
-        ),
+        customerStatementExportContent: new CustomerStatementExportContent(ApiAdapter),
         deviceRegistration: new DeviceRegistration(ApiAdapter),
         draftPayment: new DraftPayment(ApiAdapter),
         installation: new Installation(ApiAdapter),

@@ -56,11 +56,7 @@ export const signString = async (data: string, privateKey: any) => {
  * @param {string} signature
  * @returns {Promise<string>}
  */
-export const verifyString = async (
-    data: string,
-    publicKey: any,
-    signature: string
-) => {
+export const verifyString = async (data: string, publicKey: any, signature: string) => {
     // create a new message digest for our string
     const messageDigest = forgeSha256.create();
     messageDigest.update(data, "raw");
@@ -70,10 +66,7 @@ export const verifyString = async (
         const rawSignature = forgeUtil.decode64(signature);
 
         // verify the signature with the public key
-        return publicKey.verify(
-            messageDigest.digest().getBytes(),
-            rawSignature
-        );
+        return publicKey.verify(messageDigest.digest().getBytes(), rawSignature);
     } catch (ex) {
         Logger.debug(ex);
         return false;

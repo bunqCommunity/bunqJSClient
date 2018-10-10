@@ -11,10 +11,7 @@ const forgePki = forge.pki;
  * @param {number} workers
  * @returns {Promise<object>}
  */
-export const createKeyPair = async (
-    bits: number = 2048,
-    workers: number = -1
-) => {
+export const createKeyPair = async (bits: number = 2048, workers: number = -1) => {
     return awaiting.callback(forgeRsa.generateKeyPair, {
         bits: bits,
         workers: workers

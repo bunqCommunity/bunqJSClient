@@ -56,9 +56,7 @@ export default class NoteAttachment implements ApiEndpointInterface {
         secondaryEventId: false | number = false,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            `/${eventType}/note-attachment`
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(`/${eventType}/note-attachment`);
 
         // default base
         const endpointBase = `/v1/user/${userId}/monetary-account/${monetaryAccountId}`;
@@ -70,9 +68,7 @@ export default class NoteAttachment implements ApiEndpointInterface {
             secondaryEventId
         )}/note-attachment/${noteTextId}`;
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(fullEndpoint)
-        );
+        const response = await limiter.run(async () => this.ApiAdapter.get(fullEndpoint));
 
         return response.Response[0];
     }
@@ -106,10 +102,7 @@ export default class NoteAttachment implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            `/${eventType}/note-attachment`,
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(`/${eventType}/note-attachment`, "LIST");
 
         // default base
         const endpointBase = `/v1/user/${userId}/monetary-account/${monetaryAccountId}`;
@@ -155,10 +148,7 @@ export default class NoteAttachment implements ApiEndpointInterface {
         secondaryEventId: false | number = false,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            `/${eventType}/note-attachment`,
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(`/${eventType}/note-attachment`, "POST");
 
         // default base
         const endpointBase = `/v1/user/${userId}/monetary-account/${monetaryAccountId}`;
@@ -176,9 +166,7 @@ export default class NoteAttachment implements ApiEndpointInterface {
         };
         if (description) bodyData.description = description;
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.post(fullEndpoint, bodyData)
-        );
+        const response = await limiter.run(async () => this.ApiAdapter.post(fullEndpoint, bodyData));
 
         return response.Response;
     }
@@ -206,10 +194,7 @@ export default class NoteAttachment implements ApiEndpointInterface {
         secondaryEventId: false | number = false,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            `/${eventType}/note-attachment`,
-            "PUT"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(`/${eventType}/note-attachment`, "PUT");
 
         // default base
         const endpointBase = `/v1/user/${userId}/monetary-account/${monetaryAccountId}`;
@@ -227,9 +212,7 @@ export default class NoteAttachment implements ApiEndpointInterface {
         };
         if (description) bodyData.description = description;
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.put(fullEndpoint, bodyData)
-        );
+        const response = await limiter.run(async () => this.ApiAdapter.put(fullEndpoint, bodyData));
 
         return response.Response;
     }
@@ -253,10 +236,7 @@ export default class NoteAttachment implements ApiEndpointInterface {
         secondaryEventId: false | number = false,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            `/${eventType}/note-attachment`,
-            "DELETE"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(`/${eventType}/note-attachment`, "DELETE");
 
         // default base
         const endpointBase = `/v1/user/${userId}/monetary-account/${monetaryAccountId}`;
@@ -268,9 +248,7 @@ export default class NoteAttachment implements ApiEndpointInterface {
             secondaryEventId
         )}/note-attachment/${noteTextId}`;
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.delete(fullEndpoint)
-        );
+        const response = await limiter.run(async () => this.ApiAdapter.delete(fullEndpoint));
 
         return response.Response;
     }

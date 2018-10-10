@@ -23,20 +23,11 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<any>}
      */
-    public async get(
-        userId: number,
-        monetaryAccountBankId: number,
-        options: any = {}
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/monetary-account-bank",
-            "GET"
-        );
+    public async get(userId: number, monetaryAccountBankId: number, options: any = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-bank", "GET");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account-bank/${monetaryAccountBankId}`
-            )
+            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-bank/${monetaryAccountBankId}`)
         );
 
         return response.Response[0];
@@ -55,14 +46,9 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
             older_id: false
         }
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/monetary-account-bank",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-bank", "LIST");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-bank`)
-        );
+        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-bank`));
 
         return response.Response;
     }
@@ -84,10 +70,7 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
         color: string,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/monetary-account-bank",
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-bank", "POST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.post(`/v1/user/${userId}/monetary-account-bank`, {
@@ -120,16 +103,10 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
         monetaryAccountPutRequest: MonetaryAccountPutRequest,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/monetary-account-bank",
-            "PUT"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-bank", "PUT");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.put(
-                `/v1/user/${userId}/monetary-account-bank/${accountId}`,
-                monetaryAccountPutRequest
-            )
+            this.ApiAdapter.put(`/v1/user/${userId}/monetary-account-bank/${accountId}`, monetaryAccountPutRequest)
         );
 
         return response.Response;
@@ -152,21 +129,15 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
         reason: string,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/monetary-account-bank",
-            "PUT"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-bank", "PUT");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.put(
-                `/v1/user/${userId}/monetary-account-bank/${accountId}`,
-                {
-                    status: status,
-                    sub_status: sub_status,
-                    reason: "OTHER",
-                    reason_description: reason
-                }
-            )
+            this.ApiAdapter.put(`/v1/user/${userId}/monetary-account-bank/${accountId}`, {
+                status: status,
+                sub_status: sub_status,
+                reason: "OTHER",
+                reason_description: reason
+            })
         );
 
         return response.Response;

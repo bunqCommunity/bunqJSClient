@@ -20,10 +20,7 @@ export default class AttachementContent implements ApiEndpointInterface {
      * @returns {Promise<any>}
      */
     public async get(attachmendUUID: string, options: any = { base64: true }) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/attachment-public/content",
-            "GET"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/attachment-public/content", "GET");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(

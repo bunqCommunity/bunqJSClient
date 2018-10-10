@@ -21,15 +21,8 @@ export default class MasterCardAction implements ApiEndpointInterface {
      * @param {number} requestResponseId
      * @returns {Promise<any>}
      */
-    public async get(
-        userId: number,
-        monetaryAccountId: number,
-        masterCardActionId: number
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/mastercard-action",
-            "GET"
-        );
+    public async get(userId: number, monetaryAccountId: number, masterCardActionId: number) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/mastercard-action", "GET");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -67,10 +60,7 @@ export default class MasterCardAction implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/mastercard-action",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/mastercard-action", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(

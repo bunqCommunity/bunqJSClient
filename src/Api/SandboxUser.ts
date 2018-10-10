@@ -19,10 +19,7 @@ export default class SandboxUser implements ApiEndpointInterface {
      * @returns {Promise<{}>}
      */
     public async post(options: any = {}) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/sandbox-user",
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/sandbox-user", "POST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.post(

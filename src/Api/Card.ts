@@ -21,14 +21,9 @@ export default class Card implements ApiEndpointInterface {
      * @returns {Promise<any>}
      */
     public async get(userId: number, cardId: number, options: any = {}) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/card",
-            "GET"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/card", "GET");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/card/${cardId}`)
-        );
+        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/card/${cardId}`));
 
         return response.Response;
     }
@@ -58,10 +53,7 @@ export default class Card implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/card",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/card", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(

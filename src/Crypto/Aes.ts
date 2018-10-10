@@ -73,9 +73,7 @@ export const decryptString = async (encryptedString, key, iv) => {
     // check the decipher results
     const result = decipher.finish();
     if (!result) {
-        throw new Error(
-            "Failed to decrypt string, the encryption string might have changed"
-        );
+        throw new Error("Failed to decrypt string, the encryption string might have changed");
     }
     // get the raw bytes from the forge buffer
     const outputBytes = decipher.output.getBytes();

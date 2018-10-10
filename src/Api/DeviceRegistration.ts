@@ -19,9 +19,7 @@ export default class DeviceRegistration implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<any>}
      */
-    public async add(
-        options: any = { description: "My Device", permitted_ips: [] }
-    ) {
+    public async add(options: any = { description: "My Device", permitted_ips: [] }) {
         const postData = {
             description: options.description,
             secret: this.Session.apiKey
@@ -54,9 +52,7 @@ export default class DeviceRegistration implements ApiEndpointInterface {
             // if none is set we default to our current deviceId
             options.deviceId = this.Session.deviceId;
         }
-        const response = await this.ApiAdapter.get(
-            `/v1/device-server/${options.deviceId}`
-        );
+        const response = await this.ApiAdapter.get(`/v1/device-server/${options.deviceId}`);
 
         // return the device id
         return response.Response[0].Id.id;

@@ -56,9 +56,7 @@ export default class NoteText implements ApiEndpointInterface {
         secondaryEventId: false | number = false,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            `/${eventType}/note-text`
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(`/${eventType}/note-text`);
 
         // default base
         const endpointBase = `/v1/user/${userId}/monetary-account/${monetaryAccountId}`;
@@ -70,9 +68,7 @@ export default class NoteText implements ApiEndpointInterface {
             secondaryEventId
         )}/note-text/${noteTextId}`;
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(fullEndpoint)
-        );
+        const response = await limiter.run(async () => this.ApiAdapter.get(fullEndpoint));
 
         return response.Response[0];
     }
@@ -106,20 +102,13 @@ export default class NoteText implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            `/${eventType}/note-text`,
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(`/${eventType}/note-text`, "LIST");
 
         // default base
         const endpointBase = `/v1/user/${userId}/monetary-account/${monetaryAccountId}`;
 
         // full endpoint url
-        const fullEndpoint = `${endpointBase}/${this.createEndpoint(
-            eventType,
-            eventId,
-            secondaryEventId
-        )}/note-text`;
+        const fullEndpoint = `${endpointBase}/${this.createEndpoint(eventType, eventId, secondaryEventId)}/note-text`;
 
         const response = await limiter.run(
             async () => this.ApiAdapter.get(fullEndpoint),
@@ -153,20 +142,13 @@ export default class NoteText implements ApiEndpointInterface {
         secondaryEventId: false | number = false,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            `/${eventType}/note-text`,
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(`/${eventType}/note-text`, "POST");
 
         // default base
         const endpointBase = `/v1/user/${userId}/monetary-account/${monetaryAccountId}`;
 
         // full endpoint url
-        const fullEndpoint = `${endpointBase}/${this.createEndpoint(
-            eventType,
-            eventId,
-            secondaryEventId
-        )}/note-text`;
+        const fullEndpoint = `${endpointBase}/${this.createEndpoint(eventType, eventId, secondaryEventId)}/note-text`;
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.post(fullEndpoint, {
@@ -198,10 +180,7 @@ export default class NoteText implements ApiEndpointInterface {
         secondaryEventId: false | number = false,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            `/${eventType}/note-text`,
-            "PUT"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(`/${eventType}/note-text`, "PUT");
 
         // default base
         const endpointBase = `/v1/user/${userId}/monetary-account/${monetaryAccountId}`;
@@ -241,10 +220,7 @@ export default class NoteText implements ApiEndpointInterface {
         secondaryEventId: false | number = false,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            `/${eventType}/note-text`,
-            "DELETE"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create(`/${eventType}/note-text`, "DELETE");
 
         // default base
         const endpointBase = `/v1/user/${userId}/monetary-account/${monetaryAccountId}`;
@@ -256,9 +232,7 @@ export default class NoteText implements ApiEndpointInterface {
             secondaryEventId
         )}/note-text/${noteTextId}`;
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.delete(fullEndpoint)
-        );
+        const response = await limiter.run(async () => this.ApiAdapter.delete(fullEndpoint));
 
         return response.Response;
     }

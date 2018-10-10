@@ -49,10 +49,7 @@ export default class BunqJSClient {
      * @param {StorageInterface} storageInterface
      * @param {LoggerInterface} loggerInterface
      */
-    constructor(
-        storageInterface: StorageInteface = store,
-        loggerInterface: LoggerInterface = Logger
-    ) {
+    constructor(storageInterface: StorageInteface = store, loggerInterface: LoggerInterface = Logger) {
         this.storageInterface = storageInterface;
         this.logger = loggerInterface;
 
@@ -81,12 +78,7 @@ export default class BunqJSClient {
         this.apiKey = apiKey;
 
         // setup the session with our apiKey and ip whitelist
-        await this.Session.setup(
-            this.apiKey,
-            allowedIps,
-            environment,
-            encryptionKey
-        );
+        await this.Session.setup(this.apiKey, allowedIps, environment, encryptionKey);
 
         // set our automatic timer to check for expiry time
         this.setExpiryTimer();
@@ -122,9 +114,7 @@ export default class BunqJSClient {
 
             // update the session properties
             this.Session.serverPublicKeyPem = response.serverPublicKey;
-            this.Session.serverPublicKey = await publicKeyFromPem(
-                response.serverPublicKey
-            );
+            this.Session.serverPublicKey = await publicKeyFromPem(response.serverPublicKey);
             this.Session.installToken = response.token.token;
             this.Session.installUpdated = new Date(response.token.updated);
             this.Session.installCreated = new Date(response.token.created);
@@ -224,10 +214,7 @@ export default class BunqJSClient {
 
                 this.logger.error("bunq API error: " + description);
 
-                if (
-                    description ===
-                    "Authentication token already has a user session."
-                ) {
+                if (description === "Authentication token already has a user session.") {
                     // add custom error code
                     throw {
                         errorCode: this.errorCodes.INSTALLATION_HAS_SESSION,
@@ -254,8 +241,7 @@ export default class BunqJSClient {
             // get the session timeout
             sessionTimeout = userInfoParsed.info.session_timeout;
             this.logger.debug(
-                "Received userInfoParsed.info.session_timeout from api: " +
-                    userInfoParsed.info.session_timeout
+                "Received userInfoParsed.info.session_timeout from api: " + userInfoParsed.info.session_timeout
             );
 
             // set isOAuth to false
@@ -280,12 +266,7 @@ export default class BunqJSClient {
         this.Session.sessionToken = response.token.token;
         this.Session.sessionTokenId = response.token.id;
 
-        this.logger.debug(
-            "calculated expireDate: " +
-                createdDate +
-                " current date: " +
-                new Date()
-        );
+        this.logger.debug("calculated expireDate: " + createdDate + " current date: " + new Date());
 
         // update storage
         await this.Session.storeSession();
@@ -303,12 +284,8 @@ export default class BunqJSClient {
      */
     private parseOauthUser(userInfoParsed: any) {
         // parse the granted and request by user objects
-        const requestedByUserParsed: any = this.getUserType(
-            userInfoParsed.info.requested_by_user
-        );
-        const grantedByUserParsed: any = this.getUserType(
-            userInfoParsed.info.granted_by_user
-        );
+        const requestedByUserParsed: any = this.getUserType(userInfoParsed.info.requested_by_user);
+        const grantedByUserParsed: any = this.getUserType(userInfoParsed.info.granted_by_user);
 
         // get the session timeout from request_by_user
         const sessionTimeout = requestedByUserParsed.info.session_timeout;
@@ -337,10 +314,7 @@ export default class BunqJSClient {
      * @returns {Promise<any>}
      */
     public async createCredentials() {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/credential-password-ip-request",
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip-request", "POST");
 
         // send a unsigned request to the endpoint to create a new credential password ip
         const response = await limiter.run(async () =>
@@ -365,10 +339,7 @@ export default class BunqJSClient {
      * @returns {Promise<any>}
      */
     public async checkCredentialStatus(uuid: string) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/credential-password-ip-request",
-            "GET"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip-request", "GET");
 
         // send a unsigned request to the endpoint to create a new credential password ip with the uuid
         const response = await limiter.run(async () =>
@@ -406,14 +377,7 @@ export default class BunqJSClient {
         sandbox: boolean = false,
         grantType: string = "authorization_code"
     ): Promise<string> {
-        const url = this.formatOAuthKeyExchangeUrl(
-            clientId,
-            clientSecret,
-            redirectUri,
-            code,
-            sandbox,
-            grantType
-        );
+        const url = this.formatOAuthKeyExchangeUrl(clientId, clientSecret, redirectUri, code, sandbox, grantType);
 
         // send the request
         const response = await axios({
@@ -446,9 +410,7 @@ export default class BunqJSClient {
     ): string {
         const stateParam = state ? `&state=${state}` : "";
 
-        const baseUrl = sandbox
-            ? "https://oauth.sandbox.bunq.com"
-            : "https://oauth.bunq.com";
+        const baseUrl = sandbox ? "https://oauth.sandbox.bunq.com" : "https://oauth.bunq.com";
 
         return (
             `${baseUrl}/auth?response_type=code&` +
@@ -476,9 +438,7 @@ export default class BunqJSClient {
         sandbox: boolean = false,
         grantType: string = "authorization_code"
     ) {
-        const baseUrl = sandbox
-            ? "https://api-oauth.sandbox.bunq.com"
-            : "https://api.oauth.bunq.com";
+        const baseUrl = sandbox ? "https://api-oauth.sandbox.bunq.com" : "https://api.oauth.bunq.com";
 
         return (
             `${baseUrl}/v1/token?` +
@@ -516,10 +476,7 @@ export default class BunqJSClient {
             this.clearExpiryTimer();
 
             // set the timeout
-            this.Session.sessionExpiryTimeChecker = setTimeout(
-                this.expiryTimerCallback,
-                timeoutRequestDuration
-            );
+            this.Session.sessionExpiryTimeChecker = setTimeout(this.expiryTimerCallback, timeoutRequestDuration);
         }
     }
 
@@ -565,8 +522,7 @@ export default class BunqJSClient {
     public calculateSessionExpiry = (shortTimeout = false) => {
         // if shortTimeout is set maximize the expiry to 5 minutes
         if (shortTimeout) {
-            return !this.Session.sessionTimeout ||
-                this.Session.sessionTimeout > FIVE_MINUTES_MS
+            return !this.Session.sessionTimeout || this.Session.sessionTimeout > FIVE_MINUTES_MS
                 ? FIVE_MINUTES_MS
                 : this.Session.sessionTimeout;
         }
@@ -627,8 +583,7 @@ export default class BunqJSClient {
                 this.parseOauthUser(userInfoParsed);
             } else {
                 // set updated info
-                this.Session.userInfo[userInfoParsed.type] =
-                    userInfoParsed.info;
+                this.Session.userInfo[userInfoParsed.type] = userInfoParsed.info;
             }
         }
 
@@ -653,8 +608,7 @@ export default class BunqJSClient {
                 this.parseOauthUser(userInfoParsed);
             } else {
                 // set updated info
-                this.Session.userInfo[userInfoParsed.type] =
-                    userInfoParsed.info;
+                this.Session.userInfo[userInfoParsed.type] = userInfoParsed.info;
             }
         }
         // return the users

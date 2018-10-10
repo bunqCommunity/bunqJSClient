@@ -25,20 +25,11 @@ export default class DraftPayment implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<void>}
      */
-    public async get(
-        userId: number,
-        monetaryAccountId: number,
-        paymentId: number,
-        options: any = {}
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/draft-payment"
-        );
+    public async get(userId: number, monetaryAccountId: number, paymentId: number, options: any = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/draft-payment");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment/${paymentId}`
-            )
+            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment/${paymentId}`)
         );
 
         return response.Response[0];
@@ -71,10 +62,7 @@ export default class DraftPayment implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/draft-payment",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/draft-payment", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -108,10 +96,7 @@ export default class DraftPayment implements ApiEndpointInterface {
         counterparty: CounterpartyAlias | CounterPartyAliasCollection,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/draft-payment",
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/draft-payment", "POST");
 
         const entries = [];
         if (Array.isArray(counterparty)) {
@@ -131,13 +116,10 @@ export default class DraftPayment implements ApiEndpointInterface {
         }
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.post(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment`,
-                {
-                    entries: entries,
-                    number_of_required_accepts: 1
-                }
-            )
+            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment`, {
+                entries: entries,
+                number_of_required_accepts: 1
+            })
         );
 
         return response.Response;

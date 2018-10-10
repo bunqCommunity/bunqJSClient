@@ -23,16 +23,8 @@ export default class SchedulePaymentBatch implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<void>}
      */
-    public async delete(
-        userId: number,
-        monetaryAccountId: number,
-        paymentId: number,
-        options: any = {}
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/schedule-payment-batch",
-            "DELETE"
-        );
+    public async delete(userId: number, monetaryAccountId: number, paymentId: number, options: any = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment-batch", "DELETE");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.delete(
@@ -58,19 +50,13 @@ export default class SchedulePaymentBatch implements ApiEndpointInterface {
         schedule: Schedule,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/schedule-payment-batch",
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment-batch", "POST");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.post(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment-batch`,
-                {
-                    payments: paymentRequestObjectCollection,
-                    schedule: schedule
-                }
-            )
+            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment-batch`, {
+                payments: paymentRequestObjectCollection,
+                schedule: schedule
+            })
         );
 
         return response.Response;

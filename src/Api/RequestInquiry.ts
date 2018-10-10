@@ -24,15 +24,8 @@ export default class RequestInquiry implements ApiEndpointInterface {
      * @param {number} requestInquiryId
      * @returns {Promise<any>}
      */
-    public async get(
-        userId: number,
-        monetaryAccountId: number,
-        requestInquiryId: number
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-inquiry",
-            "GET"
-        );
+    public async get(userId: number, monetaryAccountId: number, requestInquiryId: number) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-inquiry", "GET");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -70,10 +63,7 @@ export default class RequestInquiry implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-inquiry",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-inquiry", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -129,17 +119,11 @@ export default class RequestInquiry implements ApiEndpointInterface {
             requestOptions.status = defaultOptions.status;
         }
         if (defaultOptions.merchant_reference !== false) {
-            requestOptions.merchant_reference =
-                defaultOptions.merchant_reference;
+            requestOptions.merchant_reference = defaultOptions.merchant_reference;
         }
         if (defaultOptions.minimum_age !== false) {
-            if (
-                defaultOptions.minimum_age < 12 ||
-                defaultOptions.minimum_age > 100
-            ) {
-                throw new Error(
-                    "Invalid minimum_age. Value has to be 12 >= minimum_age <= 100"
-                );
+            if (defaultOptions.minimum_age < 12 || defaultOptions.minimum_age > 100) {
+                throw new Error("Invalid minimum_age. Value has to be 12 >= minimum_age <= 100");
             }
             requestOptions.minimum_age = defaultOptions.minimum_age;
         }
@@ -147,10 +131,7 @@ export default class RequestInquiry implements ApiEndpointInterface {
             requestOptions.redirect_url = defaultOptions.redirect_url;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-inquiry",
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-inquiry", "POST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.post(
@@ -169,16 +150,8 @@ export default class RequestInquiry implements ApiEndpointInterface {
      * @param {string} status
      * @returns {Promise<void>}
      */
-    public async put(
-        userId: number,
-        monetaryAccountId: number,
-        requestInquiryId: number,
-        status: string = "REVOKED"
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-inquiry",
-            "PUT"
-        );
+    public async put(userId: number, monetaryAccountId: number, requestInquiryId: number, status: string = "REVOKED") {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-inquiry", "PUT");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.put(

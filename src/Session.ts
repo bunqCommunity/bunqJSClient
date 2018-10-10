@@ -1,9 +1,4 @@
-import {
-    createKeyPair,
-    keyPairToPem,
-    publicKeyFromPem,
-    privateKeyFromPem
-} from "./Crypto/Rsa";
+import { createKeyPair, keyPairToPem, publicKeyFromPem, privateKeyFromPem } from "./Crypto/Rsa";
 import { encryptString, decryptString, validateKey } from "./Crypto/Aes";
 import { derivePasswordKey } from "./Crypto/Pbkdf2";
 import StorageInterface from "./Interfaces/StorageInterface";
@@ -59,10 +54,7 @@ export default class Session {
     public storageKeyLocation: string;
     public storageIvLocation: string;
 
-    constructor(
-        storageInterface: StorageInterface,
-        loggerInterface: LoggerInterface
-    ) {
+    constructor(storageInterface: StorageInterface, loggerInterface: LoggerInterface) {
         this.storageInterface = storageInterface;
         this.logger = loggerInterface;
 
@@ -83,28 +75,17 @@ export default class Session {
         if (this.apiKey && this.apiKey !== apiKey) {
             this.logger.debug("current apiKey set and changed");
         }
-        if (
-            this.environment !== null &&
-            environment !== this.environment &&
-            !!apiKey
-        ) {
+        if (this.environment !== null && environment !== this.environment && !!apiKey) {
             // we can't keep the session data if the environment changes
             await this.destroyInstallationMemory();
         }
 
         // create a unique identifier for this api key
         if (typeof apiKey === "string") {
-            const derivedApiKey = await derivePasswordKey(
-                apiKey.substring(0, 8),
-                apiKey.substring(8, 16),
-                10000
-            );
+            const derivedApiKey = await derivePasswordKey(apiKey.substring(0, 8), apiKey.substring(8, 16), 10000);
 
             // if already set and changed, we reset data stored in memory
-            if (
-                this.apiKeyIdentifier &&
-                this.apiKeyIdentifier !== derivedApiKey.key
-            ) {
+            if (this.apiKeyIdentifier && this.apiKeyIdentifier !== derivedApiKey.key) {
                 await this.destroyInstallationMemory();
             }
 
@@ -122,9 +103,7 @@ export default class Session {
 
         // validate the key
         if (!validateKey(encryptionKey)) {
-            throw new Error(
-                "Invalid EAS key given! Invalid characters or length (16,24,32 length)"
-            );
+            throw new Error("Invalid EAS key given! Invalid characters or length (16,24,32 length)");
         }
 
         this.encryptionKey = encryptionKey;
@@ -146,25 +125,13 @@ export default class Session {
      * @param {boolean} ignoreCI - if true the hardcoded certs won't be used even if process.env.CI is set
      * @returns {Promise<boolean>}
      */
-    public async setupKeypair(
-        forceNewKeypair: boolean = false,
-        bitSize: number = 2048,
-        ignoreCI: boolean = false
-    ) {
-        if (
-            forceNewKeypair === false &&
-            this.publicKey !== null &&
-            this.privateKey !== null
-        ) {
+    public async setupKeypair(forceNewKeypair: boolean = false, bitSize: number = 2048, ignoreCI: boolean = false) {
+        if (forceNewKeypair === false && this.publicKey !== null && this.privateKey !== null) {
             return true;
         }
 
         // check if we are in a CI environment
-        if (
-            typeof process !== "undefined" &&
-            process.env.ENV_CI === "true" &&
-            ignoreCI === false
-        ) {
+        if (typeof process !== "undefined" && process.env.ENV_CI === "true" && ignoreCI === false) {
             // use the stored CI variables instead of creating a new on
             this.publicKeyPem = process.env.CI_PUBLIC_KEY_PEM;
             this.privateKeyPem = process.env.CI_PRIVATE_KEY_PEM;
@@ -190,13 +157,9 @@ export default class Session {
      * @returns {Promise.<boolean>}
      */
     public async loadSession() {
-        this.logger.debug(
-            " === Loading session data === " + this.storageKeyLocation
-        );
+        this.logger.debug(" === Loading session data === " + this.storageKeyLocation);
         // try to load the session interface
-        const encryptedSession = await this.asyncStorageGet(
-            this.storageKeyLocation
-        );
+        const encryptedSession = await this.asyncStorageGet(this.storageKeyLocation);
 
         // no session found stored
         if (encryptedSession === undefined || encryptedSession === null) {
@@ -216,14 +179,8 @@ export default class Session {
         }
 
         // api keys dont match, this session is outdated
-        if (
-            this.apiKey !== false &&
-            this.apiKey !== null &&
-            session.apiKey !== this.apiKey
-        ) {
-            this.logger.debug(
-                "Api key changed or is different (api key could be empty)"
-            );
+        if (this.apiKey !== false && this.apiKey !== null && session.apiKey !== this.apiKey) {
+            this.logger.debug("Api key changed or is different (api key could be empty)");
             return false;
         }
 
@@ -246,9 +203,7 @@ export default class Session {
             this.publicKey = await publicKeyFromPem(session.publicKeyPem);
         }
         if (this.serverPublicKeyPem !== null) {
-            this.serverPublicKey = await publicKeyFromPem(
-                session.serverPublicKeyPem
-            );
+            this.serverPublicKey = await publicKeyFromPem(session.serverPublicKeyPem);
         }
         this.installToken = session.installToken;
         this.installCreated = session.installCreated;
@@ -268,29 +223,17 @@ export default class Session {
 
         // if we have a stored installation but no session we reset to prevent
         // creating two sessions for a single installation
-        if (
-            this.verifyInstallation() &&
-            this.verifyDeviceInstallation() &&
-            !this.verifySessionInstallation()
-        ) {
+        if (this.verifyInstallation() && this.verifyDeviceInstallation() && !this.verifySessionInstallation()) {
             await this.destroyApiSession(true);
             return false;
         }
 
         try {
             this.logger.debug(
-                `sessionToken: ${
-                    session.sessionToken === null
-                        ? null
-                        : session.sessionToken.substring(0, 5)
-                }`
+                `sessionToken: ${session.sessionToken === null ? null : session.sessionToken.substring(0, 5)}`
             );
             this.logger.debug(
-                `installToken: ${
-                    session.installToken === null
-                        ? null
-                        : session.installToken.substring(0, 5)
-                }`
+                `installToken: ${session.installToken === null ? null : session.installToken.substring(0, 5)}`
             );
         } catch (error) {}
 
@@ -429,17 +372,11 @@ export default class Session {
         const IV = await this.asyncStorageGet(this.storageIvLocation);
 
         if (this.encryptionKey === false) {
-            throw new Error(
-                "No encryption key is set, failed to decrypt session"
-            );
+            throw new Error("No encryption key is set, failed to decrypt session");
         }
 
         // attempt to decrypt the string
-        const decryptedSession = await decryptString(
-            encryptedSession,
-            this.encryptionKey,
-            IV
-        );
+        const decryptedSession = await decryptString(encryptedSession, this.encryptionKey, IV);
 
         return JSON.parse(decryptedSession);
     };
@@ -453,20 +390,11 @@ export default class Session {
         if (!this.encryptionKey) return false;
 
         // attempt to decrypt the string
-        const encryptedData = await encryptString(
-            sessionData,
-            this.encryptionKey
-        );
+        const encryptedData = await encryptString(sessionData, this.encryptionKey);
 
         // store the new IV and encrypted data
-        const ivStorageSuccess = this.asyncStorageSet(
-            this.storageIvLocation,
-            encryptedData.iv
-        );
-        const dataStorageSuccess = this.asyncStorageSet(
-            this.storageKeyLocation,
-            encryptedData.encryptedString
-        );
+        const ivStorageSuccess = this.asyncStorageSet(this.storageIvLocation, encryptedData.iv);
+        const dataStorageSuccess = this.asyncStorageSet(this.storageKeyLocation, encryptedData.encryptedString);
 
         // await here so we do the storage calls asyncronously
         await ivStorageSuccess;
@@ -485,20 +413,11 @@ export default class Session {
         if (!this.encryptionKey) return false;
 
         // attempt to decrypt the string
-        const encryptedData = await encryptString(
-            JSON.stringify(data),
-            this.encryptionKey
-        );
+        const encryptedData = await encryptString(JSON.stringify(data), this.encryptionKey);
 
         // store the new IV and encrypted data
-        const ivStorage = this.asyncStorageSet(
-            `${location}_IV`,
-            encryptedData.iv
-        );
-        const dataStorage = this.asyncStorageSet(
-            location,
-            encryptedData.encryptedString
-        );
+        const ivStorage = this.asyncStorageSet(`${location}_IV`, encryptedData.iv);
+        const dataStorage = this.asyncStorageSet(location, encryptedData.encryptedString);
 
         await ivStorage;
         await dataStorage;
@@ -511,25 +430,16 @@ export default class Session {
      * @param {string} iv_location
      * @returns {Promise<any>}
      */
-    public loadEncryptedData = async (
-        data_location: string,
-        iv_location: string = null
-    ) => {
+    public loadEncryptedData = async (data_location: string, iv_location: string = null) => {
         // set default value for IV location in case none is given
-        iv_location =
-            iv_location === null ? `${data_location}_IV` : iv_location;
+        iv_location = iv_location === null ? `${data_location}_IV` : iv_location;
 
         // load the data from storage
         const storedData = await this.asyncStorageGet(data_location);
         const storedIv = await this.asyncStorageGet(iv_location);
 
         // check if both values are found
-        if (
-            storedData === undefined ||
-            storedData === null ||
-            storedIv === undefined ||
-            storedIv === null
-        ) {
+        if (storedData === undefined || storedData === null || storedIv === undefined || storedIv === null) {
             return false;
         }
 
@@ -538,11 +448,7 @@ export default class Session {
         }
 
         // attempt to decrypt the data
-        const decryptedSession = await decryptString(
-            storedData,
-            this.encryptionKey,
-            storedIv
-        );
+        const decryptedSession = await decryptString(storedData, this.encryptionKey, storedIv);
 
         return JSON.parse(decryptedSession);
     };
@@ -553,10 +459,7 @@ export default class Session {
      * @param {boolean} silent
      * @returns {Promise<any>}
      */
-    public asyncStorageRemove = async (
-        key: string,
-        silent: boolean = false
-    ) => {
+    public asyncStorageRemove = async (key: string, silent: boolean = false) => {
         try {
             return await this.storageInterface.remove(key);
         } catch (error) {
@@ -591,11 +494,7 @@ export default class Session {
      * @param {boolean} silent
      * @returns {Promise<any>}
      */
-    public asyncStorageSet = async (
-        key: string,
-        value: any,
-        silent: boolean = false
-    ) => {
+    public asyncStorageSet = async (key: string, value: any, silent: boolean = false) => {
         try {
             return await this.storageInterface.set(key, value);
         } catch (error) {
@@ -612,17 +511,12 @@ export default class Session {
      */
     public verifyInstallation(): boolean {
         this.logger.debug(" === Testing installation === ");
-        const installationValid =
-            this.serverPublicKey !== null && this.installToken !== null;
+        const installationValid = this.serverPublicKey !== null && this.installToken !== null;
 
         this.logger.debug("Installation valid: " + installationValid);
         this.logger.debug("this.serverPublicKey = " + this.serverPublicKey);
         this.logger.debug(
-            `this.installToken = ${
-                this.installToken === null
-                    ? null
-                    : this.installToken.substring(0, 5)
-            }`
+            `this.installToken = ${this.installToken === null ? null : this.installToken.substring(0, 5)}`
         );
 
         return installationValid;
@@ -665,13 +559,8 @@ export default class Session {
         const currentTime = new Date();
         if (this.sessionExpiryTime.getTime() <= currentTime.getTime()) {
             this.logger.debug(" === Session invalid: expired === ");
-            this.logger.debug(
-                "this.sessionExpiryTime.getTime() = " +
-                    this.sessionExpiryTime.getTime()
-            );
-            this.logger.debug(
-                "currentTime.getTime() = " + currentTime.getTime()
-            );
+            this.logger.debug("this.sessionExpiryTime.getTime() = " + this.sessionExpiryTime.getTime());
+            this.logger.debug("currentTime.getTime() = " + currentTime.getTime());
             return false;
         }
         return true;
@@ -687,16 +576,10 @@ export default class Session {
             this.environmentUrl = URL_ENVIROMENTS[this.environment];
 
             // set the storage location for the environment
-            this.storageKeyLocation = `BUNQJSCLIENT_${
-                this.environment
-            }_SESSION_${this.apiKeyIdentifier}`;
-            this.storageIvLocation = `BUNQJSCLIENT_${this.environment}_IV_${
-                this.apiKeyIdentifier
-            }`;
+            this.storageKeyLocation = `BUNQJSCLIENT_${this.environment}_SESSION_${this.apiKeyIdentifier}`;
+            this.storageIvLocation = `BUNQJSCLIENT_${this.environment}_IV_${this.apiKeyIdentifier}`;
             return;
         }
-        throw new Error(
-            "Invalid enviroment given. " + JSON.stringify(ALLOWED_ENVIROMENTS)
-        );
+        throw new Error("Invalid enviroment given. " + JSON.stringify(ALLOWED_ENVIROMENTS));
     }
 }

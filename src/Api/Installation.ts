@@ -36,8 +36,7 @@ export default class Installation implements ApiEndpointInterface {
         return {
             id: result.Response[0].Id.id,
             token: result.Response[1].Token,
-            serverPublicKey:
-                result.Response[2].ServerPublicKey.server_public_key
+            serverPublicKey: result.Response[2].ServerPublicKey.server_public_key
         };
     }
 
@@ -46,15 +45,12 @@ export default class Installation implements ApiEndpointInterface {
      * @returns {Promise<{id; token: any; serverPublicKey: any}>}
      */
     public async get(installationId: number, options: any = {}) {
-        const result = await this.ApiAdapter.get(
-            `/v1/installation/${installationId}`
-        );
+        const result = await this.ApiAdapter.get(`/v1/installation/${installationId}`);
 
         return {
             id: result.Response[0].Id.id,
             token: result.Response[1].Token,
-            serverPublicKey:
-                result.Response[2].ServerPublicKey.server_public_key
+            serverPublicKey: result.Response[2].ServerPublicKey.server_public_key
         };
     }
 }

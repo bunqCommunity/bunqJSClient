@@ -25,15 +25,8 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
      * @param {number} requestInquiryId
      * @returns {Promise<any>}
      */
-    public async get(
-        userId: number,
-        monetaryAccountId: number,
-        requestInquiryId: number
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-inquiry-batch",
-            "GET"
-        );
+    public async get(userId: number, monetaryAccountId: number, requestInquiryId: number) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-inquiry-batch", "GET");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -71,10 +64,7 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-inquiry-batch",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-inquiry-batch", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -120,24 +110,14 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
         const requestInquiryList = [];
         requestInquiries.map(requestInquiry => {
             // validate the minimum age
-            if (
-                requestInquiry.minimum_age &&
-                requestInquiry.minimum_age !== false
-            ) {
-                if (
-                    requestInquiry.minimum_age < 12 ||
-                    requestInquiry.minimum_age > 100
-                ) {
-                    throw new Error(
-                        "Invalid minimum_age. Value has to be 12 >= minimum_age <= 100"
-                    );
+            if (requestInquiry.minimum_age && requestInquiry.minimum_age !== false) {
+                if (requestInquiry.minimum_age < 12 || requestInquiry.minimum_age > 100) {
+                    throw new Error("Invalid minimum_age. Value has to be 12 >= minimum_age <= 100");
                 }
             }
 
             // update the total amount
-            totalAmountInquired += parseFloat(
-                requestInquiry.amount_inquired.value
-            );
+            totalAmountInquired += parseFloat(requestInquiry.amount_inquired.value);
 
             // inquiry is valid, add to the list
             requestInquiryList.push(requestInquiry);
@@ -150,10 +130,7 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
             currency: "EUR"
         };
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-inquiry-batch",
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-inquiry-batch", "POST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.post(
@@ -172,16 +149,8 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
      * @param {string} status
      * @returns {Promise<void>}
      */
-    public async put(
-        userId: number,
-        monetaryAccountId: number,
-        requestInquiryId: number,
-        status: string = "REVOKED"
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-inquiry-batch",
-            "PUT"
-        );
+    public async put(userId: number, monetaryAccountId: number, requestInquiryId: number, status: string = "REVOKED") {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-inquiry-batch", "PUT");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.put(

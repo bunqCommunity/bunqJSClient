@@ -2,8 +2,7 @@ import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 
-export default class CustomerStatementExportContent
-    implements ApiEndpointInterface {
+export default class CustomerStatementExportContent implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;
 
@@ -26,10 +25,7 @@ export default class CustomerStatementExportContent
         customerStatementId: number,
         options: any = {}
     ): Promise<Blob> {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/customer-statement-export/content",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/customer-statement-export/content", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(

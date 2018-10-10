@@ -30,11 +30,7 @@ export default class ApiAdapter {
     public region: string;
     public geoLocation: string;
 
-    constructor(
-        Session: Session,
-        loggerInterface: LoggerInterface,
-        BunqJSClient: BunqJSClient
-    ) {
+    constructor(Session: Session, loggerInterface: LoggerInterface, BunqJSClient: BunqJSClient) {
         this.Session = Session;
         this.logger = loggerInterface;
         this.BunqJSClient = BunqJSClient;
@@ -53,11 +49,7 @@ export default class ApiAdapter {
      * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
-    public async get(
-        url: string,
-        headers: any = {},
-        options: ApiAdapterOptions = {}
-    ) {
+    public async get(url: string, headers: any = {}, options: ApiAdapterOptions = {}) {
         const response = await this.request(url, "GET", "", headers, options);
 
         return response.data;
@@ -69,18 +61,8 @@ export default class ApiAdapter {
      * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
-    public async delete(
-        url: string,
-        headers: any = {},
-        options: ApiAdapterOptions = {}
-    ) {
-        const response = await this.request(
-            url,
-            "DELETE",
-            {},
-            headers,
-            options
-        );
+    public async delete(url: string, headers: any = {}, options: ApiAdapterOptions = {}) {
+        const response = await this.request(url, "DELETE", {}, headers, options);
         return response.data;
     }
 
@@ -91,19 +73,8 @@ export default class ApiAdapter {
      * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
-    public async post(
-        url: string,
-        data: any = {},
-        headers: any = {},
-        options: ApiAdapterOptions = {}
-    ) {
-        const response = await this.request(
-            url,
-            "POST",
-            data,
-            headers,
-            options
-        );
+    public async post(url: string, data: any = {}, headers: any = {}, options: ApiAdapterOptions = {}) {
+        const response = await this.request(url, "POST", data, headers, options);
         return response.data;
     }
 
@@ -114,12 +85,7 @@ export default class ApiAdapter {
      * @param {ApiAdapterOptions} options
      * @returns {Promise<void>}
      */
-    public async put(
-        url: string,
-        data: any = {},
-        headers: any = {},
-        options: ApiAdapterOptions = {}
-    ) {
+    public async put(url: string, data: any = {}, headers: any = {}, options: ApiAdapterOptions = {}) {
         const response = await this.request(url, "PUT", data, headers, options);
         return response.data;
     }
@@ -159,39 +125,26 @@ export default class ApiAdapter {
 
             if (expiresInMilliseconds < 30000) {
                 // this request will extend the expiry timer
-                const extendByMilliseconds = this.BunqJSClient.calculateSessionExpiry(
-                    true
-                );
+                const extendByMilliseconds = this.BunqJSClient.calculateSessionExpiry(true);
 
                 // add milliseconds to current time
                 const currentDate = new Date();
-                currentDate.setTime(
-                    currentDate.getTime() + extendByMilliseconds
-                );
+                currentDate.setTime(currentDate.getTime() + extendByMilliseconds);
 
                 // set updated session expiry time
                 this.Session.sessionExpiryTime = currentDate;
 
-                this.logger.debug(
-                    `Request in last 30 seconds: (${expiresInMilliseconds /
-                        1000})`
-                );
-                this.logger.debug(
-                    `Set session expiry to ${this.Session.sessionExpiryTime}`
-                );
+                this.logger.debug(`Request in last 30 seconds: (${expiresInMilliseconds / 1000})`);
+                this.logger.debug(`Set session expiry to ${this.Session.sessionExpiryTime}`);
             }
         }
 
         if (options.unauthenticated !== true) {
             // use session token or fallback to install taken if we have one
             if (this.Session.sessionToken !== null) {
-                headers[
-                    "X-Bunq-Client-Authentication"
-                ] = this.Session.sessionToken;
+                headers["X-Bunq-Client-Authentication"] = this.Session.sessionToken;
             } else if (this.Session.installToken !== null) {
-                headers[
-                    "X-Bunq-Client-Authentication"
-                ] = this.Session.installToken;
+                headers["X-Bunq-Client-Authentication"] = this.Session.installToken;
             }
         }
 
@@ -219,9 +172,7 @@ export default class ApiAdapter {
 
         if (requestConfig.url[0] === "/") {
             // complete relative urls
-            requestConfig.url = `${this.Session.environmentUrl}${
-                requestConfig.url
-            }`;
+            requestConfig.url = `${this.Session.environmentUrl}${requestConfig.url}`;
         }
 
         let response;
@@ -279,10 +230,7 @@ export default class ApiAdapter {
      * @param options
      * @returns {Promise<AxiosRequestConfig>}
      */
-    private async encryptRequest(
-        requestConfig: AxiosRequestConfig,
-        options: any
-    ): Promise<AxiosRequestConfig> {
+    private async encryptRequest(requestConfig: AxiosRequestConfig, options: any): Promise<AxiosRequestConfig> {
         return requestConfig;
 
         // TODO test and implement actual encryption
@@ -331,18 +279,12 @@ export default class ApiAdapter {
      * @param {RequestConfig} requestConfig
      * @returns {Promise<string>}
      */
-    private async signRequest(
-        requestConfig: AxiosRequestConfig,
-        options: any
-    ): Promise<string> {
+    private async signRequest(requestConfig: AxiosRequestConfig, options: any): Promise<string> {
         let url: string = requestConfig.url;
         const dataIsEncrypted = options.isEncrypted === true;
 
         // Check if one or more param is set and add it to the url
-        if (
-            requestConfig.params &&
-            Object.keys(requestConfig.params).length > 0
-        ) {
+        if (requestConfig.params && Object.keys(requestConfig.params).length > 0) {
             const params = new Url.URLSearchParams(requestConfig.params);
             url = `${requestConfig.url}?${params.toString()}`;
         }
@@ -350,18 +292,16 @@ export default class ApiAdapter {
         const methodUrl: string = `${requestConfig.method} ${url}`;
 
         // create a list of headers
-        const headerStrings = Object.keys(requestConfig.headers).map(
-            headerKey => {
-                if (
-                    headerKey.includes("X-Bunq") ||
-                    headerKey.includes("Cache-Control") ||
-                    headerKey.includes("User-Agent")
-                ) {
-                    return `${headerKey}: ${requestConfig.headers[headerKey]}`;
-                }
-                return "";
+        const headerStrings = Object.keys(requestConfig.headers).map(headerKey => {
+            if (
+                headerKey.includes("X-Bunq") ||
+                headerKey.includes("Cache-Control") ||
+                headerKey.includes("User-Agent")
+            ) {
+                return `${headerKey}: ${requestConfig.headers[headerKey]}`;
             }
-        );
+            return "";
+        });
 
         // manually include the user agent
         if (typeof navigator === "undefined") {
@@ -385,9 +325,7 @@ export default class ApiAdapter {
         if (dataIsEncrypted === true) {
             // when encrypted we pad the raw data
             data = `\n\n${requestConfig.data}`;
-        } else if (
-            appendDataWhitelist.some(item => item === requestConfig.method)
-        ) {
+        } else if (appendDataWhitelist.some(item => item === requestConfig.method)) {
             data = `\n\n${JSON.stringify(requestConfig.data)}`;
         }
 
@@ -424,13 +362,8 @@ export default class ApiAdapter {
             const headerKeyFixed = headerPartsFixed.join("-");
 
             // only verify bunq headers and ignore the server signature
-            if (
-                headerKeyFixed.includes("X-Bunq") &&
-                !headerKeyFixed.includes("X-Bunq-Server-Signature")
-            ) {
-                headerStrings.push(
-                    `${headerKeyFixed}: ${response.headers[headerKey]}`
-                );
+            if (headerKeyFixed.includes("X-Bunq") && !headerKeyFixed.includes("X-Bunq-Server-Signature")) {
+                headerStrings.push(`${headerKeyFixed}: ${response.headers[headerKey]}`);
             }
         });
 
@@ -469,11 +402,7 @@ export default class ApiAdapter {
         }
 
         // verify the string and return results
-        return await verifyString(
-            template,
-            this.Session.serverPublicKey,
-            response.headers["x-bunq-server-signature"]
-        );
+        return await verifyString(template, this.Session.serverPublicKey, response.headers["x-bunq-server-signature"]);
     }
 
     /**
@@ -484,8 +413,7 @@ export default class ApiAdapter {
         const date: Date = new Date();
         return {
             ...DEFAULT_HEADERS,
-            "X-Bunq-Client-Request-Id":
-                date.getTime() + date.getMilliseconds() + Math.random(),
+            "X-Bunq-Client-Request-Id": date.getTime() + date.getMilliseconds() + Math.random(),
             "X-Bunq-Geolocation": this.geoLocation,
             "X-Bunq-Language": this.language,
             "X-Bunq-Region": this.region,

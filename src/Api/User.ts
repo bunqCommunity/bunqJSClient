@@ -20,14 +20,9 @@ export default class User implements ApiEndpointInterface {
      * @returns {Promise<any>}
      */
     public async get(userId: number, options: any = {}) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/user",
-            "GET"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/user", "GET");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}`)
-        );
+        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}`));
 
         return response.Response[0];
     }
@@ -37,14 +32,9 @@ export default class User implements ApiEndpointInterface {
      * @returns {Promise<any>}
      */
     public async list(options: any = {}) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/user",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/user", "LIST");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user`)
-        );
+        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user`));
 
         return response.Response[0];
     }

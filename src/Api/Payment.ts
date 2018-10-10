@@ -24,18 +24,11 @@ export default class Payment implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<void>}
      */
-    public async get(
-        userId: number,
-        monetaryAccountId: number,
-        paymentId: number,
-        options: any = {}
-    ) {
+    public async get(userId: number, monetaryAccountId: number, paymentId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment/${paymentId}`
-            )
+            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment/${paymentId}`)
         );
 
         return response.Response[0];
@@ -68,10 +61,7 @@ export default class Payment implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/payment",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -105,20 +95,14 @@ export default class Payment implements ApiEndpointInterface {
         counterpartyAlias: CounterpartyAlias,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/payment",
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment", "POST");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.post(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment`,
-                {
-                    counterparty_alias: counterpartyAlias,
-                    description: description,
-                    amount: amount
-                }
-            )
+            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment`, {
+                counterparty_alias: counterpartyAlias,
+                description: description,
+                amount: amount
+            })
         );
 
         return response.Response;

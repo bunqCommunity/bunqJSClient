@@ -22,15 +22,8 @@ export default class RequestResponse implements ApiEndpointInterface {
      * @param {number} requestResponseId
      * @returns {Promise<any>}
      */
-    public async get(
-        userId: number,
-        monetaryAccountId: number,
-        requestResponseId: number
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-response",
-            "GET"
-        );
+    public async get(userId: number, monetaryAccountId: number, requestResponseId: number) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-response", "GET");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -68,10 +61,7 @@ export default class RequestResponse implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-response",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-response", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -119,18 +109,14 @@ export default class RequestResponse implements ApiEndpointInterface {
         if (status === "ACCEPTED") {
             requestOptions.amount_responded = defaultOptions.amount_responded;
             if (defaultOptions.address_shipping) {
-                requestOptions.address_shipping =
-                    defaultOptions.address_shipping;
+                requestOptions.address_shipping = defaultOptions.address_shipping;
             }
             if (defaultOptions.address_billing) {
                 requestOptions.address_billing = defaultOptions.address_billing;
             }
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/request-response",
-            "PUT"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-response", "PUT");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.put(

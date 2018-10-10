@@ -24,15 +24,8 @@ export default class SchedulePayment implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<void>}
      */
-    public async get(
-        userId: number,
-        monetaryAccountId: number,
-        paymentId: number,
-        options: any = {}
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/schedule-payment"
-        );
+    public async get(userId: number, monetaryAccountId: number, paymentId: number, options: any = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -50,16 +43,8 @@ export default class SchedulePayment implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<void>}
      */
-    public async delete(
-        userId: number,
-        monetaryAccountId: number,
-        paymentId: number,
-        options: any = {}
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/schedule-payment",
-            "DELETE"
-        );
+    public async delete(userId: number, monetaryAccountId: number, paymentId: number, options: any = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment", "DELETE");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.delete(
@@ -97,10 +82,7 @@ export default class SchedulePayment implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/schedule-payment",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -132,10 +114,7 @@ export default class SchedulePayment implements ApiEndpointInterface {
         schedule: Schedule,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/schedule-payment",
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment", "POST");
 
         const requestObject = {
             payment: paymentRequestObject,
@@ -169,10 +148,7 @@ export default class SchedulePayment implements ApiEndpointInterface {
         schedule: Schedule,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/schedule-payment",
-            "PUT"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment", "PUT");
 
         const requestObject = {
             payment: paymentRequestObject,

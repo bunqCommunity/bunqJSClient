@@ -37,15 +37,10 @@ export default class ShareInviteBankResponse implements ApiEndpointInterface {
             older_id: false
         }
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/share-invite-bank-response",
-            "GET"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-response", "GET");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/share-invite-bank-response/${shareInviteBankResponseId}`
-            )
+            this.ApiAdapter.get(`/v1/user/${userId}/share-invite-bank-response/${shareInviteBankResponseId}`)
         );
 
         return response.Response;
@@ -76,10 +71,7 @@ export default class ShareInviteBankResponse implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/share-invite-bank-response",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-response", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -105,23 +97,13 @@ export default class ShareInviteBankResponse implements ApiEndpointInterface {
      * @param {ShareInviteBankInquiryPostOptions} options
      * @returns {Promise<any>}
      */
-    public async put(
-        userId: number,
-        shareInviteBankResponseId: number,
-        status: ShareInviteBankResponsePutStatus
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/share-invite-bank-response",
-            "PUT"
-        );
+    public async put(userId: number, shareInviteBankResponseId: number, status: ShareInviteBankResponsePutStatus) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-response", "PUT");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.put(
-                `/v1/user/${userId}/share-invite-bank-response/${shareInviteBankResponseId}`,
-                {
-                    status: status
-                }
-            )
+            this.ApiAdapter.put(`/v1/user/${userId}/share-invite-bank-response/${shareInviteBankResponseId}`, {
+                status: status
+            })
         );
 
         return response.Response;

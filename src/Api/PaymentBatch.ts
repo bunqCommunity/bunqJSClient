@@ -24,20 +24,11 @@ export default class PaymentBatch implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<void>}
      */
-    public async get(
-        userId: number,
-        monetaryAccountId: number,
-        paymentId: number,
-        options: any = {}
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/payment-batch"
-        );
+    public async get(userId: number, monetaryAccountId: number, paymentId: number, options: any = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment-batch");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch/${paymentId}`
-            )
+            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch/${paymentId}`)
         );
 
         return response.Response[0];
@@ -70,10 +61,7 @@ export default class PaymentBatch implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/payment-batch",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment-batch", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
@@ -107,10 +95,7 @@ export default class PaymentBatch implements ApiEndpointInterface {
         counterpartyAliasCollection: CounterPartyAliasCollection,
         options: any = {}
     ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/payment-batch",
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment-batch", "POST");
 
         const payments = counterpartyAliasCollection.map(counterpartyAlias => {
             return {
@@ -121,10 +106,9 @@ export default class PaymentBatch implements ApiEndpointInterface {
         });
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.post(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`,
-                { payments: payments }
-            )
+            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`, {
+                payments: payments
+            })
         );
 
         return response.Response;
@@ -139,22 +123,13 @@ export default class PaymentBatch implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<void>}
      */
-    public async postRaw(
-        userId: number,
-        monetaryAccountId: number,
-        payments: any[],
-        options: any = {}
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/payment-batch",
-            "POST"
-        );
+    public async postRaw(userId: number, monetaryAccountId: number, payments: any[], options: any = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment-batch", "POST");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.post(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`,
-                { payments: payments }
-            )
+            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`, {
+                payments: payments
+            })
         );
 
         return response.Response;

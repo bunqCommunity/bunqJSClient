@@ -20,20 +20,11 @@ export default class MonetaryAccount implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<any>}
      */
-    public async get(
-        userId: number,
-        monetaryAccountId: number,
-        options: any = {}
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/monetary-account",
-            "GET"
-        );
+    public async get(userId: number, monetaryAccountId: number, options: any = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account", "GET");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}`
-            )
+            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${monetaryAccountId}`)
         );
 
         return response.Response[0];
@@ -64,10 +55,7 @@ export default class MonetaryAccount implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/monetary-account",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(

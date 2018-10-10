@@ -42,10 +42,7 @@ export default class Schedule implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/schedule",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(

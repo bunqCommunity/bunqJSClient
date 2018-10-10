@@ -23,15 +23,10 @@ export default class CardCvc2 implements ApiEndpointInterface {
      * @returns {Promise<any>}
      */
     public async get(userId: number, cardId: number, cvc2Id: number) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/generated-cvc2",
-            "GET"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/generated-cvc2", "GET");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/card/${cardId}/generated-cvc2/${cvc2Id}`
-            )
+            this.ApiAdapter.get(`/v1/user/${userId}/card/${cardId}/generated-cvc2/${cvc2Id}`)
         );
 
         return response.Response[0];
@@ -44,15 +39,10 @@ export default class CardCvc2 implements ApiEndpointInterface {
      * @returns {Promise<any>}
      */
     public async list(userId: number, cardId: number, options: any = {}) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/generated-cvc2",
-            "LIST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/generated-cvc2", "LIST");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/card/${cardId}/generated-cvc2`
-            )
+            this.ApiAdapter.get(`/v1/user/${userId}/card/${cardId}/generated-cvc2`)
         );
 
         return response.Response;
@@ -64,18 +54,10 @@ export default class CardCvc2 implements ApiEndpointInterface {
      * @returns {Promise<void>}
      */
     public async post(userId: number, cardId: number, options: any = {}) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create(
-            "/generated-cvc2",
-            "POST"
-        );
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/generated-cvc2", "POST");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.put(
-                `/v1/user/${userId}/card/${cardId}/generated-cvc2`,
-                {},
-                {},
-                { isEncrypted: true }
-            )
+            this.ApiAdapter.put(`/v1/user/${userId}/card/${cardId}/generated-cvc2`, {}, {}, { isEncrypted: true })
         );
 
         return response.Response[0];
