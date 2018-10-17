@@ -4,11 +4,13 @@ const AttachementContent_1 = require("./AttachementContent");
 const BunqMeTabs_1 = require("./BunqMeTabs");
 const Card_1 = require("./Card");
 const CardCvc2_1 = require("./CardCvc2");
+const CredentialPasswordIp_1 = require("./CredentialPasswordIp");
 const CustomerStatementExport_1 = require("./CustomerStatementExport");
 const CustomerStatementExportContent_1 = require("./CustomerStatementExportContent");
 const DeviceRegistration_1 = require("./DeviceRegistration");
 const DraftPayment_1 = require("./DraftPayment");
 const Installation_1 = require("./Installation");
+const Ip_1 = require("./Ip");
 const MasterCardAction_1 = require("./MasterCardAction");
 const MonetaryAccount_1 = require("./MonetaryAccount");
 const MonetaryAccountBank_1 = require("./MonetaryAccountBank");
@@ -35,11 +37,13 @@ exports.default = (ApiAdapter) => {
         bunqMeTabs: new BunqMeTabs_1.default(ApiAdapter),
         card: new Card_1.default(ApiAdapter),
         cardCvc2: new CardCvc2_1.default(ApiAdapter),
+        credentialPasswordIp: new CredentialPasswordIp_1.default(ApiAdapter),
         customerStatementExport: new CustomerStatementExport_1.default(ApiAdapter),
         customerStatementExportContent: new CustomerStatementExportContent_1.default(ApiAdapter),
         deviceRegistration: new DeviceRegistration_1.default(ApiAdapter),
         draftPayment: new DraftPayment_1.default(ApiAdapter),
         installation: new Installation_1.default(ApiAdapter),
+        ip: new Ip_1.default(ApiAdapter),
         masterCardAction: new MasterCardAction_1.default(ApiAdapter),
         monetaryAccount: new MonetaryAccount_1.default(ApiAdapter),
         monetaryAccountBank: new MonetaryAccountBank_1.default(ApiAdapter),

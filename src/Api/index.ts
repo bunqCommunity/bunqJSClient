@@ -3,11 +3,13 @@ import AttachementContent from "./AttachementContent";
 import BunqMeTabs from "./BunqMeTabs";
 import Card from "./Card";
 import CardCvc2 from "./CardCvc2";
+import CredentialPasswordIp from "./CredentialPasswordIp";
 import CustomerStatementExport from "./CustomerStatementExport";
 import CustomerStatementExportContent from "./CustomerStatementExportContent";
 import DeviceRegistration from "./DeviceRegistration";
 import DraftPayment from "./DraftPayment";
 import Installation from "./Installation";
+import Ip from "./Ip";
 import MasterCardAction from "./MasterCardAction";
 import MonetaryAccount from "./MonetaryAccount";
 import MonetaryAccountBank from "./MonetaryAccountBank";
@@ -35,11 +37,13 @@ export default (ApiAdapter: ApiAdapter) => {
         bunqMeTabs: new BunqMeTabs(ApiAdapter),
         card: new Card(ApiAdapter),
         cardCvc2: new CardCvc2(ApiAdapter),
+        credentialPasswordIp: new CredentialPasswordIp(ApiAdapter),
         customerStatementExport: new CustomerStatementExport(ApiAdapter),
         customerStatementExportContent: new CustomerStatementExportContent(ApiAdapter),
         deviceRegistration: new DeviceRegistration(ApiAdapter),
         draftPayment: new DraftPayment(ApiAdapter),
         installation: new Installation(ApiAdapter),
+        ip: new Ip(ApiAdapter),
         masterCardAction: new MasterCardAction(ApiAdapter),
         monetaryAccount: new MonetaryAccount(ApiAdapter),
         monetaryAccountBank: new MonetaryAccountBank(ApiAdapter),

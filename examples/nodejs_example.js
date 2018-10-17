@@ -31,14 +31,11 @@ const defaultErrorLogger = error => {
 
 const setup = async () => {
     // load and refresh bunq client
-    await BunqClient.run(
-        process.env.API_KEY,
-        PERMITTED_IPS,
-        process.env.ENVIRONMENT,
-        process.env.ENCRYPTION_KEY
-    ).catch(exception => {
-        throw exception;
-    });
+    await BunqClient.run(process.env.API_KEY, PERMITTED_IPS, process.env.ENVIRONMENT, process.env.ENCRYPTION_KEY).catch(
+        exception => {
+            throw exception;
+        }
+    );
 
     // disable keepalive since the server will be online a lot
     // without needing a constantly active session
@@ -48,9 +45,7 @@ const setup = async () => {
     await BunqClient.install().catch(defaultErrorLogger);
 
     // create/re-use a device installation
-    await BunqClient.registerDevice(process.env.DEVICE_NAME).catch(
-        defaultErrorLogger
-    );
+    await BunqClient.registerDevice(process.env.DEVICE_NAME).catch(defaultErrorLogger);
 
     // create/re-use a bunq session installation
     await BunqClient.registerSession().catch(defaultErrorLogger);
@@ -58,22 +53,18 @@ const setup = async () => {
 
 const getMonetaryAccounts = async userid => {
     // get accounts
-    const accounts = await BunqClient.api.monetaryAccount
-        .list(userid)
-        .catch(error => {
-            throw error;
-        });
+    const accounts = await BunqClient.api.monetaryAccount.list(userid).catch(error => {
+        throw error;
+    });
 
     return accounts;
 };
 
 const getPayments = async (userid, monetaryaccountid) => {
     // get payments
-    const payments = await BunqClient.api.payment
-        .list(userid, monetaryaccountid)
-        .catch(error => {
-            throw error;
-        });
+    const payments = await BunqClient.api.payment.list(userid, monetaryaccountid).catch(error => {
+        throw error;
+    });
 
     return payments;
 };
@@ -108,10 +99,7 @@ setup()
         });
 
         // get all payments for the first monetary account
-        const payments = await getPayments(
-            userInfo.id,
-            activeAccounts[0].MonetaryAccountBank.id
-        );
+        const payments = await getPayments(userInfo.id, activeAccounts[0].MonetaryAccountBank.id);
 
         // log payments to console
         console.log("\nPayments: ", payments.length, "\n");
