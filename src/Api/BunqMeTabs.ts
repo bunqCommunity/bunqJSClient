@@ -36,7 +36,7 @@ export default class BunqMeTabs implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
-     * @param {PaymentsListOptions} options
+     * @param {PaginationOptions} options
      * @returns {Promise<void>}
      */
     public async list(

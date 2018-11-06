@@ -23,7 +23,7 @@ class Ip {
     /**
      * @param {number} userId
      * @param {number} credentialPasswordIpId
-     * @param {PaymentsListOptions} options
+     * @param {PaginationOptions} options
      * @returns {Promise<void>}
      */
     async list(userId, credentialPasswordIpId, options = {

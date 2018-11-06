@@ -40,7 +40,7 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
-     * @param {PaymentsListOptions} options
+     * @param {PaginationOptions} options
      * @returns {Promise<void>}
      */
     public async list(

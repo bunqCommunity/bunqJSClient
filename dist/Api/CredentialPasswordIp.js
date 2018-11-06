@@ -21,7 +21,7 @@ class CredentialPasswordIp {
     }
     /**
      * @param {number} userId
-     * @param {PaymentsListOptions} options
+     * @param {PaginationOptions} options
      * @returns {Promise<void>}
      */
     async list(userId, options = {

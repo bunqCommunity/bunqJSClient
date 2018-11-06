@@ -9,6 +9,7 @@ const CustomerStatementExport_1 = require("./CustomerStatementExport");
 const CustomerStatementExportContent_1 = require("./CustomerStatementExportContent");
 const DeviceRegistration_1 = require("./DeviceRegistration");
 const DraftPayment_1 = require("./DraftPayment");
+const Event_1 = require("./Event");
 const Installation_1 = require("./Installation");
 const Ip_1 = require("./Ip");
 const MasterCardAction_1 = require("./MasterCardAction");
@@ -42,6 +43,7 @@ exports.default = (ApiAdapter) => {
         customerStatementExportContent: new CustomerStatementExportContent_1.default(ApiAdapter),
         deviceRegistration: new DeviceRegistration_1.default(ApiAdapter),
         draftPayment: new DraftPayment_1.default(ApiAdapter),
+        event: new Event_1.default(ApiAdapter),
         installation: new Installation_1.default(ApiAdapter),
         ip: new Ip_1.default(ApiAdapter),
         masterCardAction: new MasterCardAction_1.default(ApiAdapter),

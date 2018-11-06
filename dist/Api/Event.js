@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class MasterCardAction {
+class Event {
     /**
      * @param {ApiAdapter} ApiAdapter
      */
@@ -10,22 +10,21 @@ class MasterCardAction {
     }
     /**
      * @param {number} userId
-     * @param {number} monetaryAccountId
-     * @param {number} requestResponseId
-     * @returns {Promise<any>}
+     * @param {number} eventId
+     * @param options
+     * @returns {Promise<void>}
      */
-    async get(userId, monetaryAccountId, masterCardActionId) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/mastercard-action", "GET");
-        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/mastercard-action/${masterCardActionId}`));
+    async get(userId, eventId, options = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/event");
+        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/event/${eventId}`));
         return response.Response[0];
     }
     /**
      * @param {number} userId
-     * @param {number} monetaryAccountId
      * @param {PaginationOptions} options
-     * @returns {Promise<any>}
+     * @returns {Promise<void>}
      */
-    async list(userId, monetaryAccountId, options = {
+    async list(userId, options = {
         count: 200,
         newer_id: false,
         older_id: false
@@ -40,8 +39,8 @@ class MasterCardAction {
         if (options.older_id !== false && options.older_id !== undefined) {
             params.older_id = options.older_id;
         }
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/mastercard-action", "LIST");
-        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/mastercard-action`, {}, {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/event", "LIST");
+        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/event`, {}, {
             axiosOptions: {
                 params: params
             }
@@ -49,4 +48,4 @@ class MasterCardAction {
         return response.Response;
     }
 }
-exports.default = MasterCardAction;
+exports.default = Event;

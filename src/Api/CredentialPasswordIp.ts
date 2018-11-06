@@ -33,7 +33,7 @@ export default class CredentialPasswordIp implements ApiEndpointInterface {
 
     /**
      * @param {number} userId
-     * @param {PaymentsListOptions} options
+     * @param {PaginationOptions} options
      * @returns {Promise<void>}
      */
     public async list(

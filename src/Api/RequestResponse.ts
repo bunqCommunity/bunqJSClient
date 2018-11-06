@@ -37,7 +37,7 @@ export default class RequestResponse implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
-     * @param {PaymentsListOptions} options
+     * @param {PaginationOptions} options
      * @returns {Promise<any>}
      */
     public async list(

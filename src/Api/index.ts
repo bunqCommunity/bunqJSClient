@@ -8,6 +8,7 @@ import CustomerStatementExport from "./CustomerStatementExport";
 import CustomerStatementExportContent from "./CustomerStatementExportContent";
 import DeviceRegistration from "./DeviceRegistration";
 import DraftPayment from "./DraftPayment";
+import Event from "./Event";
 import Installation from "./Installation";
 import Ip from "./Ip";
 import MasterCardAction from "./MasterCardAction";
@@ -42,6 +43,7 @@ export default (ApiAdapter: ApiAdapter) => {
         customerStatementExportContent: new CustomerStatementExportContent(ApiAdapter),
         deviceRegistration: new DeviceRegistration(ApiAdapter),
         draftPayment: new DraftPayment(ApiAdapter),
+        event: new Event(ApiAdapter),
         installation: new Installation(ApiAdapter),
         ip: new Ip(ApiAdapter),
         masterCardAction: new MasterCardAction(ApiAdapter),

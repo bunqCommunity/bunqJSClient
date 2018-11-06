@@ -22,7 +22,7 @@ class RequestResponse {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
-     * @param {PaymentsListOptions} options
+     * @param {PaginationOptions} options
      * @returns {Promise<any>}
      */
     async list(userId, monetaryAccountId, options = {

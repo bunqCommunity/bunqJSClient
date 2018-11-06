@@ -1,9 +1,11 @@
 import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
+import Amount from "../Types/Amount";
+import CounterpartyAlias from "../Types/CounterpartyAlias";
 import PaginationOptions from "../Types/PaginationOptions";
 
-export default class MasterCardAction implements ApiEndpointInterface {
+export default class Event implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;
 
@@ -17,17 +19,15 @@ export default class MasterCardAction implements ApiEndpointInterface {
 
     /**
      * @param {number} userId
-     * @param {number} monetaryAccountId
-     * @param {number} requestResponseId
-     * @returns {Promise<any>}
+     * @param {number} eventId
+     * @param options
+     * @returns {Promise<void>}
      */
-    public async get(userId: number, monetaryAccountId: number, masterCardActionId: number) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/mastercard-action", "GET");
+    public async get(userId: number, eventId: number, options: any = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/event");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/mastercard-action/${masterCardActionId}`
-            )
+            this.ApiAdapter.get(`/v1/user/${userId}/event/${eventId}`)
         );
 
         return response.Response[0];
@@ -35,13 +35,11 @@ export default class MasterCardAction implements ApiEndpointInterface {
 
     /**
      * @param {number} userId
-     * @param {number} monetaryAccountId
      * @param {PaginationOptions} options
-     * @returns {Promise<any>}
+     * @returns {Promise<void>}
      */
     public async list(
         userId: number,
-        monetaryAccountId: number,
         options: PaginationOptions = {
             count: 200,
             newer_id: false,
@@ -60,11 +58,11 @@ export default class MasterCardAction implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/mastercard-action", "LIST");
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/event", "LIST");
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/mastercard-action`,
+                `/v1/user/${userId}/event`,
                 {},
                 {
                     axiosOptions: {

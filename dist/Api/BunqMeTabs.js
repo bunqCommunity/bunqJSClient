@@ -23,7 +23,7 @@ class BunqMeTabs {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
-     * @param {PaymentsListOptions} options
+     * @param {PaginationOptions} options
      * @returns {Promise<void>}
      */
     async list(userId, monetaryAccountId, options = {

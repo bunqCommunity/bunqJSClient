@@ -35,7 +35,7 @@ export default class Ip implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} credentialPasswordIpId
-     * @param {PaymentsListOptions} options
+     * @param {PaginationOptions} options
      * @returns {Promise<void>}
      */
     public async list(
