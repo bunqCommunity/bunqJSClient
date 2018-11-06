@@ -1,6 +1,6 @@
 {
   "name": "@bunq-community/bunq-js-client",
-  "version": "0.27.0",
+  "version": "0.28.0",
   "license": "MIT",
   "scripts": {
     "build": "tsc --listFiles --newline lf",
