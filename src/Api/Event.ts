@@ -1,9 +1,13 @@
 import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
-import Amount from "../Types/Amount";
-import CounterpartyAlias from "../Types/CounterpartyAlias";
 import PaginationOptions from "../Types/PaginationOptions";
+
+interface EventFilterOptions extends PaginationOptions {
+    monetary_account_id?: number | false;
+    display_user_event?: boolean | false;
+    status?: "AWAITING_REPLY" | "FINALIZED" | false;
+}
 
 export default class Event implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
@@ -26,9 +30,7 @@ export default class Event implements ApiEndpointInterface {
     public async get(userId: number, eventId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/event");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/event/${eventId}`)
-        );
+        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/event/${eventId}`));
 
         return response.Response[0];
     }
@@ -40,7 +42,7 @@ export default class Event implements ApiEndpointInterface {
      */
     public async list(
         userId: number,
-        options: PaginationOptions = {
+        options: EventFilterOptions = {
             count: 200,
             newer_id: false,
             older_id: false
@@ -56,6 +58,15 @@ export default class Event implements ApiEndpointInterface {
         }
         if (options.older_id !== false && options.older_id !== undefined) {
             params.older_id = options.older_id;
+        }
+        if (options.monetary_account_id !== false && options.monetary_account_id !== undefined) {
+            params.monetary_account_id = options.monetary_account_id;
+        }
+        if (options.status !== false && options.status !== undefined) {
+            params.status = options.status;
+        }
+        if (options.display_user_event !== undefined) {
+            params.display_user_event = options.display_user_event;
         }
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/event", "LIST");

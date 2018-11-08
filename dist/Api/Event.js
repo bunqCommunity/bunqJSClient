@@ -39,6 +39,15 @@ class Event {
         if (options.older_id !== false && options.older_id !== undefined) {
             params.older_id = options.older_id;
         }
+        if (options.monetary_account_id !== false && options.monetary_account_id !== undefined) {
+            params.monetary_account_id = options.monetary_account_id;
+        }
+        if (options.status !== false && options.status !== undefined) {
+            params.status = options.status;
+        }
+        if (options.display_user_event !== undefined) {
+            params.display_user_event = options.display_user_event;
+        }
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/event", "LIST");
         const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/event`, {}, {
             axiosOptions: {
