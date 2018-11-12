@@ -95,14 +95,22 @@ setup()
             if (account.MonetaryAccountJoint) {
                 return account.MonetaryAccountJoint.status === "ACTIVE";
             }
+            if (account.MonetaryAccountSavings) {
+                return account.MonetaryAccountSavings.status === "ACTIVE";
+            }
             return false;
         });
 
-        // get all payments for the first monetary account
-        const payments = await getPayments(userInfo.id, activeAccounts[0].MonetaryAccountBank.id);
+        if (activeAccounts.length > 0) {
+            const accountType = Object.keys(activeAccounts[0])[0];
 
-        // log payments to console
-        console.log("\nPayments: ", payments.length, "\n");
+            // get all payments for the first monetary account
+            const payments = await getPayments(userInfo.id, activeAccounts[0][accountType].id);
+
+            // log payments to console
+            console.log("\nPayments: ", payments.length, "\n");
+        }
+
         process.exit();
     })
     .catch(error => {

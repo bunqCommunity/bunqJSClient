@@ -32,6 +32,7 @@ const SessionServer_1 = require("./SessionServer");
 const User_1 = require("./User");
 const UserCompany_1 = require("./UserCompany");
 const UserPerson_1 = require("./UserPerson");
+const MonetaryAccountSavings_1 = require("./MonetaryAccountSavings");
 exports.default = (ApiAdapter) => {
     return {
         attachmentContent: new AttachementContent_1.default(ApiAdapter),
@@ -49,6 +50,7 @@ exports.default = (ApiAdapter) => {
         masterCardAction: new MasterCardAction_1.default(ApiAdapter),
         monetaryAccount: new MonetaryAccount_1.default(ApiAdapter),
         monetaryAccountBank: new MonetaryAccountBank_1.default(ApiAdapter),
+        monetaryAccountSavings: new MonetaryAccountSavings_1.default(ApiAdapter),
         noteText: new NoteText_1.default(ApiAdapter),
         noteAttachment: new NoteAttachment_1.default(ApiAdapter),
         payment: new Payment_1.default(ApiAdapter),
