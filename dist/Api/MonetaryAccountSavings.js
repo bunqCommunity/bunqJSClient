@@ -42,9 +42,9 @@ class MonetaryAccountSavings {
      * @param options
      * @returns {Promise<void>}
      */
-    async post(userId, currency, description, dailyLimit, color, options = {}) {
+    async post(userId, currency, description, dailyLimit, color, savingsGoal = false, options = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-savings", "POST");
-        const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/monetary-account-savings`, {
+        const requestBody = {
             currency: currency,
             description: description,
             daily_limit: {
@@ -54,8 +54,13 @@ class MonetaryAccountSavings {
             setting: {
                 color: color,
                 default_avatar_status: "AVATAR_DEFAULT"
+            },
+            savings_goal: {
+                currency: "EUR",
+                value: savingsGoal
             }
-        }));
+        };
+        const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/monetary-account-savings`, requestBody));
         return response.Response;
     }
     /**

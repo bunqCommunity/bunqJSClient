@@ -14,6 +14,8 @@ import Ip from "./Ip";
 import MasterCardAction from "./MasterCardAction";
 import MonetaryAccount from "./MonetaryAccount";
 import MonetaryAccountBank from "./MonetaryAccountBank";
+import MonetaryAccountJoint from "./MonetaryAccountJoint";
+import MonetaryAccountSavings from "./MonetaryAccountSavings";
 import NoteAttachment from "./NoteAttachment";
 import NoteText from "./NoteText";
 import Payment from "./Payment";
@@ -31,7 +33,6 @@ import SessionServer from "./SessionServer";
 import User from "./User";
 import UserCompany from "./UserCompany";
 import UserPerson from "./UserPerson";
-import MonetaryAccountSavings from "./MonetaryAccountSavings";
 
 export default (ApiAdapter: ApiAdapter) => {
     return {
@@ -50,6 +51,7 @@ export default (ApiAdapter: ApiAdapter) => {
         masterCardAction: new MasterCardAction(ApiAdapter),
         monetaryAccount: new MonetaryAccount(ApiAdapter),
         monetaryAccountBank: new MonetaryAccountBank(ApiAdapter),
+        monetaryAccountJoint: new MonetaryAccountJoint(ApiAdapter),
         monetaryAccountSavings: new MonetaryAccountSavings(ApiAdapter),
         noteText: new NoteText(ApiAdapter),
         noteAttachment: new NoteAttachment(ApiAdapter),
