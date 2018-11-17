@@ -124,4 +124,29 @@ export default class DraftPayment implements ApiEndpointInterface {
 
         return response.Response;
     }
+
+    /**
+     * @param {number} userId
+     * @param {number} monetaryAccountId
+     * @param {any[]} entries
+     * @param options
+     * @returns {Promise<void>}
+     */
+    public async postRaw(
+        userId: number,
+        monetaryAccountId: number,
+        entries:any[],
+        options: any = {}
+    ) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/draft-payment", "POST");
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment`, {
+                entries: entries,
+                number_of_required_accepts: 1
+            })
+        );
+
+        return response.Response;
+    }
 }
