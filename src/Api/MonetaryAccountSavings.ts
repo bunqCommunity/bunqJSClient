@@ -70,12 +70,12 @@ export default class MonetaryAccountSavings implements ApiEndpointInterface {
         description: string,
         dailyLimit: Amount,
         color: string,
-        savingsGoal: number | false = false,
+        savingsGoal: number,
         options: any = {}
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-savings", "POST");
 
-        const requestBody =  {
+        const requestBody = {
             currency: currency,
             description: description,
             daily_limit: {
@@ -88,7 +88,7 @@ export default class MonetaryAccountSavings implements ApiEndpointInterface {
             },
             savings_goal: {
                 currency: "EUR",
-                value: savingsGoal
+                value: savingsGoal + ""
             }
         };
 

@@ -33,7 +33,7 @@ describe("API", () => {
         });
 
         it("#PUT", async () => {
-            const request = bunqApp.api.monetaryAccountSavings.put(1, 2, {
+            const request = bunqApp.api.monetaryAccountJoint.put(1, 2, {
                 description: "New account description"
             });
             await defaultResponse(moxios);

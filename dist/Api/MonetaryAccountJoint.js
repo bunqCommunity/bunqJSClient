@@ -37,31 +37,12 @@ class MonetaryAccountJoint {
      * @param {number} userId
      * @param {number} accountId
      * @param {monetaryAccountPutRequest} MonetaryAccountPutRequest
-     * @param options
+     * @param op¶tions
      * @returns {Promise<any>}
      */
     async put(userId, accountId, monetaryAccountPutRequest, options = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-joint", "PUT");
         const response = await limiter.run(async () => this.ApiAdapter.put(`/v1/user/${userId}/monetary-account-joint/${accountId}`, monetaryAccountPutRequest));
-        return response.Response;
-    }
-    /**
-     * @param {number} userId
-     * @param {number} accountId
-     * @param {"CANCELLED"} status
-     * @param {"REDEMPTION_VOLUNTARY"} sub_status
-     * @param {string} reason
-     * @param options
-     * @returns {Promise<any>}
-     */
-    async putCancel(userId, accountId, status, sub_status, reason, options = {}) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-joint", "PUT");
-        const response = await limiter.run(async () => this.ApiAdapter.put(`/v1/user/${userId}/monetary-account-joint/${accountId}`, {
-            status: status,
-            sub_status: sub_status,
-            reason: "OTHER",
-            reason_description: reason
-        }));
         return response.Response;
     }
 }
