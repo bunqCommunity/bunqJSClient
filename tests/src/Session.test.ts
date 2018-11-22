@@ -12,6 +12,18 @@ const FAKE_ENCRYPTION_KEY = randomHex(32);
 const FAKE_ENCRYPTION_KEY2 = randomHex(32);
 const INVALID_ENCRYPTION_KEY = "== invalid == aes == key ==";
 
+const fakeCustomDB = {
+    set: (key: string, value: any) => {
+        throw new Error("Storage failure");
+    },
+    get: (key: string) => {
+        throw new Error("Storage failure");
+    },
+    remove: (key: string) => {
+        throw new Error("Storage failure");
+    }
+};
+
 describe("Session", () => {
     beforeEach(function() {
         Prepare();
@@ -26,7 +38,7 @@ describe("Session", () => {
     });
 
     describe("#setup()", () => {
-        it("should run setup with default options", async () => {
+        it("should run setup", async () => {
             const session = new Session(new CustomDb("SessionSetup"), Logger);
 
             // setup a session with default options
@@ -34,8 +46,24 @@ describe("Session", () => {
             expect(setupResult);
         });
 
+        it("should run setup with default options", async () => {
+            const session = new Session(new CustomDb("SessionSetup2"), Logger);
+
+            // setup a session with default options
+            const setupResult = await session.setup(FAKE_API_KEY);
+            expect(setupResult);
+        });
+
+        it("should run with a false API key", async () => {
+            const session = new Session(new CustomDb("SessionSetup3"), Logger);
+
+            // setup a session with default options
+            const setupResult = await session.setup(false);
+            expect(setupResult);
+        });
+
         it("should fail setup if invalid aes key is given", async () => {
-            const session = new Session(new CustomDb("SessionSetup"), Logger);
+            const session = new Session(new CustomDb("SessionSetup4"), Logger);
 
             // setup a session with default options
             return session
@@ -51,7 +79,7 @@ describe("Session", () => {
 
     describe("#setEncryptionKey()", () => {
         it("should set a new encryption key and update the stored data", async () => {
-            const session = new Session(new CustomDb("SessionSetup"), Logger);
+            const session = new Session(new CustomDb("setEncryptionKey"), Logger);
 
             // setup a session with default options
             const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
@@ -64,7 +92,7 @@ describe("Session", () => {
         });
 
         it("should fail on an invalid encryption key", async () => {
-            const session = new Session(new CustomDb("SessionSetup"), Logger);
+            const session = new Session(new CustomDb("setEncryptionKey2"), Logger);
 
             // setup a session with default options
             const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
@@ -288,6 +316,66 @@ describe("Session", () => {
                 // set an invalid environment
                 session.environmentType = "AFD";
             }).toThrow();
+        });
+    });
+
+    describe("#asyncStorageGet ()", () => {
+        it("should fail silently", async () => {
+            const session = new Session(fakeCustomDB, Logger);
+
+            await session.asyncStorageGet("someKey", true);
+        });
+        it("should thrown an error on failure", async () => {
+            const session = new Session(fakeCustomDB, Logger);
+
+            return session
+                .asyncStorageGet("someKey", false)
+                .then(done => {
+                    expect(true).toBeFalsy();
+                })
+                .catch(error => {
+                    expect(true).toBeTruthy();
+                });
+        });
+    });
+
+    describe("#asyncStorageRemove ()", () => {
+        it("should fail silently", async () => {
+            const session = new Session(fakeCustomDB, Logger);
+
+            await session.asyncStorageRemove("someKey", true);
+        });
+        it("should thrown an error on failure", async () => {
+            const session = new Session(fakeCustomDB, Logger);
+
+            return session
+                .asyncStorageRemove("someKey", false)
+                .then(done => {
+                    expect(true).toBeFalsy();
+                })
+                .catch(error => {
+                    expect(true).toBeTruthy();
+                });
+        });
+    });
+
+    describe("#asyncStorageSet ()", () => {
+        it("should fail silently", async () => {
+            const session = new Session(fakeCustomDB, Logger);
+
+            await session.asyncStorageSet("someKey", "someValue", true);
+        });
+        it("should thrown an error on failure", async () => {
+            const session = new Session(fakeCustomDB, Logger);
+
+            return session
+                .asyncStorageSet("someKey", "someValue", false)
+                .then(done => {
+                    expect(true).toBeFalsy();
+                })
+                .catch(error => {
+                    expect(true).toBeTruthy();
+                });
         });
     });
 

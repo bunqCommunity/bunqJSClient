@@ -84,19 +84,6 @@ export const sessionRegistration = async moxios => {
     });
 };
 
-export const sessionRegistrationOAuthUser = async moxios => {
-    await new Promise((resolve, reject) => {
-        moxios.wait(() => {
-            moxios.requests
-                .mostRecent()
-                .respondWith(useOauthResponse())
-                .then(resolve)
-                .catch(reject);
-        });
-    });
-};
-
-
 export const oauthUserAuthorization = async moxios => {
     await new Promise((resolve, reject) => {
         moxios.wait(() => {
