@@ -120,6 +120,25 @@ export default class Session {
     }
 
     /**
+     * Updates the encryption key and stores data using that new key
+     * @param {string} encryptionKey
+     * @returns {Promise<boolean>}
+     */
+    public async setEncryptionKey(encryptionKey: string): Promise<boolean> {
+        // validate the key
+        if (!validateKey(encryptionKey)) {
+            throw new Error("Invalid EAS key given! Invalid characters or length (16,24,32 length)");
+        }
+
+        this.encryptionKey = encryptionKey;
+
+        // overwrite the session data with the new encryption key
+        await this.storeSession();
+
+        return true;
+    }
+
+    /**
      * Setup the keypair and generate a new one when required
      * @param {boolean} forceNewKeypair
      * @param {boolean} ignoreCI - if true the hardcoded certs won't be used even if process.env.CI is set

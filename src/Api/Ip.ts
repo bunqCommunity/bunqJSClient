@@ -76,6 +76,14 @@ export default class Ip implements ApiEndpointInterface {
         return response.Response;
     }
 
+    /**
+     * @param {number} userId
+     * @param {number} credentialPasswordIpId
+     * @param {string} ip
+     * @param {"ACTIVE" | "INACTIVE"} status
+     * @param options
+     * @returns {Promise<any>}
+     */
     public async post(
         userId: number,
         credentialPasswordIpId: number,
@@ -96,6 +104,15 @@ export default class Ip implements ApiEndpointInterface {
         return response.Response;
     }
 
+    /**
+     * @param {number} userId
+     * @param {number} credentialPasswordIpId
+     * @param {number} ipId
+     * @param {string} ip
+     * @param {"ACTIVE" | "INACTIVE"} status
+     * @param options
+     * @returns {Promise<any>}
+     */
     public async put(
         userId: number,
         credentialPasswordIpId: number,

@@ -49,6 +49,14 @@ class Ip {
         }));
         return response.Response;
     }
+    /**
+     * @param {number} userId
+     * @param {number} credentialPasswordIpId
+     * @param {string} ip
+     * @param {"ACTIVE" | "INACTIVE"} status
+     * @param options
+     * @returns {Promise<any>}
+     */
     async post(userId, credentialPasswordIpId, ip, status, options = {}) {
         const data = {
             ip: ip,
@@ -58,6 +66,15 @@ class Ip {
         const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/credential-password-ip/${credentialPasswordIpId}/ip`, data));
         return response.Response;
     }
+    /**
+     * @param {number} userId
+     * @param {number} credentialPasswordIpId
+     * @param {number} ipId
+     * @param {string} ip
+     * @param {"ACTIVE" | "INACTIVE"} status
+     * @param options
+     * @returns {Promise<any>}
+     */
     async put(userId, credentialPasswordIpId, ipId, ip, status, options = {}) {
         const data = {
             ip: ip,

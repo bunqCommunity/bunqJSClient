@@ -132,12 +132,7 @@ export default class DraftPayment implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<void>}
      */
-    public async postRaw(
-        userId: number,
-        monetaryAccountId: number,
-        entries:any[],
-        options: any = {}
-    ) {
+    public async postRaw(userId: number, monetaryAccountId: number, entries: any[], options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/draft-payment", "POST");
 
         const response = await limiter.run(async () =>

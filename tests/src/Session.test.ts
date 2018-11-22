@@ -6,10 +6,11 @@ import CustomDb from "../TestHelpers/CustomDb";
 import { randomHex } from "../TestHelpers/RandomData";
 import Prepare from "../TestHelpers/Prepare";
 
-const fakeApiKey = randomHex(64);
-const fakeApiKey2 = randomHex(64);
-const fakeEncryptionKey = randomHex(32);
-const fakeEncryptionKey2 = randomHex(32);
+const FAKE_API_KEY = randomHex(64);
+const FAKE_API_KEY2 = randomHex(64);
+const FAKE_ENCRYPTION_KEY = randomHex(32);
+const FAKE_ENCRYPTION_KEY2 = randomHex(32);
+const INVALID_ENCRYPTION_KEY = "== invalid == aes == key ==";
 
 describe("Session", () => {
     beforeEach(function() {
@@ -29,30 +30,64 @@ describe("Session", () => {
             const session = new Session(new CustomDb("SessionSetup"), Logger);
 
             // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
+        });
+
+        it("should fail setup if invalid aes key is given", async () => {
+            const session = new Session(new CustomDb("SessionSetup"), Logger);
+
+            // setup a session with default options
+            return session
+                .setup(FAKE_API_KEY, [], "SANDBOX", INVALID_ENCRYPTION_KEY)
+                .then(done => {
+                    expect(true).toBe(false);
+                })
+                .catch(error => {
+                    expect(true).toBe(true);
+                });
+        });
+    });
+
+    describe("#setEncryptionKey()", () => {
+        it("should set a new encryption key and update the stored data", async () => {
+            const session = new Session(new CustomDb("SessionSetup"), Logger);
+
+            // setup a session with default options
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
+            expect(setupResult).toBeTruthy();
+
+            // change key to new encryption key without invalidating data
+            await session.setEncryptionKey(FAKE_ENCRYPTION_KEY2);
+
+            expect(session.apiKey).not.toBeNull();
+        });
+
+        it("should fail on an invalid encryption key", async () => {
+            const session = new Session(new CustomDb("SessionSetup"), Logger);
+
+            // setup a session with default options
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
+            expect(setupResult).toBeTruthy();
+
+            // change key to new encryption key without invalidating data
+            return session
+                .setEncryptionKey(INVALID_ENCRYPTION_KEY)
+                .then(done => {
+                    expect(true).toBe(false);
+                })
+                .catch(error => {
+                    expect(true).toBe(true);
+                });
         });
     });
 
     describe("#setupKeypair()", () => {
         it("should create a new valid keypair", async () => {
-            const session = new Session(
-                new CustomDb("SessionSetupKeypair"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionSetupKeypair"), Logger);
 
             // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
 
             const oldPublicPem = session.publicKeyPem;
@@ -68,18 +103,10 @@ describe("Session", () => {
         });
 
         it("should create a valid keypair and then re-use it", async () => {
-            const session = new Session(
-                new CustomDb("SessionSetupKeypair2"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionSetupKeypair2"), Logger);
 
             // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
 
             // create a new keypair and overwrite the keypair from the setup
@@ -99,18 +126,10 @@ describe("Session", () => {
         });
 
         it("should create a valid keypair and overwrite it", async () => {
-            const session = new Session(
-                new CustomDb("SessionSetupKeypair2"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionSetupKeypair2"), Logger);
 
             // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
 
             const oldPublicPem = session.publicKeyPem;
@@ -128,18 +147,10 @@ describe("Session", () => {
 
     describe("#storeSession()", () => {
         it("should store and load the session data in the storage interface", async () => {
-            const session = new Session(
-                new CustomDb("SessionStoreSession1"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionStoreSession1"), Logger);
 
             // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
 
             // store the session in the storage interface
@@ -152,14 +163,11 @@ describe("Session", () => {
         });
 
         it("should throw an error if an invalid environment is given", async () => {
-            const session = new Session(
-                new CustomDb("SessionStoreSession2"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionStoreSession2"), Logger);
 
             // setup a session with default options and an invalid environment
             session
-                .setup(fakeApiKey, [], "SANDBOX_AB", fakeEncryptionKey)
+                .setup(FAKE_API_KEY, [], "SANDBOX_AB", FAKE_ENCRYPTION_KEY)
                 .then(() => {
                     // this shouldn't succeed so this is considered an error
                     expect(false);
@@ -173,18 +181,10 @@ describe("Session", () => {
 
     describe("#loadSession()", () => {
         it("should detect if the environment changes and invalidate storage", async () => {
-            const session = new Session(
-                new CustomDb("SessionLoadSession1"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionLoadSession1"), Logger);
 
             // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
 
             // store the session in the storage interface
@@ -192,12 +192,7 @@ describe("Session", () => {
             expect(storeSession);
 
             // setup a session with a different environment
-            const setupResult2 = await session.setup(
-                fakeApiKey,
-                [],
-                "PRODUCTION",
-                fakeEncryptionKey
-            );
+            const setupResult2 = await session.setup(FAKE_API_KEY, [], "PRODUCTION", FAKE_ENCRYPTION_KEY);
             expect(setupResult2);
 
             // session should be invalidated because environment is different
@@ -206,18 +201,10 @@ describe("Session", () => {
         });
 
         it("should detect if the encryption key changes and invalidate storage", async () => {
-            const session = new Session(
-                new CustomDb("SessionLoadSession2"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionLoadSession2"), Logger);
 
             // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
 
             // store the session in the storage interface
@@ -225,12 +212,7 @@ describe("Session", () => {
             expect(storeSession);
 
             // setup a session with a different api key
-            const setupResult2 = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey2
-            );
+            const setupResult2 = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY2);
             expect(setupResult2);
 
             // session should be invalidated because environment is different
@@ -239,18 +221,10 @@ describe("Session", () => {
         });
 
         it("should detect if the stored api key is different from the current key and invalidate storage", async () => {
-            const session = new Session(
-                new CustomDb("SessionLoadSession4"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionLoadSession4"), Logger);
 
             // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
 
             // store the session in the storage interface
@@ -258,12 +232,7 @@ describe("Session", () => {
             expect(storeSession);
 
             // setup a session with a different api key
-            const setupResult2 = await session.setup(
-                fakeApiKey2,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult2 = await session.setup(FAKE_API_KEY2, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult2);
 
             // session should be invalidated because environment is different
@@ -274,18 +243,10 @@ describe("Session", () => {
 
     describe("#loadEncryptedData ()", () => {
         it("should return false if no data is stored", async () => {
-            const session = new Session(
-                new CustomDb("SessionLoadEncryptedData1"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionLoadEncryptedData1"), Logger);
 
             // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
 
             const loadSession = await session.loadEncryptedData("LOCATION_KEY");
@@ -293,47 +254,25 @@ describe("Session", () => {
         });
 
         it("should return false if no data is stored with defaults", async () => {
-            const session = new Session(
-                new CustomDb("SessionLoadEncryptedData1"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionLoadEncryptedData1"), Logger);
 
             // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
 
-            const loadSession = await session.loadEncryptedData(
-                "LOCATION_KEY",
-                "LOCATION_KEY_IV"
-            );
+            const loadSession = await session.loadEncryptedData("LOCATION_KEY", "LOCATION_KEY_IV");
             expect(loadSession).toBeFalsy();
         });
 
         it("should load the data if it exists", async () => {
-            const session = new Session(
-                new CustomDb("SessionLoadEncryptedData2 "),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionLoadEncryptedData2 "), Logger);
 
             // setup a session with default options
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
 
             // store the session in the storage interface
-            const storeSession = await session.storeEncryptedData(
-                "data",
-                "LOCATION_KEY"
-            );
+            const storeSession = await session.storeEncryptedData("data", "LOCATION_KEY");
             expect(storeSession).toBeTruthy();
 
             const loadSession = await session.loadEncryptedData("LOCATION_KEY");
@@ -343,10 +282,7 @@ describe("Session", () => {
 
     describe("#set environmentType", () => {
         it("should detect invalid environments and throw an error", async () => {
-            const session = new Session(
-                new CustomDb("SessionEnvironmentType1"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionEnvironmentType1"), Logger);
 
             expect(() => {
                 // set an invalid environment
@@ -357,17 +293,9 @@ describe("Session", () => {
 
     describe("#verifySessionInstallation()", () => {
         it("should return true if the current session is valid", async () => {
-            const session = new Session(
-                new CustomDb("SessionVerifySessionInstallation1"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionVerifySessionInstallation1"), Logger);
 
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
 
             // set expiry to current time
@@ -379,17 +307,9 @@ describe("Session", () => {
         });
 
         it("should return false if the current session time is outdated", async () => {
-            const session = new Session(
-                new CustomDb("SessionVerifySessionInstallation2"),
-                Logger
-            );
+            const session = new Session(new CustomDb("SessionVerifySessionInstallation2"), Logger);
 
-            const setupResult = await session.setup(
-                fakeApiKey,
-                [],
-                "SANDBOX",
-                fakeEncryptionKey
-            );
+            const setupResult = await session.setup(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
             expect(setupResult);
 
             // set expiry to a time far in the past

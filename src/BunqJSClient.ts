@@ -1,15 +1,53 @@
+import CustomerStatementExportContent from "./Api/CustomerStatementExportContent";
+
 const store = require("store");
 import axios from "axios";
 
+import Logger from "./Helpers/Logger";
+import ErrorCodes from "./Helpers/ErrorCodes";
+
 import ApiAdapter from "./ApiAdapter";
 import Session from "./Session";
-import Logger from "./Helpers/Logger";
 import StorageInteface from "./Interfaces/StorageInterface";
 import LoggerInterface from "./Interfaces/LoggerInterface";
 import { publicKeyFromPem } from "./Crypto/Rsa";
-import ApiEndpoints from "./Api/index";
 
-import ErrorCodes from "./Helpers/ErrorCodes";
+
+import RequestInquiry from "./Api/RequestInquiry";
+import MasterCardAction from "./Api/MasterCardAction";
+import SchedulePayment from "./Api/SchedulePayment";
+import Payment from "./Api/Payment";
+import SandboxUser from "./Api/SandboxUser";
+import ShareInviteBankResponse from "./Api/ShareInviteBankResponse";
+import AttachementContent from "./Api/AttachementContent";
+import UserCompany from "./Api/UserCompany";
+import BunqMeTabs from "./Api/BunqMeTabs";
+import DeviceRegistration from "./Api/DeviceRegistration";
+import NoteAttachment from "./Api/NoteAttachment";
+import Schedule from "./Api/Schedule";
+import UserPerson from "./Api/UserPerson";
+import MonetaryAccountJoint from "./Api/MonetaryAccountJoint";
+import DraftPayment from "./Api/DraftPayment";
+import CardCvc2 from "./Api/CardCvc2";
+import CredentialPasswordIp from "./Api/CredentialPasswordIp";
+import RequestInquiryBatch from "./Api/RequestInquiryBatch";
+import ShareInviteBankInquiry from "./Api/ShareInviteBankInquiry";
+import Installation from "./Api/Installation";
+import CustomerStatementExport from "./Api/CustomerStatementExport";
+import RequestResponse from "./Api/RequestResponse";
+import PaymentBatch from "./Api/PaymentBatch";
+import Card from "./Api/Card";
+import MonetaryAccountBank from "./Api/MonetaryAccountBank";
+import SchedulePaymentBatch from "./Api/SchedulePaymentBatch";
+import NoteText from "./Api/NoteText";
+import SessionServer from "./Api/SessionServer";
+import Event from "./Api/Event";
+import MonetaryAccountSavings from "./Api/MonetaryAccountSavings";
+import Ip from "./Api/Ip";
+import User from "./Api/User";
+import MonetaryAccount from "./Api/MonetaryAccount";
+
+import ApiEndpointCollection from "./Interfaces/ApiEndpointCollection";
 
 const FIVE_MINUTES_MS = 300000;
 
@@ -37,7 +75,7 @@ export default class BunqJSClient {
     /**
      * Contains object with all API endpoints
      */
-    public api: any;
+    public api: ApiEndpointCollection;
 
     /**
      * A list of all custom bunqJSClient error codes to make error handling easier
@@ -59,8 +97,43 @@ export default class BunqJSClient {
         // setup the api adapter using our session context
         this.ApiAdapter = new ApiAdapter(this.Session, this.logger, this);
 
-        // register our api endpoints
-        this.api = ApiEndpoints(this.ApiAdapter);
+        // register the endpoints
+        this.api = {
+            attachmentContent: new AttachementContent(this.ApiAdapter),
+            bunqMeTabs: new BunqMeTabs(this.ApiAdapter),
+            card: new Card(this.ApiAdapter),
+            cardCvc2: new CardCvc2(this.ApiAdapter),
+            credentialPasswordIp: new CredentialPasswordIp(this.ApiAdapter),
+            customerStatementExport: new CustomerStatementExport(this.ApiAdapter),
+            customerStatementExportContent: new CustomerStatementExportContent(this.ApiAdapter),
+            deviceRegistration: new DeviceRegistration(this.ApiAdapter),
+            draftPayment: new DraftPayment(this.ApiAdapter),
+            event: new Event(this.ApiAdapter),
+            installation: new Installation(this.ApiAdapter),
+            ip: new Ip(this.ApiAdapter),
+            masterCardAction: new MasterCardAction(this.ApiAdapter),
+            monetaryAccount: new MonetaryAccount(this.ApiAdapter),
+            monetaryAccountBank: new MonetaryAccountBank(this.ApiAdapter),
+            monetaryAccountJoint: new MonetaryAccountJoint(this.ApiAdapter),
+            monetaryAccountSavings: new MonetaryAccountSavings(this.ApiAdapter),
+            noteText: new NoteText(this.ApiAdapter),
+            noteAttachment: new NoteAttachment(this.ApiAdapter),
+            payment: new Payment(this.ApiAdapter),
+            paymentBatch: new PaymentBatch(this.ApiAdapter),
+            requestInquiry: new RequestInquiry(this.ApiAdapter),
+            requestInquiryBatch: new RequestInquiryBatch(this.ApiAdapter),
+            requestResponse: new RequestResponse(this.ApiAdapter),
+            sessionServer: new SessionServer(this.ApiAdapter),
+            sandboxUser: new SandboxUser(this.ApiAdapter),
+            schedule: new Schedule(this.ApiAdapter),
+            schedulePayment: new SchedulePayment(this.ApiAdapter),
+            schedulePaymentBatch: new SchedulePaymentBatch(this.ApiAdapter),
+            shareInviteBankInquiry: new ShareInviteBankInquiry(this.ApiAdapter),
+            shareInviteBankResponse: new ShareInviteBankResponse(this.ApiAdapter),
+            user: new User(this.ApiAdapter),
+            userCompany: new UserCompany(this.ApiAdapter),
+            userPerson: new UserPerson(this.ApiAdapter)
+        };
     }
 
     /**

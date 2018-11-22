@@ -5,7 +5,6 @@ import CustomDb from "../TestHelpers/CustomDb";
 import { randomHex } from "../TestHelpers/RandomData";
 import Prepare from "../TestHelpers/Prepare";
 import {
-    sessionRegistrationOAuthUser,
     oauthUserAuthorization,
     installationRegistration,
     deviceServerRegistration,
@@ -29,15 +28,12 @@ import {
     sessionTokenId
 } from "../TestData/api-session-registration";
 import {
-    default as apiOauthSessionRegistration,
-    sessionId as sessionIdOauth,
-    sessionToken as sessionTokenOauth,
-    sessionTokenId as sessionTokenIdOauth
+    default as apiOauthSessionRegistration
 } from "../TestData/api-user-oauth";
 import SetupApp from "../TestHelpers/SetupApp";
 
-const fakeApiKey = randomHex(64);
-const fakeEncryptionKey = randomHex(32);
+const FAKE_API_KEY = randomHex(64);
+const FAKE_ENCRYPTION_KEY = randomHex(32);
 
 describe("BunqJSClient", () => {
     beforeAll(async done => {
@@ -69,21 +65,21 @@ describe("BunqJSClient", () => {
         it("run with default options", async () => {
             const app = new BunqJSClient(new CustomDb("run1"));
 
-            await app.run(fakeApiKey);
+            await app.run(FAKE_API_KEY);
 
             expect(app.Session.environment).toBe("SANDBOX");
-            expect(app.Session.apiKey).toBe(fakeApiKey);
+            expect(app.Session.apiKey).toBe(FAKE_API_KEY);
             expect(app.Session.encryptionKey).toBeFalsy();
         });
 
         it("run with custom options", async () => {
             const app = new BunqJSClient(new CustomDb("run2"));
 
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             expect(app.Session.environment).toBe("SANDBOX");
-            expect(app.Session.apiKey).toBe(fakeApiKey);
-            expect(app.Session.encryptionKey).toBe(fakeEncryptionKey);
+            expect(app.Session.apiKey).toBe(FAKE_API_KEY);
+            expect(app.Session.encryptionKey).toBe(FAKE_ENCRYPTION_KEY);
         });
     });
 
@@ -104,7 +100,7 @@ describe("BunqJSClient", () => {
     describe("#install()", async () => {
         it("installation without stored data", async () => {
             const app = new BunqJSClient(new CustomDb("install1"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             const installPromise = app.install();
 
@@ -128,7 +124,7 @@ describe("BunqJSClient", () => {
 
         it("installation without session public key", async () => {
             const app = new BunqJSClient(new CustomDb("install2"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             // forcibly remove public key
             app.Session.publicKey = false;
@@ -143,7 +139,7 @@ describe("BunqJSClient", () => {
     describe("#registerDevice()", () => {
         it("device registration without stored data", async () => {
             const app = new BunqJSClient(new CustomDb("device1"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             const installationPromise = app.install();
             const installationHandler = installationRegistration(moxios);
@@ -171,7 +167,7 @@ describe("BunqJSClient", () => {
 
         it("device registration rejects request with status 400 and resets session data", async () => {
             const app = new BunqJSClient(new CustomDb("device2"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             const installationPromise = app.install();
             const installationHandler = installationRegistration(moxios);
@@ -195,7 +191,7 @@ describe("BunqJSClient", () => {
 
         it("device registration rejects request with status 500", async () => {
             const app = new BunqJSClient(new CustomDb("device3"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             const installationPromise = app.install();
             const installationHandler = installationRegistration(moxios);
@@ -221,7 +217,7 @@ describe("BunqJSClient", () => {
     describe("#registerSession()", () => {
         it("session registration without stored data", async () => {
             const app = new BunqJSClient(new CustomDb("session1"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             // installationRegistration
             const installationPromise = app.install();
@@ -259,7 +255,7 @@ describe("BunqJSClient", () => {
 
         it("session registration without stored data and UserLight response", async () => {
             const app = new BunqJSClient(new CustomDb("session2"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             // installationRegistration
             const installationPromise = app.install();
@@ -297,7 +293,7 @@ describe("BunqJSClient", () => {
 
         it("session registration without stored data and UserPerson response", async () => {
             const app = new BunqJSClient(new CustomDb("session3"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             // installationRegistration
             const installationPromise = app.install();
@@ -335,7 +331,7 @@ describe("BunqJSClient", () => {
 
         it("session registration fails if invalid user type is returned", async () => {
             const app = new BunqJSClient(new CustomDb("session4"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             // installationRegistration
             const installationPromise = app.install();
@@ -369,7 +365,7 @@ describe("BunqJSClient", () => {
 
         it("session registration rejects if request fails with status 500", async () => {
             const app = new BunqJSClient(new CustomDb("session5"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             // installationRegistration
             const installationPromise = app.install();
@@ -401,7 +397,7 @@ describe("BunqJSClient", () => {
 
         it("session registration rejects if request fails with status 400", async () => {
             const app = new BunqJSClient(new CustomDb("session6"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             // installationRegistration
             const installationPromise = app.install();
@@ -433,7 +429,7 @@ describe("BunqJSClient", () => {
 
         it("session registration rejects if request fails with status 400", async () => {
             const app = new BunqJSClient(new CustomDb("session6"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             // installationRegistration
             const installationPromise = app.install();
@@ -497,7 +493,7 @@ describe("BunqJSClient", () => {
     describe("#destroySession()", () => {
         it("create a session and remove it", async () => {
             const app = new BunqJSClient(new CustomDb("destroySession"));
-            await app.run(fakeApiKey, [], "SANDBOX", fakeEncryptionKey);
+            await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
             // installationRegistration
             const installationPromise = app.install();

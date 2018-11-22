@@ -1,13 +1,46 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const CustomerStatementExportContent_1 = require("./Api/CustomerStatementExportContent");
 const store = require("store");
 const axios_1 = require("axios");
+const Logger_1 = require("./Helpers/Logger");
+const ErrorCodes_1 = require("./Helpers/ErrorCodes");
 const ApiAdapter_1 = require("./ApiAdapter");
 const Session_1 = require("./Session");
-const Logger_1 = require("./Helpers/Logger");
 const Rsa_1 = require("./Crypto/Rsa");
-const index_1 = require("./Api/index");
-const ErrorCodes_1 = require("./Helpers/ErrorCodes");
+const RequestInquiry_1 = require("./Api/RequestInquiry");
+const MasterCardAction_1 = require("./Api/MasterCardAction");
+const SchedulePayment_1 = require("./Api/SchedulePayment");
+const Payment_1 = require("./Api/Payment");
+const SandboxUser_1 = require("./Api/SandboxUser");
+const ShareInviteBankResponse_1 = require("./Api/ShareInviteBankResponse");
+const AttachementContent_1 = require("./Api/AttachementContent");
+const UserCompany_1 = require("./Api/UserCompany");
+const BunqMeTabs_1 = require("./Api/BunqMeTabs");
+const DeviceRegistration_1 = require("./Api/DeviceRegistration");
+const NoteAttachment_1 = require("./Api/NoteAttachment");
+const Schedule_1 = require("./Api/Schedule");
+const UserPerson_1 = require("./Api/UserPerson");
+const MonetaryAccountJoint_1 = require("./Api/MonetaryAccountJoint");
+const DraftPayment_1 = require("./Api/DraftPayment");
+const CardCvc2_1 = require("./Api/CardCvc2");
+const CredentialPasswordIp_1 = require("./Api/CredentialPasswordIp");
+const RequestInquiryBatch_1 = require("./Api/RequestInquiryBatch");
+const ShareInviteBankInquiry_1 = require("./Api/ShareInviteBankInquiry");
+const Installation_1 = require("./Api/Installation");
+const CustomerStatementExport_1 = require("./Api/CustomerStatementExport");
+const RequestResponse_1 = require("./Api/RequestResponse");
+const PaymentBatch_1 = require("./Api/PaymentBatch");
+const Card_1 = require("./Api/Card");
+const MonetaryAccountBank_1 = require("./Api/MonetaryAccountBank");
+const SchedulePaymentBatch_1 = require("./Api/SchedulePaymentBatch");
+const NoteText_1 = require("./Api/NoteText");
+const SessionServer_1 = require("./Api/SessionServer");
+const Event_1 = require("./Api/Event");
+const MonetaryAccountSavings_1 = require("./Api/MonetaryAccountSavings");
+const Ip_1 = require("./Api/Ip");
+const User_1 = require("./Api/User");
+const MonetaryAccount_1 = require("./Api/MonetaryAccount");
 const FIVE_MINUTES_MS = 300000;
 class BunqJSClient {
     /**
@@ -83,8 +116,43 @@ class BunqJSClient {
         this.Session = new Session_1.default(this.storageInterface, this.logger);
         // setup the api adapter using our session context
         this.ApiAdapter = new ApiAdapter_1.default(this.Session, this.logger, this);
-        // register our api endpoints
-        this.api = index_1.default(this.ApiAdapter);
+        // register the endpoints
+        this.api = {
+            attachmentContent: new AttachementContent_1.default(this.ApiAdapter),
+            bunqMeTabs: new BunqMeTabs_1.default(this.ApiAdapter),
+            card: new Card_1.default(this.ApiAdapter),
+            cardCvc2: new CardCvc2_1.default(this.ApiAdapter),
+            credentialPasswordIp: new CredentialPasswordIp_1.default(this.ApiAdapter),
+            customerStatementExport: new CustomerStatementExport_1.default(this.ApiAdapter),
+            customerStatementExportContent: new CustomerStatementExportContent_1.default(this.ApiAdapter),
+            deviceRegistration: new DeviceRegistration_1.default(this.ApiAdapter),
+            draftPayment: new DraftPayment_1.default(this.ApiAdapter),
+            event: new Event_1.default(this.ApiAdapter),
+            installation: new Installation_1.default(this.ApiAdapter),
+            ip: new Ip_1.default(this.ApiAdapter),
+            masterCardAction: new MasterCardAction_1.default(this.ApiAdapter),
+            monetaryAccount: new MonetaryAccount_1.default(this.ApiAdapter),
+            monetaryAccountBank: new MonetaryAccountBank_1.default(this.ApiAdapter),
+            monetaryAccountJoint: new MonetaryAccountJoint_1.default(this.ApiAdapter),
+            monetaryAccountSavings: new MonetaryAccountSavings_1.default(this.ApiAdapter),
+            noteText: new NoteText_1.default(this.ApiAdapter),
+            noteAttachment: new NoteAttachment_1.default(this.ApiAdapter),
+            payment: new Payment_1.default(this.ApiAdapter),
+            paymentBatch: new PaymentBatch_1.default(this.ApiAdapter),
+            requestInquiry: new RequestInquiry_1.default(this.ApiAdapter),
+            requestInquiryBatch: new RequestInquiryBatch_1.default(this.ApiAdapter),
+            requestResponse: new RequestResponse_1.default(this.ApiAdapter),
+            sessionServer: new SessionServer_1.default(this.ApiAdapter),
+            sandboxUser: new SandboxUser_1.default(this.ApiAdapter),
+            schedule: new Schedule_1.default(this.ApiAdapter),
+            schedulePayment: new SchedulePayment_1.default(this.ApiAdapter),
+            schedulePaymentBatch: new SchedulePaymentBatch_1.default(this.ApiAdapter),
+            shareInviteBankInquiry: new ShareInviteBankInquiry_1.default(this.ApiAdapter),
+            shareInviteBankResponse: new ShareInviteBankResponse_1.default(this.ApiAdapter),
+            user: new User_1.default(this.ApiAdapter),
+            userCompany: new UserCompany_1.default(this.ApiAdapter),
+            userPerson: new UserPerson_1.default(this.ApiAdapter)
+        };
     }
     /**
      * Starts the client and sets up the required components

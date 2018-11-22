@@ -4,14 +4,10 @@ import BunqJSClient from "../../src/BunqJSClient";
 import Prepare from "./Prepare";
 import CustomDb from "./CustomDb";
 import { randomHex } from "./RandomData";
-import {
-    installationRegistration,
-    deviceServerRegistration,
-    sessionRegistration
-} from "./DefaultResponses";
+import { installationRegistration, deviceServerRegistration, sessionRegistration } from "./DefaultResponses";
 
-const fakeApiKey = randomHex(64);
-const fakeEncryptionKey = randomHex(32);
+const FAKE_API_KEY = randomHex(64);
+const FAKE_ENCRYPTION_KEY = randomHex(32);
 
 /**
  * Create a default app to use in tests
@@ -22,9 +18,9 @@ const fakeEncryptionKey = randomHex(32);
  */
 export default async (
     dbName: string,
-    apiKey: string = fakeApiKey,
-    runOptions = [[], "SANDBOX", fakeEncryptionKey]
-) => {
+    apiKey: string = FAKE_API_KEY,
+    runOptions = [[], "SANDBOX", FAKE_ENCRYPTION_KEY]
+): Promise<BunqJSClient> => {
     Prepare();
 
     const app = new BunqJSClient(new CustomDb(dbName));
