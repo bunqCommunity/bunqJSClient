@@ -13,10 +13,7 @@ describe("RequestLimiter", () => {
         it("should create and return a new RequestLimiter", async () => {
             const factory = new RequestLimitFactory();
 
-            const requestLimiter: RequestLimiter = factory.create(
-                "/endpoint",
-                "GET"
-            );
+            const requestLimiter: RequestLimiter = factory.create("/endpoint", "GET");
 
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
         });
@@ -24,49 +21,24 @@ describe("RequestLimiter", () => {
         it("should properly throttle when many requests are done", async () => {
             const factory = new RequestLimitFactory();
 
-            const requestLimiter: RequestLimiter = factory.create(
-                "/endpoint",
-                "GET"
-            );
+            const requestLimiter: RequestLimiter = factory.create("/endpoint", "GET");
 
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
 
-            const promise1 = requestLimiter.run(async () =>
-                awaiting.delay(500)
-            );
-            const promise2 = requestLimiter.run(async () =>
-                awaiting.delay(500)
-            );
-            const promise3 = requestLimiter.run(async () =>
-                awaiting.delay(500)
-            );
-            const promise4 = requestLimiter.run(async () =>
-                awaiting.delay(500)
-            );
-            const promise5 = requestLimiter.run(async () =>
-                awaiting.delay(500)
-            );
-            const promise6 = requestLimiter.run(async () =>
-                awaiting.delay(500)
-            );
+            const promise1 = requestLimiter.run(async () => awaiting.delay(500));
+            const promise2 = requestLimiter.run(async () => awaiting.delay(500));
+            const promise3 = requestLimiter.run(async () => awaiting.delay(500));
+            const promise4 = requestLimiter.run(async () => awaiting.delay(500));
+            const promise5 = requestLimiter.run(async () => awaiting.delay(500));
+            const promise6 = requestLimiter.run(async () => awaiting.delay(500));
 
-            await Promise.all([
-                promise1,
-                promise2,
-                promise3,
-                promise4,
-                promise5,
-                promise6
-            ]);
+            await Promise.all([promise1, promise2, promise3, promise4, promise5, promise6]);
         });
 
         it("should allow for non-promise callbacks", async () => {
             const factory = new RequestLimitFactory();
 
-            const requestLimiter: RequestLimiter = factory.create(
-                "/endpoint",
-                "GET"
-            );
+            const requestLimiter: RequestLimiter = factory.create("/endpoint", "GET");
 
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
 
@@ -85,10 +57,7 @@ describe("RequestLimiter", () => {
         it("should throw errors if callback rejects/fails", async () => {
             const factory = new RequestLimitFactory();
 
-            const requestLimiter: RequestLimiter = factory.create(
-                "/endpoint",
-                "GET"
-            );
+            const requestLimiter: RequestLimiter = factory.create("/endpoint", "GET");
 
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
 

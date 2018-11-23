@@ -9,15 +9,14 @@ import { defaultResponse } from "../../TestHelpers/DefaultResponses";
 let bunqApp: BunqJSClient;
 
 describe("API", () => {
-    beforeAll(async () => {
+    beforeAll(async done => {
         moxios.install();
-
         // prepare certificates
         await Prepare();
         // create a bunqjsclient to be used in the tests
         bunqApp = await SetupApp("MonetaryAccountBank");
-
         moxios.uninstall();
+        done();
     });
 
     beforeEach(() => moxios.install());
@@ -93,5 +92,4 @@ describe("API", () => {
             expect(response).not.toBeNull();
         });
     });
-
 });

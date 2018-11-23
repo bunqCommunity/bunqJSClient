@@ -9,7 +9,7 @@ import { deviceServerRegistration } from "../../TestHelpers/DefaultResponses";
 let bunqApp: BunqJSClient;
 
 describe("API", () => {
-    beforeAll(async () => {
+    beforeAll(async done => {
         moxios.install();
 
         // prepare certificates
@@ -18,6 +18,7 @@ describe("API", () => {
         bunqApp = await SetupApp("DeviceRegistration");
 
         moxios.uninstall();
+        done();
     });
 
     beforeEach(() => moxios.install());

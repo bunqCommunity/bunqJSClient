@@ -4,14 +4,12 @@ import BunqJSClient from "../../../src/BunqJSClient";
 
 import Prepare from "../../TestHelpers/Prepare";
 import SetupApp from "../../TestHelpers/SetupApp";
-import {
-    defaultResponse
-} from "../../TestHelpers/DefaultResponses";
+import { defaultResponse } from "../../TestHelpers/DefaultResponses";
 
 let bunqApp: BunqJSClient;
 
 describe("API", () => {
-    beforeAll(async () => {
+    beforeAll(async done => {
         moxios.install();
 
         // prepare certificates
@@ -20,6 +18,7 @@ describe("API", () => {
         bunqApp = await SetupApp("SchedulePaymentBatch");
 
         moxios.uninstall();
+        done();
     });
 
     beforeEach(() => moxios.install());

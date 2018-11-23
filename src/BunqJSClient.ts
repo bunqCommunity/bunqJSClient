@@ -12,7 +12,6 @@ import StorageInteface from "./Interfaces/StorageInterface";
 import LoggerInterface from "./Interfaces/LoggerInterface";
 import { publicKeyFromPem } from "./Crypto/Rsa";
 
-
 import RequestInquiry from "./Api/RequestInquiry";
 import MasterCardAction from "./Api/MasterCardAction";
 import SchedulePayment from "./Api/SchedulePayment";

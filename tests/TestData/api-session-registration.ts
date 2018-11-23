@@ -1,15 +1,10 @@
 export const sessionId = 44;
-export const sessionToken =
-    "a4f9d888eea84f52722b9baf2f17c289d549edf6e0eccdbf868eb922be306fb6";
+export const sessionToken = "a4f9d888eea84f52722b9baf2f17c289d549edf6e0eccdbf868eb922be306fb6";
 export const sessionTokenId = 839;
 
 export default (
     success: boolean | number = true,
-    userType:
-        | "UserCompany"
-        | "UserLight"
-        | "UserPerson"
-        | string = "UserCompany"
+    userType: "UserCompany" | "UserLight" | "UserPerson" | string = "UserCompany"
 ) => {
     const date = new Date();
     const dateTime = `${date.getFullYear()}-${date.getFullYear()}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`;
@@ -53,12 +48,10 @@ export default (
                             counter_bank_iban: "NL12BUNQ1234567890",
                             avatar: {
                                 uuid: "5a442bed-3d43-4a85-b532-dbb251052f4a",
-                                anchor_uuid:
-                                    "f0de919f-8c36-46ee-acb7-ea9c35c1b231",
+                                anchor_uuid: "f0de919f-8c36-46ee-acb7-ea9c35c1b231",
                                 image: [
                                     {
-                                        attachment_public_uuid:
-                                            "d93e07e3-d420-45e5-8684-fc0c09a63686",
+                                        attachment_public_uuid: "d93e07e3-d420-45e5-8684-fc0c09a63686",
                                         content_type: "image/jpeg",
                                         height: 380,
                                         width: 520
@@ -85,14 +78,11 @@ export default (
                             director_alias: {
                                 uuid: "252e-fb1e-04b74214-b9e9467c3-c6d2fbf",
                                 avatar: {
-                                    uuid:
-                                        "5a442bed-3d43-4a85-b532-dbb251052f4a",
-                                    anchor_uuid:
-                                        "f0de919f-8c36-46ee-acb7-ea9c35c1b231",
+                                    uuid: "5a442bed-3d43-4a85-b532-dbb251052f4a",
+                                    anchor_uuid: "f0de919f-8c36-46ee-acb7-ea9c35c1b231",
                                     image: [
                                         {
-                                            attachment_public_uuid:
-                                                "d93e07e3-d420-45e5-8684-fc0c09a63686",
+                                            attachment_public_uuid: "d93e07e3-d420-45e5-8684-fc0c09a63686",
                                             content_type: "image/jpeg",
                                             height: 380,
                                             width: 520
@@ -122,8 +112,7 @@ export default (
                             notification_filters: [
                                 {
                                     notification_delivery_method: "URL",
-                                    notification_target:
-                                        "https://my.company.com/callback-url",
+                                    notification_target: "https://my.company.com/callback-url",
                                     category: "PAYMENT"
                                 }
                             ]

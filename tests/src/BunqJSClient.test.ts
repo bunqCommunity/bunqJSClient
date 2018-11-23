@@ -12,24 +12,15 @@ import {
     defaultResponse
 } from "../TestHelpers/DefaultResponses";
 
-import {
-    default as apiInstallation,
-    installToken,
-    serverPublicKeyPem
-} from "../TestData/api-installation";
-import {
-    default as apiDeviceServer,
-    deviceId
-} from "../TestData/api-device-server";
+import { default as apiInstallation, installToken, serverPublicKeyPem } from "../TestData/api-installation";
+import { default as apiDeviceServer, deviceId } from "../TestData/api-device-server";
 import {
     default as apiSessionRegistration,
     sessionId,
     sessionToken,
     sessionTokenId
 } from "../TestData/api-session-registration";
-import {
-    default as apiOauthSessionRegistration
-} from "../TestData/api-user-oauth";
+import { default as apiOauthSessionRegistration } from "../TestData/api-user-oauth";
 import SetupApp from "../TestHelpers/SetupApp";
 
 const FAKE_API_KEY = randomHex(64);
@@ -351,9 +342,7 @@ describe("BunqJSClient", () => {
                 moxios.wait(() => {
                     moxios.requests
                         .mostRecent()
-                        .respondWith(
-                            apiSessionRegistration(true, "UserPersonInvalid")
-                        )
+                        .respondWith(apiSessionRegistration(true, "UserPersonInvalid"))
                         .then(resolve)
                         .catch(reject);
                 });
@@ -582,12 +571,7 @@ describe("BunqJSClient", () => {
         it("should use default values", async () => {
             const app = await SetupApp("exchangeOAuthToken3");
 
-            const request = app.exchangeOAuthToken(
-                "clientId",
-                "clientSecret",
-                "redirectUri",
-                "codeValue"
-            );
+            const request = app.exchangeOAuthToken("clientId", "clientSecret", "redirectUri", "codeValue");
             await oauthUserAuthorization(moxios);
             const response = await request;
 
@@ -617,12 +601,7 @@ describe("BunqJSClient", () => {
             const expectedUrl =
                 "https://oauth.bunq.com/auth?response_type=code&client_id=clientId&redirect_uri=redirectUri";
 
-            const string = await app.formatOAuthAuthorizationRequestUrl(
-                "clientId",
-                "redirectUri",
-                false,
-                false
-            );
+            const string = await app.formatOAuthAuthorizationRequestUrl("clientId", "redirectUri", false, false);
 
             expect(string).toBe(expectedUrl);
         });
@@ -633,12 +612,7 @@ describe("BunqJSClient", () => {
             const expectedUrl =
                 "https://oauth.sandbox.bunq.com/auth?response_type=code&client_id=clientId&redirect_uri=redirectUri";
 
-            const string = await app.formatOAuthAuthorizationRequestUrl(
-                "clientId",
-                "redirectUri",
-                false,
-                true
-            );
+            const string = await app.formatOAuthAuthorizationRequestUrl("clientId", "redirectUri", false, true);
 
             expect(string).toBe(expectedUrl);
         });
@@ -649,10 +623,7 @@ describe("BunqJSClient", () => {
             const expectedUrl =
                 "https://oauth.bunq.com/auth?response_type=code&client_id=clientId&redirect_uri=redirectUri";
 
-            const string = await app.formatOAuthAuthorizationRequestUrl(
-                "clientId",
-                "redirectUri"
-            );
+            const string = await app.formatOAuthAuthorizationRequestUrl("clientId", "redirectUri");
 
             expect(string).toBe(expectedUrl);
         });
@@ -663,11 +634,7 @@ describe("BunqJSClient", () => {
             const expectedUrl =
                 "https://oauth.bunq.com/auth?response_type=code&client_id=clientId&redirect_uri=redirectUri&state=state_value";
 
-            const string = await app.formatOAuthAuthorizationRequestUrl(
-                "clientId",
-                "redirectUri",
-                "state_value"
-            );
+            const string = await app.formatOAuthAuthorizationRequestUrl("clientId", "redirectUri", "state_value");
 
             expect(string).toBe(expectedUrl);
         });

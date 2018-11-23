@@ -27,7 +27,7 @@ export const defaultResponse = async moxios => {
                                 Payment: {},
                                 UserCompany: {},
                                 UserLight: {},
-                                UserPerson: {},
+                                UserPerson: {}
                             },
                             {
                                 Token: {
@@ -98,9 +98,7 @@ export const oauthUserAuthorization = async moxios => {
 
 export const fileResponse = async moxios => {
     await new Promise((resolve, reject) => {
-        const stream = fs.readFileSync(
-            path.join(__dirname, "../TestData/bunq.png")
-        );
+        const stream = fs.readFileSync(path.join(__dirname, "../TestData/bunq.png"));
 
         moxios.wait(() => {
             moxios.requests

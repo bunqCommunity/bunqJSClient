@@ -9,15 +9,14 @@ import { defaultResponse } from "../../TestHelpers/DefaultResponses";
 let bunqApp: BunqJSClient;
 
 describe("API", () => {
-    beforeAll(async () => {
+    beforeAll(async done => {
         moxios.install();
-
         // prepare certificates
         await Prepare();
         // create a bunqjsclient to be used in the tests
         bunqApp = await SetupApp("NoteText");
-
         moxios.uninstall();
+        done();
     });
 
     beforeEach(() => moxios.install());
@@ -69,13 +68,7 @@ describe("API", () => {
         });
 
         it("#POST", async () => {
-            const request = bunqApp.api.noteText.post(
-                "payment",
-                1,
-                2,
-                3,
-                "Some description"
-            );
+            const request = bunqApp.api.noteText.post("payment", 1, 2, 3, "Some description");
             await defaultResponse(moxios);
             const response = await request;
 
@@ -83,14 +76,7 @@ describe("API", () => {
         });
 
         it("#POST - secondary id", async () => {
-            const request = bunqApp.api.noteText.post(
-                "whitelist",
-                1,
-                2,
-                3,
-                "Some description",
-                4
-            );
+            const request = bunqApp.api.noteText.post("whitelist", 1, 2, 3, "Some description", 4);
             await defaultResponse(moxios);
             const response = await request;
 
@@ -98,14 +84,7 @@ describe("API", () => {
         });
 
         it("#PUT", async () => {
-            const request = bunqApp.api.noteText.put(
-                "payment",
-                1,
-                2,
-                3,
-                4,
-                "Some description"
-            );
+            const request = bunqApp.api.noteText.put("payment", 1, 2, 3, 4, "Some description");
             await defaultResponse(moxios);
             const response = await request;
 
@@ -113,15 +92,7 @@ describe("API", () => {
         });
 
         it("#PUT - secondary id", async () => {
-            const request = bunqApp.api.noteText.put(
-                "payment",
-                1,
-                2,
-                3,
-                4,
-                "Some description",
-                6
-            );
+            const request = bunqApp.api.noteText.put("payment", 1, 2, 3, 4, "Some description", 6);
             await defaultResponse(moxios);
             const response = await request;
 
@@ -137,19 +108,11 @@ describe("API", () => {
         });
 
         it("#DELETE - secondary id", async () => {
-            const request = bunqApp.api.noteText.delete(
-                "payment",
-                1,
-                2,
-                3,
-                4,
-                5
-            );
+            const request = bunqApp.api.noteText.delete("payment", 1, 2, 3, 4, 5);
             await defaultResponse(moxios);
             const response = await request;
 
             expect(response).not.toBeNull();
         });
     });
-
 });

@@ -4,14 +4,12 @@ import BunqJSClient from "../../../src/BunqJSClient";
 
 import Prepare from "../../TestHelpers/Prepare";
 import SetupApp from "../../TestHelpers/SetupApp";
-import {
-    defaultResponse
-} from "../../TestHelpers/DefaultResponses";
+import { defaultResponse } from "../../TestHelpers/DefaultResponses";
 
 let bunqApp: BunqJSClient;
 
 describe("API", () => {
-    beforeAll(async () => {
+    beforeAll(async done => {
         moxios.install();
 
         // prepare certificates
@@ -20,6 +18,7 @@ describe("API", () => {
         bunqApp = await SetupApp("CustomerStatementExportContent");
 
         moxios.uninstall();
+        done();
     });
 
     beforeEach(() => moxios.install());
@@ -27,11 +26,7 @@ describe("API", () => {
 
     describe("CustomerStatementExportContent", () => {
         it("#LIST", async () => {
-            const request = bunqApp.api.customerStatementExportContent.list(
-                1,
-                2,
-                3
-            );
+            const request = bunqApp.api.customerStatementExportContent.list(1, 2, 3);
             await defaultResponse(moxios);
             const response = await request;
 
@@ -39,20 +34,14 @@ describe("API", () => {
         });
 
         it("#LIST - with pagination options", async () => {
-            const request = bunqApp.api.customerStatementExportContent.list(
-                1,
-                2,
-                3,
-                {
-                    newer_id: 1,
-                    older_id: 2
-                }
-            );
+            const request = bunqApp.api.customerStatementExportContent.list(1, 2, 3, {
+                newer_id: 1,
+                older_id: 2
+            });
             await defaultResponse(moxios);
             const response = await request;
 
             expect(response).not.toBeNull();
         });
     });
-
 });

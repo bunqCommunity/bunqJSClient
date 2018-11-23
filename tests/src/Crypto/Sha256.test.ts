@@ -1,9 +1,4 @@
-import {
-    signString,
-    encryptString,
-    stringToHash,
-    verifyString
-} from "../../../src/Crypto/Sha256";
+import { signString, encryptString, stringToHash, verifyString } from "../../../src/Crypto/Sha256";
 import { privateKeyFromPem, publicKeyFromPem } from "../../../src/Crypto/Rsa";
 import Prepare from "../../TestHelpers/Prepare";
 
@@ -25,17 +20,13 @@ describe("Sha256", () => {
         it("should return a valid hash", async () => {
             const hash = await stringToHash(INPUT_STRING);
 
-            expect(hash).toBe(
-                "77d721c817f9d216c1fb783bcad9cdc20aaa2427402683f1f75dd6dfbe657470"
-            );
+            expect(hash).toBe("77d721c817f9d216c1fb783bcad9cdc20aaa2427402683f1f75dd6dfbe657470");
         });
     });
 
     describe("#signString ()", () => {
         it("should sign data without errors", async () => {
-            const PRIVATE_KEY = await privateKeyFromPem(
-                process.env.CI_PRIVATE_KEY_PEM
-            );
+            const PRIVATE_KEY = await privateKeyFromPem(process.env.CI_PRIVATE_KEY_PEM);
 
             await signString(INPUT_STRING, PRIVATE_KEY);
         });
@@ -43,9 +34,7 @@ describe("Sha256", () => {
 
     describe("#encryptString ()", () => {
         it("should encrypt data without errors", async () => {
-            const PUBLIC_KEY = await publicKeyFromPem(
-                process.env.CI_PUBLIC_KEY_PEM
-            );
+            const PUBLIC_KEY = await publicKeyFromPem(process.env.CI_PUBLIC_KEY_PEM);
 
             await encryptString(INPUT_STRING, PUBLIC_KEY);
         });
@@ -75,33 +64,21 @@ describe("Sha256", () => {
         // });
 
         it("should return false if the signature doesn't match", async () => {
-            const PUBLIC_KEY = await publicKeyFromPem(
-                process.env.CI_PUBLIC_KEY_PEM
-            );
-            const PRIVATE_KEY = await privateKeyFromPem(
-                process.env.CI_PRIVATE_KEY_PEM
-            );
+            const PUBLIC_KEY = await publicKeyFromPem(process.env.CI_PUBLIC_KEY_PEM);
+            const PRIVATE_KEY = await privateKeyFromPem(process.env.CI_PRIVATE_KEY_PEM);
 
             // sign a string with our private key
             const signedData = await signString(INPUT_STRING, PRIVATE_KEY);
 
             // check if different data and signature match
-            const valid = await verifyString(
-                "1234",
-                PUBLIC_KEY,
-                signedData
-            );
+            const valid = await verifyString("1234", PUBLIC_KEY, signedData);
 
             expect(valid).toBeFalsy();
         });
 
         it("should return false when invalid keys or data is given", async () => {
-            const PUBLIC_KEY = await publicKeyFromPem(
-                process.env.CI_PUBLIC_KEY_PEM
-            );
-            const PRIVATE_KEY = await privateKeyFromPem(
-                process.env.CI_PRIVATE_KEY_PEM
-            );
+            const PUBLIC_KEY = await publicKeyFromPem(process.env.CI_PUBLIC_KEY_PEM);
+            const PRIVATE_KEY = await privateKeyFromPem(process.env.CI_PRIVATE_KEY_PEM);
 
             // sign a string with our private key
             const signedData = await signString(INPUT_STRING, PRIVATE_KEY);

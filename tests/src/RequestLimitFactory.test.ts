@@ -14,26 +14,17 @@ describe("RequestLimitFactory", () => {
             const factory = new RequestLimitFactory();
 
             METHODS.map(method => {
-                const requestLimiter: RequestLimiter = factory.create(
-                    "/endpoint",
-                    method
-                );
+                const requestLimiter: RequestLimiter = factory.create("/endpoint", method);
                 expect(requestLimiter).toBeInstanceOf(RequestLimiter);
             });
         });
 
         it("should return the same instance for the same endpoint/method", async () => {
             const factory = new RequestLimitFactory();
-            const requestLimiter: RequestLimiter = factory.create(
-                "/endpoint",
-                "PUT"
-            );
+            const requestLimiter: RequestLimiter = factory.create("/endpoint", "PUT");
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
 
-            const requestLimiter2: RequestLimiter = factory.create(
-                "/endpoint",
-                "PUT"
-            );
+            const requestLimiter2: RequestLimiter = factory.create("/endpoint", "PUT");
             expect(requestLimiter2).toBeInstanceOf(RequestLimiter);
 
             // both limiters should be the same instance
@@ -42,16 +33,10 @@ describe("RequestLimitFactory", () => {
 
         it("should NOT return the same instance for different endpoint/method", async () => {
             const factory = new RequestLimitFactory();
-            const requestLimiter: RequestLimiter = factory.create(
-                "/endpoint",
-                "GET"
-            );
+            const requestLimiter: RequestLimiter = factory.create("/endpoint", "GET");
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
 
-            const requestLimiter2: RequestLimiter = factory.create(
-                "/endpoint-2",
-                "GET"
-            );
+            const requestLimiter2: RequestLimiter = factory.create("/endpoint-2", "GET");
             expect(requestLimiter2).toBeInstanceOf(RequestLimiter);
 
             // both limiters should be the same instance
@@ -77,10 +62,7 @@ describe("RequestLimitFactory", () => {
 
         it("should return the correct(existing) instance", async () => {
             const factory = new RequestLimitFactory();
-            const requestLimiter: RequestLimiter = factory.create(
-                "/endpoint",
-                "PUT"
-            );
+            const requestLimiter: RequestLimiter = factory.create("/endpoint", "PUT");
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
 
             const limiterWrapper = factory.getLimiter("/endpoint", "PUT");
@@ -92,10 +74,7 @@ describe("RequestLimitFactory", () => {
 
         it("should return the correct(existing) instance - default options", async () => {
             const factory = new RequestLimitFactory();
-            const requestLimiter: RequestLimiter = factory.create(
-                "/endpoint",
-                "GET"
-            );
+            const requestLimiter: RequestLimiter = factory.create("/endpoint", "GET");
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
 
             const limiterWrapper = factory.getLimiter("/endpoint");
@@ -109,10 +88,7 @@ describe("RequestLimitFactory", () => {
     describe("#removeLimiter()", () => {
         it("should remove a stored limiter with custom options", async () => {
             const factory = new RequestLimitFactory();
-            const requestLimiter: RequestLimiter = factory.create(
-                "/endpoint",
-                "PUT"
-            );
+            const requestLimiter: RequestLimiter = factory.create("/endpoint", "PUT");
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
 
             const removed = factory.removeLimiter("/endpoint", "PUT");
@@ -141,14 +117,8 @@ describe("RequestLimitFactory", () => {
     describe("#getAllLimiters()", () => {
         it("should return 2 stored limiters", async () => {
             const factory = new RequestLimitFactory();
-            const requestLimiter: RequestLimiter = factory.create(
-                "/endpoint",
-                "PUT"
-            );
-            const requestLimiter2: RequestLimiter = factory.create(
-                "/endpoint",
-                "GET"
-            );
+            const requestLimiter: RequestLimiter = factory.create("/endpoint", "PUT");
+            const requestLimiter2: RequestLimiter = factory.create("/endpoint", "GET");
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
             expect(requestLimiter2).toBeInstanceOf(RequestLimiter);
 
@@ -160,10 +130,7 @@ describe("RequestLimitFactory", () => {
     describe("#clearLimiters()", () => {
         it("should remove all stored limiters", async () => {
             const factory = new RequestLimitFactory();
-            const requestLimiter: RequestLimiter = factory.create(
-                "/endpoint",
-                "PUT"
-            );
+            const requestLimiter: RequestLimiter = factory.create("/endpoint", "PUT");
             expect(requestLimiter).toBeInstanceOf(RequestLimiter);
 
             factory.clearLimiters();
