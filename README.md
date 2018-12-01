@@ -1,12 +1,11 @@
 # bunqJSClient 
 [![build status for master branch](https://api.travis-ci.org/bunqCommunity/bunqJSClient.svg?branch=master)](https://travis-ci.org/bunqCommunity/bunqJSClient) [![codecov](https://codecov.io/gh/bunqCommunity/bunqJSClient/branch/master/graph/badge.svg)](https://codecov.io/gh/bunqCommunity/bunqJSClient) [![NPM Downloads](https://img.shields.io/npm/dt/@bunq-community/bunq-js-client.svg)](https://www.npmjs.com/package/@bunq-community/bunq-js-client)
 
-A web based project that is aimed at allowing single page applications to do all interactions with bunq without proxying through other services. 
-All data is stored client-side and requests are created and signed using [forge](https://github.com/digitalbazaar/forge).
+A unofficial javascript SDK for the bunq API. It is aimed at allowing single page applications to do all interactions with bunq without proxying through other services. 
 
-On its own the bunqJSClient doesn't do anything, you'll need to build an interface around it like we do with [bunqDesktop](https://github.com/bunqCommunity/bunqDesktop).
+The API session details are encrypted and stored using [forge](https://github.com/digitalbazaar/forge).
 
-This project is focussed on the browser and isn't officially supported yet for usage with NodeJS servers. If you do want to use NodeJS you can still easily create a custom storage handler (since the default is Localstorage right now) like described in the [installation](#installation) section.
+This project was originally built for the browser but has since then been tested and used with NodeJS servers. If you do want to use NodeJS you can still easily create a custom storage handler (with the default being Localstorage) like described in the [installation](#installation) section.
 
 ## Installation
 Install the library
@@ -14,26 +13,24 @@ Install the library
 yarn add @bunq-community/bunq-js-client
 ```
 
-Next create a new instance with an optional storage interface as the first parameter. 
-This defaults to [store.js](https://github.com/marcuswestin/store.js/) but any class 
+Next create a new instance with an optional storage interface as the first parameter. This defaults to [store.js](https://github.com/marcuswestin/store.js/) but any class 
 with the following methods: `get(key)`, `set(key, data)`, `remove(key)`.
 
 ## Usage
 Install a storage helper if required and create a new client
 ```js
-import SomeStorageHelper from "some-storage-handler"; 
-
-const BunqClientCustom = new bunqJSClient(SomeStorageHelper);
-
-// OR use the default store.js which only works in a browser environment
 const BunqClient = new bunqJSClient();
+
+// OR use a custom storage handler
+import SomeStorageHelper from "some-storage-handler"; 
+const BunqClientCustom = new bunqJSClient(SomeStorageHelper);
 
 // disables the automatic requests to keep the current session alive
 // instead it'll create a new session when it is required
 BunqClient.setKeepAlive(false);
 ```
 
-Next run the setup basic functions to get started
+Next run the setup functions to get started
 ```js
 /**
  * A 16-byte encryption key, check the examples (create_encryption_key.js) 
@@ -120,7 +117,12 @@ There are a few examples which can be found in the `examples/` folder. `create_s
 The example uses [dotenv](https://github.com/motdotla/dotenv) so make sure to copy the `.env.example` file to `.env` and enter the correct values.
 
 ## Supported APIs
-For more details look into the endpoints found at `src/Api/*`
+For more details look into the endpoints found at `src/Api/*`. 
+
+Currently the only missing features are:
+ 
+ - Uploading binary files. For example the attachment endpoints
+ - Sending requests to the encrypted endpoints. For example the PUT /card 
 
 ## Contributors
 
