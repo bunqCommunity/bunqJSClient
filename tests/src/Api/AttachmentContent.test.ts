@@ -2,30 +2,17 @@ import * as moxios from "moxios";
 
 import BunqJSClient from "../../../src/BunqJSClient";
 
-import Prepare from "../../TestHelpers/Prepare";
 import SetupApp from "../../TestHelpers/SetupApp";
 import { fileResponse } from "../../TestHelpers/DefaultResponses";
 
-let bunqApp: BunqJSClient;
-
 describe("API", () => {
-    beforeAll(async done => {
-        moxios.install();
-
-        // prepare certificates
-        await Prepare();
-        // create a bunqjsclient to be used in the tests
-        bunqApp = await SetupApp("Api");
-
-        moxios.uninstall();
-        done();
-    });
-
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
     describe("AttachmentContent", () => {
         it("#GET", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.attachmentContent.get("SOME_RANDOM_IMAGE_ID", {
                 base64: false
             });
@@ -36,6 +23,8 @@ describe("API", () => {
         });
 
         it("#GET - With default values", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.attachmentContent.get("SOME_RANDOM_IMAGE_ID");
             await fileResponse(moxios);
             const response = await request;

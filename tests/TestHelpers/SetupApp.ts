@@ -17,11 +17,13 @@ const FAKE_ENCRYPTION_KEY = randomHex(32);
  * @returns {Promise<BunqJSClient>}
  */
 export default async (
-    dbName: string,
+    setupName: string | false = false,
     apiKey: string = FAKE_API_KEY,
     runOptions = [[], "SANDBOX", FAKE_ENCRYPTION_KEY]
 ): Promise<BunqJSClient> => {
     Prepare();
+
+    const dbName: string = setupName || randomHex(32);
 
     const app = new BunqJSClient(new CustomDb(dbName));
     await app.run(apiKey, ...runOptions);

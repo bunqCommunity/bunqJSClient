@@ -2,30 +2,17 @@ import * as moxios from "moxios";
 
 import BunqJSClient from "../../../src/BunqJSClient";
 
-import Prepare from "../../TestHelpers/Prepare";
 import SetupApp from "../../TestHelpers/SetupApp";
 import { defaultResponse } from "../../TestHelpers/DefaultResponses";
 
-let bunqApp: BunqJSClient;
-
 describe("API", () => {
-    beforeAll(async done => {
-        moxios.install();
-
-        // prepare certificates
-        await Prepare();
-        // create a bunqjsclient to be used in the tests
-        bunqApp = await SetupApp("Api");
-
-        moxios.uninstall();
-        done();
-    });
-
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
     describe("MonetaryAccountBank", () => {
         it("#GET", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.monetaryAccountBank.get(1, 3);
             await defaultResponse(moxios);
             const response = await request;
@@ -34,6 +21,8 @@ describe("API", () => {
         });
 
         it("#POST", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.monetaryAccountBank.post(
                 1,
                 "EUR",
@@ -51,6 +40,8 @@ describe("API", () => {
         });
 
         it("#PUT", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.monetaryAccountBank.put(1, 2, {
                 description: "New account description"
             });
@@ -61,6 +52,8 @@ describe("API", () => {
         });
 
         it("#PUT - Cancel account helper endpoint", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.monetaryAccountBank.putCancel(
                 1,
                 2,
@@ -75,6 +68,8 @@ describe("API", () => {
         });
 
         it("#LIST", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.monetaryAccountBank.list(1);
             await defaultResponse(moxios);
             const response = await request;
@@ -83,6 +78,8 @@ describe("API", () => {
         });
 
         it("#LIST - with pagination options", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.monetaryAccountBank.list(1, {
                 newer_id: 1,
                 older_id: 2,
