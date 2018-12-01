@@ -1,5 +1,5 @@
 # bunqJSClient 
-![build status for master branch](https://api.travis-ci.org/bunqCommunity/bunqJSClient.svg?branch=master) [![codecov](https://codecov.io/gh/bunqCommunity/bunqJSClient/branch/master/graph/badge.svg)](https://codecov.io/gh/bunqCommunity/bunqJSClient) ![NPM Downloads](https://img.shields.io/npm/dt/@bunq-community/bunq-js-client.svg)
+[![build status for master branch](https://api.travis-ci.org/bunqCommunity/bunqJSClient.svg?branch=master)](https://travis-ci.org/bunqCommunity/bunqJSClient) [![codecov](https://codecov.io/gh/bunqCommunity/bunqJSClient/branch/master/graph/badge.svg)](https://codecov.io/gh/bunqCommunity/bunqJSClient) [![NPM Downloads](https://img.shields.io/npm/dt/@bunq-community/bunq-js-client.svg)](https://www.npmjs.com/package/@bunq-community/bunq-js-client)
 
 A web based project that is aimed at allowing single page applications to do all interactions with bunq without proxying through other services. 
 All data is stored client-side and requests are created and signed using [forge](https://github.com/digitalbazaar/forge).
