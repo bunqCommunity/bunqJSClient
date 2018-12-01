@@ -387,7 +387,7 @@ export default class Session {
      * @param encryptedSession
      * @returns {Promise<any>}
      */
-    private decryptSession = async encryptedSession => {
+    private async decryptSession(encryptedSession) {
         const IV = await this.asyncStorageGet(this.storageIvLocation);
 
         if (this.encryptionKey === false) {
@@ -398,14 +398,14 @@ export default class Session {
         const decryptedSession = await decryptString(encryptedSession, this.encryptionKey, IV);
 
         return JSON.parse(decryptedSession);
-    };
+    }
 
     /**
      * Attempt to encrypt the session data with encryption key
      * @param sessionData
      * @returns {Promise<boolean>}
      */
-    private encryptSession = async sessionData => {
+    private async encryptSession(sessionData) {
         if (!this.encryptionKey) return false;
 
         // attempt to decrypt the string
@@ -420,7 +420,7 @@ export default class Session {
         await dataStorageSuccess;
 
         return true;
-    };
+    }
 
     /**
      * @param data
@@ -428,7 +428,7 @@ export default class Session {
      * @param {string} iv_location
      * @returns {Promise<boolean>}
      */
-    public storeEncryptedData = async (data: any, location: string) => {
+    public async storeEncryptedData(data: any, location: string) {
         if (!this.encryptionKey) return false;
 
         // attempt to decrypt the string
@@ -442,14 +442,14 @@ export default class Session {
         await dataStorage;
 
         return true;
-    };
+    }
 
     /**
      * @param {string} data_location
      * @param {string} iv_location
      * @returns {Promise<any>}
      */
-    public loadEncryptedData = async (data_location: string, iv_location: string = null) => {
+    public async loadEncryptedData(data_location: string, iv_location: string = null) {
         // set default value for IV location in case none is given
         iv_location = iv_location === null ? `${data_location}_IV` : iv_location;
 
@@ -470,7 +470,7 @@ export default class Session {
         const decryptedSession = await decryptString(storedData, this.encryptionKey, storedIv);
 
         return JSON.parse(decryptedSession);
-    };
+    }
 
     /**
      * Wrapper around the storage interface for remove calls
@@ -478,7 +478,7 @@ export default class Session {
      * @param {boolean} silent
      * @returns {Promise<any>}
      */
-    public asyncStorageRemove = async (key: string, silent: boolean = false) => {
+    public async asyncStorageRemove(key: string, silent: boolean = false) {
         try {
             return await this.storageInterface.remove(key);
         } catch (error) {
@@ -487,7 +487,7 @@ export default class Session {
             }
             throw error;
         }
-    };
+    }
 
     /**
      * Wrapper around the storage interface for get calls
@@ -495,7 +495,7 @@ export default class Session {
      * @param {boolean} silent
      * @returns {Promise<any>}
      */
-    public asyncStorageGet = async (key: string, silent: boolean = false) => {
+    public async asyncStorageGet(key: string, silent: boolean = false) {
         try {
             return await this.storageInterface.get(key);
         } catch (error) {
@@ -504,7 +504,7 @@ export default class Session {
             }
             throw error;
         }
-    };
+    }
 
     /**
      * Wrapper around the storage interface for set calls
@@ -513,7 +513,7 @@ export default class Session {
      * @param {boolean} silent
      * @returns {Promise<any>}
      */
-    public asyncStorageSet = async (key: string, value: any, silent: boolean = false) => {
+    public async asyncStorageSet(key: string, value: any, silent: boolean = false) {
         try {
             return await this.storageInterface.set(key, value);
         } catch (error) {
@@ -522,7 +522,7 @@ export default class Session {
             }
             throw error;
         }
-    };
+    }
 
     /**
      * Checks if this session has a succesful installation stored

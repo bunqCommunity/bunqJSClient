@@ -35,130 +35,6 @@ class Session {
         this.sessionTimeout = 0;
         this.sessionExpiryTimeChecker = null;
         this.userInfo = {};
-        /**
-         * Attempt to decrypt the session data with our stored IV and encryption key
-         * @param encryptedSession
-         * @returns {Promise<any>}
-         */
-        this.decryptSession = async (encryptedSession) => {
-            const IV = await this.asyncStorageGet(this.storageIvLocation);
-            if (this.encryptionKey === false) {
-                throw new Error("No encryption key is set, failed to decrypt session");
-            }
-            // attempt to decrypt the string
-            const decryptedSession = await Aes_1.decryptString(encryptedSession, this.encryptionKey, IV);
-            return JSON.parse(decryptedSession);
-        };
-        /**
-         * Attempt to encrypt the session data with encryption key
-         * @param sessionData
-         * @returns {Promise<boolean>}
-         */
-        this.encryptSession = async (sessionData) => {
-            if (!this.encryptionKey)
-                return false;
-            // attempt to decrypt the string
-            const encryptedData = await Aes_1.encryptString(sessionData, this.encryptionKey);
-            // store the new IV and encrypted data
-            const ivStorageSuccess = this.asyncStorageSet(this.storageIvLocation, encryptedData.iv);
-            const dataStorageSuccess = this.asyncStorageSet(this.storageKeyLocation, encryptedData.encryptedString);
-            // await here so we do the storage calls asyncronously
-            await ivStorageSuccess;
-            await dataStorageSuccess;
-            return true;
-        };
-        /**
-         * @param data
-         * @param {string} data_location
-         * @param {string} iv_location
-         * @returns {Promise<boolean>}
-         */
-        this.storeEncryptedData = async (data, location) => {
-            if (!this.encryptionKey)
-                return false;
-            // attempt to decrypt the string
-            const encryptedData = await Aes_1.encryptString(JSON.stringify(data), this.encryptionKey);
-            // store the new IV and encrypted data
-            const ivStorage = this.asyncStorageSet(`${location}_IV`, encryptedData.iv);
-            const dataStorage = this.asyncStorageSet(location, encryptedData.encryptedString);
-            await ivStorage;
-            await dataStorage;
-            return true;
-        };
-        /**
-         * @param {string} data_location
-         * @param {string} iv_location
-         * @returns {Promise<any>}
-         */
-        this.loadEncryptedData = async (data_location, iv_location = null) => {
-            // set default value for IV location in case none is given
-            iv_location = iv_location === null ? `${data_location}_IV` : iv_location;
-            // load the data from storage
-            const storedData = await this.asyncStorageGet(data_location);
-            const storedIv = await this.asyncStorageGet(iv_location);
-            // check if both values are found
-            if (storedData === undefined || storedData === null || storedIv === undefined || storedIv === null) {
-                return false;
-            }
-            if (this.encryptionKey === false) {
-                throw new Error("No encryption key is set, failed to decrypt data");
-            }
-            // attempt to decrypt the data
-            const decryptedSession = await Aes_1.decryptString(storedData, this.encryptionKey, storedIv);
-            return JSON.parse(decryptedSession);
-        };
-        /**
-         * Wrapper around the storage interface for remove calls
-         * @param key
-         * @param {boolean} silent
-         * @returns {Promise<any>}
-         */
-        this.asyncStorageRemove = async (key, silent = false) => {
-            try {
-                return await this.storageInterface.remove(key);
-            }
-            catch (error) {
-                if (silent) {
-                    return undefined;
-                }
-                throw error;
-            }
-        };
-        /**
-         * Wrapper around the storage interface for get calls
-         * @param key
-         * @param {boolean} silent
-         * @returns {Promise<any>}
-         */
-        this.asyncStorageGet = async (key, silent = false) => {
-            try {
-                return await this.storageInterface.get(key);
-            }
-            catch (error) {
-                if (silent) {
-                    return undefined;
-                }
-                throw error;
-            }
-        };
-        /**
-         * Wrapper around the storage interface for set calls
-         * @param key
-         * @param value
-         * @param {boolean} silent
-         * @returns {Promise<any>}
-         */
-        this.asyncStorageSet = async (key, value, silent = false) => {
-            try {
-                return await this.storageInterface.set(key, value);
-            }
-            catch (error) {
-                if (silent) {
-                    return undefined;
-                }
-                throw error;
-            }
-        };
         this.storageInterface = storageInterface;
         this.logger = loggerInterface;
         this.environmentType = "SANDBOX";
@@ -433,6 +309,130 @@ class Session {
         this.deviceId = null;
         if (save)
             return await this.storeSession();
+    }
+    /**
+     * Attempt to decrypt the session data with our stored IV and encryption key
+     * @param encryptedSession
+     * @returns {Promise<any>}
+     */
+    async decryptSession(encryptedSession) {
+        const IV = await this.asyncStorageGet(this.storageIvLocation);
+        if (this.encryptionKey === false) {
+            throw new Error("No encryption key is set, failed to decrypt session");
+        }
+        // attempt to decrypt the string
+        const decryptedSession = await Aes_1.decryptString(encryptedSession, this.encryptionKey, IV);
+        return JSON.parse(decryptedSession);
+    }
+    /**
+     * Attempt to encrypt the session data with encryption key
+     * @param sessionData
+     * @returns {Promise<boolean>}
+     */
+    async encryptSession(sessionData) {
+        if (!this.encryptionKey)
+            return false;
+        // attempt to decrypt the string
+        const encryptedData = await Aes_1.encryptString(sessionData, this.encryptionKey);
+        // store the new IV and encrypted data
+        const ivStorageSuccess = this.asyncStorageSet(this.storageIvLocation, encryptedData.iv);
+        const dataStorageSuccess = this.asyncStorageSet(this.storageKeyLocation, encryptedData.encryptedString);
+        // await here so we do the storage calls asyncronously
+        await ivStorageSuccess;
+        await dataStorageSuccess;
+        return true;
+    }
+    /**
+     * @param data
+     * @param {string} data_location
+     * @param {string} iv_location
+     * @returns {Promise<boolean>}
+     */
+    async storeEncryptedData(data, location) {
+        if (!this.encryptionKey)
+            return false;
+        // attempt to decrypt the string
+        const encryptedData = await Aes_1.encryptString(JSON.stringify(data), this.encryptionKey);
+        // store the new IV and encrypted data
+        const ivStorage = this.asyncStorageSet(`${location}_IV`, encryptedData.iv);
+        const dataStorage = this.asyncStorageSet(location, encryptedData.encryptedString);
+        await ivStorage;
+        await dataStorage;
+        return true;
+    }
+    /**
+     * @param {string} data_location
+     * @param {string} iv_location
+     * @returns {Promise<any>}
+     */
+    async loadEncryptedData(data_location, iv_location = null) {
+        // set default value for IV location in case none is given
+        iv_location = iv_location === null ? `${data_location}_IV` : iv_location;
+        // load the data from storage
+        const storedData = await this.asyncStorageGet(data_location);
+        const storedIv = await this.asyncStorageGet(iv_location);
+        // check if both values are found
+        if (storedData === undefined || storedData === null || storedIv === undefined || storedIv === null) {
+            return false;
+        }
+        if (this.encryptionKey === false) {
+            throw new Error("No encryption key is set, failed to decrypt data");
+        }
+        // attempt to decrypt the data
+        const decryptedSession = await Aes_1.decryptString(storedData, this.encryptionKey, storedIv);
+        return JSON.parse(decryptedSession);
+    }
+    /**
+     * Wrapper around the storage interface for remove calls
+     * @param key
+     * @param {boolean} silent
+     * @returns {Promise<any>}
+     */
+    async asyncStorageRemove(key, silent = false) {
+        try {
+            return await this.storageInterface.remove(key);
+        }
+        catch (error) {
+            if (silent) {
+                return undefined;
+            }
+            throw error;
+        }
+    }
+    /**
+     * Wrapper around the storage interface for get calls
+     * @param key
+     * @param {boolean} silent
+     * @returns {Promise<any>}
+     */
+    async asyncStorageGet(key, silent = false) {
+        try {
+            return await this.storageInterface.get(key);
+        }
+        catch (error) {
+            if (silent) {
+                return undefined;
+            }
+            throw error;
+        }
+    }
+    /**
+     * Wrapper around the storage interface for set calls
+     * @param key
+     * @param value
+     * @param {boolean} silent
+     * @returns {Promise<any>}
+     */
+    async asyncStorageSet(key, value, silent = false) {
+        try {
+            return await this.storageInterface.set(key, value);
+        }
+        catch (error) {
+            if (silent) {
+                return undefined;
+            }
+            throw error;
+        }
     }
     /**
      * Checks if this session has a succesful installation stored

@@ -66,51 +66,6 @@ class BunqJSClient {
          * @type {{INSTALLATION_HAS_SESSION}}
          */
         this.errorCodes = ErrorCodes_1.default;
-        /**
-         * Resets the session expiry timer
-         */
-        this.clearExpiryTimer = () => {
-            if (this.Session.sessionExpiryTimeChecker !== null) {
-                clearTimeout(this.Session.sessionExpiryTimeChecker);
-            }
-        };
-        /**
-         * Handles the expiry timer checker callback
-         */
-        this.expiryTimerCallback = () => {
-            // check if keepAlive is enabled
-            if (this.keepAlive === false) {
-                this.clearExpiryTimer();
-                return false;
-            }
-            // update users, don't wait for it to finish
-            this.getUsers(true)
-                .then(users => {
-                // do nothing
-                this.logger.debug("Triggered session refresh");
-            })
-                .catch(error => {
-                // log the error
-                this.logger.error(error);
-            });
-            // set the timer again for a shorter duration (max 5 minutes)
-            this.setExpiryTimer(true);
-        };
-        /**
-         * Calculate in how many milliseconds the session will expire
-         * @param {boolean} shortTimeout
-         * @returns {number}
-         */
-        this.calculateSessionExpiry = (shortTimeout = false) => {
-            // if shortTimeout is set maximize the expiry to 5 minutes
-            if (shortTimeout) {
-                return !this.Session.sessionTimeout || this.Session.sessionTimeout > FIVE_MINUTES_MS
-                    ? FIVE_MINUTES_MS
-                    : this.Session.sessionTimeout;
-            }
-            const currentTime = new Date();
-            return this.Session.sessionExpiryTime.getTime() - currentTime.getTime();
-        };
         this.storageInterface = storageInterface;
         this.logger = loggerInterface;
         // create a new session instance
@@ -475,6 +430,51 @@ class BunqJSClient {
             // set the timeout
             this.Session.sessionExpiryTimeChecker = setTimeout(this.expiryTimerCallback, timeoutRequestDuration);
         }
+    }
+    /**
+     * Resets the session expiry timer
+     */
+    clearExpiryTimer() {
+        if (this.Session.sessionExpiryTimeChecker !== null) {
+            clearTimeout(this.Session.sessionExpiryTimeChecker);
+        }
+    }
+    /**
+     * Handles the expiry timer checker callback
+     */
+    expiryTimerCallback() {
+        // check if keepAlive is enabled
+        if (this.keepAlive === false) {
+            this.clearExpiryTimer();
+            return false;
+        }
+        // update users, don't wait for it to finish
+        this.getUsers(true)
+            .then(users => {
+            // do nothing
+            this.logger.debug("Triggered session refresh");
+        })
+            .catch(error => {
+            // log the error
+            this.logger.error(error);
+        });
+        // set the timer again for a shorter duration (max 5 minutes)
+        this.setExpiryTimer(true);
+    }
+    /**
+     * Calculate in how many milliseconds the session will expire
+     * @param {boolean} shortTimeout
+     * @returns {number}
+     */
+    calculateSessionExpiry(shortTimeout = false) {
+        // if shortTimeout is set maximize the expiry to 5 minutes
+        if (shortTimeout) {
+            return !this.Session.sessionTimeout || this.Session.sessionTimeout > FIVE_MINUTES_MS
+                ? FIVE_MINUTES_MS
+                : this.Session.sessionTimeout;
+        }
+        const currentTime = new Date();
+        return this.Session.sessionExpiryTime.getTime() - currentTime.getTime();
     }
     /**
      * Destroys the current installation and session and all variables associated with it

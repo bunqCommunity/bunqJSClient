@@ -573,16 +573,16 @@ export default class BunqJSClient {
     /**
      * Resets the session expiry timer
      */
-    public clearExpiryTimer = () => {
+    public clearExpiryTimer() {
         if (this.Session.sessionExpiryTimeChecker !== null) {
             clearTimeout(this.Session.sessionExpiryTimeChecker);
         }
-    };
+    }
 
     /**
      * Handles the expiry timer checker callback
      */
-    private expiryTimerCallback = () => {
+    private expiryTimerCallback() {
         // check if keepAlive is enabled
         if (this.keepAlive === false) {
             this.clearExpiryTimer();
@@ -602,14 +602,14 @@ export default class BunqJSClient {
 
         // set the timer again for a shorter duration (max 5 minutes)
         this.setExpiryTimer(true);
-    };
+    }
 
     /**
      * Calculate in how many milliseconds the session will expire
      * @param {boolean} shortTimeout
      * @returns {number}
      */
-    public calculateSessionExpiry = (shortTimeout = false) => {
+    public calculateSessionExpiry(shortTimeout = false) {
         // if shortTimeout is set maximize the expiry to 5 minutes
         if (shortTimeout) {
             return !this.Session.sessionTimeout || this.Session.sessionTimeout > FIVE_MINUTES_MS
@@ -619,7 +619,7 @@ export default class BunqJSClient {
 
         const currentTime = new Date();
         return this.Session.sessionExpiryTime.getTime() - currentTime.getTime();
-    };
+    }
 
     /**
      * Destroys the current installation and session and all variables associated with it
