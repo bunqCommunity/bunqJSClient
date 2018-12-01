@@ -6,14 +6,7 @@ const Sha256_1 = require("./Crypto/Sha256");
 const Utils_1 = require("./Helpers/Utils");
 const ErrorCodes_1 = require("./Helpers/ErrorCodes");
 const RequestLimitFactory_1 = require("./RequestLimitFactory");
-// these headers are set by default
-exports.DEFAULT_HEADERS = {
-    "Cache-Control": "no-cache",
-    "Content-Type": "application/json",
-    "X-Bunq-Language": "en_US",
-    "X-Bunq-Region": "nl_NL",
-    "X-Bunq-Geolocation": "0 0 0 0 000"
-};
+const Request_1 = require("./HTTP/Request");
 class ApiAdapter {
     constructor(Session, loggerInterface, BunqJSClient) {
         this.Session = Session;
@@ -77,6 +70,7 @@ class ApiAdapter {
      */
     async request(url, method = "GET", data = {}, headers = {}, options = {}) {
         this.logger.debug(`${method}: ${url}`);
+        const request = new Request_1.default(url, method, data, headers, options.axiosOptions || {});
         if (!options.skipSessionCheck) {
             // check if a new session is being fetched
             if (this.BunqJSClient.fetchingNewSession) {
@@ -107,17 +101,16 @@ class ApiAdapter {
         if (options.unauthenticated !== true) {
             // use session token or fallback to install taken if we have one
             if (this.Session.sessionToken !== null) {
+                request.setAuthenticated(this.Session.sessionToken);
                 headers["X-Bunq-Client-Authentication"] = this.Session.sessionToken;
             }
             else if (this.Session.installToken !== null) {
+                request.setAuthenticated(this.Session.installToken);
                 headers["X-Bunq-Client-Authentication"] = this.Session.installToken;
             }
         }
         // create a config for this request
         let requestConfig = Object.assign({ url: `${url}`, method: method, data: data, headers: this.createHeaders(headers), transformResponse: undefined }, options.axiosOptions);
-        if (options.isEncrypted === true) {
-            requestConfig = await this.encryptRequest(requestConfig, options);
-        }
         // // check if signing is disabled
         if (options.disableSigning !== true) {
             // sign this request config
@@ -172,53 +165,6 @@ class ApiAdapter {
         }
         catch (error) { }
         return response;
-    }
-    /**
-     * Encrypts the body and adds the required headers to the request config
-     * @param {AxiosRequestConfig} requestConfig
-     * @param options
-     * @returns {Promise<AxiosRequestConfig>}
-     */
-    async encryptRequest(requestConfig, options) {
-        return requestConfig;
-        // TODO test and implement actual encryption
-        // const body = JSON.stringify(requestConfig.data);
-        // const iv = forge.random.getBytesSync(16);
-        // const key = forge.random.getBytesSync(32);
-        // const encryptedAesKey = await encryptStringRsa(
-        //     key,
-        //     this.Session.serverPublicKey
-        // );
-        //
-        // // create a new aes-cbc cipher with our key
-        // const cipher = forge.cipher.createCipher("AES-CBC", key);
-        // // turn our string into a buffer
-        // const buffer = forge.util.createBuffer(body, "utf8");
-        // cipher.start({ iv: iv });
-        // cipher.update(buffer);
-        // cipher.finish();
-        // const encryptedBody = cipher.output.getBytes();
-        //
-        // // create an hmac buffer with the body and key
-        // const hmac = forge.hmac.create();
-        // const keyBuffer = forge.util.createBuffer(key, "raw");
-        // hmac.start("sha1", keyBuffer);
-        // hmac.update(iv + body);
-        // const hmacBuffer = hmac.digest();
-        //
-        // const base64Hmac = forge.util.encode64(hmacBuffer);
-        // const base64Iv = forge.util.encode64(iv);
-        //
-        // // update the requestconfig
-        // requestConfig.data = encryptedBody;
-        // requestConfig.headers = {
-        //     ...requestConfig.headers,
-        //     "X-Bunq-Client-Encryption-Hmac": base64Hmac,
-        //     "X-Bunq-Client-Encryption-Key": encryptedAesKey,
-        //     "X-Bunq-Client-Encryption-Iv": base64Iv
-        // };
-        //
-        // return requestConfig;
     }
     /**
      * Signs a request using our privatekey
@@ -337,9 +283,11 @@ class ApiAdapter {
      * Generates a list of the required headers
      * @param {Header[]} headers
      */
-    createHeaders(headers = []) {
+    createHeaders(headers = {}) {
         const date = new Date();
-        return Object.assign({}, exports.DEFAULT_HEADERS, { "X-Bunq-Client-Request-Id": date.getTime() + Math.random(), "X-Bunq-Geolocation": this.geoLocation, "X-Bunq-Language": this.language, "X-Bunq-Region": this.region }, headers);
+        return Object.assign({ 
+            // ...DEFAULT_HEADERS,
+            "X-Bunq-Client-Request-Id": date.getTime() + Math.random(), "X-Bunq-Geolocation": this.geoLocation, "X-Bunq-Language": this.language, "X-Bunq-Region": this.region }, headers);
     }
 }
 exports.default = ApiAdapter;
