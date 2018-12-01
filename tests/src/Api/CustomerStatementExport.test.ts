@@ -15,7 +15,7 @@ describe("API", () => {
         // prepare certificates
         await Prepare();
         // create a bunqjsclient to be used in the tests
-        bunqApp = await SetupApp("CustomerStatementExport");
+        bunqApp = await SetupApp("Api");
 
         moxios.uninstall();
         done();
@@ -53,7 +53,7 @@ describe("API", () => {
         });
 
         it("#POST", async () => {
-            const request = bunqApp.api.customerStatementExport.post(1, 2, 3);
+            const request = bunqApp.api.customerStatementExport.post(1, 2, "CSV", new Date(), new Date());
             await defaultResponse(moxios);
             const response = await request;
 

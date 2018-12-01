@@ -91,7 +91,7 @@ export default class RequestResponse implements ApiEndpointInterface {
         monetaryAccountId: number,
         requestResponseId: number,
         status: "ACCEPTED" | "REJECTED",
-        options: RequestResponsePutOptions
+        options: RequestResponsePutOptions = {}
     ) {
         const defaultOptions = {
             status: status,

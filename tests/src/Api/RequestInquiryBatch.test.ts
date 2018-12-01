@@ -15,7 +15,7 @@ describe("API", () => {
         // prepare certificates
         await Prepare();
         // create a bunqjsclient to be used in the tests
-        bunqApp = await SetupApp("RequestInquirybatch");
+        bunqApp = await SetupApp("Api");
 
         moxios.uninstall();
         done();
@@ -26,7 +26,7 @@ describe("API", () => {
 
     describe("RequestInquirybatch", () => {
         it("#GET", async () => {
-            const request = bunqApp.api.requestInquiryBatch.get(1, 2);
+            const request = bunqApp.api.requestInquiryBatch.get(1, 2, 3);
             await defaultResponse(moxios);
             const response = await request;
 
@@ -34,7 +34,7 @@ describe("API", () => {
         });
 
         it("#LIST", async () => {
-            const request = bunqApp.api.requestInquiryBatch.list(1);
+            const request = bunqApp.api.requestInquiryBatch.list(1, 2);
             await defaultResponse(moxios);
             const response = await request;
 

@@ -5,7 +5,7 @@ import PaginationOptions from "../Types/PaginationOptions";
 
 interface EventFilterOptions extends PaginationOptions {
     monetary_account_id?: number | false;
-    display_user_event?: boolean | false;
+    display_user_event?: 1 | 0;
     status?: "AWAITING_REPLY" | "FINALIZED" | false;
 }
 

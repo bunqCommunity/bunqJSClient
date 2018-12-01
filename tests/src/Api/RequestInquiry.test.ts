@@ -15,7 +15,7 @@ describe("API", () => {
         // prepare certificates
         await Prepare();
         // create a bunqjsclient to be used in the tests
-        bunqApp = await SetupApp("RequestInquiry");
+        bunqApp = await SetupApp("Api");
 
         moxios.uninstall();
         done();
@@ -26,7 +26,7 @@ describe("API", () => {
 
     describe("RequestInquiry", () => {
         it("#GET", async () => {
-            const request = bunqApp.api.requestInquiry.get(1, 2);
+            const request = bunqApp.api.requestInquiry.get(1, 2, 3);
             await defaultResponse(moxios);
             const response = await request;
 
@@ -34,7 +34,7 @@ describe("API", () => {
         });
 
         it("#LIST", async () => {
-            const request = bunqApp.api.requestInquiry.list(1);
+            const request = bunqApp.api.requestInquiry.list(1, 2);
             await defaultResponse(moxios);
             const response = await request;
 
@@ -86,8 +86,8 @@ describe("API", () => {
                     value: "mail@example.com"
                 },
                 {
-                    status: "ACCEPTED",
-                    merchant_reference: 1,
+                    status: "REVOKED",
+                    merchant_reference: "asd",
                     minimum_age: 16,
                     redirect_url: "https://example.com"
                 }

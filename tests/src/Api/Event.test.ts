@@ -15,7 +15,7 @@ describe("API", () => {
         // prepare certificates
         await Prepare();
         // create a bunqjsclient to be used in the tests
-        bunqApp = await SetupApp("Event");
+        bunqApp = await SetupApp("Api");
 
         moxios.uninstall();
         done();
@@ -56,7 +56,7 @@ describe("API", () => {
         it("#LIST - with filter options", async () => {
             const request = bunqApp.api.event.list(1, {
                 monetary_account_id: 1,
-                status: 1,
+                status: "AWAITING_REPLY",
                 display_user_event: 1
             });
             await defaultResponse(moxios);

@@ -1,5 +1,5 @@
 type RequestInquiryPostOptions = {
-    status: "REVOKED" | false;
+    status?: "REVOKED" | false;
     minimum_age?: number | false;
     allow_bunqme?: boolean;
     redirect_url?: string | false;

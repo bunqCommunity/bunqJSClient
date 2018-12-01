@@ -95,7 +95,7 @@ export default class RequestInquiry implements ApiEndpointInterface {
         description: string,
         amount_inquired: Amount,
         counterpartyAlias: CounterpartyAlias,
-        options: RequestInquiryPostOptions
+        options: RequestInquiryPostOptions = {}
     ) {
         const defaultOptions = {
             status: false,

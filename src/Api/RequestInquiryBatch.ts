@@ -95,7 +95,7 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
         monetaryAccountId: number,
         requestInquiries: any,
         status: string | boolean = false,
-        options: RequestInquiryPostOptions
+        options: RequestInquiryPostOptions = {}
     ) {
         // this object will contain the actual request content
         const requestData: any = {

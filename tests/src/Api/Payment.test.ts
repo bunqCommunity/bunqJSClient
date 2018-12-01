@@ -11,10 +11,12 @@ let bunqApp: BunqJSClient;
 describe("API", () => {
     beforeAll(async done => {
         moxios.install();
+
         // prepare certificates
         await Prepare();
         // create a bunqjsclient to be used in the tests
-        bunqApp = await SetupApp("Payments");
+        bunqApp = await SetupApp("Api");
+
         moxios.uninstall();
         done();
     });

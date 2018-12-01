@@ -15,7 +15,7 @@ describe("API", () => {
         // prepare certificates
         await Prepare();
         // create a bunqjsclient to be used in the tests
-        bunqApp = await SetupApp("CardCvc2");
+        bunqApp = await SetupApp("Api");
 
         moxios.uninstall();
         done();

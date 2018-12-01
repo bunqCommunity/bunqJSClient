@@ -15,7 +15,7 @@ describe("API", () => {
         // prepare certificates
         await Prepare();
         // create a bunqjsclient to be used in the tests
-        bunqApp = await SetupApp("ShareInviteBankResponse");
+        bunqApp = await SetupApp("Api");
 
         moxios.uninstall();
         done();
