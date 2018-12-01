@@ -25,6 +25,7 @@ import SetupApp from "../TestHelpers/SetupApp";
 
 const FAKE_API_KEY = randomHex(64);
 const FAKE_ENCRYPTION_KEY = randomHex(32);
+const FAKE_ENCRYPTION_KEY2 = randomHex(32);
 
 describe("BunqJSClient", () => {
     beforeAll(async done => {
@@ -449,9 +450,20 @@ describe("BunqJSClient", () => {
         });
     });
 
+    describe("#changeEncryptionKey()", () => {
+        it("change the stored data with a new encryption key", async () => {
+            const bunqApp: BunqJSClient = await SetupApp("ChangeEncryptionKey");
+
+            // create new credentials
+            const result = await bunqApp.changeEncryptionKey(FAKE_ENCRYPTION_KEY2);
+
+            expect(bunqApp.Session.encryptionKey).toBe(FAKE_ENCRYPTION_KEY2);
+        });
+    });
+
     describe("#createCredentials()", () => {
         it("create a new credential", async () => {
-            const bunqApp = await SetupApp("CreateCredentials");
+            const bunqApp: BunqJSClient = await SetupApp("CreateCredentials");
 
             // create new credentials
             const checkCredentialStatus = bunqApp.createCredentials();
@@ -466,7 +478,7 @@ describe("BunqJSClient", () => {
 
     describe("#checkCredentialStatus()", () => {
         it("check the status of a set of credentials", async () => {
-            const bunqApp = await SetupApp("CheckCredentialStatus");
+            const bunqApp: BunqJSClient = await SetupApp("CheckCredentialStatus");
 
             // create new credentials
             const checkCredentialStatus = bunqApp.checkCredentialStatus("UUID");
