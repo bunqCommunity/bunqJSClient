@@ -92,7 +92,7 @@ const payments = await bunqJSClient.api.payment.list(userId, accountId);
 
 ## OAuth authentication
 You can use the helper function to format a correct url to start the login flow:
-```
+```js
 const url = bunqJSClient.formatOAuthAuthorizationRequestUrl(
     clientId, 
     redirectUri, 
@@ -101,7 +101,7 @@ const url = bunqJSClient.formatOAuthAuthorizationRequestUrl(
 ```
 
 Next when the user grants access use the returned code parameter with:
-```
+```js
 const authorizationCode = await bunqJSClient.exchangeOAuthToken(
     clientId, 
     clientSecret, 
