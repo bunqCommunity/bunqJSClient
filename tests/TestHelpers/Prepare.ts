@@ -20,4 +20,5 @@ BLs1lrYhHL2Dcz+UAh7wf90r3AIzoSbO9bAd7LuRlhMHv4lVNQNjhv+KNFq+TLyh
 R1tlpKMgFB0RjjjoWd0CQQDS+JYT6w36tKMlofEtsLvlou8h+SvlArDt+iMsl7+d
 OuCxX3RBgdrZWtbREr4rCyNeKxjGezKHuCI/gXaVVJju
 -----END RSA PRIVATE KEY-----`;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 };
