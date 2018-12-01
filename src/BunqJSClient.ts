@@ -11,6 +11,7 @@ import Session from "./Session";
 import StorageInteface from "./Interfaces/StorageInterface";
 import LoggerInterface from "./Interfaces/LoggerInterface";
 import { publicKeyFromPem } from "./Crypto/Rsa";
+import { validateKey } from "./Crypto/Aes";
 
 import RequestInquiry from "./Api/RequestInquiry";
 import MasterCardAction from "./Api/MasterCardAction";
@@ -347,6 +348,23 @@ export default class BunqJSClient {
         this.setExpiryTimer();
 
         return true;
+    }
+
+    /**
+     * Change the encryption key and
+     * @param {string} encryptionKey
+     * @returns {Promise<boolean>}
+     */
+    public async changeEncryptionKey(encryptionKey: string): Promise<boolean> {
+        if (!validateKey(encryptionKey)) {
+            throw new Error("Invalid EAS key given! Invalid characters or length (16,24,32 length)");
+        }
+
+        // change the encryption key
+        this.Session.encryptionKey = encryptionKey;
+
+        // update the storage
+        return this.Session.storeSession();
     }
 
     /**

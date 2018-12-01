@@ -8,6 +8,7 @@ const ErrorCodes_1 = require("./Helpers/ErrorCodes");
 const ApiAdapter_1 = require("./ApiAdapter");
 const Session_1 = require("./Session");
 const Rsa_1 = require("./Crypto/Rsa");
+const Aes_1 = require("./Crypto/Aes");
 const RequestInquiry_1 = require("./Api/RequestInquiry");
 const MasterCardAction_1 = require("./Api/MasterCardAction");
 const SchedulePayment_1 = require("./Api/SchedulePayment");
@@ -324,6 +325,20 @@ class BunqJSClient {
         // update the timer
         this.setExpiryTimer();
         return true;
+    }
+    /**
+     * Change the encryption key and
+     * @param {string} encryptionKey
+     * @returns {Promise<boolean>}
+     */
+    async changeEncryptionKey(encryptionKey) {
+        if (!Aes_1.validateKey(encryptionKey)) {
+            throw new Error("Invalid EAS key given! Invalid characters or length (16,24,32 length)");
+        }
+        // change the encryption key
+        this.Session.encryptionKey = encryptionKey;
+        // update the storage
+        return this.Session.storeSession();
     }
     /**
      * Handles the oauth type users
