@@ -6,6 +6,7 @@
     "build": "tsc --listFiles --newline lf",
     "build:dev": "tsc -w --newline lf",
     "test": "cross-env ENV_CI=true jest --verbose --config jest.config.js",
+    "posttest": "rm -r tests/custom-db/*",
     "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --verbose --watch --config jest.config.js",
     "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|src)/**/**.+(js|ts)\"",
     "preversion": "npm run build"

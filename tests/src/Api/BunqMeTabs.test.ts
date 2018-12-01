@@ -2,30 +2,17 @@ import * as moxios from "moxios";
 
 import BunqJSClient from "../../../src/BunqJSClient";
 
-import Prepare from "../../TestHelpers/Prepare";
 import SetupApp from "../../TestHelpers/SetupApp";
 import { defaultResponse } from "../../TestHelpers/DefaultResponses";
 
-let bunqApp: BunqJSClient;
-
 describe("API", () => {
-    beforeAll(async done => {
-        moxios.install();
-
-        // prepare certificates
-        await Prepare();
-        // create a bunqjsclient to be used in the tests
-        bunqApp = await SetupApp("Api");
-
-        moxios.uninstall();
-        done();
-    });
-
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
     describe("BunqMeTabs", () => {
         it("#GET", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.bunqMeTabs.get(1, 2, 3);
             await defaultResponse(moxios);
             const response = await request;
@@ -34,6 +21,8 @@ describe("API", () => {
         });
 
         it("#LIST", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.bunqMeTabs.list(1, 2);
             await defaultResponse(moxios);
             const response = await request;
@@ -42,6 +31,8 @@ describe("API", () => {
         });
 
         it("#LIST - with pagination options", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.bunqMeTabs.list(1, 2, {
                 newer_id: 1,
                 older_id: 2
@@ -53,6 +44,8 @@ describe("API", () => {
         });
 
         it("#POST", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.bunqMeTabs.post(5, 12, "description", {
                 value: "12.00",
                 currency: "EUR"
@@ -64,6 +57,8 @@ describe("API", () => {
         });
 
         it("#POST - with redirect url option", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.bunqMeTabs.post(
                 5,
                 12,
@@ -83,6 +78,8 @@ describe("API", () => {
         });
 
         it("#PUT", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
             const request = bunqApp.api.bunqMeTabs.put(1, 2, 3);
             await defaultResponse(moxios);
             const response = await request;
