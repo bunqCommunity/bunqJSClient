@@ -13,23 +13,20 @@ class Request {
     constructor(url, method = "GET", data = {}, headers = {}, options = {}) {
         this._headers = {};
         this._options = {};
-        this._isEncrypted = false;
+        // private _isEncrypted: boolean = false;
         this._isSigned = false;
         this._isAuthenticated = false;
         this._url = url;
         this._method = method;
         this._data = data;
+        Object.keys(exports.DEFAULT_HEADERS).forEach(headerKey => this.setHeader(headerKey, exports.DEFAULT_HEADERS[headerKey]));
         this._headers = this.getHeaders(headers);
         this._options = options;
         // set a random request id and the default headers
         this.setHeader("X-Bunq-Client-Request-Id", new Date().getTime() + Math.random() + "");
-        Object.keys(exports.DEFAULT_HEADERS).forEach(headerKey => this.setHeader(headerKey, exports.DEFAULT_HEADERS[headerKey]));
     }
     get url() {
         return this._url;
-    }
-    setUrl(url) {
-        this._url = url;
     }
     get method() {
         return this._method;
@@ -39,9 +36,6 @@ class Request {
     }
     get headers() {
         return this._headers;
-    }
-    get isEncrypted() {
-        return this._isEncrypted;
     }
     get isSigned() {
         return this._isSigned;
@@ -53,19 +47,32 @@ class Request {
         this._requestConfig = Object.assign({ url: this.url, method: this.method, data: this.data, headers: this.getHeaders(), transformResponse: undefined }, this._options);
         return this._requestConfig;
     }
-    setEncrypted(isEncrypted) {
-        this._isEncrypted = isEncrypted;
-    }
     setSigned(signature) {
         this._isSigned = signature;
-        this.setHeader(ApiAdapter_1.BUNQ_REQUEST_SIGNATURE_HEADER_KEY, signature);
+        if (!this._isSigned) {
+            this.removeHeader(ApiAdapter_1.BUNQ_REQUEST_SIGNATURE_HEADER_KEY);
+        }
+        else {
+            this.setHeader(ApiAdapter_1.BUNQ_REQUEST_SIGNATURE_HEADER_KEY, signature);
+        }
     }
     setAuthenticated(token) {
         this._isAuthenticated = token;
-        this.setHeader(ApiAdapter_1.BUNQ_REQUEST_AUTHENTICATION_HEADER_KEY, token);
+        if (!this._isAuthenticated) {
+            this.removeHeader(ApiAdapter_1.BUNQ_REQUEST_AUTHENTICATION_HEADER_KEY);
+        }
+        else {
+            this.setHeader(ApiAdapter_1.BUNQ_REQUEST_AUTHENTICATION_HEADER_KEY, token);
+        }
+    }
+    setUrl(url) {
+        this._url = url;
     }
     getHeader(key) {
         return this._headers[key];
+    }
+    removeHeader(key) {
+        delete this._headers[key];
     }
     setHeader(key, value) {
         this._headers[key] = value;

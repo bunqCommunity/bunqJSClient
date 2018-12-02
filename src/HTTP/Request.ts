@@ -19,7 +19,7 @@ export default class Request {
     private _headers: Headers = {};
     private _options: any = {};
 
-    private _isEncrypted: boolean = false;
+    // private _isEncrypted: boolean = false;
     private _isSigned: false | string = false;
     private _isAuthenticated: false | string = false;
 
@@ -29,19 +29,17 @@ export default class Request {
         this._url = url;
         this._method = method;
         this._data = data;
+
+        Object.keys(DEFAULT_HEADERS).forEach(headerKey => this.setHeader(headerKey, DEFAULT_HEADERS[headerKey]));
         this._headers = this.getHeaders(headers);
         this._options = options;
 
         // set a random request id and the default headers
         this.setHeader("X-Bunq-Client-Request-Id", new Date().getTime() + Math.random() + "");
-        Object.keys(DEFAULT_HEADERS).forEach(headerKey => this.setHeader(headerKey, DEFAULT_HEADERS[headerKey]));
     }
 
     get url(): string {
         return this._url;
-    }
-    public setUrl(url: string): void {
-        this._url = url;
     }
     get method(): Method {
         return this._method;
@@ -51,9 +49,6 @@ export default class Request {
     }
     get headers(): Headers {
         return this._headers;
-    }
-    get isEncrypted(): boolean {
-        return this._isEncrypted;
     }
     get isSigned(): string | false {
         return this._isSigned;
@@ -75,22 +70,34 @@ export default class Request {
         return this._requestConfig;
     }
 
-    public setEncrypted(isEncrypted: boolean): void {
-        this._isEncrypted = isEncrypted;
-    }
-    public setSigned(signature: string): void {
+    public setSigned(signature: string | false): void {
         this._isSigned = signature;
-        this.setHeader(BUNQ_REQUEST_SIGNATURE_HEADER_KEY, signature);
+        if (!this._isSigned) {
+            this.removeHeader(BUNQ_REQUEST_SIGNATURE_HEADER_KEY);
+        } else {
+            this.setHeader(BUNQ_REQUEST_SIGNATURE_HEADER_KEY, signature);
+        }
     }
-    public setAuthenticated(token: string): void {
+    public setAuthenticated(token: string | false): void {
         this._isAuthenticated = token;
-        this.setHeader(BUNQ_REQUEST_AUTHENTICATION_HEADER_KEY, token);
+        if (!this._isAuthenticated) {
+            this.removeHeader(BUNQ_REQUEST_AUTHENTICATION_HEADER_KEY);
+        } else {
+            this.setHeader(BUNQ_REQUEST_AUTHENTICATION_HEADER_KEY, token);
+        }
+    }
+
+    public setUrl(url: string): void {
+        this._url = url;
     }
 
     public getHeader(key: string): string | false {
         return this._headers[key];
     }
-    public setHeader(key: string, value: string): void {
+    public removeHeader(key: string): void {
+        delete this._headers[key];
+    }
+    public setHeader(key: string, value: any): void {
         this._headers[key] = value;
     }
 
