@@ -413,7 +413,7 @@ export default class ApiAdapter {
         const date: Date = new Date();
         return {
             ...DEFAULT_HEADERS,
-            "X-Bunq-Client-Request-Id": date.getTime() + date.getMilliseconds() + Math.random(),
+            "X-Bunq-Client-Request-Id": date.getTime() + Math.random(),
             "X-Bunq-Geolocation": this.geoLocation,
             "X-Bunq-Language": this.language,
             "X-Bunq-Region": this.region,

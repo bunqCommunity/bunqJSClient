@@ -339,7 +339,7 @@ class ApiAdapter {
      */
     createHeaders(headers = []) {
         const date = new Date();
-        return Object.assign({}, exports.DEFAULT_HEADERS, { "X-Bunq-Client-Request-Id": date.getTime() + date.getMilliseconds() + Math.random(), "X-Bunq-Geolocation": this.geoLocation, "X-Bunq-Language": this.language, "X-Bunq-Region": this.region }, headers);
+        return Object.assign({}, exports.DEFAULT_HEADERS, { "X-Bunq-Client-Request-Id": date.getTime() + Math.random(), "X-Bunq-Geolocation": this.geoLocation, "X-Bunq-Language": this.language, "X-Bunq-Region": this.region }, headers);
     }
 }
 exports.default = ApiAdapter;
