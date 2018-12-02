@@ -413,7 +413,7 @@ export default class BunqJSClient {
                 {},
                 {},
                 {
-                    ignoreVerification: true,
+                    disableVerification: true,
                     disableSigning: true,
                     skipSessionCheck: true
                 }
@@ -437,7 +437,7 @@ export default class BunqJSClient {
                 `https://api.tinker.bunq.com/v1/credential-password-ip-request/${uuid}`,
                 {},
                 {
-                    ignoreVerification: true,
+                    disableVerification: true,
                     disableSigning: true,
                     skipSessionCheck: true
                 }
@@ -582,7 +582,7 @@ export default class BunqJSClient {
     /**
      * Handles the expiry timer checker callback
      */
-    private expiryTimerCallback() {
+    private expiryTimerCallback = () => {
         // check if keepAlive is enabled
         if (this.keepAlive === false) {
             this.clearExpiryTimer();

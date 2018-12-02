@@ -1,15 +1,4 @@
-import { ucfirst } from "../../../src/Helpers/Utils";
-
-const fakeGeolocation = {
-    getCurrentPosition: callback => {
-        callback({
-            coords: {
-                latitude: 1,
-                longitude: 1
-            }
-        });
-    }
-};
+import { ucfirst, fixHeaderCase } from "../../../src/Helpers/Utils";
 
 describe("Util", () => {
     describe("#ucFirst()", () => {
@@ -26,17 +15,11 @@ describe("Util", () => {
         });
     });
 
-    // describe("#getGeoLocation()", () => {
-    //     it("should work with our custom geolocation handler", async () => {
-    //         const location = await getGeoLocation(fakeGeolocation);
-    //         expect(location).toHaveProperty("longitude");
-    //         expect(location).toHaveProperty("latitude");
-    //     });
-    //
-    //     it("should throw an error since navigator.location isn't available", () => {
-    //         getGeoLocation()
-    //             .then(() => expect(false))
-    //             .catch(() => expect(true));
-    //     });
-    // });
+    describe("#fixHeaderCase()", () => {
+        it("should turn the lowercase variation into uppercase", () => {
+            const badHeader = "x-bunq-test-variation";
+            const goodHeader = "X-Bunq-Test-Variation";
+            expect(fixHeaderCase(badHeader)).toBe(goodHeader);
+        });
+    });
 });

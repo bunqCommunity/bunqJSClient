@@ -1,15 +1,15 @@
-import ApiAdapterOptions from "../Types/ApiAdapterOptions";
+import { AxiosRequestConfig } from "axios";
 import { Method } from "../Types/Method";
 import Headers from "../Types/Headers";
-import { AxiosRequestConfig } from "axios";
+import { BUNQ_REQUEST_AUTHENTICATION_HEADER_KEY, BUNQ_REQUEST_SIGNATURE_HEADER_KEY } from "../ApiAdapter";
 
 // these headers are set by default
 export const DEFAULT_HEADERS: Headers = {
     "Cache-Control": "no-cache",
     "Content-Type": "application/json",
+    "X-Bunq-Geolocation": "0 0 0 0 000",
     "X-Bunq-Language": "en_US",
-    "X-Bunq-Region": "nl_NL",
-    "X-Bunq-Geolocation": "0 0 0 0 000"
+    "X-Bunq-Region": "nl_NL"
 };
 
 export default class Request {
@@ -20,7 +20,7 @@ export default class Request {
     private _options: any = {};
 
     private _isEncrypted: boolean = false;
-    private _isSigned: boolean = true;
+    private _isSigned: false | string = false;
     private _isAuthenticated: false | string = false;
 
     private _requestConfig: AxiosRequestConfig;
@@ -29,12 +29,19 @@ export default class Request {
         this._url = url;
         this._method = method;
         this._data = data;
-        this._headers = headers;
+        this._headers = this.getHeaders(headers);
         this._options = options;
+
+        // set a random request id and the default headers
+        this.setHeader("X-Bunq-Client-Request-Id", new Date().getTime() + Math.random() + "");
+        Object.keys(DEFAULT_HEADERS).forEach(headerKey => this.setHeader(headerKey, DEFAULT_HEADERS[headerKey]));
     }
 
     get url(): string {
         return this._url;
+    }
+    public setUrl(url: string): void {
+        this._url = url;
     }
     get method(): Method {
         return this._method;
@@ -48,15 +55,19 @@ export default class Request {
     get isEncrypted(): boolean {
         return this._isEncrypted;
     }
-    get isSigned(): boolean {
+    get isSigned(): string | false {
         return this._isSigned;
     }
+    get isAuthenticated(): string | false {
+        return this._isAuthenticated;
+    }
+
     get requestConfig(): AxiosRequestConfig {
         this._requestConfig = {
-            url: `${this._url}`,
-            method: this._method,
-            data: this._data,
-            headers: this.createHeaders(this._headers),
+            url: this.url,
+            method: this.method,
+            data: this.data,
+            headers: this.getHeaders(),
             transformResponse: undefined,
             ...this._options
         };
@@ -67,39 +78,31 @@ export default class Request {
     public setEncrypted(isEncrypted: boolean): void {
         this._isEncrypted = isEncrypted;
     }
-    public setSigned(isSigned: boolean): void {
-        this._isSigned = isSigned;
+    public setSigned(signature: string): void {
+        this._isSigned = signature;
+        this.setHeader(BUNQ_REQUEST_SIGNATURE_HEADER_KEY, signature);
     }
     public setAuthenticated(token: string): void {
         this._isAuthenticated = token;
+        this.setHeader(BUNQ_REQUEST_AUTHENTICATION_HEADER_KEY, token);
     }
 
     public getHeader(key: string): string | false {
-        if (!this._headers) return false;
-
         return this._headers[key];
     }
     public setHeader(key: string, value: string): void {
-        if (!this._headers) this._headers = {};
-
         this._headers[key] = value;
     }
 
     /**
      * Generates a list of the required headers
-     * @param {Header[]} headers
+     * @param {Header[]} customHeaders
      */
-    private createHeaders(customHeaders: Headers = {}) {
-        const date: Date = new Date();
+    private getHeaders(customHeaders: Headers = {}) {
         const headers: Headers = {
-            ...DEFAULT_HEADERS,
-            "X-Bunq-Client-Request-Id": "" + date.getTime() + date.getMilliseconds() + Math.random(),
+            ...this._headers,
             ...customHeaders
         };
-
-        if(this._isAuthenticated !== false){
-            headers["X-Bunq-Client-Authentication"] = this._isAuthenticated;
-        }
 
         return headers;
     }

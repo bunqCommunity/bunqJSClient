@@ -1,8 +1,8 @@
 type ApiAdapterOptions = {
     axiosOptions?: any;
-    ignoreVerification?: boolean;
+    disableVerification?: boolean;
     isEncrypted?: boolean;
-    unauthenticated?: boolean;
+    disableAuthentication?: boolean;
     disableSigning?: boolean;
     skipSessionCheck?: boolean;
 };

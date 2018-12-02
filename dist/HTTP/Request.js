@@ -1,28 +1,35 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const ApiAdapter_1 = require("../ApiAdapter");
 // these headers are set by default
 exports.DEFAULT_HEADERS = {
     "Cache-Control": "no-cache",
     "Content-Type": "application/json",
+    "X-Bunq-Geolocation": "0 0 0 0 000",
     "X-Bunq-Language": "en_US",
-    "X-Bunq-Region": "nl_NL",
-    "X-Bunq-Geolocation": "0 0 0 0 000"
+    "X-Bunq-Region": "nl_NL"
 };
 class Request {
     constructor(url, method = "GET", data = {}, headers = {}, options = {}) {
         this._headers = {};
         this._options = {};
         this._isEncrypted = false;
-        this._isSigned = true;
+        this._isSigned = false;
         this._isAuthenticated = false;
         this._url = url;
         this._method = method;
         this._data = data;
-        this._headers = headers;
+        this._headers = this.getHeaders(headers);
         this._options = options;
+        // set a random request id and the default headers
+        this.setHeader("X-Bunq-Client-Request-Id", new Date().getTime() + Math.random() + "");
+        Object.keys(exports.DEFAULT_HEADERS).forEach(headerKey => this.setHeader(headerKey, exports.DEFAULT_HEADERS[headerKey]));
     }
     get url() {
         return this._url;
+    }
+    setUrl(url) {
+        this._url = url;
     }
     get method() {
         return this._method;
@@ -39,39 +46,36 @@ class Request {
     get isSigned() {
         return this._isSigned;
     }
+    get isAuthenticated() {
+        return this._isAuthenticated;
+    }
     get requestConfig() {
-        this._requestConfig = Object.assign({ url: `${this._url}`, method: this._method, data: this._data, headers: this.createHeaders(this._headers), transformResponse: undefined }, this._options);
+        this._requestConfig = Object.assign({ url: this.url, method: this.method, data: this.data, headers: this.getHeaders(), transformResponse: undefined }, this._options);
         return this._requestConfig;
     }
     setEncrypted(isEncrypted) {
         this._isEncrypted = isEncrypted;
     }
-    setSigned(isSigned) {
-        this._isSigned = isSigned;
+    setSigned(signature) {
+        this._isSigned = signature;
+        this.setHeader(ApiAdapter_1.BUNQ_REQUEST_SIGNATURE_HEADER_KEY, signature);
     }
     setAuthenticated(token) {
         this._isAuthenticated = token;
+        this.setHeader(ApiAdapter_1.BUNQ_REQUEST_AUTHENTICATION_HEADER_KEY, token);
     }
     getHeader(key) {
-        if (!this._headers)
-            return false;
         return this._headers[key];
     }
     setHeader(key, value) {
-        if (!this._headers)
-            this._headers = {};
         this._headers[key] = value;
     }
     /**
      * Generates a list of the required headers
-     * @param {Header[]} headers
+     * @param {Header[]} customHeaders
      */
-    createHeaders(customHeaders = {}) {
-        const date = new Date();
-        const headers = Object.assign({}, exports.DEFAULT_HEADERS, { "X-Bunq-Client-Request-Id": "" + date.getTime() + date.getMilliseconds() + Math.random() }, customHeaders);
-        if (this._isAuthenticated !== false) {
-            headers["X-Bunq-Client-Authentication"] = this._isAuthenticated;
-        }
+    getHeaders(customHeaders = {}) {
+        const headers = Object.assign({}, this._headers, customHeaders);
         return headers;
     }
 }

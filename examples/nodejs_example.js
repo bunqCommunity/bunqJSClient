@@ -114,6 +114,10 @@ setup()
         process.exit();
     })
     .catch(error => {
-        console.log(error);
+        if (error.response) {
+            console.log(error.response);
+        } else {
+            console.log(error);
+        }
         process.exit();
     });
