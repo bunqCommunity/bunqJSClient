@@ -33,7 +33,6 @@ export default class DeviceRegistration implements ApiEndpointInterface {
             postData,
             {},
             {
-                ignoreVerification: true,
                 skipSessionCheck: true
             }
         );

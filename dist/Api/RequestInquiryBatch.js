@@ -57,7 +57,7 @@ class RequestInquiryBatch {
      * @param {RequestInquiryPostOptions} options
      * @returns {Promise<void>}
      */
-    async post(userId, monetaryAccountId, requestInquiries, status = false, options) {
+    async post(userId, monetaryAccountId, requestInquiries, status = false, options = {}) {
         // this object will contain the actual request content
         const requestData = {
             total_amount_inquired: 0

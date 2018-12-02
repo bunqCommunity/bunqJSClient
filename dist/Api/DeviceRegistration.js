@@ -22,7 +22,6 @@ class DeviceRegistration {
             postData["permitted_ips"] = options.permitted_ips;
         }
         const response = await this.ApiAdapter.post("/v1/device-server", postData, {}, {
-            ignoreVerification: true,
             skipSessionCheck: true
         });
         // return the device id

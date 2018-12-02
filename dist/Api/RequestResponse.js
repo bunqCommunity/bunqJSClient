@@ -56,7 +56,7 @@ class RequestResponse {
      * @param {RequestResponsePutOptions} options
      * @returns {Promise<void>}
      */
-    async put(userId, monetaryAccountId, requestResponseId, status, options) {
+    async put(userId, monetaryAccountId, requestResponseId, status, options = {}) {
         const defaultOptions = Object.assign({ status: status, amount_responded: false, address_shipping: false, address_billing: false }, options);
         const requestOptions = {
             status: status

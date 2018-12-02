@@ -57,7 +57,7 @@ class RequestInquiry {
      * @param {RequestInquiryPostOptions} options
      * @returns {Promise<void>}
      */
-    async post(userId, monetaryAccountId, description, amount_inquired, counterpartyAlias, options) {
+    async post(userId, monetaryAccountId, description, amount_inquired, counterpartyAlias, options = {}) {
         const defaultOptions = Object.assign({ status: false, minimum_age: false, allow_bunqme: false, redirect_url: false, require_address: "NONE", merchant_reference: false }, options);
         const requestOptions = {
             counterparty_alias: counterpartyAlias,
