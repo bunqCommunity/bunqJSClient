@@ -1,4 +1,6 @@
 export default () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+    process.env.ENV_CI = "true";
     process.env.CI_PUBLIC_KEY_PEM = `-----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCLnbVFMMx/EYORBz8FTkpCu7io
 GGW1LUPPCeRKh9tuiI77RXzvXENdZEQsgz504W1Z8KzgwVrMr5rNy6/Gm/SVKB+W
@@ -20,5 +22,4 @@ BLs1lrYhHL2Dcz+UAh7wf90r3AIzoSbO9bAd7LuRlhMHv4lVNQNjhv+KNFq+TLyh
 R1tlpKMgFB0RjjjoWd0CQQDS+JYT6w36tKMlofEtsLvlou8h+SvlArDt+iMsl7+d
 OuCxX3RBgdrZWtbREr4rCyNeKxjGezKHuCI/gXaVVJju
 -----END RSA PRIVATE KEY-----`;
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 };

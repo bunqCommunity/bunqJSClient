@@ -29,8 +29,8 @@ export default class SandboxUser implements ApiEndpointInterface {
                 {
                     // no signing and no authentication
                     disableSigning: true,
-                    unauthenticated: true,
-                    ignoreVerification: true,
+                    disableAuthentication: true,
+                    disableVerification: true,
                     skipSessionCheck: true
                 }
             )

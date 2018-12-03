@@ -18,8 +18,8 @@ class SandboxUser {
         const response = await limiter.run(async () => this.ApiAdapter.post(`${Session_1.URL_ENVIROMENTS.SANDBOX}/v1/sandbox-user`, {}, {}, {
             // no signing and no authentication
             disableSigning: true,
-            unauthenticated: true,
-            ignoreVerification: true,
+            disableAuthentication: true,
+            disableVerification: true,
             skipSessionCheck: true
         }));
         return response.Response[0].ApiKey.api_key;

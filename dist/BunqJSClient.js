@@ -66,6 +66,28 @@ class BunqJSClient {
          * @type {{INSTALLATION_HAS_SESSION}}
          */
         this.errorCodes = ErrorCodes_1.default;
+        /**
+         * Handles the expiry timer checker callback
+         */
+        this.expiryTimerCallback = () => {
+            // check if keepAlive is enabled
+            if (this.keepAlive === false) {
+                this.clearExpiryTimer();
+                return false;
+            }
+            // update users, don't wait for it to finish
+            this.getUsers(true)
+                .then(users => {
+                // do nothing
+                this.logger.debug("Triggered session refresh");
+            })
+                .catch(error => {
+                // log the error
+                this.logger.error(error);
+            });
+            // set the timer again for a shorter duration (max 5 minutes)
+            this.setExpiryTimer(true);
+        };
         this.storageInterface = storageInterface;
         this.logger = loggerInterface;
         // create a new session instance
@@ -326,7 +348,7 @@ class BunqJSClient {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip-request", "POST");
         // send a unsigned request to the endpoint to create a new credential password ip
         const response = await limiter.run(async () => this.ApiAdapter.post(`https://api.tinker.bunq.com/v1/credential-password-ip-request`, {}, {}, {
-            ignoreVerification: true,
+            disableVerification: true,
             disableSigning: true,
             skipSessionCheck: true
         }));
@@ -341,7 +363,7 @@ class BunqJSClient {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip-request", "GET");
         // send a unsigned request to the endpoint to create a new credential password ip with the uuid
         const response = await limiter.run(async () => this.ApiAdapter.get(`https://api.tinker.bunq.com/v1/credential-password-ip-request/${uuid}`, {}, {
-            ignoreVerification: true,
+            disableVerification: true,
             disableSigning: true,
             skipSessionCheck: true
         }));
@@ -438,28 +460,6 @@ class BunqJSClient {
         if (this.Session.sessionExpiryTimeChecker !== null) {
             clearTimeout(this.Session.sessionExpiryTimeChecker);
         }
-    }
-    /**
-     * Handles the expiry timer checker callback
-     */
-    expiryTimerCallback() {
-        // check if keepAlive is enabled
-        if (this.keepAlive === false) {
-            this.clearExpiryTimer();
-            return false;
-        }
-        // update users, don't wait for it to finish
-        this.getUsers(true)
-            .then(users => {
-            // do nothing
-            this.logger.debug("Triggered session refresh");
-        })
-            .catch(error => {
-            // log the error
-            this.logger.error(error);
-        });
-        // set the timer again for a shorter duration (max 5 minutes)
-        this.setExpiryTimer(true);
     }
     /**
      * Calculate in how many milliseconds the session will expire

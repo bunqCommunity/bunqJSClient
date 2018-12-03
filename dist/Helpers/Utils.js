@@ -19,34 +19,15 @@ exports.arrayBufferToString = arrayBuffer => {
     }, "");
 };
 /**
- * Requests permision for location and
- * @param {boolean|any} geoLocationHandler
- * @returns {Promise<{latitude: string; longitude: string}>}
+ * Turns bunq headers bakc to uppercase
+ * @param {string} key
+ * @returns {string}
  */
-// export const getGeoLocation = async (geoLocationHandler: any = false) => {
-//     if (
-//         geoLocationHandler !== false ||
-//         (navigator !== undefined && navigator.geolocation !== undefined)
-//     ) {
-//         const handler =
-//             geoLocationHandler === false
-//                 ? navigator.geolocation
-//                 : geoLocationHandler;
-//
-//         const location: Coordinate = await new Promise<Coordinate>(resolve => {
-//             handler.getCurrentPosition((location: LocationCoords) => {
-//                 resolve(location.coords);
-//             });
-//         });
-//
-//         const latitude: number = location.latitude;
-//         const longitude: number = location.longitude;
-//
-//         return {
-//             latitude: ("" + latitude).substring(0, 5),
-//             longitude: ("" + longitude).substring(0, 5)
-//         };
-//     }
-//
-//     throw new Error("Failed to get location, no valid geolocation available");
-// };
+exports.fixHeaderCase = (key) => {
+    // split by - character
+    const headerParts = key.split("-");
+    // add uppercase back since axios makes every header key lowercase
+    const headerPartsFixed = headerParts.map(exports.ucfirst);
+    // merge back to a string
+    return headerPartsFixed.join("-");
+};
