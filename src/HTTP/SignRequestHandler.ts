@@ -39,7 +39,7 @@ export default class SignRequestHandler {
             const nodeUserAgent = `Node-${process.version}-bunqJSClient`;
             request.setHeader("User-Agent", nodeUserAgent);
         } else {
-            request.setHeader("User-Agent", `${navigator.userAgent}-bunqJSClient`);
+            request.setHeader("User-Agent", navigator.userAgent);
         }
 
         // create a list of headers
@@ -76,6 +76,11 @@ ${data}`;
 
         // sign the template with our private key
         const signature = await signString(template, this.Session.privateKey);
+
+        if (typeof navigator !== "undefined") {
+            // remove the user agent again if we're in a browser env where we aren't allowed to
+            request.removeHeader("User-Agent");
+        }
 
         // set the signature
         request.setSigned(signature);
