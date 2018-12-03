@@ -24,8 +24,20 @@ export const unVerifyableResponse = async (moxios, responseType = "default", sta
                         Response: [
                             {
                                 Id: {
-                                    id: 1273489172394
-                                }
+                                    id: "1273489172394"
+                                },
+                                UserCredentialPasswordIpRequest: {},
+                                ServerPublicKey: {
+                                    server_public_key: ""
+                                },
+                                ApiKey: {
+                                    api_key: "key"
+                                },
+                                payments: [],
+                                Payment: {},
+                                UserCompany: {},
+                                UserLight: {},
+                                UserPerson: {}
                             },
                             {
                                 Token: {
@@ -74,7 +86,6 @@ describe("VerifyResponseHandler", () => {
     });
 
     describe("#verifyResponse()", () => {
-
         // TODO add tests with actual bunq sample responses
 
         it("should invalidate a invalid response", async () => {
@@ -103,7 +114,7 @@ describe("VerifyResponseHandler", () => {
                             reject(ex);
                         });
                 })
-            ).rejects.toThrow(CustomError);
+            ).rejects.toBeInstanceOf(CustomError);
         });
 
         it("should ignore validation without serverPublicKey", async () => {

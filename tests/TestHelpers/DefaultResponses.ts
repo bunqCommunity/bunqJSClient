@@ -16,6 +16,9 @@ export const defaultResponse = async moxios => {
                         Response: [
                             {
                                 UserCredentialPasswordIpRequest: {},
+                                ServerPublicKey: {
+                                    server_public_key: ""
+                                },
                                 ApiKey: {
                                     api_key: "key"
                                 },
