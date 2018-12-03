@@ -10,6 +10,7 @@ import Request from "./HTTP/Request";
 import SignRequestHandler from "./HTTP/SignRequestHandler";
 import VerifyResponseHandler from "./HTTP/VerifyResponseHandler";
 import ErrorCodes from "./Helpers/ErrorCodes";
+import CustomError from "./Interfaces/CustomError";
 
 export const BUNQ_SERVER_SIGNATURE_HEADER_KEY = "X-Bunq-Server-Signature";
 export const BUNQ_REQUEST_SIGNATURE_HEADER_KEY = "X-Bunq-Client-Signature";
@@ -99,7 +100,7 @@ export default class ApiAdapter {
      * @param {ApiAdapterOptions} options
      * @returns {Promise<any>}
      */
-    private async request(
+    public async request(
         url: string,
         method: Method = "GET",
         data: any = {},
@@ -141,13 +142,13 @@ export default class ApiAdapter {
         if (options.disableVerification !== true) {
             const verifyResult = await this.VerifyResponseHandler.verifyResponse(response);
 
-            if (!verifyResult && !process.env.ENV_CI) {
+            if (!verifyResult && (!process.env.ENV_CI || process.env.ENV_CI === "false")) {
                 // invalid response in a non-ci environment
-                throw {
-                    errorCode: ErrorCodes.INVALID_RESPONSE_RECEIVED,
-                    error: "We couldn't verify the received response",
-                    response: response
-                };
+                throw new CustomError(
+                    "We couldn't verify the received response",
+                    response,
+                    ErrorCodes.INVALID_RESPONSE_RECEIVED
+                );
             }
         }
 

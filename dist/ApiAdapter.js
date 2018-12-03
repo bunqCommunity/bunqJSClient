@@ -6,6 +6,7 @@ const Request_1 = require("./HTTP/Request");
 const SignRequestHandler_1 = require("./HTTP/SignRequestHandler");
 const VerifyResponseHandler_1 = require("./HTTP/VerifyResponseHandler");
 const ErrorCodes_1 = require("./Helpers/ErrorCodes");
+const CustomError_1 = require("./Interfaces/CustomError");
 exports.BUNQ_SERVER_SIGNATURE_HEADER_KEY = "X-Bunq-Server-Signature";
 exports.BUNQ_REQUEST_SIGNATURE_HEADER_KEY = "X-Bunq-Client-Signature";
 exports.BUNQ_REQUEST_AUTHENTICATION_HEADER_KEY = "X-Bunq-Client-Authentication";
@@ -134,13 +135,9 @@ class ApiAdapter {
         }
         if (options.disableVerification !== true) {
             const verifyResult = await this.VerifyResponseHandler.verifyResponse(response);
-            if (!verifyResult && !process.env.ENV_CI) {
+            if (!verifyResult && (!process.env.ENV_CI || process.env.ENV_CI === "false")) {
                 // invalid response in a non-ci environment
-                throw {
-                    errorCode: ErrorCodes_1.default.INVALID_RESPONSE_RECEIVED,
-                    error: "We couldn't verify the received response",
-                    response: response
-                };
+                throw new CustomError_1.default("We couldn't verify the received response", response, ErrorCodes_1.default.INVALID_RESPONSE_RECEIVED);
             }
         }
         try {

@@ -43,21 +43,21 @@
     "axios": "^0.16.2",
     "babel-core": "^7.0.0-bridge.0",
     "es6-promise-promise": "^1.0.0",
-    "jest": "^21.2.1",
     "loglevel": "^1.4.1",
-    "moxios": "^0.4.0",
     "node-forge": "^0.7.1",
-    "node-json-db": "^0.7.3",
     "store": "^2.0.12",
-    "ts-jest": "^23.1.4",
     "typescript": "^2.5.3"
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
     "cross-env": "^5.2.0",
     "dotenv": "^6.0.0",
+    "jest": "^23.6.0",
     "json-store": "^1.0.0",
-    "prettier": "^1.14.2"
+    "moxios": "^0.4.0",
+    "node-json-db": "^0.7.3",
+    "prettier": "^1.14.2",
+    "ts-jest": "^23.1.4"
   },
   "engines": {
     "node": ">=8.0.0"

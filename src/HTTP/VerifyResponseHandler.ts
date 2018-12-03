@@ -4,7 +4,6 @@ import Session from "../Session";
 import LoggerInterface from "../Interfaces/LoggerInterface";
 import { arrayBufferToString, fixHeaderCase } from "../Helpers/Utils";
 import { BUNQ_SERVER_SIGNATURE_HEADER_KEY } from "../ApiAdapter";
-import ErrorCodes from "../Helpers/ErrorCodes";
 
 export default class VerifyResponseHandler {
     public Session: Session;
@@ -30,7 +29,6 @@ export default class VerifyResponseHandler {
 
         // fallback values for invalid response objects
         if (!response.status) response.status = 200;
-        if (!response.request) response.request = {};
         if (!response.headers) response.headers = {};
 
         // create a list of headers

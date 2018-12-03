@@ -3,7 +3,6 @@ import * as path from "path";
 import apiInstallationRegistration from "../TestData/api-installation";
 import apiDeviceRegistration from "../TestData/api-installation";
 import apiSessionRegistration from "../TestData/api-session-registration";
-import useOauthResponse from "../TestData/api-user-oauth";
 import oauthAuthorizationResponse from "../TestData/oauth-authorization";
 
 export const defaultResponse = async moxios => {
@@ -40,6 +39,9 @@ export const defaultResponse = async moxios => {
                                 }
                             }
                         ]
+                    },
+                    headers: {
+                        "Content-Type": "application/json"
                     }
                 })
                 .then(resolve)

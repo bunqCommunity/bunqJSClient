@@ -22,8 +22,6 @@ class VerifyResponseHandler {
         // fallback values for invalid response objects
         if (!response.status)
             response.status = 200;
-        if (!response.request)
-            response.request = {};
         if (!response.headers)
             response.headers = {};
         // create a list of headers
