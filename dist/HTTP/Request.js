@@ -37,6 +37,9 @@ class Request {
     get headers() {
         return this._headers;
     }
+    get options() {
+        return this._options;
+    }
     get isSigned() {
         return this._isSigned;
     }
@@ -70,6 +73,9 @@ class Request {
     }
     setData(data) {
         this._data = data;
+    }
+    setOptions(key, value) {
+        this._options[key] = value;
     }
     getHeader(key) {
         return this._headers[key];

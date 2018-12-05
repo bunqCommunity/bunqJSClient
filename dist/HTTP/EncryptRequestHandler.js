@@ -26,6 +26,11 @@ class EncryptRequestHandler {
         const hmacBuffer = this.getBodyHmac(key, iv, encryptedBody);
         // set new body
         request.setData(encryptedBody);
+        // disable request transform
+        request.setOptions("transformRequest", data => {
+            // don't transform the data, return it directly
+            return data;
+        });
         // set headers
         request.setHeader("Content-Type", "multipart/form-data");
         request.setHeader(HEADER_CLIENT_ENCRYPTION_HMAC, forge.util.encode64(hmacBuffer));
