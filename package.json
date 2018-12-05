@@ -11,10 +11,18 @@
     "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|src)/**/**.+(js|ts)\"",
     "preversion": "npm run build"
   },
-  "main": "./index.js",
-  "typings": "./src",
-  "types": "./src",
+  "main": "./dist/BunqJSClient.js",
+  "types": "./dist/BunqJSClient.d.ts",
   "dependencies": {
+    "awaiting": "^3.0.0",
+    "axios": "^0.16.2",
+    "es6-promise-promise": "^1.0.0",
+    "loglevel": "^1.4.1",
+    "node-forge": "^0.7.1",
+    "store": "^2.0.12",
+    "typescript": "^2.5.3"
+  },
+  "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
@@ -38,17 +46,7 @@
     "@babel/preset-env": "^7.0.0",
     "@types/jest": "^21.1.8",
     "@types/moxios": "^0.4.8",
-    "@types/node": "^8.0.34",
-    "awaiting": "^3.0.0",
-    "axios": "^0.16.2",
-    "babel-core": "^7.0.0-bridge.0",
-    "es6-promise-promise": "^1.0.0",
-    "loglevel": "^1.4.1",
-    "node-forge": "^0.7.1",
-    "store": "^2.0.12",
-    "typescript": "^2.5.3"
-  },
-  "devDependencies": {
+    "@types/node": "^8.10.38",
     "coveralls": "^3.0.0",
     "cross-env": "^5.2.0",
     "dotenv": "^6.0.0",
