@@ -35,9 +35,6 @@
     "@babel/plugin-syntax-import-meta": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
-    "@types/jest": "^21.1.8",
-    "@types/moxios": "^0.4.8",
-    "@types/node": "^8.0.34",
     "awaiting": "^3.0.0",
     "axios": "^0.16.2",
     "babel-core": "^7.0.0-bridge.0",
@@ -48,6 +45,9 @@
     "typescript": "^2.5.3"
   },
   "devDependencies": {
+	"@types/node": "^8.10.38",
+	"@types/jest": "^21.1.8",
+    "@types/moxios": "^0.4.8",
     "coveralls": "^3.0.0",
     "cross-env": "^5.2.0",
     "dotenv": "^6.0.0",
