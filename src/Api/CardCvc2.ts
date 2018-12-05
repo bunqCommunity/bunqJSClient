@@ -1,8 +1,6 @@
 import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
-import PaginationOptions from "../Types/PaginationOptions";
-import RequestResponsePutOptions from "../Types/RequestResponsePutOptions";
 
 export default class CardCvc2 implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
@@ -53,13 +51,13 @@ export default class CardCvc2 implements ApiEndpointInterface {
      * @param {number} cardId
      * @returns {Promise<void>}
      */
-    public async post(userId: number, cardId: number, options: any = {}) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/generated-cvc2", "POST");
-
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.put(`/v1/user/${userId}/card/${cardId}/generated-cvc2`, {}, {}, { isEncrypted: true })
-        );
-
-        return response.Response[0];
-    }
+    // public async post(userId: number, cardId: number, options: any = {}) {
+    //     const limiter = this.ApiAdapter.RequestLimitFactory.create("/generated-cvc2", "POST");
+    //
+    //     const response = await limiter.run(async () =>
+    //         this.ApiAdapter.put(`/v1/user/${userId}/card/${cardId}/generated-cvc2`, {}, {}, { isEncrypted: true })
+    //     );
+    //
+    //     return response.Response[0];
+    // }
 }
