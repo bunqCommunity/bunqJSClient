@@ -11,7 +11,7 @@
     "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|src)/**/**.+(js|ts)\"",
     "preversion": "npm run build"
   },
-  "main": "/dist/BunqJSClient.js",
+  "main": "./dist/BunqJSClient.js",
   "types": "./dist/BunqJSClient.d.ts",
   "dependencies": {
     "@babel/cli": "^7.0.0",
