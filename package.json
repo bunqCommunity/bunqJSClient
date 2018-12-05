@@ -13,6 +13,7 @@
   },
   "main": "./dist/BunqJSClient.js",
   "types": "./dist/BunqJSClient.d.ts",
+  "files": ["dist/**/*"],
   "dependencies": {
     "awaiting": "^3.0.0",
     "axios": "^0.16.2",
