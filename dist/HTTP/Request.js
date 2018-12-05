@@ -68,6 +68,9 @@ class Request {
     setUrl(url) {
         this._url = url;
     }
+    setData(data) {
+        this._data = data;
+    }
     getHeader(key) {
         return this._headers[key];
     }

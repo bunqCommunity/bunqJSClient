@@ -90,6 +90,9 @@ export default class Request {
     public setUrl(url: string): void {
         this._url = url;
     }
+    public setData(data: any): void {
+        this._data = data;
+    }
 
     public getHeader(key: string): string | false {
         return this._headers[key];

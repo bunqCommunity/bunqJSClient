@@ -30,5 +30,18 @@ class CardCvc2 {
         const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/card/${cardId}/generated-cvc2`));
         return response.Response;
     }
+    /**
+     * @param {number} userId
+     * @param {number} cardId
+     * @param {"STATIC" | "GENERATED"} type
+     * @returns {Promise<void>}
+     */
+    async post(userId, cardId, type = "GENERATED", options = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/generated-cvc2", "POST");
+        const response = await limiter.run(async () => this.ApiAdapter.put(`/v1/user/${userId}/card/${cardId}/generated-cvc2`, {
+            type: type
+        }, {}, { isEncrypted: true }));
+        return response.Response[0];
+    }
 }
 exports.default = CardCvc2;

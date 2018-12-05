@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = require("axios");
+const CustomError_1 = require("./Interfaces/CustomError");
 const RequestLimitFactory_1 = require("./RequestLimitFactory");
 const Request_1 = require("./HTTP/Request");
 const SignRequestHandler_1 = require("./HTTP/SignRequestHandler");
+const EncryptRequestHandler_1 = require("./HTTP/EncryptRequestHandler");
 const VerifyResponseHandler_1 = require("./HTTP/VerifyResponseHandler");
 const ErrorCodes_1 = require("./Helpers/ErrorCodes");
-const CustomError_1 = require("./Interfaces/CustomError");
 exports.BUNQ_SERVER_SIGNATURE_HEADER_KEY = "X-Bunq-Server-Signature";
 exports.BUNQ_REQUEST_SIGNATURE_HEADER_KEY = "X-Bunq-Client-Signature";
 exports.BUNQ_REQUEST_AUTHENTICATION_HEADER_KEY = "X-Bunq-Client-Authentication";
@@ -48,6 +49,7 @@ class ApiAdapter {
         this.BunqJSClient = BunqJSClient;
         this.RequestLimitFactory = new RequestLimitFactory_1.default();
         this.SignRequestHandler = new SignRequestHandler_1.default(this.Session, this.logger, this.BunqJSClient);
+        this.EncryptRequestHandler = new EncryptRequestHandler_1.default(this.Session, this.logger, this.BunqJSClient);
         this.VerifyResponseHandler = new VerifyResponseHandler_1.default(this.Session, this.logger, this.BunqJSClient);
         this.language = "en_US";
         this.region = "nl_NL";
@@ -118,6 +120,9 @@ class ApiAdapter {
             else if (this.Session.installToken !== null) {
                 request.setAuthenticated(this.Session.installToken);
             }
+        }
+        if (options.isEncrypted === true) {
+            await this.EncryptRequestHandler.encryptRequest(request, options);
         }
         if (options.disableSigning !== true) {
             await this.SignRequestHandler.signRequest(request, options);

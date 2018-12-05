@@ -49,15 +49,23 @@ export default class CardCvc2 implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} cardId
+     * @param {"STATIC" | "GENERATED"} type
      * @returns {Promise<void>}
      */
-    // public async post(userId: number, cardId: number, options: any = {}) {
-    //     const limiter = this.ApiAdapter.RequestLimitFactory.create("/generated-cvc2", "POST");
-    //
-    //     const response = await limiter.run(async () =>
-    //         this.ApiAdapter.put(`/v1/user/${userId}/card/${cardId}/generated-cvc2`, {}, {}, { isEncrypted: true })
-    //     );
-    //
-    //     return response.Response[0];
-    // }
+    public async post(userId: number, cardId: number, type: "STATIC" | "GENERATED" = "GENERATED", options: any = {}) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/generated-cvc2", "POST");
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/card/${cardId}/generated-cvc2`,
+                {
+                    type: type
+                },
+                {},
+                { isEncrypted: true }
+            )
+        );
+
+        return response.Response[0];
+    }
 }
