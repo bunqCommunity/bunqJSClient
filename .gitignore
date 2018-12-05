@@ -11,3 +11,5 @@ coverage
 tests/custom-db
 
 yarn-error.log
+
+/dist/
