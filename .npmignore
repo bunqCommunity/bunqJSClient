@@ -1,1 +1,16 @@
+/node_modules/
+/.idea/
+
+.env
+.env.*
+!.env.example
+examples/storage.json
+
+# test files
+coverage
+tests/custom-db
+
+yarn-error.log
+
 /src/
+/tests/
