@@ -52,18 +52,9 @@ export default class RequestLimiter {
                 if (!queueItem) break;
 
                 this.requests++;
-                this.lastRequest = Date.now();
-
-                try {
-                    const result = queueItem.callable();
-
-                    // check if the callback has a promise and catch any rejections
-                    if (result && result.then) result.catch(Logger.error);
-
-                    queueItem.resolve(result);
-                } catch (error) {
-                    queueItem.reject(error);
-                }
+				this.lastRequest = Date.now();
+				
+				queueItem.callable().then(queueItem.resolve, queueItem.reject);
             }
 
             this.check();
