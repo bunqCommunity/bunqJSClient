@@ -19,15 +19,15 @@ with the following methods: `get(key)`, `set(key, data)`, `remove(key)`.
 ## Usage
 Install a storage helper if required and create a new client
 ```js
-const BunqClient = new bunqJSClient();
+const bunqJSClient = new BunqJSClient();
 
 // OR use a custom storage handler
 import SomeStorageHelper from "some-storage-handler"; 
-const BunqClientCustom = new bunqJSClient(SomeStorageHelper);
+const bunqJSClientCustom = new bunqJSClient(SomeStorageHelper);
 
 // disables the automatic requests to keep the current session alive
 // instead it'll create a new session when it is required
-BunqClient.setKeepAlive(false);
+bunqJSClient.setKeepAlive(false);
 ```
 
 Next run the setup functions to get started
@@ -59,16 +59,16 @@ const PERMITTED_IPS = [];
 
 const setup = async () => {
     // run the bunq application with our API key
-    await BunqClient.run(API_KEY, PERMITTED_IPS, ENVIRONMENT, ENCRYPTION_KEY);
+    await bunqJSClient.run(API_KEY, PERMITTED_IPS, ENVIRONMENT, ENCRYPTION_KEY);
     
     // install a new keypair 
-    await BunqClient.install();
+    await bunqJSClient.install();
     
     // register this device
-    await BunqClient.registerDevice(DEVICE_NAME);
+    await bunqJSClient.registerDevice(DEVICE_NAME);
     
     // register a new session
-    await BunqClient.registerSession();
+    await bunqJSClient.registerSession();
 }
 ```
 
@@ -78,10 +78,10 @@ Now you can use the API in the bunq client to do requests and get the current us
 const forceUpdate = true;
 
 // all users connected to the api key
-const users = await BunqClient.getUsers(forceUpdate);
+const users = await bunqJSClient.getUsers(forceUpdate);
 
 // get only the userCompany account if one is set
-const userCompany = await BunqClient.getUser("UserCompany", forceUpdate);
+const userCompany = await bunqJSClient.getUser("UserCompany", forceUpdate);
 
 // get all payments for a user and monetary account
 const payments = await bunqJSClient.api.payment.list(userId, accountId);
