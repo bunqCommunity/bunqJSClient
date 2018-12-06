@@ -32,6 +32,7 @@ class EncryptRequestHandler {
             return data;
         });
         // set headers
+        // TODO test application/json
         request.setHeader("Content-Type", "multipart/form-data");
         request.setHeader(HEADER_CLIENT_ENCRYPTION_HMAC, forge.util.encode64(hmacBuffer));
         request.setHeader(HEADER_CLIENT_ENCRYPTION_IV, forge.util.encode64(iv));
@@ -56,10 +57,16 @@ class EncryptRequestHandler {
      * @param encryptedBody
      */
     getBodyHmac(key, iv, encryptedBody) {
-        const hmacInput = iv + encryptedBody;
+        const ivBuffer = Buffer.from(iv, "binary");
+        const bodyBuffer = Buffer.from(encryptedBody, "binary");
+        // combine the two input buffers
+        const mergedBuffer = Buffer.concat([ivBuffer, bodyBuffer]);
         const hmac = forge.hmac.create();
         hmac.start("sha1", key);
-        hmac.update(hmacInput);
+        // output buffer into the update method
+        // hmac.update(mergedBuffer.toString("binary"));
+        // OR utf8
+        hmac.update(mergedBuffer.toString("utf8"));
         return hmac.digest().getBytes();
     }
 }

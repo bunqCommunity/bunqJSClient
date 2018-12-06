@@ -10,8 +10,8 @@ const BunqClient = new BunqJSClient(customStore);
 const defaultErrorLogger = error => {
     if (error.response) {
         console.log(error.response.data);
+        console.log("");
         console.log(error.request._header);
-        // console.log(Object.keys(error.request));
     }
     process.exit();
 };
