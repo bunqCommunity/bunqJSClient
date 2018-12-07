@@ -1,6 +1,6 @@
 {
   "name": "@bunq-community/bunq-js-client",
-  "version": "0.35.2",
+  "version": "0.35.3",
   "license": "MIT",
   "scripts": {
     "build": "tsc --listFiles --newline lf",
@@ -13,7 +13,9 @@
   },
   "main": "./dist/BunqJSClient.js",
   "types": "./dist/BunqJSClient.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "dependencies": {
     "awaiting": "^3.0.0",
     "axios": "^0.16.2",
