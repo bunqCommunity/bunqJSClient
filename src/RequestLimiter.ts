@@ -54,7 +54,7 @@ export default class RequestLimiter {
                 this.requests++;
 				this.lastRequest = Date.now();
 				
-				queueItem.callable().then(queueItem.resolve, queueItem.reject);
+				Promise.resolve(queueItem.callable()).then(queueItem.resolve, queueItem.reject);
             }
 
             this.check();
