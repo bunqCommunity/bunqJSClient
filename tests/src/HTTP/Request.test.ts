@@ -64,7 +64,7 @@ describe("Request", () => {
         it("should set url", () => {
             const request = new Request("/test");
             expect(request.url).toBe("/test");
-            request.setUrl("/different-url")
+            request.setUrl("/different-url");
             expect(request.url).toBe("/different-url");
         });
     });

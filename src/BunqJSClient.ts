@@ -602,7 +602,7 @@ export default class BunqJSClient {
 
         // set the timer again for a shorter duration (max 5 minutes)
         this.setExpiryTimer(true);
-    }
+    };
 
     /**
      * Calculate in how many milliseconds the session will expire

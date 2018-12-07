@@ -62,7 +62,7 @@ iQIDAQAB
     app.Session.userInfo = {
         UserCompany: UserInfo,
         UserPerson: UserInfo,
-        UserLight: UserInfo,
+        UserLight: UserInfo
     };
 
     return app;

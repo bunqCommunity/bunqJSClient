@@ -52,9 +52,9 @@ export default class RequestLimiter {
                 if (!queueItem) break;
 
                 this.requests++;
-				this.lastRequest = Date.now();
-				
-				Promise.resolve(queueItem.callable()).then(queueItem.resolve, queueItem.reject);
+                this.lastRequest = Date.now();
+
+                Promise.resolve(queueItem.callable()).then(queueItem.resolve, queueItem.reject);
             }
 
             this.check();
