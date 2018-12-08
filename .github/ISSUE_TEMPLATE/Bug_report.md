@@ -1,20 +1,15 @@
 ---
 name: Bug report
-about: Report a bug or missing translation
+about: Report a bug
 
 ---
 
-Before submitting a new bug report make sure you check the following things!
+### Bug report
 
-## Checklist before submitting
- - [ ] You are using the latest version that is currently available.
- - [ ] The API key you are using is correct for the environment you selected. So you are not using a developer key with the production environment.
- - [ ] Your API key is a wildcard API key OR the IP you are currently on is whitelisted for the API key you entered.
- - [ ] Development: You updated your dependencies.
- - [ ] Development: The branch you are building has merged the latest changes from the master branch.
-
-## Information
-To make things easier provide us with as much information as possible.
-- Include the error displayed on the error screen or listed in the error logs when possible.
-- Provide screenshots if a visual bug is involved.
-- List which versions you are using. For example `Windows 10 and bunqJSClient 0.21.2`.
+To help us out please add as much information as possible to help us reproduce and hopefully solve the issue.
+For example:
+- Were you doing anything specific when the error occured?
+- Which page is the error dispalyed on
+- Include the error displayed on the error screen if possible (Preferably as text, not as a screenshot)
+- Provide screenshots if a visual bug is involved
+- List which versions you are using. For example `Ubuntu 18.04 and bunq-cli 0.1.0`.
