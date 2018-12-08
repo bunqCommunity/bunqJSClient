@@ -1,5 +1,5 @@
 # bunqJSClient 
-[![build status for master branch](https://api.travis-ci.org/bunqCommunity/bunqJSClient.svg?branch=master)](https://travis-ci.org/bunqCommunity/bunqJSClient) [![codecov](https://codecov.io/gh/bunqCommunity/bunqJSClient/branch/master/graph/badge.svg)](https://codecov.io/gh/bunqCommunity/bunqJSClient) [![NPM Downloads](https://img.shields.io/npm/dt/@bunq-community/bunq-js-client.svg)](https://www.npmjs.com/package/@bunq-community/bunq-js-client)
+[![NPM  Version](https://img.shields.io/npm/v/@bunq-community/bunq-js-client.svg)](https://github.com/@bunq-community/bunq-js-client) [![build status for master branch](https://api.travis-ci.org/bunqCommunity/bunqJSClient.svg?branch=master)](https://travis-ci.org/bunqCommunity/bunqJSClient) [![codecov](https://codecov.io/gh/bunqCommunity/bunqJSClient/branch/master/graph/badge.svg)](https://codecov.io/gh/bunqCommunity/bunqJSClient) [![NPM Downloads](https://img.shields.io/npm/dt/@bunq-community/bunq-js-client.svg)](https://www.npmjs.com/package/@bunq-community/bunq-js-client)
 
 A unofficial javascript SDK for the bunq API. It is aimed at allowing single page applications to do all interactions with bunq without proxying through other services. 
 
