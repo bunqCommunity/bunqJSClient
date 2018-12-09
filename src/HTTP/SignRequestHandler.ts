@@ -6,6 +6,7 @@ import LoggerInterface from "../Interfaces/LoggerInterface";
 import Request from "./Request";
 
 import ApiAdapterOptions from "../Types/ApiAdapterOptions";
+import { arrayBufferToString } from "../Helpers/Utils";
 
 export default class SignRequestHandler {
     public Session: Session;
@@ -27,6 +28,7 @@ export default class SignRequestHandler {
     public async signRequest(request: Request, options: ApiAdapterOptions): Promise<void> {
         let url: string = request.requestConfig.url;
         const dataIsEncrypted = options.isEncrypted === true;
+        const requestHasFile = !!options.includesFile;
 
         // Check if one or more param is set and add it to the url
         if (request.requestConfig.params && Object.keys(request.requestConfig.params).length > 0) {
@@ -62,8 +64,40 @@ export default class SignRequestHandler {
         // serialize the data
         let data: string = "";
         const appendDataWhitelist = ["POST", "PUT", "DELETE"];
-        if (dataIsEncrypted === true) {
+        if (dataIsEncrypted || requestHasFile) {
+            // overwrite transformRequest
+            request.setOption("transformRequest", [
+                (data: any, headers: any) => {
+                    console.log("transformRequest data");
+                    console.log(data);
+                    return data;
+                }
+            ]);
+
+            require("fs").writeFileSync("./dist/debug-original-file.jpg", request.data);
+
+            // data = Buffer.from(request.data).toString("binary");
+            // data = Buffer.from(request.data).toString("utf8");
             data = request.data;
+            request.setData(data);
+
+            require("fs").writeFileSync("./dist/debug-output-file.jpg", data);
+
+            // the full template to sign
+            const template: string = `${request.method} ${url}\n${headers}\n\n${data}`;
+
+            if (requestHasFile) {
+                console.log("");
+                console.log(template);
+                console.log("");
+                // process.exit();
+            }
+
+            // sign the template with our private key
+            const signature = await signString(template, this.Session.privateKey);
+
+            if (typeof navigator !== "undefined") request.removeHeader("User-Agent");
+            request.setSigned(signature);
         } else if (appendDataWhitelist.some(item => item === request.method)) {
             data = JSON.stringify(request.data);
         }
@@ -73,6 +107,15 @@ export default class SignRequestHandler {
 ${headers}
 
 ${data}`;
+
+        if (requestHasFile) {
+            console.log("");
+            console.log("");
+            // console.log(template);
+            console.log("");
+            console.log("");
+            // process.exit();
+        }
 
         // sign the template with our private key
         const signature = await signString(template, this.Session.privateKey);

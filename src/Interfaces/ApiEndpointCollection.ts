@@ -6,6 +6,7 @@ import Payment from "../Api/Payment";
 import SandboxUser from "../Api/SandboxUser";
 import ShareInviteBankResponse from "../Api/ShareInviteBankResponse";
 import AttachementContent from "../Api/AttachementContent";
+import AttachmentPublic from "../Api/AttachementPublic";
 import UserCompany from "../Api/UserCompany";
 import BunqMeTabs from "../Api/BunqMeTabs";
 import DeviceRegistration from "../Api/DeviceRegistration";
@@ -35,6 +36,7 @@ import MonetaryAccount from "../Api/MonetaryAccount";
 
 export default interface ApiEndpointCollection {
     attachmentContent: AttachementContent;
+    attachmentPublic: AttachmentPublic;
     bunqMeTabs: BunqMeTabs;
     card: Card;
     cardCvc2: CardCvc2;
