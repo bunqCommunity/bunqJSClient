@@ -82,22 +82,6 @@ export default class SignRequestHandler {
             request.setData(data);
 
             require("fs").writeFileSync("./dist/debug-output-file.jpg", data);
-
-            // the full template to sign
-            const template: string = `${request.method} ${url}\n${headers}\n\n${data}`;
-
-            if (requestHasFile) {
-                console.log("");
-                console.log(template);
-                console.log("");
-                // process.exit();
-            }
-
-            // sign the template with our private key
-            const signature = await signString(template, this.Session.privateKey);
-
-            if (typeof navigator !== "undefined") request.removeHeader("User-Agent");
-            request.setSigned(signature);
         } else if (appendDataWhitelist.some(item => item === request.method)) {
             data = JSON.stringify(request.data);
         }
@@ -110,11 +94,8 @@ ${data}`;
 
         if (requestHasFile) {
             console.log("");
+            console.log(template);
             console.log("");
-            // console.log(template);
-            console.log("");
-            console.log("");
-            // process.exit();
         }
 
         // sign the template with our private key
