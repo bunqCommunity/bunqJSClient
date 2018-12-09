@@ -2,7 +2,7 @@ import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import PaginationOptions from "../Types/PaginationOptions";
-import Amount from "../Types/Amount";
+import AmountValue from "../Types/AmountValue";
 import MonetaryAccountPutRequest from "../Types/MonetaryAccountPutRequest";
 
 export default class MonetaryAccountSavings implements ApiEndpointInterface {
@@ -59,8 +59,9 @@ export default class MonetaryAccountSavings implements ApiEndpointInterface {
      * @param {number} userId
      * @param {string} currency
      * @param {string} description
-     * @param {Amount} dailyLimit
+     * @param {AmountValue} dailyLimit
      * @param {string} color
+     * @param {AmountValue} savingsGoal
      * @param options
      * @returns {Promise<void>}
      */
@@ -68,9 +69,9 @@ export default class MonetaryAccountSavings implements ApiEndpointInterface {
         userId: number,
         currency: string,
         description: string,
-        dailyLimit: Amount,
+        dailyLimit: AmountValue,
         color: string,
-        savingsGoal: number,
+        savingsGoal: AmountValue,
         options: any = {}
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-savings", "POST");
@@ -79,7 +80,7 @@ export default class MonetaryAccountSavings implements ApiEndpointInterface {
             currency: currency,
             description: description,
             daily_limit: {
-                value: dailyLimit,
+                value: dailyLimit + "",
                 currency: currency
             },
             setting: {
@@ -87,7 +88,7 @@ export default class MonetaryAccountSavings implements ApiEndpointInterface {
                 default_avatar_status: "AVATAR_DEFAULT"
             },
             savings_goal: {
-                currency: "EUR",
+                currency: currency,
                 value: savingsGoal + ""
             }
         };

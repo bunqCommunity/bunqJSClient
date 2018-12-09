@@ -3,6 +3,7 @@
   "version": "0.35.3",
   "license": "MIT",
   "scripts": {
+    "prebuild": "rm -r dist/*",
     "build": "tsc --listFiles --newline lf",
     "build:dev": "tsc -w --newline lf",
     "test": "cross-env ENV_CI=true jest --verbose --forceExit --config jest.config.js",

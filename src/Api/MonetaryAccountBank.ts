@@ -2,7 +2,7 @@ import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import PaginationOptions from "../Types/PaginationOptions";
-import Amount from "../Types/Amount";
+import AmountValue from "../Types/AmountValue";
 import MonetaryAccountPutRequest from "../Types/MonetaryAccountPutRequest";
 
 export default class MonetaryAccountBank implements ApiEndpointInterface {
@@ -57,7 +57,7 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
      * @param {number} userId
      * @param {string} currency
      * @param {string} description
-     * @param {Amount} dailyLimit
+     * @param {AmountValue} dailyLimit
      * @param {string} color
      * @param options
      * @returns {Promise<void>}
@@ -66,7 +66,7 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
         userId: number,
         currency: string,
         description: string,
-        dailyLimit: Amount,
+        dailyLimit: AmountValue,
         color: string,
         options: any = {}
     ) {
@@ -77,7 +77,7 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
                 currency: currency,
                 description: description,
                 daily_limit: {
-                    value: dailyLimit,
+                    value: dailyLimit  + "",
                     currency: currency
                 },
                 setting: {
