@@ -77,7 +77,7 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
                 currency: currency,
                 description: description,
                 daily_limit: {
-                    value: dailyLimit  + "",
+                    value: dailyLimit + "",
                     currency: currency
                 },
                 setting: {

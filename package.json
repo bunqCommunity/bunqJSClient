@@ -6,9 +6,11 @@
     "prebuild": "rm -r dist/*",
     "build": "tsc --listFiles --newline lf",
     "build:dev": "tsc -w --newline lf",
-    "test": "cross-env ENV_CI=true jest --verbose --forceExit --config jest.config.js",
+    "test": "npm run test:prettier && npm run test:jest",
     "posttest": "rm -r tests/custom-db/*",
     "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --verbose --watch --config jest.config.js",
+    "test:jest": "cross-env ENV_CI=true jest --verbose --forceExit --config jest.config.js",
+    "test:prettier": "prettier-check \"+(tests|src)/**/**.+(js|ts)\" --tab-width 4 --print-width 120",
     "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|src)/**/**.+(js|ts)\"",
     "preversion": "npm run build"
   },
@@ -59,6 +61,7 @@
     "moxios": "^0.4.0",
     "node-json-db": "^0.7.3",
     "prettier": "^1.14.2",
+    "prettier-check": "^2.0.0",
     "ts-jest": "^23.1.4"
   },
   "engines": {

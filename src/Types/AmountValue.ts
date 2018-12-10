@@ -1,3 +1,3 @@
-type AmountValue =  string;
+type AmountValue = string;
 
 export default AmountValue;
