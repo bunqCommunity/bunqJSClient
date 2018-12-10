@@ -2,7 +2,8 @@ type NotificationFilter = {
     notification_delivery_method: "URL" | "PUSH";
     notification_target: string | null;
     category:
-        | "BILLING"
+		| "BILLING"
+		| "BUNQME_TAB"
         | "CARD_TRANSACTION_FAILED"
         | "CARD_TRANSACTION_SUCCESSFUL"
         | "CHAT"
