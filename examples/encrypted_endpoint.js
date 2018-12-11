@@ -15,6 +15,12 @@ const setup = async () => {
     await BunqClient.registerSession();
 };
 
+const getUsers = () => BunqClient.getUsers(true);
+
+const getCardList = userid => {
+    return BunqClient.api.card.list(userid);
+};
+
 const requestCvcCode = (userid, cardId, type = "GENERATED") => {
     return BunqClient.api.cardCvc2.post(userid, cardId, type);
 };
@@ -22,14 +28,27 @@ const requestCvcCode = (userid, cardId, type = "GENERATED") => {
 // run setup and get payments
 setup()
     .then(async () => {
-        const cvcResult2 = await requestCvcCode(3059, 198);
+        // get user info connected to this account
+        const users = await getUsers();
+        console.log("\nUsers: ", Object.keys(users).length, "\n");
+
+        // get the direct user object
+        const userInfo = users[Object.keys(users)[0]];
+
+        const cards = await getCardList(userInfo.id);
+        console.log("\nCards: ", Object.keys(cards).length, "\n");
+
+        const cvcResult = await requestCvcCode(userInfo.id, 227468);
+        console.log(cvcResult);
+
         process.exit();
     })
     .catch(error => {
         if (error.response) {
+            console.log(error.response.request._header);
             console.log(error.response.data);
-            console.log("");
-            console.log(error.request._header);
+        } else {
+            console.log(error);
         }
         process.exit();
     });

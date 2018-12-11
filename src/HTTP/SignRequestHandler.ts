@@ -26,8 +26,6 @@ export default class SignRequestHandler {
      */
     public async signRequest(request: Request, options: ApiAdapterOptions): Promise<void> {
         let url: string = request.requestConfig.url;
-        const dataIsEncrypted = options.isEncrypted === true;
-        const requestHasFile = !!options.includesFile;
 
         // Check if one or more param is set and add it to the url
         if (request.requestConfig.params && Object.keys(request.requestConfig.params).length > 0) {
@@ -43,20 +41,25 @@ export default class SignRequestHandler {
             request.setHeader("User-Agent", navigator.userAgent);
         }
 
-        // serialize the data
-        let data: string | Buffer = "";
-        const appendDataWhitelist = ["POST", "PUT", "DELETE"];
-        if (dataIsEncrypted || requestHasFile) {
-            const requestData: Buffer = request.data;
-
+        if (options.isEncrypted || options.includesFile) {
             // overwrite transformRequest
             request.setOption("transformRequest", (data: any, headers: any) => {
                 return data;
             });
+        }
 
+        // serialize the data
+        let data: string | Buffer = "";
+        const appendDataWhitelist = ["POST", "PUT", "DELETE"];
+        if (options.includesFile) {
+            const requestData: Buffer = request.data;
             data = requestData.toString("binary");
 
-            // request.setData(data);
+            request.setData(requestData);
+        } else if (options.isEncrypted) {
+            const requestData: string = request.data;
+            data = requestData;
+
             request.setData(requestData);
         } else if (appendDataWhitelist.some(item => item === request.method)) {
             data = JSON.stringify(request.data);
@@ -84,6 +87,10 @@ export default class SignRequestHandler {
 ${headers}
 
 ${data}`;
+
+        console.log("");
+        console.log(template);
+        console.log("");
 
         // sign the template with our private key
         const signature = await signString(template, this.Session.privateKey);

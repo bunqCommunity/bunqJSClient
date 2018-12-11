@@ -21,11 +21,7 @@ export const stringToHash = async (string: string) => {
  * @param publicKey
  * @returns {Promise<string>}
  */
-export const encryptString = async (
-    data: string,
-    publicKey: any,
-    raw: boolean = false
-): Promise<string | any> => {
+export const encryptString = async (data: string, publicKey: any, raw: boolean = false): Promise<string | any> => {
     // create a new message digest for our string
     const messageDigest = forgeSha256.create();
     messageDigest.update(data, "raw");

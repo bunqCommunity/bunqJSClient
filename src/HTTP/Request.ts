@@ -100,10 +100,6 @@ export default class Request {
         this._options[key] = value;
     }
 
-    public setData(data: any): void {
-        this._data = data;
-    }
-
     public getHeader(key: string): string | false {
         return this._headers[key];
     }

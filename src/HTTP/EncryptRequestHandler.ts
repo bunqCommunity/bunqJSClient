@@ -35,69 +35,50 @@ export default class EncryptRequestHandler {
         const key = forge.random.getBytesSync(16);
 
         const encryptedAesKey = await encryptString(key, this.Session.serverPublicKey, true);
-        const encryptedBody: string | Buffer = this.getEncryptedBody(key, iv, body);
-        const hmacBuffer: string = this.getBodyHmac(key, iv, encryptedBody);
+        const encryptedBody: string = this.getEncryptedBody(key, iv, body);
+        const hmacBytes: string = this.getBodyHmac(key, iv, encryptedBody);
 
         // set new body
         request.setData(encryptedBody);
 
         // disable request transform
-        request.setOptions("transformRequest", data => {
-            // don't transform the data, return it directly
+        request.setOptions("transformRequest", (data: any, headers: any) => {
             return data;
         });
 
         // set headers
-        // TODO test application/json
-        request.setHeader("Content-Type", "multipart/form-data");
-        request.setHeader(HEADER_CLIENT_ENCRYPTION_HMAC, forge.util.encode64(hmacBuffer));
+        request.setHeader(HEADER_CLIENT_ENCRYPTION_HMAC, forge.util.encode64(hmacBytes));
         request.setHeader(HEADER_CLIENT_ENCRYPTION_IV, forge.util.encode64(iv));
         request.setHeader(HEADER_CLIENT_ENCRYPTION_KEY, forge.util.encode64(encryptedAesKey));
     }
 
     /**
-     * @param key
-     * @param iv
-     * @param body
+     * @param {string} key
+     * @param {string} iv
+     * @param {string} body
      */
-    private getEncryptedBody(key, iv, body): string | Buffer {
+    private getEncryptedBody(key: string, iv: string, body: string): string {
         const cipher = forge.cipher.createCipher("AES-CBC", key);
 
-        const buffer = forge.util.createBuffer(body, "utf8");
+        const buffer = forge.util.createBuffer(body, "raw");
         cipher.start({ iv: iv });
         cipher.update(buffer);
         cipher.finish();
-        const outputBytes = cipher.output.getBytes();
-
-        console.log("");
-        console.log(cipher.output.getBytes());
-        console.log("");
-        console.log(typeof cipher.output.getBytes());
-        console.log("");
-
-        return Buffer.from(outputBytes, "binary");
 
         return cipher.output.getBytes();
     }
 
     /**
-     * @param key
-     * @param iv
-     * @param encryptedBody
+     * @param {string} key
+     * @param {string} iv
+     * @param {string} encryptedBody
      */
-    private getBodyHmac(key, iv, encryptedBody): string {
-        // const ivBuffer = Buffer.from(iv, "binary");
-        // const bodyBuffer = Buffer.from(encryptedBody, "binary");
-        // const mergedBuffer = Buffer.concat([ivBuffer, bodyBuffer]);
-        const mergedBuffer = iv + encryptedBody;
+    private getBodyHmac(key: string, iv: string, encryptedBody: string): string {
+        const mergedContent = iv + encryptedBody;
 
         const hmac = forge.hmac.create();
         hmac.start("sha1", key);
-
-        // output buffer into the update method
-        // hmac.update(mergedBuffer.toString("binary"));
-        // OR utf8
-        hmac.update(mergedBuffer);
+        hmac.update(mergedContent);
 
         return hmac.digest().getBytes();
     }
