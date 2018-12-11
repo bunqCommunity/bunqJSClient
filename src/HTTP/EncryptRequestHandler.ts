@@ -32,10 +32,10 @@ export default class EncryptRequestHandler {
         const body = JSON.stringify(request.requestConfig.data);
 
         const iv = forge.random.getBytesSync(16);
-        const key = forge.random.getBytesSync(32);
+        const key = forge.random.getBytesSync(16);
 
         const encryptedAesKey = await encryptString(key, this.Session.serverPublicKey, true);
-        const encryptedBody: string = this.getEncryptedBody(key, iv, body);
+        const encryptedBody: string | Buffer = this.getEncryptedBody(key, iv, body);
         const hmacBuffer: string = this.getBodyHmac(key, iv, encryptedBody);
 
         // set new body
@@ -60,13 +60,22 @@ export default class EncryptRequestHandler {
      * @param iv
      * @param body
      */
-    private getEncryptedBody(key, iv, body): string {
+    private getEncryptedBody(key, iv, body): string | Buffer {
         const cipher = forge.cipher.createCipher("AES-CBC", key);
 
         const buffer = forge.util.createBuffer(body, "utf8");
         cipher.start({ iv: iv });
         cipher.update(buffer);
         cipher.finish();
+        const outputBytes = cipher.output.getBytes();
+
+        console.log("");
+        console.log(cipher.output.getBytes());
+        console.log("");
+        console.log(typeof cipher.output.getBytes());
+        console.log("");
+
+        return Buffer.from(outputBytes, "binary");
 
         return cipher.output.getBytes();
     }
@@ -77,11 +86,10 @@ export default class EncryptRequestHandler {
      * @param encryptedBody
      */
     private getBodyHmac(key, iv, encryptedBody): string {
-        const ivBuffer = Buffer.from(iv, "binary");
-        const bodyBuffer = Buffer.from(encryptedBody, "binary");
-
-        // combine the two input buffers
-        const mergedBuffer = Buffer.concat([ivBuffer, bodyBuffer]);
+        // const ivBuffer = Buffer.from(iv, "binary");
+        // const bodyBuffer = Buffer.from(encryptedBody, "binary");
+        // const mergedBuffer = Buffer.concat([ivBuffer, bodyBuffer]);
+        const mergedBuffer = iv + encryptedBody;
 
         const hmac = forge.hmac.create();
         hmac.start("sha1", key);
@@ -89,7 +97,7 @@ export default class EncryptRequestHandler {
         // output buffer into the update method
         // hmac.update(mergedBuffer.toString("binary"));
         // OR utf8
-        hmac.update(mergedBuffer.toString("utf8"));
+        hmac.update(mergedBuffer);
 
         return hmac.digest().getBytes();
     }

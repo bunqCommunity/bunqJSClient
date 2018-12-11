@@ -7,15 +7,6 @@ const PERMITTED_IPS = [];
 
 const BunqClient = new BunqJSClient(customStore);
 
-const defaultErrorLogger = error => {
-    if (error.response) {
-        console.log(error.response.data);
-        console.log("");
-        console.log(error.request._header);
-    }
-    process.exit();
-};
-
 const setup = async () => {
     await BunqClient.run(process.env.API_KEY, PERMITTED_IPS, process.env.ENVIRONMENT, process.env.ENCRYPTION_KEY);
     BunqClient.setKeepAlive(false);
@@ -34,4 +25,11 @@ setup()
         const cvcResult2 = await requestCvcCode(3059, 198);
         process.exit();
     })
-    .catch(defaultErrorLogger);
+    .catch(error => {
+        if (error.response) {
+            console.log(error.response.data);
+            console.log("");
+            console.log(error.request._header);
+        }
+        process.exit();
+    });

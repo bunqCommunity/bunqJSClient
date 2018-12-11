@@ -64,6 +64,14 @@ export default class SignRequestHandler {
         const appendDataWhitelist = ["POST", "PUT", "DELETE"];
         if (dataIsEncrypted === true) {
             data = request.data;
+            console.log("");
+            console.log(data);
+            console.log("");
+            data = request.data.toString("binary");
+            console.log("");
+            console.log(data);
+            console.log("");
+            process.exit();
         } else if (appendDataWhitelist.some(item => item === request.method)) {
             data = JSON.stringify(request.data);
         }
