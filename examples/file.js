@@ -2,7 +2,7 @@ const fs = require("fs");
 require("dotenv").config();
 
 // const BunqJSClient = require("@bunq-community/bunq-js-client").default;
-const BunqJSClient = require("../dist/BunqJSClient").default;
+const BunqJSClient = require("../src/BunqJSClient.ts").default;
 
 // setup a custom store which works in a node environment
 const customStore = require("./custom_store")(__dirname + "\\storage.json");
@@ -54,9 +54,20 @@ setup()
     .then(async () => {
         const file = fs.readFileSync(__dirname + "/../dist/input.png");
 
-        await BunqClient.api.attachmentPublic.post(file, "image/png");
+        const result = await BunqClient.api.attachmentPublic.post(file, "image/png");
         // const file = fs.readFileSync(__dirname + "/../dist/input-jpg.jpeg");
         // const result = await BunqClient.api.attachmentPublic.post(file, "image/jpeg");
+
+        const imageUuid = result.Response[0].Uuid.uuid
+
+        console.log(result.Response);
+
+        const imageContents = await BunqClient.api.attachmentContent.get(imageUuid);
+        console.log(imageContents);
+
+
+
+        console.log("Success");
 
         process.exit();
     })
