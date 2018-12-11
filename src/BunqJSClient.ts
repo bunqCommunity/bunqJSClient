@@ -48,6 +48,7 @@ import User from "./Api/User";
 import MonetaryAccount from "./Api/MonetaryAccount";
 
 import ApiEndpointCollection from "./Interfaces/ApiEndpointCollection";
+import AttachmentPublic from "./Api/AttachementPublic";
 
 const FIVE_MINUTES_MS = 300000;
 
@@ -100,6 +101,7 @@ export default class BunqJSClient {
         // register the endpoints
         this.api = {
             attachmentContent: new AttachementContent(this.ApiAdapter),
+            attachmentPublic: new AttachmentPublic(this.ApiAdapter),
             bunqMeTabs: new BunqMeTabs(this.ApiAdapter),
             card: new Card(this.ApiAdapter),
             cardCvc2: new CardCvc2(this.ApiAdapter),

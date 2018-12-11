@@ -91,6 +91,10 @@ export default class Request {
         this._url = url;
     }
 
+    public setData(data: any): void {
+        this._data = data;
+    }
+
     public getHeader(key: string): string | false {
         return this._headers[key];
     }
@@ -99,6 +103,12 @@ export default class Request {
     }
     public setHeader(key: string, value: any): void {
         this._headers[key] = value;
+    }
+    public removeOption(key: string): void {
+        delete this._options[key];
+    }
+    public setOption(key: string, value: any): void {
+        this._options[key] = value;
     }
 
     /**
