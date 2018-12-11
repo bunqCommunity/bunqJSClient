@@ -50,19 +50,11 @@ export default class SignRequestHandler {
             const requestData: Buffer = request.data;
 
             // overwrite transformRequest
-            request.setOption("transformRequest", [
-                (data: any, headers: any) => {
-                    console.log("transformRequest data");
-                    console.log(data);
-                    return data;
-                }
-            ]);
-
-            require("fs").writeFileSync("./dist/debug-original-file.jpg", requestData);
+            request.setOption("transformRequest", (data: any, headers: any) => {
+                return data;
+            });
 
             data = requestData.toString("binary");
-
-            require("fs").writeFileSync("./dist/debug-output-file.jpg", data);
 
             // request.setData(data);
             request.setData(requestData);
@@ -92,12 +84,6 @@ export default class SignRequestHandler {
 ${headers}
 
 ${data}`;
-
-        if (requestHasFile) {
-            console.log("");
-            console.log(template);
-            console.log("");
-        }
 
         // sign the template with our private key
         const signature = await signString(template, this.Session.privateKey);

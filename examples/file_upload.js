@@ -52,20 +52,25 @@ const setup = async () => {
 // run setup and get payments
 setup()
     .then(async () => {
-        const file = fs.readFileSync(__dirname + "/../dist/input.png");
+        // get the image contents
+        const file = fs.readFileSync(__dirname + "/Ali-Niknam-50x50.jpg");
 
-        const result = await BunqClient.api.attachmentPublic.post(file, "image/png");
-        // const file = fs.readFileSync(__dirname + "/../dist/input-jpg.jpeg");
-        // const result = await BunqClient.api.attachmentPublic.post(file, "image/jpeg");
+        // attempt to upload the file
+        const result = await BunqClient.api.attachmentPublic.post(file, "image/jpeg");
 
-        const imageUuid = result.Response[0].Uuid.uuid
+        // get the resulting public UUID
+        const imageUuid = result.Response[0].Uuid.uuid;
 
-        console.log(result.Response);
+        console.log("Image UUID");
+        console.log(result.Response, "\n");
 
-        const imageContents = await BunqClient.api.attachmentContent.get(imageUuid);
-        console.log(imageContents);
+        const imageContents = await BunqClient.api.attachmentContent.get(imageUuid, { base64: false });
 
+        console.log("Image contents ");
+        console.log(imageContents, "\n");
 
+        // write to dist folder to prevent git inclusion, check the results there
+        fs.writeFileSync(__dirname + "/../dist/Ali-Niknam-50x50-result.jpg", imageContents);
 
         console.log("Success");
 
