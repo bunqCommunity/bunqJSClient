@@ -124,9 +124,8 @@ The example uses [dotenv](https://github.com/motdotla/dotenv) so make sure to co
 For more details look into the endpoints found at `src/Api/*`. 
 
 Currently the only missing features are:
- 
- - Uploading binary files. For example the attachment endpoints
- - Sending requests to the encrypted endpoints. For example the PUT /card 
+
+ - Sending requests to the encrypted endpoints. For example the PUT `/user/{userId}/card` endpoint
 
 ## Contact
 [![Telegram chat badge](https://img.shields.io/badge/Telegram-Discuss-blue.svg) ](https://t.me/bunqcommunity)
