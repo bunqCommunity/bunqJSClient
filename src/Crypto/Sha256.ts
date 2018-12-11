@@ -28,7 +28,7 @@ export const encryptString = async (
 ): Promise<string | any> => {
     // create a new message digest for our string
     const messageDigest = forgeSha256.create();
-    messageDigest.update(data, "utf8");
+    messageDigest.update(data, "raw");
 
     // sign it with a private key
     const signatureBytes = publicKey.encrypt(messageDigest.digest().getBytes());
@@ -48,7 +48,7 @@ export const encryptString = async (
 export const signString = async (data: string, privateKey: any) => {
     // create a new message digest for our string
     const messageDigest = forgeSha256.create();
-    messageDigest.update(data, "utf8");
+    messageDigest.update(data, "raw");
 
     // sign it with a private key
     const signatureBytes = privateKey.sign(messageDigest);

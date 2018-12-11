@@ -4,14 +4,14 @@ about: Suggest an idea for this project
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+[//]:# ( Please note: )
+[//]:# ( These steps are guidelines and not required. Going through them might prevent duplicate or outdated issues. )
+[//]:# ( Feel free to add translations yourself! Contact us if you need help getting started. )
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**Describe the requested feature:**
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+(Replace with a description of the feature you're requesting)
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+**Additional context:**
+
+(Replace with screenshots, extra context or remove this section)

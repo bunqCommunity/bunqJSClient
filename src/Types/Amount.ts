@@ -1,5 +1,7 @@
+import AmountValue from "./AmountValue";
+
 type Amount = {
-    value: string;
+    value: AmountValue;
     currency: string;
 };
 

@@ -1,5 +1,9 @@
 # bunqJSClient 
-[![build status for master branch](https://api.travis-ci.org/bunqCommunity/bunqJSClient.svg?branch=master)](https://travis-ci.org/bunqCommunity/bunqJSClient) [![codecov](https://codecov.io/gh/bunqCommunity/bunqJSClient/branch/master/graph/badge.svg)](https://codecov.io/gh/bunqCommunity/bunqJSClient) [![NPM Downloads](https://img.shields.io/npm/dt/@bunq-community/bunq-js-client.svg)](https://www.npmjs.com/package/@bunq-community/bunq-js-client)
+[![NPM  Version](https://img.shields.io/npm/v/@bunq-community/bunq-js-client.svg) ](https://github.com/@bunq-community/bunq-js-client)
+[![NPM Downloads](https://img.shields.io/npm/dt/@bunq-community/bunq-js-client.svg) ](https://www.npmjs.com/package/@bunq-community/bunq-js-client)
+[![build status for master branch](https://api.travis-ci.org/bunqCommunity/bunqJSClient.svg?branch=master) ](https://travis-ci.org/bunqCommunity/bunqJSClient)
+[![MIT License](https://img.shields.io/npm/l/@bunq-community/bunq-js-client.svg)](https://github.com/bunqCommunity/bunqJSClient/blob/master/LICENSE)
+[![codecov](https://codecov.io/gh/bunqCommunity/bunqJSClient/branch/master/graph/badge.svg) ](https://codecov.io/gh/bunqCommunity/bunqJSClient)
 
 A unofficial javascript SDK for the bunq API. It is aimed at allowing single page applications to do all interactions with bunq without proxying through other services. 
 
@@ -124,6 +128,11 @@ Currently the only missing features are:
  - Uploading binary files. For example the attachment endpoints
  - Sending requests to the encrypted endpoints. For example the PUT /card 
 
-## Contributors
+## Contact
+[![Telegram chat badge](https://img.shields.io/badge/Telegram-Discuss-blue.svg) ](https://t.me/bunqcommunity)
+
+We have a public [Telegram chat group ](https://t.me/bunqcommunity). Feel free to create a new issue for any suggestions, bugs or general ideas you have on Github or contact us through one of the above.
+
+## Contributors ![Contributer count](https://img.shields.io/github/contributors/bunqcommunity/bunqjsclient.svg)
 
 [![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/0)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/0)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/1)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/1)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/2)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/2)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/3)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/3)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/4)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/4)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/5)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/5)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/6)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/6)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/7)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/7)

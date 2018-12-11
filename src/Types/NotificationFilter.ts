@@ -3,6 +3,7 @@ type NotificationFilter = {
     notification_target: string | null;
     category:
         | "BILLING"
+        | "BUNQME_TAB"
         | "CARD_TRANSACTION_FAILED"
         | "CARD_TRANSACTION_SUCCESSFUL"
         | "CHAT"
