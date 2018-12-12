@@ -42,5 +42,72 @@ describe("API", () => {
 
             expect(response).not.toBeNull();
         });
+
+        it("#ACTIVATE", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.card.activate(1, 2, "activationCode");
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#SETPINCODE", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.card.setPinCode(1, 2, "123456");
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#SETPINCODEASSIGNMENT", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.card.setPinCodeAssignment(1, 2, [
+                {
+                    type: "PRIMARY",
+                    pin_code: "1234",
+                    monetary_account_id: 1234
+                }
+            ]);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#SETLIMITS", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.card.setLimits(1, 2, [
+                {
+                    daily_limit: "12.00",
+                    currency: "EUR",
+                    type: "CARD_LIMIT_ATM"
+                }
+            ]);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#SETCOUNTRYPERMISSIONS", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.card.setCountryPermissions(1, 2, [
+                {
+                    country: "NL",
+                    expiry_time: "999"
+                }
+            ]);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
     });
 });
