@@ -52,12 +52,8 @@ const ENVIRONMENT = "SANDBOX"; // OR you can use PRODUCTION
 
 /**
  * Permitted IPs
- * When you set your current IP address followed by a "*" you will enable
- * wildcard mode for that session. You should usually let the user set
- * this manually in the app but it is possible.
- *
  * Leave the array empty if you're not sure and bunq will register the IP
- * used to send the request
+ * used to send the request or use a "*" character to enable wildcard mode
  */
 const PERMITTED_IPS = []; 
 
