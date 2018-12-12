@@ -146,20 +146,20 @@ export default class Card implements ApiEndpointInterface {
     }
 
     /**
- * @param {number} userId
- * @param {number} cardId
- * @param {string} pinCode
- * @param {string} activationCode
- * @param {string} status
- * @param {Amount} cardLimit
- * @param {Limit} limits
- * @param {MagStripePermission} magStripePermission
- * @param {CountryPermissionCollection} countryPermissions
- * @param {PinCodeAssignmentCollection} pinCodeAssignment
- * @param {number} monetaryAccountIdFallback
- * @param options
- * @returns {Promise<any>}
- */
+     * @param {number} userId
+     * @param {number} cardId
+     * @param {string} pinCode
+     * @param {string} activationCode
+     * @param {string} status
+     * @param {Amount} cardLimit
+     * @param {Limit} limits
+     * @param {MagStripePermission} magStripePermission
+     * @param {CountryPermissionCollection} countryPermissions
+     * @param {PinCodeAssignmentCollection} pinCodeAssignment
+     * @param {number} monetaryAccountIdFallback
+     * @param options
+     * @returns {Promise<any>}
+     */
     public async put(
         userId: number,
         cardId: number,
