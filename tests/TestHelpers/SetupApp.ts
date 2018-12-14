@@ -21,7 +21,15 @@ export default async (setupName: string | false = false, apiKey: string = FAKE_A
 
     const dbName: string = setupName || randomHex(32);
 
-    const app = new BunqJSClient(new CustomDb(dbName));
+    const loggerMock: any = {
+        warn: jest.fn(),
+        log: jest.fn(),
+        error: jest.fn(),
+        trace: jest.fn(),
+        debug: jest.fn()
+    };
+
+    const app = new BunqJSClient(new CustomDb(dbName), loggerMock);
     await app.run(apiKey, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
 
     // setup

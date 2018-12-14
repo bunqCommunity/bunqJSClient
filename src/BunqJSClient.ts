@@ -55,7 +55,7 @@ const FIVE_MINUTES_MS = 300000;
 export default class BunqJSClient {
     public storageInterface: StorageInteface;
     public logger: LoggerInterface;
-    public apiKey: string = null;
+    public apiKey: string | false = false;
 
     public Session: Session;
     public ApiAdapter: ApiAdapter;
@@ -143,7 +143,7 @@ export default class BunqJSClient {
      * @returns {Promise.<void>}
      */
     public async run(
-        apiKey: string,
+        apiKey: string | false,
         allowedIps: string[] = [],
         environment: string = "SANDBOX",
         encryptionKey: string | boolean = false
@@ -648,14 +648,14 @@ export default class BunqJSClient {
 
     /**
      * Destroys the current session and all variables associated with it
-     * @returns {Promise<void>}
+     * @param save
      */
-    public async destroyApiSession() {
+    public async destroyApiSession(save = false) {
         // clear the session timer if set
         this.clearExpiryTimer();
 
         // destroy the stored session
-        await this.Session.destroyApiSession(true);
+        await this.Session.destroyApiSession(save);
     }
 
     /**
