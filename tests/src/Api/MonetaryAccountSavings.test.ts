@@ -27,12 +27,9 @@ describe("API", () => {
                 1,
                 "EUR",
                 "Account description",
-                {
-                    value: "50.00",
-                    currency: "EUR"
-                },
+                "50.00",
                 "#FF0000",
-                100
+                "100.00"
             );
             await defaultResponse(moxios);
             const response = await request;

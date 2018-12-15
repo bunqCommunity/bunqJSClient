@@ -13,6 +13,8 @@ import LoggerInterface from "./Interfaces/LoggerInterface";
 import { publicKeyFromPem } from "./Crypto/Rsa";
 import { validateKey } from "./Crypto/Aes";
 
+import ApiEndpointCollection from "./Interfaces/ApiEndpointCollection";
+
 import RequestInquiry from "./Api/RequestInquiry";
 import MasterCardAction from "./Api/MasterCardAction";
 import SchedulePayment from "./Api/SchedulePayment";
@@ -46,9 +48,8 @@ import MonetaryAccountSavings from "./Api/MonetaryAccountSavings";
 import Ip from "./Api/Ip";
 import User from "./Api/User";
 import MonetaryAccount from "./Api/MonetaryAccount";
-
-import ApiEndpointCollection from "./Interfaces/ApiEndpointCollection";
 import AttachmentPublic from "./Api/AttachementPublic";
+import Avatar from "./Api/Avatar";
 
 const FIVE_MINUTES_MS = 300000;
 
@@ -102,6 +103,7 @@ export default class BunqJSClient {
         this.api = {
             attachmentContent: new AttachementContent(this.ApiAdapter),
             attachmentPublic: new AttachmentPublic(this.ApiAdapter),
+            avatar: new Avatar(this.ApiAdapter),
             bunqMeTabs: new BunqMeTabs(this.ApiAdapter),
             card: new Card(this.ApiAdapter),
             cardCvc2: new CardCvc2(this.ApiAdapter),

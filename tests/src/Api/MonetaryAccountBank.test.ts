@@ -23,16 +23,7 @@ describe("API", () => {
         it("#POST", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.monetaryAccountBank.post(
-                1,
-                "EUR",
-                "Account description",
-                {
-                    value: "50.00",
-                    currency: "EUR"
-                },
-                "#FF0000"
-            );
+            const request = bunqApp.api.monetaryAccountBank.post(1, "EUR", "Account description", "50.00", "#FF0000");
             await defaultResponse(moxios);
             const response = await request;
 
