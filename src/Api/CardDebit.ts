@@ -5,7 +5,7 @@ import PinCodeAssignmentCollection from "../Types/PinCodeAssignmentCollection";
 import CounterpartyAlias from "../Types/CounterpartyAlias";
 import CardType from "../Types/CardType";
 
-export default class Card implements ApiEndpointInterface {
+export default class CardDebit implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;
 
@@ -27,7 +27,15 @@ export default class Card implements ApiEndpointInterface {
      * @param options
      * @returns {Promise<any>}
      */
-    public async post(userId: number, name: string, description: string, alias: CounterpartyAlias, cardType: CardType, assignments: PinCodeAssignmentCollection, options: any = {}) {
+    public async post(
+        userId: number,
+        name: string,
+        description: string,
+        alias: CounterpartyAlias,
+        cardType: CardType,
+        assignments: PinCodeAssignmentCollection,
+        options: any = {}
+    ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/card-debit", "POST");
 
         const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/card-debit`), {
