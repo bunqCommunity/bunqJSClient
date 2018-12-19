@@ -1,5 +1,6 @@
 # bunqJSClient 
-[![NPM  Version](https://img.shields.io/npm/v/@bunq-community/bunq-js-client.svg) ](https://github.com/@bunq-community/bunq-js-client)
+[![NPM  Version](https://img.shields.io/npm/v/@bunq-community/bunq-js-client.svg) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FbunqCommunity%2FbunqJSClient.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FbunqCommunity%2FbunqJSClient?ref=badge_shield)
+](https://github.com/@bunq-community/bunq-js-client)
 [![NPM Downloads](https://img.shields.io/npm/dt/@bunq-community/bunq-js-client.svg) ](https://www.npmjs.com/package/@bunq-community/bunq-js-client)
 [![build status for master branch](https://api.travis-ci.org/bunqCommunity/bunqJSClient.svg?branch=master) ](https://travis-ci.org/bunqCommunity/bunqJSClient)
 [![MIT License](https://img.shields.io/npm/l/@bunq-community/bunq-js-client.svg)](https://github.com/bunqCommunity/bunqJSClient/blob/master/LICENSE)
@@ -131,3 +132,7 @@ We have a public [Telegram chat group ](https://t.me/bunqcommunity). Feel free t
 ## Contributors ![Contributer count](https://img.shields.io/github/contributors/bunqcommunity/bunqjsclient.svg)
 
 [![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/0)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/0)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/1)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/1)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/2)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/2)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/3)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/3)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/4)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/4)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/5)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/5)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/6)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/6)[![](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/images/7)](https://sourcerer.io/fame/crecket/bunqCommunity/bunqJSClient/links/7)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FbunqCommunity%2FbunqJSClient.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FbunqCommunity%2FbunqJSClient?ref=badge_large)
