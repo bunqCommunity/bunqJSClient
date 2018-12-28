@@ -183,7 +183,7 @@ export default class BunqJSClient {
             // check if Session is ready to execute the request
             if (!this.Session.publicKey) {
                 throw new Error(
-                    "No public key is set yet, make sure you setup an encryption key with BunqJSClient->setup()"
+                    "No public key is set yet, make sure you setup an encryption key with BunqJSClient->run()"
                 );
             }
 
