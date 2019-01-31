@@ -88,10 +88,6 @@ ${headers}
 
 ${data}`;
 
-        console.log("");
-        console.log(template);
-        console.log("");
-
         // sign the template with our private key
         const signature = await signString(template, this.Session.privateKey);
 

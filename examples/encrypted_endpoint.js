@@ -45,7 +45,6 @@ setup()
     })
     .catch(error => {
         if (error.response) {
-            console.log(error.response.request._header);
             console.log(error.response.data);
         } else {
             console.log(error);

@@ -56,7 +56,7 @@ export default class CardCvc2 implements ApiEndpointInterface {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/generated-cvc2", "POST");
 
         const response = await limiter.run(async () =>
-            this.ApiAdapter.put(
+            this.ApiAdapter.post(
                 `/v1/user/${userId}/card/${cardId}/generated-cvc2`,
                 {
                     type: type
