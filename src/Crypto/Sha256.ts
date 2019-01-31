@@ -22,7 +22,6 @@ export const stringToHash = async (string: string) => {
  * @returns {Promise<string>}
  */
 export const encryptString = async (data: string, publicKey: any, raw: boolean = false): Promise<string | any> => {
-
     // sign it with a server's public key
     const signatureBytes = publicKey.encrypt(data);
 

@@ -58,7 +58,7 @@ export default class SignRequestHandler {
             request.setData(requestData);
         } else if (options.isEncrypted) {
             const requestData: Buffer = request.data;
-            data = requestData.toString('binary');
+            data = requestData.toString("binary");
 
             request.setData(requestData);
         } else if (appendDataWhitelist.some(item => item === request.method)) {
