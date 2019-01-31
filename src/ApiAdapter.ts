@@ -1,16 +1,17 @@
 import axios from "axios";
 import BunqJSClient from "./BunqJSClient";
 import Session from "./Session";
-import Headers from "./Types/Headers";
 import LoggerInterface from "./Interfaces/LoggerInterface";
+import CustomError from "./Interfaces/CustomError";
 import ApiAdapterOptions from "./Types/ApiAdapterOptions";
 import { Method } from "./Types/Method";
+import Headers from "./Types/Headers";
 import RequestLimitFactory from "./RequestLimitFactory";
 import Request from "./HTTP/Request";
 import SignRequestHandler from "./HTTP/SignRequestHandler";
+import EncryptRequestHandler from "./HTTP/EncryptRequestHandler";
 import VerifyResponseHandler from "./HTTP/VerifyResponseHandler";
 import ErrorCodes from "./Helpers/ErrorCodes";
-import CustomError from "./Interfaces/CustomError";
 
 export const BUNQ_SERVER_SIGNATURE_HEADER_KEY = "X-Bunq-Server-Signature";
 export const BUNQ_REQUEST_SIGNATURE_HEADER_KEY = "X-Bunq-Client-Signature";
@@ -23,6 +24,7 @@ export default class ApiAdapter {
 
     public RequestLimitFactory: RequestLimitFactory;
     public SignRequestHandler: SignRequestHandler;
+    public EncryptRequestHandler: EncryptRequestHandler;
     public VerifyResponseHandler: VerifyResponseHandler;
 
     public language: string;
@@ -36,6 +38,7 @@ export default class ApiAdapter {
 
         this.RequestLimitFactory = new RequestLimitFactory();
         this.SignRequestHandler = new SignRequestHandler(this.Session, this.logger, this.BunqJSClient);
+        this.EncryptRequestHandler = new EncryptRequestHandler(this.Session, this.logger, this.BunqJSClient);
         this.VerifyResponseHandler = new VerifyResponseHandler(this.Session, this.logger, this.BunqJSClient);
 
         this.language = "en_US";
@@ -121,6 +124,10 @@ export default class ApiAdapter {
             } else if (this.Session.installToken !== null) {
                 request.setAuthenticated(this.Session.installToken);
             }
+        }
+
+        if (options.isEncrypted === true) {
+            await this.EncryptRequestHandler.encryptRequest(request, options);
         }
 
         if (options.disableSigning !== true) {
