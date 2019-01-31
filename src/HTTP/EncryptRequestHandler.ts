@@ -32,14 +32,14 @@ export default class EncryptRequestHandler {
         const body = JSON.stringify(request.requestConfig.data);
 
         const iv = forge.random.getBytesSync(16);
-        const key = forge.random.getBytesSync(16);
+        const key = forge.random.getBytesSync(32);
 
         const encryptedAesKey = await encryptString(key, this.Session.serverPublicKey, true);
         const encryptedBody: string = this.getEncryptedBody(key, iv, body);
         const hmacBytes: string = this.getBodyHmac(key, iv, encryptedBody);
 
         // set new body
-        request.setData(encryptedBody);
+        request.setData(Buffer.from(encryptedBody, "binary"));
 
         // disable request transform
         request.setOptions("transformRequest", (data: any, headers: any) => {
