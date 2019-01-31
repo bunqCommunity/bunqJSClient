@@ -14,7 +14,7 @@ export default class AttachmentPublic implements ApiEndpointInterface {
         this.Session = ApiAdapter.Session;
     }
 
-    public async post(buffer: Buffer, contentType: string, options: any = {}) {
+    public async post(buffer: Buffer, contentType: string, options: any = {}): Promise<string> {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/attachment-public", "POST");
 
         // do the actual call
@@ -32,6 +32,6 @@ export default class AttachmentPublic implements ApiEndpointInterface {
             )
         );
 
-        return response;
+        return response.Response[0].Uuid.uuid;
     }
 }

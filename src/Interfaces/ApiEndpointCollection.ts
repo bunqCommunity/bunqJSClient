@@ -33,10 +33,12 @@ import MonetaryAccountSavings from "../Api/MonetaryAccountSavings";
 import Ip from "../Api/Ip";
 import User from "../Api/User";
 import MonetaryAccount from "../Api/MonetaryAccount";
+import Avatar from "../Api/Avatar";
 
 export default interface ApiEndpointCollection {
     attachmentContent: AttachementContent;
     attachmentPublic: AttachmentPublic;
+    avatar: Avatar;
     bunqMeTabs: BunqMeTabs;
     card: Card;
     cardCvc2: CardCvc2;

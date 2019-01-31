@@ -91,7 +91,7 @@ ${data}`;
         // sign the template with our private key
         const signature = await signString(template, this.Session.privateKey);
 
-        if (typeof navigator !== "undefined") {
+        if (typeof navigator !== "undefined" && navigator.product !== "ReactNative") {
             // remove the user agent again if we're in a browser env where we aren't allowed to
             request.removeHeader("User-Agent");
         }
