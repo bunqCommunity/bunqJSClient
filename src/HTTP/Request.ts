@@ -50,6 +50,9 @@ export default class Request {
     get headers(): Headers {
         return this._headers;
     }
+    get options(): any {
+        return this._options;
+    }
     get isSigned(): string | false {
         return this._isSigned;
     }
@@ -90,9 +93,11 @@ export default class Request {
     public setUrl(url: string): void {
         this._url = url;
     }
-
     public setData(data: any): void {
         this._data = data;
+    }
+    public setOptions(key: string, value: any): void {
+        this._options[key] = value;
     }
 
     public getHeader(key: string): string | false {

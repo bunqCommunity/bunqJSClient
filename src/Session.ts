@@ -67,7 +67,7 @@ export default class Session {
      * @returns {Promise<void>}
      */
     public async setup(
-        apiKey: string | boolean,
+        apiKey: string | false,
         allowedIps: string[] = [],
         environment: string = "SANDBOX",
         encryptionKey: string | boolean = false
