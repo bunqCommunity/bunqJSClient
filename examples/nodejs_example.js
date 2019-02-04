@@ -3,7 +3,13 @@ require("dotenv").config();
 const setup = require("./setup_files/setup");
 
 setup()
-    .then(async (BunqClient) => {
+    .then(async BunqClient => {
+        const getCardNames = async userid => {
+            const cardNames = await BunqClient.api.cardName.list(userid).catch(error => {
+                throw error;
+            });
+            return cardNames;
+        };
         const getMonetaryAccounts = async userid => {
             const accounts = await BunqClient.api.monetaryAccount.list(userid).catch(error => {
                 throw error;
@@ -23,11 +29,15 @@ setup()
 
         // get the direct user object
         const userInfo = users[Object.keys(users)[0]];
-        console.log("\nUsers: ", Object.keys(users).length, "\n");
+        console.log("\nUsers: ", Object.keys(users).length);
 
         // get accounts list
         const accounts = await getMonetaryAccounts(userInfo.id);
-        console.log("\nAccounts: ", accounts.length, "\n");
+        console.log("\nAccounts: ", accounts.length);
+
+        // get card names list
+        const cardNames = await getCardNames(userInfo.id);
+        console.log("\nPossible card Names: ", cardNames[0].CardUserNameArray);
 
         // filter on the status to get a list of the active accounts
         const activeAccounts = accounts.filter(account => {

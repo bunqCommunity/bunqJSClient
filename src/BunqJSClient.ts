@@ -16,10 +16,13 @@ import ApiEndpointCollection from "./Interfaces/ApiEndpointCollection";
 import AttachementContent from "./Api/AttachementContent";
 import AttachmentPublic from "./Api/AttachementPublic";
 import Avatar from "./Api/Avatar";
+import BillingContractSubscription from "./Api/BillingContractSubscription";
 import BunqMeTabs from "./Api/BunqMeTabs";
 import Card from "./Api/Card";
+import CardBatch from "./Api/CardBatch";
 import CardCvc2 from "./Api/CardCvc2";
 import CardDebit from "./Api/CardDebit";
+import CardName from "./Api/CardName";
 import CredentialPasswordIp from "./Api/CredentialPasswordIp";
 import CustomerStatementExport from "./Api/CustomerStatementExport";
 import CustomerStatementExportContent from "./Api/CustomerStatementExportContent";
@@ -27,6 +30,7 @@ import DeviceRegistration from "./Api/DeviceRegistration";
 import DraftPayment from "./Api/DraftPayment";
 import Event from "./Api/Event";
 import Installation from "./Api/Installation";
+import Invoice from "./Api/Invoice";
 import Ip from "./Api/Ip";
 import MasterCardAction from "./Api/MasterCardAction";
 import MonetaryAccount from "./Api/MonetaryAccount";
@@ -113,10 +117,13 @@ export default class BunqJSClient {
             attachmentContent: new AttachementContent(this.ApiAdapter),
             attachmentPublic: new AttachmentPublic(this.ApiAdapter),
             avatar: new Avatar(this.ApiAdapter),
+            billingContractSubscription: new BillingContractSubscription(this.ApiAdapter),
             bunqMeTabs: new BunqMeTabs(this.ApiAdapter),
             card: new Card(this.ApiAdapter),
+            cardBatch: new CardBatch(this.ApiAdapter),
             cardCvc2: new CardCvc2(this.ApiAdapter),
             cardDebit: new CardDebit(this.ApiAdapter),
+            cardName: new CardName(this.ApiAdapter),
             credentialPasswordIp: new CredentialPasswordIp(this.ApiAdapter),
             customerStatementExport: new CustomerStatementExport(this.ApiAdapter),
             customerStatementExportContent: new CustomerStatementExportContent(this.ApiAdapter),
@@ -124,6 +131,7 @@ export default class BunqJSClient {
             draftPayment: new DraftPayment(this.ApiAdapter),
             event: new Event(this.ApiAdapter),
             installation: new Installation(this.ApiAdapter),
+            invoice: new Invoice(this.ApiAdapter),
             ip: new Ip(this.ApiAdapter),
             masterCardAction: new MasterCardAction(this.ApiAdapter),
             monetaryAccount: new MonetaryAccount(this.ApiAdapter),
