@@ -21,13 +21,20 @@ Next create a new instance with an optional storage interface as the first param
 with the following methods: `get(key)`, `set(key, data)`, `remove(key)`.
 
 ## Usage
-Install a storage helper if required and create a new client
+Create a new client using LocalStorage.
 ```js
 const bunqJSClient = new BunqJSClient();
+```
 
-// OR use a custom storage handler
-import SomeStorageHelper from "some-storage-handler"; 
-const bunqJSClientCustom = new bunqJSClient(SomeStorageHelper);
+The default installation attempts to use LocalStorage which is only compatible with the browser. You can check the `src/Stores/*` folder for other compatible storage handlers. This example uses the JSON store which writes the data to a local JSON file.
+```js
+import JSONFileStore from "@bunq-community/bunq-js-client/dist/Stores/JSONFileStore"; 
+
+// run the file store with a location to store the data
+const storageInstance = JSONFileStore("./bunq-js-client-data.json");
+
+// create a new bunqJSClient with the new storage instance
+const bunqJSClientCustom = new bunqJSClient(storageInstance);
 
 // disables the automatic requests to keep the current session alive
 // instead it'll create a new session when it is required
@@ -51,9 +58,10 @@ const DEVICE_NAME = "My Device";
 const ENVIRONMENT = "SANDBOX"; // OR you can use PRODUCTION
 
 /**
- * Permitted IPs
- * Leave the array empty if you're not sure and bunq will register the IP
- * used to send the request or use a "*" character to enable wildcard mode
+ * Permitted IPs, allowed values are:
+ *  - Empty if you're not sure (bunq will use the current IP)
+ *  - An array of allowed IP addresses 
+ *  - The "*" character to enable wildcard mode
  */
 const PERMITTED_IPS = []; 
 
@@ -74,7 +82,7 @@ const setup = async () => {
 
 Now you can use the API in the bunq client to do requests and get the current users.
 ```js
-// force that the user info is retrieved from the API instead of local cache version
+// force that the user info is retrieved from the API instead of the data currently in the object
 const forceUpdate = true;
 
 // all users connected to the api key

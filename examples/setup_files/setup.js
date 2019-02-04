@@ -4,7 +4,7 @@ const path = require("path");
 const BunqJSClient = require("../../dist/BunqJSClient").default;
 
 // setup a custom store which works in a node environment
-const customStore = require("../custom_store");
+const customStore = require("../../dist/Stores/JSONFileStore").default;
 
 const defaultErrorLogger = error => {
     if (error.response) {
@@ -30,8 +30,7 @@ const setup = async () => {
         }
     );
 
-    // disable keep-alive since the server will be online a lot
-    // without needing a constantly active session
+    // disable keep-alive since the server will stay online without the need for a constant active session
     BunqClient.setKeepAlive(false);
 
     // create/re-use a system installation

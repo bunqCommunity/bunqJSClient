@@ -1,57 +1,59 @@
-import CustomerStatementExportContent from "./Api/CustomerStatementExportContent";
-
-const store = require("store");
 import axios from "axios";
 
 import Logger from "./Helpers/Logger";
 import ErrorCodes from "./Helpers/ErrorCodes";
-
-import ApiAdapter from "./ApiAdapter";
-import Session from "./Session";
-import StorageInteface from "./Interfaces/StorageInterface";
-import LoggerInterface from "./Interfaces/LoggerInterface";
 import { publicKeyFromPem } from "./Crypto/Rsa";
 import { validateKey } from "./Crypto/Aes";
 
+import ApiAdapter from "./ApiAdapter";
+import Session from "./Session";
+import LocalstorageStore from "./Stores/LocalstorageStore";
+
+import StorageInteface from "./Interfaces/StorageInterface";
+import LoggerInterface from "./Interfaces/LoggerInterface";
 import ApiEndpointCollection from "./Interfaces/ApiEndpointCollection";
 
-import RequestInquiry from "./Api/RequestInquiry";
-import MasterCardAction from "./Api/MasterCardAction";
-import SchedulePayment from "./Api/SchedulePayment";
-import Payment from "./Api/Payment";
-import SandboxUser from "./Api/SandboxUser";
-import ShareInviteBankResponse from "./Api/ShareInviteBankResponse";
 import AttachementContent from "./Api/AttachementContent";
-import UserCompany from "./Api/UserCompany";
+import AttachmentPublic from "./Api/AttachementPublic";
+import Avatar from "./Api/Avatar";
+import BillingContractSubscription from "./Api/BillingContractSubscription";
 import BunqMeTabs from "./Api/BunqMeTabs";
-import DeviceRegistration from "./Api/DeviceRegistration";
-import NoteAttachment from "./Api/NoteAttachment";
-import Schedule from "./Api/Schedule";
-import UserPerson from "./Api/UserPerson";
-import MonetaryAccountJoint from "./Api/MonetaryAccountJoint";
-import DraftPayment from "./Api/DraftPayment";
+import Card from "./Api/Card";
+import CardBatch from "./Api/CardBatch";
 import CardCvc2 from "./Api/CardCvc2";
 import CardDebit from "./Api/CardDebit";
 import CardName from "./Api/CardName";
 import CredentialPasswordIp from "./Api/CredentialPasswordIp";
-import RequestInquiryBatch from "./Api/RequestInquiryBatch";
-import ShareInviteBankInquiry from "./Api/ShareInviteBankInquiry";
-import Installation from "./Api/Installation";
 import CustomerStatementExport from "./Api/CustomerStatementExport";
-import RequestResponse from "./Api/RequestResponse";
-import PaymentBatch from "./Api/PaymentBatch";
-import Card from "./Api/Card";
-import MonetaryAccountBank from "./Api/MonetaryAccountBank";
-import SchedulePaymentBatch from "./Api/SchedulePaymentBatch";
-import NoteText from "./Api/NoteText";
-import SessionServer from "./Api/SessionServer";
+import CustomerStatementExportContent from "./Api/CustomerStatementExportContent";
+import DeviceRegistration from "./Api/DeviceRegistration";
+import DraftPayment from "./Api/DraftPayment";
 import Event from "./Api/Event";
-import MonetaryAccountSavings from "./Api/MonetaryAccountSavings";
+import Installation from "./Api/Installation";
+import Invoice from "./Api/Invoice";
 import Ip from "./Api/Ip";
-import User from "./Api/User";
+import MasterCardAction from "./Api/MasterCardAction";
 import MonetaryAccount from "./Api/MonetaryAccount";
-import AttachmentPublic from "./Api/AttachementPublic";
-import Avatar from "./Api/Avatar";
+import MonetaryAccountBank from "./Api/MonetaryAccountBank";
+import MonetaryAccountJoint from "./Api/MonetaryAccountJoint";
+import MonetaryAccountSavings from "./Api/MonetaryAccountSavings";
+import NoteAttachment from "./Api/NoteAttachment";
+import NoteText from "./Api/NoteText";
+import Payment from "./Api/Payment";
+import PaymentBatch from "./Api/PaymentBatch";
+import RequestInquiry from "./Api/RequestInquiry";
+import RequestInquiryBatch from "./Api/RequestInquiryBatch";
+import RequestResponse from "./Api/RequestResponse";
+import SandboxUser from "./Api/SandboxUser";
+import Schedule from "./Api/Schedule";
+import SchedulePayment from "./Api/SchedulePayment";
+import SchedulePaymentBatch from "./Api/SchedulePaymentBatch";
+import SessionServer from "./Api/SessionServer";
+import ShareInviteBankInquiry from "./Api/ShareInviteBankInquiry";
+import ShareInviteBankResponse from "./Api/ShareInviteBankResponse";
+import User from "./Api/User";
+import UserCompany from "./Api/UserCompany";
+import UserPerson from "./Api/UserPerson";
 
 const FIVE_MINUTES_MS = 300000;
 
@@ -88,11 +90,20 @@ export default class BunqJSClient {
     public errorCodes: any = ErrorCodes;
 
     /**
-     * @param {StorageInterface} storageInterface
+     * @param {StorageInterface|false} storageInterface
      * @param {LoggerInterface} loggerInterface
      */
-    constructor(storageInterface: StorageInteface = store, loggerInterface: LoggerInterface = Logger) {
-        this.storageInterface = storageInterface;
+    constructor(storageInterface: StorageInteface | false = false, loggerInterface: LoggerInterface = Logger) {
+        if (storageInterface === false) {
+            if (typeof navigator === "undefined") {
+                // NodeJS environment with no custom store defined
+                throw new Error("No custom storageInterface was defined in the constructor!");
+            }
+
+            this.storageInterface = LocalstorageStore();
+        } else {
+            this.storageInterface = storageInterface;
+        }
         this.logger = loggerInterface;
 
         // create a new session instance
@@ -106,11 +117,15 @@ export default class BunqJSClient {
             attachmentContent: new AttachementContent(this.ApiAdapter),
             attachmentPublic: new AttachmentPublic(this.ApiAdapter),
             avatar: new Avatar(this.ApiAdapter),
+            billingContractSubscription: new BillingContractSubscription(this.ApiAdapter),
             bunqMeTabs: new BunqMeTabs(this.ApiAdapter),
             card: new Card(this.ApiAdapter),
             cardDebit: new CardDebit(this.ApiAdapter),
             cardName: new CardName(this.ApiAdapter),
+            cardBatch: new CardBatch(this.ApiAdapter),
             cardCvc2: new CardCvc2(this.ApiAdapter),
+            cardDebit: new CardDebit(this.ApiAdapter),
+            cardName: new CardName(this.ApiAdapter),
             credentialPasswordIp: new CredentialPasswordIp(this.ApiAdapter),
             customerStatementExport: new CustomerStatementExport(this.ApiAdapter),
             customerStatementExportContent: new CustomerStatementExportContent(this.ApiAdapter),
@@ -118,24 +133,25 @@ export default class BunqJSClient {
             draftPayment: new DraftPayment(this.ApiAdapter),
             event: new Event(this.ApiAdapter),
             installation: new Installation(this.ApiAdapter),
+            invoice: new Invoice(this.ApiAdapter),
             ip: new Ip(this.ApiAdapter),
             masterCardAction: new MasterCardAction(this.ApiAdapter),
             monetaryAccount: new MonetaryAccount(this.ApiAdapter),
             monetaryAccountBank: new MonetaryAccountBank(this.ApiAdapter),
             monetaryAccountJoint: new MonetaryAccountJoint(this.ApiAdapter),
             monetaryAccountSavings: new MonetaryAccountSavings(this.ApiAdapter),
-            noteText: new NoteText(this.ApiAdapter),
             noteAttachment: new NoteAttachment(this.ApiAdapter),
+            noteText: new NoteText(this.ApiAdapter),
             payment: new Payment(this.ApiAdapter),
             paymentBatch: new PaymentBatch(this.ApiAdapter),
             requestInquiry: new RequestInquiry(this.ApiAdapter),
             requestInquiryBatch: new RequestInquiryBatch(this.ApiAdapter),
             requestResponse: new RequestResponse(this.ApiAdapter),
-            sessionServer: new SessionServer(this.ApiAdapter),
             sandboxUser: new SandboxUser(this.ApiAdapter),
             schedule: new Schedule(this.ApiAdapter),
             schedulePayment: new SchedulePayment(this.ApiAdapter),
             schedulePaymentBatch: new SchedulePaymentBatch(this.ApiAdapter),
+            sessionServer: new SessionServer(this.ApiAdapter),
             shareInviteBankInquiry: new ShareInviteBankInquiry(this.ApiAdapter),
             shareInviteBankResponse: new ShareInviteBankResponse(this.ApiAdapter),
             user: new User(this.ApiAdapter),
