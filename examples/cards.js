@@ -110,7 +110,7 @@ setup()
 		const names = await BunqClient.api.cardName.get(userInfo.id)
 		const possible_names = toObject(names[Object.keys(names)[0]])["possible_card_name_array"]
 
-		const cardHolder = "SuperBuddy";
+		const cardHolder = "CardHolder";
 
 		// Card Debit
 		// STATUS: tested on production
