@@ -7,6 +7,8 @@ import { validateKey } from "./Crypto/Aes";
 
 import ApiAdapter from "./ApiAdapter";
 import Session from "./Session";
+import LocalstorageStore from "./Stores/LocalstorageStore";
+
 import StorageInteface from "./Interfaces/StorageInterface";
 import LoggerInterface from "./Interfaces/LoggerInterface";
 import ApiEndpointCollection from "./Interfaces/ApiEndpointCollection";
@@ -89,7 +91,12 @@ export default class BunqJSClient {
      */
     constructor(storageInterface: StorageInteface | false = false, loggerInterface: LoggerInterface = Logger) {
         if (storageInterface === false) {
-            this.storageInterface = require("store");
+            if (typeof navigator === "undefined") {
+                // NodeJS environment with no custom store defined
+                throw new Error("No custom storageInterface was defined in the constructor!");
+            }
+
+            this.storageInterface = LocalstorageStore();
         } else {
             this.storageInterface = storageInterface;
         }
