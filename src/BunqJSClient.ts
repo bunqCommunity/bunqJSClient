@@ -32,6 +32,7 @@ import MonetaryAccountJoint from "./Api/MonetaryAccountJoint";
 import DraftPayment from "./Api/DraftPayment";
 import CardCvc2 from "./Api/CardCvc2";
 import CardDebit from "./Api/CardDebit";
+import CardName from "./Api/CardName";
 import CredentialPasswordIp from "./Api/CredentialPasswordIp";
 import RequestInquiryBatch from "./Api/RequestInquiryBatch";
 import ShareInviteBankInquiry from "./Api/ShareInviteBankInquiry";
@@ -108,6 +109,7 @@ export default class BunqJSClient {
             bunqMeTabs: new BunqMeTabs(this.ApiAdapter),
             card: new Card(this.ApiAdapter),
             cardDebit: new CardDebit(this.ApiAdapter),
+            cardName: new CardName(this.ApiAdapter),
             cardCvc2: new CardCvc2(this.ApiAdapter),
             credentialPasswordIp: new CredentialPasswordIp(this.ApiAdapter),
             customerStatementExport: new CustomerStatementExport(this.ApiAdapter),

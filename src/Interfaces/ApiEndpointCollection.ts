@@ -35,6 +35,7 @@ import User from "../Api/User";
 import MonetaryAccount from "../Api/MonetaryAccount";
 import Avatar from "../Api/Avatar";
 import CardDebit from "../Api/CardDebit";
+import CardName from "../Api/CardName";
 
 export default interface ApiEndpointCollection {
     attachmentContent: AttachementContent;
@@ -43,6 +44,7 @@ export default interface ApiEndpointCollection {
     bunqMeTabs: BunqMeTabs;
     card: Card;
     cardDebit: CardDebit;
+    cardName: CardName;
     cardCvc2: CardCvc2;
     credentialPasswordIp: CredentialPasswordIp;
     customerStatementExport: CustomerStatementExport;
