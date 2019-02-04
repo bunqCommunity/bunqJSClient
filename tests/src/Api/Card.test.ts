@@ -5,51 +5,82 @@ import BunqJSClient from "../../../src/BunqJSClient";
 import SetupApp from "../../TestHelpers/SetupApp";
 import { defaultResponse } from "../../TestHelpers/DefaultResponses";
 
-describe("API", () => {
-	beforeEach(() => moxios.install());
-	afterEach(() => moxios.uninstall());
+describe("CARD", () => {
+    beforeEach(() => moxios.install());
+    afterEach(() => moxios.uninstall());
+    it("#GET", async () => {
+        const bunqApp: BunqJSClient = await SetupApp();
 
-	it("#CARDUPDATE", async () => {
-		const bunqApp: BunqJSClient = await SetupApp();
+        const request = bunqApp.api.card.get(1, 2);
+        await defaultResponse(moxios);
+        const response = await request;
 
-		const request = bunqApp.api.card.update(
-			1,
-			2,
-			"1234",
-			"123456",
-			"ACTIVE",
-			{
-				currency: "EUR",
-				value: "50.00"
-			},
-			[
-				{
-					daily_limit: "50.00",
-					currency: "EUR",
-					type: "CARD_LIMIT_POS_ICC"
-				}
-			],
-			// {
-			// 	expiry_time: null
-			// },
-			[
-				{
-					country: "NL",
-					expiry_time: null
-				}
-			],
-			[
-				{
-					type: "PRIMARY",
-					pin_code: "1334", // Not mandatory
-					monetary_account_id: 1234
-				}
-			],
-			null
-		);
-		await defaultResponse(moxios);
-		const response = await request;
+        expect(response).not.toBeNull();
+    });
 
-		expect(response).not.toBeNull();
-	});
+    it("#LIST", async () => {
+        const bunqApp: BunqJSClient = await SetupApp();
+
+        const request = bunqApp.api.card.list(1);
+        await defaultResponse(moxios);
+        const response = await request;
+
+        expect(response).not.toBeNull();
+    });
+
+    it("#LIST - with pagination options", async () => {
+        const bunqApp: BunqJSClient = await SetupApp();
+
+        const request = bunqApp.api.card.list(1, {
+            newer_id: 1,
+            older_id: 2
+        });
+        await defaultResponse(moxios);
+        const response = await request;
+
+        expect(response).not.toBeNull();
+    });
+    it("#UPDATE", async () => {
+        const bunqApp: BunqJSClient = await SetupApp();
+
+        const request = bunqApp.api.card.update(
+            1,
+            2,
+            "1234",
+            "123456",
+            "ACTIVE",
+            {
+                currency: "EUR",
+                value: "50.00"
+            },
+            [
+                {
+                    daily_limit: "50.00",
+                    currency: "EUR",
+                    type: "CARD_LIMIT_POS_ICC"
+                }
+            ],
+            // {
+            // 	expiry_time: null
+            // },
+            [
+                {
+                    country: "NL",
+                    expiry_time: null
+                }
+            ],
+            [
+                {
+                    type: "PRIMARY",
+                    pin_code: "1334", // Not mandatory
+                    monetary_account_id: 1234
+                }
+            ],
+            null
+        );
+        await defaultResponse(moxios);
+        const response = await request;
+
+        expect(response).not.toBeNull();
+    });
 });
