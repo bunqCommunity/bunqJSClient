@@ -7,9 +7,9 @@ const defaultErrorLogger = error => {
 	throw error;
 };
 
-const toCard = cardObject => {
+const toObject = responseObject => {
 	// Sily way to get card object and avoid: card[0]["CardDebit"]["key"]
-	const card = cardObject[Object.keys(cardObject)[0]]
+	const card = responseObject[Object.keys(responseObject)[0]]
 	return card
 }
 
@@ -24,7 +24,7 @@ setup()
 		const accounts = await BunqClient.api.monetaryAccount.list(userInfo.id).catch(defaultErrorLogger)
 
 		const cards = await BunqClient.api.card.list(userInfo.id).catch(defaultErrorLogger)
-		const card = toCard(cards[Object.keys(cards)[0]])
+		const card = toObject(cards[Object.keys(cards)[0]])
 
 		let cardId = card["id"];
 
@@ -64,7 +64,7 @@ setup()
 		const activatedCard = await BunqClient.api.card.get(userInfo.id, cardId).catch(error => {
 			throw error;
 		});
-		console.log("\nCard: ", toCard(activatedCard[0])["status"], "\n");
+		console.log("\nCard: ", toObject(activatedCard[0])["status"], "\n");
 
 		// Change pinCode
 		// STATUS: Does not respond with succes or an error if too simple (pinassignment works for changing pincode)
@@ -74,7 +74,7 @@ setup()
 		// Change card assignment
 		// STATUS: Tested on production
 		const assignment = await BunqClient.api.card.update(userInfo.id, cardId, null, null, null, null, null, null, assign).catch(defaultErrorLogger)
-		console.log("\nAssignment: ", toCard(assignment[0])["pin_code_assignment"], "\n");
+		console.log("\nAssignment: ", toObject(assignment[0])["pin_code_assignment"], "\n");
 
 		// Set limits
 		// STATUS: Tested on production
@@ -85,7 +85,7 @@ setup()
 			currency: "EUR",
 			type: "CARD_LIMIT_POS_ICC"
 		}]).catch(defaultErrorLogger);
-		console.log("\nLimit:", toCard(assignment[0])["limit"]);
+		console.log("\nLimit:", toObject(assignment[0])["limit"]);
 
 		// New card limit
 		// STATUS: tested on production
@@ -94,7 +94,7 @@ setup()
 			value: "45.00",
 			currency: "EUR"
 		}).catch(defaultErrorLogger)
-		console.log("\nCard limit: ", toCard(limit[0])["card_limit"], "\n");
+		console.log("\nCard limit: ", toObject(limit[0])["card_limit"], "\n");
 
 		// Set ATM limit
 		// STATUS: tested on production
@@ -103,20 +103,30 @@ setup()
 			currency: "EUR",
 			type: "CARD_LIMIT_ATM"
 		}]).catch(defaultErrorLogger);
-		console.log("\nATM limit:", toCard(atmLimit[0])["card_limit_atm"]);
+		console.log("\nATM limit:", toObject(atmLimit[0])["card_limit_atm"]);
+
+		// Card name check, before request card
+		// STATUS: tested on production
+		const names = await BunqClient.api.cardName.get(userInfo.id)
+		const possible_names = toObject(names[Object.keys(names)[0]])["possible_card_name_array"]
+
+		const cardHolder = "SuperBuddy";
 
 		// Card Debit
 		// STATUS: tested on production
-		// const newCard = await BunqClient.api.cardDebit.post(
-		// 	userInfo.id,
-		// 	"Cardholder", // Must match available names on endpoint card-name
-		// 	"Description",
-		// 	mainAlias,
-		// 	"MAESTRO",
-		// 	assign
-		// );
-		// console.log("\nNew card: ", newCard, "\n");
-
+		if (possible_names.includes(cardHolder)) {
+			// const newCard = await BunqClient.api.cardDebit.post(
+			// 	userInfo.id,
+			// 	cardHolder, // Must match available names on endpoint card-name
+			// 	"Description",
+			// 	mainAlias,
+			// 	"MAESTRO",
+			// 	assign
+			// );
+			// console.log("\nNew card: ", newCard, "\n");
+		} else {
+			console.log("Name on card is not valid, choose one of the following:\n", possible_names)
+		}
 	})
 	.catch(error => {
 		if (error.response) {
@@ -124,4 +134,4 @@ setup()
 		} else {
 			console.log(error);
 		}
-	}).finally(() => process.exit());
+	})//.finally(() => process.exit());
