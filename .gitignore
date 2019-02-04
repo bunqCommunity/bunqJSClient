@@ -4,7 +4,7 @@
 .env
 .env.*
 !.env.example
-examples/storage.json
+examples/setup_files/storage.json
 
 # test files
 coverage
@@ -13,3 +13,4 @@ tests/custom-db
 yarn-error.log
 
 /dist/
+npm-debug.log

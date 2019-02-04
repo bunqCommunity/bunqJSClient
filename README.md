@@ -52,12 +52,8 @@ const ENVIRONMENT = "SANDBOX"; // OR you can use PRODUCTION
 
 /**
  * Permitted IPs
- * When you set your current IP address followed by a "*" you will enable
- * wildcard mode for that session. You should usually let the user set
- * this manually in the app but it is possible.
- *
  * Leave the array empty if you're not sure and bunq will register the IP
- * used to send the request
+ * used to send the request or use a "*" character to enable wildcard mode
  */
 const PERMITTED_IPS = []; 
 
@@ -118,14 +114,10 @@ This will return the if successful `access_token` which is a valid API key. Usin
 ## Examples
 There are a few examples which can be found in the `examples/` folder. `create_sandbox_apikey` will create and output a new sandbox key which you can use with the other examples.
 
-The example uses [dotenv](https://github.com/motdotla/dotenv) so make sure to copy the `.env.example` file to `.env` and enter the correct values.
+The examples use [dotenv](https://github.com/motdotla/dotenv) so make sure to copy the `.env.example` file to `.env` and enter the correct values.
 
 ## Supported APIs
 For more details look into the endpoints found at `src/Api/*`. 
-
-Currently the only missing features are:
-
- - Sending requests to the encrypted endpoints. For example the PUT `/user/{userId}/card` endpoint
 
 ## Contact
 [![Telegram chat badge](https://img.shields.io/badge/Telegram-Discuss-blue.svg) ](https://t.me/bunqcommunity)

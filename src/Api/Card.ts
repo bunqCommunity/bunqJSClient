@@ -2,6 +2,11 @@ import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import PaginationOptions from "../Types/PaginationOptions";
+import CountryPermissionCollection from "../Types/CountryPermissionCollection";
+import LimitCollection from "../Types/LimitCollection";
+import PinCodeAssignmentCollection from "../Types/PinCodeAssignmentCollection";
+import Amount from "../Types/Amount";
+import MagStripePermission from "../Types/MagStripePermission";
 
 export default class Card implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
@@ -64,6 +69,59 @@ export default class Card implements ApiEndpointInterface {
                         params: params
                     }
                 }
+            )
+        );
+
+        return response.Response;
+    }
+
+    /**
+     * @param {number} userId
+     * @param {number} cardId
+     * @param {string} pinCode
+     * @param {string} activationCode
+     * @param {string} status
+     * @param {Amount} cardLimit
+     * @param {Limit} limits
+     * @param {MagStripePermission} magStripePermission
+     * @param {CountryPermissionCollection} countryPermissions
+     * @param {PinCodeAssignmentCollection} pinCodeAssignment
+     * @param {number} monetaryAccountIdFallback
+     * @param options
+     * @returns {Promise<any>}
+     */
+    public async update(
+        userId: number,
+        cardId: number,
+        pinCode: string = null,
+        activationCode: string = null,
+        status: string = null,
+        cardLimit: Amount = null,
+        limits: LimitCollection = null,
+        //magStripePermission: MagStripePermission = null,
+        countryPermissions: CountryPermissionCollection = null,
+        pinCodeAssignment: PinCodeAssignmentCollection = null,
+        monetaryAccountIdFallback: number = null,
+        options: any = {}
+    ) {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/card", "PUT");
+
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/card/${cardId}`,
+                {
+                    pin_code: pinCode,
+                    activation_code: activationCode,
+                    status: status,
+                    card_limit: cardLimit,
+                    limit: limits,
+                    //mag_stripe_permission: magStripePermission,
+                    country_permission: countryPermissions,
+                    pin_code_assignment: pinCodeAssignment,
+                    monetary_account_id_fallback: monetaryAccountIdFallback
+                },
+                {},
+                { isEncrypted: true }
             )
         );
 
