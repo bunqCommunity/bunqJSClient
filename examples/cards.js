@@ -134,4 +134,4 @@ setup()
 		} else {
 			console.log(error);
 		}
-	})//.finally(() => process.exit());
+	}).finally(() => process.exit());
