@@ -3,7 +3,7 @@ require("dotenv").config();
 const setup = require("./setup_files/setup");
 
 setup()
-    .then(async (BunqClient) => {
+    .then(async BunqClient => {
         const requestCvcCode = (userid, cardId, type = "GENERATED") => {
             return BunqClient.api.cardCvc2.post(userid, cardId, type);
         };

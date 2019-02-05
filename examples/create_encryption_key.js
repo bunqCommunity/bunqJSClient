@@ -21,12 +21,7 @@ const derivePassword = (password, keySize = 32, iv = false) => {
     const iterations = 300000;
 
     // derive a 16 bit key from the password and iv
-    const derivedBytes = forge.pkcs5.pbkdf2(
-        password,
-        passwordIv,
-        iterations,
-        keySize
-    );
+    const derivedBytes = forge.pkcs5.pbkdf2(password, passwordIv, iterations, keySize);
 
     // turn derivedBytes into a readable string
     const encryptionKey = forge.util.bytesToHex(derivedBytes);

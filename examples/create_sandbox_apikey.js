@@ -2,13 +2,13 @@
 const BunqJSClient = require("../dist/BunqJSClient").default;
 
 // setup a custom store which works in a node environment
-const customStore = require("./custom_store")(__dirname + "\\storage.json")
+const customStore = require("./custom_store")(__dirname + "\\storage.json");
 
 // setup a plain bunqjsclient
 const BunqClient = new BunqJSClient(customStore);
 
 const setup = async () => {
-    const apiKey = await BunqClient.api.sandboxUser.post()
+    const apiKey = await BunqClient.api.sandboxUser.post();
 
     return apiKey;
 };

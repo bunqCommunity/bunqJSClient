@@ -21,7 +21,7 @@ export default class Card implements ApiEndpointInterface {
     }
 
     /**
-     *
+     * @param {number} userId
      * @param options
      * @returns {Promise<any>}
      */
@@ -114,8 +114,9 @@ export default class Card implements ApiEndpointInterface {
                     activation_code: activationCode,
                     status: status,
                     card_limit: cardLimit,
+                    // card_limit_atm field does not update if put and is left out
                     limit: limits,
-                    //mag_stripe_permission: magStripePermission,
+                    //mag_stripe_permission: magStripePermission, // Depricated?
                     country_permission: countryPermissions,
                     pin_code_assignment: pinCodeAssignment,
                     monetary_account_id_fallback: monetaryAccountIdFallback

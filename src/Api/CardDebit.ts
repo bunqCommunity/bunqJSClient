@@ -40,14 +40,21 @@ export default class CardDebit implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/card-debit", "POST");
 
-        const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/card-debit`), {
-            second_line: description,
-            name_on_card: name,
-            alias: alias,
-            type: cardType,
-            pin_code_assignment: assignments,
-            monetary_account_id_fallback: monetaryAccountIdFallback
-        });
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/card-debit`,
+                {
+                    second_line: description,
+                    name_on_card: name,
+                    alias: alias,
+                    type: cardType,
+                    pin_code_assignment: assignments,
+                    monetary_account_id_fallback: monetaryAccountIdFallback
+                },
+                {},
+                { isEncrypted: true }
+            )
+        );
 
         return response.Response;
     }

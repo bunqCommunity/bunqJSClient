@@ -120,6 +120,8 @@ export default class BunqJSClient {
             billingContractSubscription: new BillingContractSubscription(this.ApiAdapter),
             bunqMeTabs: new BunqMeTabs(this.ApiAdapter),
             card: new Card(this.ApiAdapter),
+            cardDebit: new CardDebit(this.ApiAdapter),
+            cardName: new CardName(this.ApiAdapter),
             cardBatch: new CardBatch(this.ApiAdapter),
             cardCvc2: new CardCvc2(this.ApiAdapter),
             cardDebit: new CardDebit(this.ApiAdapter),
