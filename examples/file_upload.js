@@ -5,7 +5,7 @@ const path = require("path");
 const setup = require("./setup_files/setup");
 
 setup()
-    .then(async (BunqClient) => {
+    .then(async BunqClient => {
         // get the image contents
         const file = fs.readFileSync(`${__dirname}${path.sep}setup_files${path.sep}Ali-Niknam-50x50.jpg`);
 
