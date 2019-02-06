@@ -125,7 +125,7 @@ There are a few examples which can be found in the `examples/` folder. `create_s
 The examples use [dotenv](https://github.com/motdotla/dotenv) so make sure to copy the `.env.example` file to `.env` and enter the correct values.
 
 ## Supported APIs
-For more details look into the endpoints found at `src/Api/*`. 
+For more details look into the endpoints found at `src/Api/*`. Adding endpoints is relatively easy but they tend to get added when required or requested. The most common endpoints are now all implemented but feel free to request (Or preferably create a pull request) for any endpoints that are missing. 
 
 ## Contact
 [![Telegram chat badge](https://img.shields.io/badge/Telegram-Discuss-blue.svg) ](https://t.me/bunqcommunity)
