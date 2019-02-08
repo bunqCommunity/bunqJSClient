@@ -37,10 +37,6 @@ import SessionServer from "../Api/SessionServer";
 import ShareInviteBankInquiry from "../Api/ShareInviteBankInquiry";
 import ShareInviteBankResponse from "../Api/ShareInviteBankResponse";
 import User from "../Api/User";
-import MonetaryAccount from "../Api/MonetaryAccount";
-import Avatar from "../Api/Avatar";
-import CardDebit from "../Api/CardDebit";
-import CardName from "../Api/CardName";
 import UserCompany from "../Api/UserCompany";
 import UserPerson from "../Api/UserPerson";
 
@@ -51,8 +47,6 @@ export default interface ApiEndpointCollection {
     billingContractSubscription: BillingContractSubscription;
     bunqMeTabs: BunqMeTabs;
     card: Card;
-    cardDebit: CardDebit;
-    cardName: CardName;
     cardBatch: CardBatch;
     cardCvc2: CardCvc2;
     cardDebit: CardDebit;
