@@ -112,8 +112,9 @@ const authorizationCode = await bunqJSClient.exchangeOAuthToken(
     clientSecret, 
     redirectUri, 
     code, 
+    state: string | false = false,
+    sandbox: boolean = false
     grantType: string = "authorization_code",
-    state: string | false = false
 )
 ```
 
