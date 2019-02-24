@@ -101,7 +101,8 @@ You can use the helper function to format a correct url to start the login flow:
 const url = bunqJSClient.formatOAuthAuthorizationRequestUrl(
     clientId, 
     redirectUri, 
-    optionalState = false
+    optionalState: string | false = false,
+    sandbox: boolean = false
 );
 ```
 
