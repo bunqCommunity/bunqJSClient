@@ -1,6 +1,7 @@
 import ApiAdapter from "../ApiAdapter";
 import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
+import { arrayBufferToBase64 } from "../Helpers/FileReaderHelper";
 
 export default class AttachementContent implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
@@ -36,20 +37,15 @@ export default class AttachementContent implements ApiEndpointInterface {
 
         // return data as base64
         if (options.base64 === true) {
-            return new Promise((resolve, reject) => {
-                if (response instanceof Buffer) {
-                    // buffers are simply encoded as base64
-                    resolve(response.toString("base64"));
-                } else {
-                    const blob = new Blob([response], { type: "image/png" });
+            if (response instanceof Buffer) {
+                // buffers are simply encoded as base64
+                return response.toString("base64");
+            } else if (typeof FileReader !== "undefined") {
+                // turn the array buffer result into a base64 string
+                return arrayBufferToBase64(response);
+            }
 
-                    // create a new filereader and transform response blob data into a base64 url
-                    const reader = new FileReader();
-                    reader.readAsDataURL(blob);
-                    reader.onload = () => resolve(reader.result);
-                    reader.onerror = error => reject(error);
-                }
-            });
+            throw new Error("No valid Buffer given and FileReader not available");
         }
 
         // return raw respone image

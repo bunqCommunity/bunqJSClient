@@ -8,11 +8,13 @@ import { defaultResponse } from "../../TestHelpers/DefaultResponses";
 describe("API", () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
-    describe("CardName", () => {
-        it("#GET", async () => {
+
+    describe("Avatar", () => {
+        it("#POST", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.cardName.get(1);
+            const request = bunqApp.api.avatar.post("attachmendUuidValue");
+
             await defaultResponse(moxios);
             const response = await request;
 

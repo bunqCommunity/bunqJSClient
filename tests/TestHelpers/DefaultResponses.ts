@@ -26,6 +26,9 @@ export const defaultResponse = async moxios => {
                                 Id: {
                                     id: ""
                                 },
+                                Uuid: {
+                                    uuid: ""
+                                },
                                 Payment: {},
                                 UserCompany: {},
                                 UserLight: {},
