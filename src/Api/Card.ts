@@ -106,14 +106,14 @@ export default class Card implements ApiEndpointInterface {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/card", "PUT");
 
         const data: any = {};
-        if (pinCode) data.pinCode = pinCode;
-        if (activationCode) data.activationCode = activationCode;
+        if (pinCode) data.pin_code = pinCode;
+        if (activationCode) data.activation_code = activationCode;
         if (status) data.status = status;
-        if (cardLimit) data.cardLimit = cardLimit;
+        if (cardLimit) data.card_limit = cardLimit;
         if (limits) data.limits = limits;
-        if (countryPermissions) data.countryPermissions = countryPermissions;
-        if (pinCodeAssignment) data.pinCodeAssignment = pinCodeAssignment;
-        if (monetaryAccountIdFallback) data.monetaryAccountIdFallback = monetaryAccountIdFallback;
+        if (countryPermissions) data.country_permissions = countryPermissions;
+        if (pinCodeAssignment) data.pin_code_assignment = pinCodeAssignment;
+        if (monetaryAccountIdFallback) data.monetary_account_id_fallback = monetaryAccountIdFallback;
 
         const response = await limiter.run(async () =>
             this.ApiAdapter.put(`/v1/user/${userId}/card/${cardId}`, data, {}, { isEncrypted: true })
