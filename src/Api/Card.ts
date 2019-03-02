@@ -98,7 +98,6 @@ export default class Card implements ApiEndpointInterface {
         status: string = null,
         cardLimit: Amount = null,
         limits: LimitCollection = null,
-        //magStripePermission: MagStripePermission = null,
         countryPermissions: CountryPermissionCollection = null,
         pinCodeAssignment: PinCodeAssignmentCollection = null,
         monetaryAccountIdFallback: number = null,
@@ -106,24 +105,18 @@ export default class Card implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/card", "PUT");
 
+        const data: any = {};
+        if (pinCode) data.pinCode = pinCode;
+        if (activationCode) data.activationCode = activationCode;
+        if (status) data.status = status;
+        if (cardLimit) data.cardLimit = cardLimit;
+        if (limits) data.limits = limits;
+        if (countryPermissions) data.countryPermissions = countryPermissions;
+        if (pinCodeAssignment) data.pinCodeAssignment = pinCodeAssignment;
+        if (monetaryAccountIdFallback) data.monetaryAccountIdFallback = monetaryAccountIdFallback;
+
         const response = await limiter.run(async () =>
-            this.ApiAdapter.put(
-                `/v1/user/${userId}/card/${cardId}`,
-                {
-                    pin_code: pinCode,
-                    activation_code: activationCode,
-                    status: status,
-                    card_limit: cardLimit,
-                    // card_limit_atm field does not update if put and is left out
-                    limit: limits,
-                    //mag_stripe_permission: magStripePermission, // Depricated?
-                    country_permission: countryPermissions,
-                    pin_code_assignment: pinCodeAssignment,
-                    monetary_account_id_fallback: monetaryAccountIdFallback
-                },
-                {},
-                { isEncrypted: true }
-            )
+            this.ApiAdapter.put(`/v1/user/${userId}/card/${cardId}`, data, {}, { isEncrypted: true })
         );
 
         return response.Response;
