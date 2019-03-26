@@ -10,6 +10,7 @@
     "posttest": "rm -r tests/custom-db/*",
     "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --watch --config jest.config.js",
     "test:jest": "cross-env ENV_CI=true jest --verbose --forceExit --config jest.config.js",
+    "test:majestic": "cross-env ENV_CI=true majestic --app",
     "test:prettier": "prettier-check \"+(tests|src|examples)/**/**.+(js|ts)\" --tab-width 4 --print-width 120",
     "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|src|examples)/**/**.+(js|ts)\"",
     "preversion": "npm run build"
@@ -58,6 +59,7 @@
     "dotenv": "^6.0.0",
     "jest": "^21.2.1",
     "json-store": "^1.0.0",
+    "majestic": "^1.2.21",
     "moxios": "^0.4.0",
     "node-json-db": "^0.7.3",
     "prettier": "^1.14.2",
@@ -75,5 +77,11 @@
   "bugs": {
     "url": "https://github.com/bunqCommunity/bunqJSClient/issues"
   },
-  "homepage": "https://github.com/bunqCommunity/bunqJSClient#readme"
+  "homepage": "https://github.com/bunqCommunity/bunqJSClient#readme",
+  "majestic": {
+    "args": [ "--verbose", "--forceExit", "--config jest.config.js"],
+    "env": {
+      "ENV_CI": "true"
+    }
+  }
 }
