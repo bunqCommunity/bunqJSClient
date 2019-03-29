@@ -5,7 +5,7 @@ const setup = require("./setup_files/setup");
 setup()
     .then(async BunqClient => {
         const getCardNames = async userid => {
-            const cardNames = await BunqClient.api.cardName.list(userid).catch(error => {
+            const cardNames = await BunqClient.api.cardName.get(userid).catch(error => {
                 throw error;
             });
             return cardNames;

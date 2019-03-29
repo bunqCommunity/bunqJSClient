@@ -16,9 +16,24 @@ setup()
         const userInfo = users[Object.keys(users)[0]];
 
         const cards = await BunqClient.api.card.list(userInfo.id);
-        console.log("\nCards: ", Object.keys(cards).length, "\n");
+        console.log("\nCards: ", cards.length, "\n");
 
-        const cvcResult = await requestCvcCode(userInfo.id, 227468);
+        const masterCardTypes = ["MASTERCARD", "MASTERCARD_VIRTUAL"];
+        const masterCard = cards.find(card => {
+            const cardKey = Object.keys(card)[0];
+            const cardInfo = card[cardKey];
+
+            return masterCardTypes.includes(cardInfo.type);
+        });
+
+        if (!masterCard) {
+            console.log("No card found with type of:", masterCardTypes);
+            return;
+        }
+        const cardKey = Object.keys(masterCard)[0];
+        const masterCardInfo = masterCard[cardKey];
+
+        const cvcResult = await requestCvcCode(userInfo.id, masterCardInfo.id);
         console.log(cvcResult);
     })
     .catch(error => {
