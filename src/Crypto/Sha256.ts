@@ -7,11 +7,12 @@ const forgeUtil = forge.util;
 /**
  * Hashes a string using sha256
  * @param {string} string
+ * @param {string} encoding = "raw"
  * @returns {Promise<string>}
  */
-export const stringToHash = async (string: string) => {
+export const stringToHash = async (string: string, encoding: string = "raw") => {
     const messageDigest = forgeSha256.create();
-    messageDigest.update(string);
+    messageDigest.update(string, encoding);
     return messageDigest.digest().toHex();
 };
 
@@ -35,12 +36,13 @@ export const encryptString = async (data: string, publicKey: any, raw: boolean =
  * Signs a string using a privateKey
  * @param {string} data
  * @param privateKey
+ * @param {string} encoding = "raw"
  * @returns {Promise<string>}
  */
-export const signString = async (data: string, privateKey: any) => {
+export const signString = async (data: string, privateKey: any, encoding: string = "raw") => {
     // create a new message digest for our string
     const messageDigest = forgeSha256.create();
-    messageDigest.update(data, "raw");
+    messageDigest.update(data, encoding);
 
     // sign it with a private key
     const signatureBytes = privateKey.sign(messageDigest);
@@ -53,12 +55,13 @@ export const signString = async (data: string, privateKey: any) => {
  * @param {string} data
  * @param publicKey
  * @param {string} signature
+ * @param {string} encoding = "raw"
  * @returns {Promise<string>}
  */
-export const verifyString = async (data: string, publicKey: any, signature: string) => {
+export const verifyString = async (data: string, publicKey: any, signature: string, encoding: string = "raw") => {
     // create a new message digest for our string
     const messageDigest = forgeSha256.create();
-    messageDigest.update(data, "raw");
+    messageDigest.update(data, encoding);
 
     try {
         // decode the base64 signature

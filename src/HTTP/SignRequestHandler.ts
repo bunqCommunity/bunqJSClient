@@ -50,6 +50,7 @@ export default class SignRequestHandler {
 
         // serialize the data
         let data: string | Buffer = "";
+        let dataEncoding = "raw";
         const appendDataWhitelist = ["POST", "PUT", "DELETE"];
         if (options.includesFile) {
             const requestData: Buffer = request.data;
@@ -63,6 +64,7 @@ export default class SignRequestHandler {
             request.setData(requestData);
         } else if (appendDataWhitelist.some(item => item === request.method)) {
             data = JSON.stringify(request.data);
+            dataEncoding = "utf8";
         }
 
         // create a list of headers
@@ -89,7 +91,7 @@ ${headers}
 ${data}`;
 
         // sign the template with our private key
-        const signature = await signString(template, this.Session.privateKey);
+        const signature = await signString(template, this.Session.privateKey, dataEncoding);
 
         if (typeof navigator !== "undefined" && navigator.product !== "ReactNative") {
             // remove the user agent again if we're in a browser env where we aren't allowed to
