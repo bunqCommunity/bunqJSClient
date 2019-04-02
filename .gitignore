@@ -5,6 +5,7 @@
 .env.*
 !.env.example
 examples/setup_files/storage.json
+examples/setup_files/storage-*.json
 
 # test files
 coverage

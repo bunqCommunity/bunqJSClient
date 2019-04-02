@@ -5,23 +5,14 @@ const setup = require("./setup_files/setup");
 setup()
     .then(async BunqClient => {
         const getCardNames = async userid => {
-            const cardNames = await BunqClient.api.cardName.get(userid).catch(error => {
-                throw error;
-            });
-            return cardNames;
+            return BunqClient.api.cardName.get(userid);
         };
         const getMonetaryAccounts = async userid => {
-            const accounts = await BunqClient.api.monetaryAccount.list(userid).catch(error => {
-                throw error;
-            });
-            return accounts;
+            return BunqClient.api.monetaryAccount.list(userid);
         };
 
         const getPayments = async (userid, monetaryaccountid) => {
-            const payments = await BunqClient.api.payment.list(userid, monetaryaccountid).catch(error => {
-                throw error;
-            });
-            return payments;
+            return BunqClient.api.payment.list(userid, monetaryaccountid);
         };
 
         // get user info connected to this account

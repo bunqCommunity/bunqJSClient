@@ -1,5 +1,3 @@
-import Logger from "./Helpers/Logger";
-
 export default class RequestLimiter {
     private max_requests: number = 3;
     private interval: number = 3000;
