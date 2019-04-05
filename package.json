@@ -3,7 +3,7 @@
   "version": "0.40.1",
   "license": "MIT",
   "scripts": {
-    "prebuild": "rm -r dist/*",
+    "prebuild": "rm -r dist",
     "build": "tsc --listFiles --newline lf",
     "build:dev": "tsc -w --newline lf",
     "test": "npm run test:prettier && npm run test:jest",
