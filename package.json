@@ -23,11 +23,10 @@
   "dependencies": {
     "awaiting": "^3.0.0",
     "axios": "^0.16.2",
-    "es6-promise-promise": "^1.0.0",
     "loglevel": "^1.4.1",
     "node-forge": "^0.7.1",
-    "store": "^2.0.12",
-    "typescript": "^2.5.3"
+    "socks-proxy-agent": "^4.0.2",
+    "store": "^2.0.12"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -57,6 +56,7 @@
     "coveralls": "^3.0.0",
     "cross-env": "^5.2.0",
     "dotenv": "^6.0.0",
+    "es6-promise-promise": "^1.0.0",
     "jest": "^21.2.1",
     "json-store": "^1.0.0",
     "majestic": "^1.2.21",
@@ -64,7 +64,8 @@
     "node-json-db": "^0.7.3",
     "prettier": "^1.14.2",
     "prettier-check": "^2.0.0",
-    "ts-jest": "^23.1.4"
+    "ts-jest": "^23.1.4",
+    "typescript": "^2.5.3"
   },
   "engines": {
     "node": ">=8.0.0"

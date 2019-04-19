@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import BunqJSClient from "./BunqJSClient";
 import Session from "./Session";
 import LoggerInterface from "./Interfaces/LoggerInterface";
@@ -52,11 +52,16 @@ export default class ApiAdapter {
      * @param {string} url
      * @param headers
      * @param {ApiAdapterOptions} options
+     * @param {AxiosInstance | false} axiosInstance
      * @returns {Promise<void>}
      */
-    public async get(url: string, headers: any = {}, options: ApiAdapterOptions = {}) {
-        const response = await this.request(url, "GET", "", headers, options);
-
+    public async get(
+        url: string,
+        headers: any = {},
+        options: ApiAdapterOptions = {},
+        axiosInstance: AxiosInstance | false = false
+    ) {
+        const response = await this.request(url, "GET", "", headers, options, axiosInstance);
         return response.data;
     }
 
@@ -64,10 +69,16 @@ export default class ApiAdapter {
      * @param {string} url
      * @param headers
      * @param {ApiAdapterOptions} options
+     * @param {AxiosInstance | false} axiosInstance
      * @returns {Promise<void>}
      */
-    public async delete(url: string, headers: any = {}, options: ApiAdapterOptions = {}) {
-        const response = await this.request(url, "DELETE", {}, headers, options);
+    public async delete(
+        url: string,
+        headers: any = {},
+        options: ApiAdapterOptions = {},
+        axiosInstance: AxiosInstance | false = false
+    ) {
+        const response = await this.request(url, "DELETE", {}, headers, options, axiosInstance);
         return response.data;
     }
 
@@ -76,10 +87,17 @@ export default class ApiAdapter {
      * @param data
      * @param headers
      * @param {ApiAdapterOptions} options
+     * @param {AxiosInstance | false} axiosInstance
      * @returns {Promise<void>}
      */
-    public async post(url: string, data: any = {}, headers: any = {}, options: ApiAdapterOptions = {}) {
-        const response = await this.request(url, "POST", data, headers, options);
+    public async post(
+        url: string,
+        data: any = {},
+        headers: any = {},
+        options: ApiAdapterOptions = {},
+        axiosInstance: AxiosInstance | false = false
+    ) {
+        const response = await this.request(url, "POST", data, headers, options, axiosInstance);
         return response.data;
     }
 
@@ -88,10 +106,17 @@ export default class ApiAdapter {
      * @param data
      * @param headers
      * @param {ApiAdapterOptions} options
+     * @param {AxiosInstance | false} axiosInstance
      * @returns {Promise<void>}
      */
-    public async put(url: string, data: any = {}, headers: any = {}, options: ApiAdapterOptions = {}) {
-        const response = await this.request(url, "PUT", data, headers, options);
+    public async put(
+        url: string,
+        data: any = {},
+        headers: any = {},
+        options: ApiAdapterOptions = {},
+        axiosInstance: AxiosInstance | false = false
+    ) {
+        const response = await this.request(url, "PUT", data, headers, options, axiosInstance);
         return response.data;
     }
 
@@ -101,6 +126,7 @@ export default class ApiAdapter {
      * @param data
      * @param headers
      * @param {ApiAdapterOptions} options
+     * @param {AxiosInstance | false} axiosInstance
      * @returns {Promise<any>}
      */
     public async request(
@@ -108,8 +134,12 @@ export default class ApiAdapter {
         method: Method = "GET",
         data: any = {},
         headers: Headers = {},
-        options: ApiAdapterOptions = {}
+        options: ApiAdapterOptions = {},
+        axiosInstance: AxiosInstance | false = false
     ) {
+        // default to standard axios instance
+        if (!axiosInstance) axiosInstance = axios;
+
         this.logger.debug(`${method}: ${url}`);
         const request = new Request(url, method, data, headers, options.axiosOptions || {});
 
@@ -141,7 +171,7 @@ export default class ApiAdapter {
 
         let response;
         try {
-            response = await axios.request(request.requestConfig);
+            response = await axiosInstance.request(request.requestConfig);
         } catch (error) {
             this.requestErrorHandler(error);
         }
