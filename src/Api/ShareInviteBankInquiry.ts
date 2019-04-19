@@ -39,9 +39,12 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "GET");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${accountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`
+                `/v1/user/${userId}/monetary-account/${accountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`,
+                {},
+                {},
+                axiosClient
             )
         );
 
@@ -77,7 +80,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/monetary-account/${accountId}/share-invite-bank-inquiry`,
                 {},
@@ -85,7 +88,8 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
@@ -129,10 +133,13 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
             postData.end_date = options.end_date;
         }
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.post(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry`,
-                postData
+                postData,
+                {},
+                {},
+                axiosClient
             )
         );
 
@@ -177,10 +184,13 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
             postData.end_date = options.end_date;
         }
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.put(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`,
-                postData
+                postData,
+                {},
+                {},
+                axiosClient
             )
         );
 
@@ -202,12 +212,15 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "PUT");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.put(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`,
                 {
                     status: status
-                }
+                },
+                {},
+                {},
+                axiosClient
             )
         );
 

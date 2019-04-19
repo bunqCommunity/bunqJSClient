@@ -18,10 +18,16 @@ export default class Avatar implements ApiEndpointInterface {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/avatar", "POST");
 
         // do the actual call
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.post(`/v1/avatar`, {
-                attachment_public_uuid: attachmentUuid
-            })
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(
+                `/v1/avatar`,
+                {
+                    attachment_public_uuid: attachmentUuid
+                },
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response[0].Uuid.uuid;

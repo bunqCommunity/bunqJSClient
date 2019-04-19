@@ -26,8 +26,13 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
     public async get(userId: number, monetaryAccountBankId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-bank", "GET");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-bank/${monetaryAccountBankId}`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account-bank/${monetaryAccountBankId}`,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response[0];
@@ -48,7 +53,9 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-bank", "LIST");
 
-        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-bank`));
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-bank`, {}, {}, axiosClient)
+        );
 
         return response.Response;
     }
@@ -72,19 +79,25 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-bank", "POST");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account-bank`, {
-                currency: currency,
-                description: description,
-                daily_limit: {
-                    value: dailyLimit + "",
-                    currency: currency
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/monetary-account-bank`,
+                {
+                    currency: currency,
+                    description: description,
+                    daily_limit: {
+                        value: dailyLimit + "",
+                        currency: currency
+                    },
+                    setting: {
+                        color: color,
+                        default_avatar_status: "AVATAR_DEFAULT"
+                    }
                 },
-                setting: {
-                    color: color,
-                    default_avatar_status: "AVATAR_DEFAULT"
-                }
-            })
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;
@@ -105,8 +118,14 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-bank", "PUT");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.put(`/v1/user/${userId}/monetary-account-bank/${accountId}`, monetaryAccountPutRequest)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/monetary-account-bank/${accountId}`,
+                monetaryAccountPutRequest,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;
@@ -131,13 +150,19 @@ export default class MonetaryAccountBank implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-bank", "PUT");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.put(`/v1/user/${userId}/monetary-account-bank/${accountId}`, {
-                status: status,
-                sub_status: sub_status,
-                reason: "OTHER",
-                reason_description: reason
-            })
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/monetary-account-bank/${accountId}`,
+                {
+                    status: status,
+                    sub_status: sub_status,
+                    reason: "OTHER",
+                    reason_description: reason
+                },
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;

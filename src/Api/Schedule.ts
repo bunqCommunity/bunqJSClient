@@ -44,7 +44,7 @@ export default class Schedule implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule`,
                 {},
@@ -52,7 +52,8 @@ export default class Schedule implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 

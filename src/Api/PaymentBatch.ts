@@ -27,8 +27,13 @@ export default class PaymentBatch implements ApiEndpointInterface {
     public async get(userId: number, monetaryAccountId: number, paymentId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment-batch");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch/${paymentId}`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch/${paymentId}`,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response[0];
@@ -63,7 +68,7 @@ export default class PaymentBatch implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment-batch", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`,
                 {},
@@ -71,7 +76,8 @@ export default class PaymentBatch implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
@@ -105,10 +111,16 @@ export default class PaymentBatch implements ApiEndpointInterface {
             };
         });
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`, {
-                payments: payments
-            })
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`,
+                {
+                    payments: payments
+                },
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;
@@ -126,10 +138,16 @@ export default class PaymentBatch implements ApiEndpointInterface {
     public async postRaw(userId: number, monetaryAccountId: number, payments: any[], options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment-batch", "POST");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`, {
-                payments: payments
-            })
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/payment-batch`,
+                {
+                    payments: payments
+                },
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;

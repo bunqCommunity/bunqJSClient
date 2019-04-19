@@ -21,7 +21,7 @@ export default class SandboxUser implements ApiEndpointInterface {
     public async post(options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/sandbox-user", "POST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.post(
                 `${URL_ENVIROMENTS.SANDBOX}/v1/sandbox-user`,
                 {},
@@ -32,7 +32,8 @@ export default class SandboxUser implements ApiEndpointInterface {
                     disableAuthentication: true,
                     disableVerification: true,
                     skipSessionCheck: true
-                }
+                },
+                axiosClient
             )
         );
 

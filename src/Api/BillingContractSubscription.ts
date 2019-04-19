@@ -43,7 +43,7 @@ export default class BillingContractSubscription implements ApiEndpointInterface
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/billing-contract-subscription", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/billing-contract-subscription`,
                 {},
@@ -51,7 +51,8 @@ export default class BillingContractSubscription implements ApiEndpointInterface
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 

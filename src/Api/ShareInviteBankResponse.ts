@@ -39,8 +39,13 @@ export default class ShareInviteBankResponse implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-response", "GET");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/share-invite-bank-response/${shareInviteBankResponseId}`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/share-invite-bank-response/${shareInviteBankResponseId}`,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;
@@ -73,7 +78,7 @@ export default class ShareInviteBankResponse implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-response", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/share-invite-bank-response`,
                 {},
@@ -81,7 +86,8 @@ export default class ShareInviteBankResponse implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
@@ -100,10 +106,16 @@ export default class ShareInviteBankResponse implements ApiEndpointInterface {
     public async put(userId: number, shareInviteBankResponseId: number, status: ShareInviteBankResponsePutStatus) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-response", "PUT");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.put(`/v1/user/${userId}/share-invite-bank-response/${shareInviteBankResponseId}`, {
-                status: status
-            })
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/share-invite-bank-response/${shareInviteBankResponseId}`,
+                {
+                    status: status
+                },
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;

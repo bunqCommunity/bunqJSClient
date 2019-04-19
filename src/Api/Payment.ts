@@ -67,7 +67,7 @@ export default class Payment implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment", "LIST", true);
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/payment", "LIST");
 
         const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(

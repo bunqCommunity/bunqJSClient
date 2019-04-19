@@ -28,7 +28,9 @@ export default class Card implements ApiEndpointInterface {
     public async get(userId: number, cardId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/card", "GET");
 
-        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/card/${cardId}`));
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(`/v1/user/${userId}/card/${cardId}`, {}, {}, axiosClient)
+        );
 
         return response.Response;
     }
@@ -60,7 +62,7 @@ export default class Card implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/card", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/card`,
                 {},
@@ -68,7 +70,8 @@ export default class Card implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
@@ -115,8 +118,8 @@ export default class Card implements ApiEndpointInterface {
         if (pinCodeAssignment) data.pin_code_assignment = pinCodeAssignment;
         if (monetaryAccountIdFallback) data.monetary_account_id_fallback = monetaryAccountIdFallback;
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.put(`/v1/user/${userId}/card/${cardId}`, data, {}, { isEncrypted: true })
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.put(`/v1/user/${userId}/card/${cardId}`, data, {}, { isEncrypted: true }, axiosClient)
         );
 
         return response.Response;

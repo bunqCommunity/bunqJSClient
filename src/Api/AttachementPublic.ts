@@ -18,7 +18,7 @@ export default class AttachmentPublic implements ApiEndpointInterface {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/attachment-public", "POST");
 
         // do the actual call
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.post(
                 `/v1/attachment-public`,
                 buffer,
@@ -28,7 +28,8 @@ export default class AttachmentPublic implements ApiEndpointInterface {
                 },
                 {
                     includesFile: true
-                }
+                },
+                axiosClient
             )
         );
 

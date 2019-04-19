@@ -43,23 +43,20 @@ export default class RequestLimitFactory {
     /**
      * @param {string} endpoint
      * @param {string} method
-     * @param {boolean} allowProxy
+     * @param {boolean} noProxy
      * @returns {RequestLimitConfig}
      */
-    public create(endpoint: string, method: string = "GET", allowProxy: boolean = false): RequestLimitConfig {
+    public create(endpoint: string, method: string = "GET", noProxy: boolean = false): RequestLimitConfig {
         // default to proxy "0" which is our standard IP
         let limiterKey = `${endpoint}:${method}:0`;
         let axiosClient: any = axios;
 
-        if (allowProxy) {
+        if (noProxy === false) {
             const randomIndex = this.getProxyIndex();
             limiterKey = `${endpoint}:${method}:${randomIndex}`;
 
             // set axiosClient for the selected index
             axiosClient = this.axiosClients[randomIndex];
-            // console.log("Proxy selected", randomIndex);
-        } else {
-            // console.log("No proxy used");
         }
 
         if (this.limiters[limiterKey]) {

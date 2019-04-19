@@ -28,13 +28,17 @@ export default class DeviceRegistration implements ApiEndpointInterface {
             postData["permitted_ips"] = options.permitted_ips;
         }
 
-        const response = await this.ApiAdapter.post(
-            "/v1/device-server",
-            postData,
-            {},
-            {
-                skipSessionCheck: true
-            }
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/device-server", "POST");
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(
+                "/v1/device-server",
+                postData,
+                {},
+                {
+                    skipSessionCheck: true
+                },
+                axiosClient
+            )
         );
 
         // return the device id
@@ -51,7 +55,11 @@ export default class DeviceRegistration implements ApiEndpointInterface {
             // if none is set we default to our current deviceId
             options.deviceId = this.Session.deviceId;
         }
-        const response = await this.ApiAdapter.get(`/v1/device-server/${options.deviceId}`);
+
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/device-server", "GET");
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(`/v1/device-server/${options.deviceId}`, {}, {}, axiosClient)
+        );
 
         // return the device id
         return response.Response[0].Id.id;

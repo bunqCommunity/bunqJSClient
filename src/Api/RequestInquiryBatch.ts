@@ -28,9 +28,12 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
     public async get(userId: number, monetaryAccountId: number, requestInquiryId: number) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-inquiry-batch", "GET");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry-batch/${requestInquiryId}`
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry-batch/${requestInquiryId}`,
+                {},
+                {},
+                axiosClient
             )
         );
 
@@ -66,7 +69,7 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-inquiry-batch", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry-batch`,
                 {},
@@ -74,7 +77,8 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
@@ -132,10 +136,13 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-inquiry-batch", "POST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.post(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry-batch`,
-                requestData
+                requestData,
+                {},
+                {},
+                axiosClient
             )
         );
 
@@ -152,12 +159,15 @@ export default class RequestInquiryBatch implements ApiEndpointInterface {
     public async put(userId: number, monetaryAccountId: number, requestInquiryId: number, status: string = "REVOKED") {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-inquiry-batch", "PUT");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.put(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-inquiry-batch/${requestInquiryId}`,
                 {
                     status: status
-                }
+                },
+                {},
+                {},
+                axiosClient
             )
         );
 

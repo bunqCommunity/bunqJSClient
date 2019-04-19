@@ -27,7 +27,7 @@ export default class CustomerStatementExportContent implements ApiEndpointInterf
     ): Promise<Blob> {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/customer-statement-export/content", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/monetary-account/${accountId}/customer-statement/${customerStatementId}/content`,
                 {},
@@ -35,7 +35,8 @@ export default class CustomerStatementExportContent implements ApiEndpointInterf
                     axiosOptions: {
                         responseType: "arraybuffer"
                     }
-                }
+                },
+                axiosClient
             )
         );
 

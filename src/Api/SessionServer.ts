@@ -19,15 +19,20 @@ export default class SessionServer implements ApiEndpointInterface {
      * @returns {Promise<{id; token: any; serverPublicKey: any}>}
      */
     public async add(options: any = {}) {
-        const result = await this.ApiAdapter.post(
-            "/v1/session-server",
-            {
-                secret: this.Session.apiKey
-            },
-            {},
-            {
-                skipSessionCheck: true
-            }
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/session-server", "POST");
+
+        const result = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(
+                "/v1/session-server",
+                {
+                    secret: this.Session.apiKey
+                },
+                {},
+                {
+                    skipSessionCheck: true
+                },
+                axiosClient
+            )
         );
 
         return {
@@ -42,7 +47,11 @@ export default class SessionServer implements ApiEndpointInterface {
      * @returns {Promise<{id; token: any; user_info}>}
      */
     public async delete(options: any = {}) {
-        await this.ApiAdapter.delete(`/v1/session/${this.Session.sessionId}`);
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/session-server", "DELETE");
+
+        await limiter.run(async axiosClient =>
+            this.ApiAdapter.delete(`/v1/session/${this.Session.sessionId}`, {}, {}, axiosClient)
+        );
 
         return true;
     }

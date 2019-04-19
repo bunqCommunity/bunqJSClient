@@ -23,7 +23,7 @@ export default class AttachementContent implements ApiEndpointInterface {
     public async get(attachmendUUID: string, options: any = { base64: true }) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/attachment-public/content", "GET");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/attachment-public/${attachmendUUID}/content`,
                 {},
@@ -31,7 +31,8 @@ export default class AttachementContent implements ApiEndpointInterface {
                     axiosOptions: {
                         responseType: "arraybuffer"
                     }
-                }
+                },
+                axiosClient
             )
         );
 

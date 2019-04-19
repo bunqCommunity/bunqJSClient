@@ -22,7 +22,9 @@ export default class CardName implements ApiEndpointInterface {
     public async get(userId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/card-name", "GET");
 
-        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/card-name`));
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(`/v1/user/${userId}/card-name`, {}, {}, axiosClient)
+        );
 
         return response.Response;
     }

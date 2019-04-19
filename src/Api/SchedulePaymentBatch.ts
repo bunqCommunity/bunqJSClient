@@ -26,9 +26,12 @@ export default class SchedulePaymentBatch implements ApiEndpointInterface {
     public async delete(userId: number, monetaryAccountId: number, paymentId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment-batch", "DELETE");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.delete(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment-batch/${paymentId}`
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment-batch/${paymentId}`,
+                {},
+                {},
+                axiosClient
             )
         );
 
@@ -52,11 +55,17 @@ export default class SchedulePaymentBatch implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment-batch", "POST");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment-batch`, {
-                payments: paymentRequestObjectCollection,
-                schedule: schedule
-            })
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment-batch`,
+                {
+                    payments: paymentRequestObjectCollection,
+                    schedule: schedule
+                },
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;

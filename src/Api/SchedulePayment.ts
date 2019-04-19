@@ -27,9 +27,12 @@ export default class SchedulePayment implements ApiEndpointInterface {
     public async get(userId: number, monetaryAccountId: number, paymentId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment/${paymentId}`
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment/${paymentId}`,
+                {},
+                {},
+                axiosClient
             )
         );
 
@@ -46,9 +49,12 @@ export default class SchedulePayment implements ApiEndpointInterface {
     public async delete(userId: number, monetaryAccountId: number, paymentId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment", "DELETE");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.delete(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment/${paymentId}`
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment/${paymentId}`,
+                {},
+                {},
+                axiosClient
             )
         );
 
@@ -84,7 +90,7 @@ export default class SchedulePayment implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/schedule-payment", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment`,
                 {},
@@ -92,7 +98,8 @@ export default class SchedulePayment implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
@@ -121,10 +128,13 @@ export default class SchedulePayment implements ApiEndpointInterface {
             schedule: schedule
         };
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.post(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment`,
-                requestObject
+                requestObject,
+                {},
+                {},
+                axiosClient
             )
         );
 
@@ -155,10 +165,13 @@ export default class SchedulePayment implements ApiEndpointInterface {
             schedule: schedule
         };
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.put(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/schedule-payment/${scheduledPaymentId}`,
-                requestObject
+                requestObject,
+                {},
+                {},
+                axiosClient
             )
         );
 

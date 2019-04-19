@@ -23,8 +23,8 @@ export default class MonetaryAccount implements ApiEndpointInterface {
     public async get(userId: number, monetaryAccountId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account", "GET");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${monetaryAccountId}`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${monetaryAccountId}`, {}, {}, axiosClient)
         );
 
         return response.Response[0];
@@ -57,7 +57,7 @@ export default class MonetaryAccount implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/monetary-account`,
                 {},
@@ -65,7 +65,8 @@ export default class MonetaryAccount implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 

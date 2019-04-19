@@ -68,7 +68,7 @@ export default class NoteAttachment implements ApiEndpointInterface {
             secondaryEventId
         )}/note-attachment/${noteTextId}`;
 
-        const response = await limiter.run(async () => this.ApiAdapter.get(fullEndpoint));
+        const response = await limiter.run(async axiosClient => this.ApiAdapter.get(fullEndpoint));
 
         return response.Response[0];
     }
@@ -114,7 +114,7 @@ export default class NoteAttachment implements ApiEndpointInterface {
             secondaryEventId
         )}/note-attachment`;
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 fullEndpoint,
                 {},
@@ -122,7 +122,8 @@ export default class NoteAttachment implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
@@ -168,7 +169,9 @@ export default class NoteAttachment implements ApiEndpointInterface {
         };
         if (description) bodyData.description = description;
 
-        const response = await limiter.run(async () => this.ApiAdapter.post(fullEndpoint, bodyData));
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(fullEndpoint, bodyData, {}, {}, axiosClient)
+        );
 
         return response.Response;
     }
@@ -214,7 +217,9 @@ export default class NoteAttachment implements ApiEndpointInterface {
         };
         if (description) bodyData.description = description;
 
-        const response = await limiter.run(async () => this.ApiAdapter.put(fullEndpoint, bodyData));
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.put(fullEndpoint, bodyData, {}, {}, axiosClient)
+        );
 
         return response.Response;
     }
@@ -250,7 +255,9 @@ export default class NoteAttachment implements ApiEndpointInterface {
             secondaryEventId
         )}/note-attachment/${noteTextId}`;
 
-        const response = await limiter.run(async () => this.ApiAdapter.delete(fullEndpoint));
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.delete(fullEndpoint, {}, {}, axiosClient)
+        );
 
         return response.Response;
     }

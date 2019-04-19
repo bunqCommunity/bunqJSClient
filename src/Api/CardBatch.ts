@@ -23,14 +23,15 @@ export default class CardBatch implements ApiEndpointInterface {
     public async post(userId: number, cards: any[], options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/card-batch", "POST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.post(
                 `/v1/user/${userId}/card-batch`,
                 {
                     cards: cards
                 },
                 {},
-                { isEncrypted: true }
+                { isEncrypted: true },
+                axiosClient
             )
         );
 

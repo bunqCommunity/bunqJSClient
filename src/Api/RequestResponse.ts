@@ -25,9 +25,12 @@ export default class RequestResponse implements ApiEndpointInterface {
     public async get(userId: number, monetaryAccountId: number, requestResponseId: number) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-response", "GET");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response/${requestResponseId}`
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response/${requestResponseId}`,
+                {},
+                {},
+                axiosClient
             )
         );
 
@@ -63,7 +66,7 @@ export default class RequestResponse implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-response", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response`,
                 {},
@@ -71,7 +74,8 @@ export default class RequestResponse implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
@@ -118,10 +122,13 @@ export default class RequestResponse implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/request-response", "PUT");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.put(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/request-response/${requestResponseId}`,
-                requestOptions
+                requestOptions,
+                {},
+                {},
+                axiosClient
             )
         );
 
