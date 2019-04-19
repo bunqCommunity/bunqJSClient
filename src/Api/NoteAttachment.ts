@@ -114,14 +114,16 @@ export default class NoteAttachment implements ApiEndpointInterface {
             secondaryEventId
         )}/note-attachment`;
 
-        const response = await limiter.run(
-            async () => this.ApiAdapter.get(fullEndpoint),
-            {},
-            {
-                axiosOptions: {
-                    params: params
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                fullEndpoint,
+                {},
+                {
+                    axiosOptions: {
+                        params: params
+                    }
                 }
-            }
+            )
         );
 
         return response.Response;

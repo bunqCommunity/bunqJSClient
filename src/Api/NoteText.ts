@@ -110,14 +110,16 @@ export default class NoteText implements ApiEndpointInterface {
         // full endpoint url
         const fullEndpoint = `${endpointBase}/${this.createEndpoint(eventType, eventId, secondaryEventId)}/note-text`;
 
-        const response = await limiter.run(
-            async () => this.ApiAdapter.get(fullEndpoint),
-            {},
-            {
-                axiosOptions: {
-                    params: params
+        const response = await limiter.run(async () =>
+            this.ApiAdapter.get(
+                fullEndpoint,
+                {},
+                {
+                    axiosOptions: {
+                        params: params
+                    }
                 }
-            }
+            )
         );
 
         return response.Response;
