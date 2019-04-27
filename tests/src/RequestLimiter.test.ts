@@ -3,6 +3,7 @@ import Prepare from "../TestHelpers/Prepare";
 const awaiting = require("awaiting");
 
 import RequestLimiter from "../../src/RequestLimiter";
+import Logger from "../../src/Helpers/Logger";
 import RequestLimitFactory, { RequestLimitConfig } from "../../src/RequestLimitFactory";
 
 describe("RequestLimiter", () => {
@@ -12,7 +13,7 @@ describe("RequestLimiter", () => {
 
     describe("#wrapCallable()", () => {
         it("should create and return a new RequestLimiter", async () => {
-            const factory = new RequestLimitFactory();
+            const factory = new RequestLimitFactory(Logger);
 
             const requestLimitConfig: RequestLimitConfig = factory.create("/endpoint", "GET");
 
@@ -20,7 +21,7 @@ describe("RequestLimiter", () => {
         });
 
         it("should properly throttle when many requests are done", async () => {
-            const factory = new RequestLimitFactory();
+            const factory = new RequestLimitFactory(Logger);
 
             const requestLimitConfig: RequestLimitConfig = factory.create("/endpoint", "GET");
 
@@ -37,7 +38,7 @@ describe("RequestLimiter", () => {
         });
 
         it("should allow for non-promise callbacks", async () => {
-            const factory = new RequestLimitFactory();
+            const factory = new RequestLimitFactory(Logger);
 
             const requestLimitConfig: RequestLimitConfig = factory.create("/endpoint", "GET");
 
@@ -56,7 +57,7 @@ describe("RequestLimiter", () => {
         });
 
         it("should throw errors if callback rejects/fails", async () => {
-            const factory = new RequestLimitFactory();
+            const factory = new RequestLimitFactory(Logger);
 
             const requestLimitConfig: RequestLimitConfig = factory.create("/endpoint", "GET");
 
