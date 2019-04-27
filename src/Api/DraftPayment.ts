@@ -28,8 +28,13 @@ export default class DraftPayment implements ApiEndpointInterface {
     public async get(userId: number, monetaryAccountId: number, paymentId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/draft-payment");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment/${paymentId}`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment/${paymentId}`,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response[0];
@@ -64,7 +69,7 @@ export default class DraftPayment implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/draft-payment", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment`,
                 {},
@@ -72,7 +77,8 @@ export default class DraftPayment implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
@@ -115,11 +121,17 @@ export default class DraftPayment implements ApiEndpointInterface {
             });
         }
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment`, {
-                entries: entries,
-                number_of_required_accepts: 1
-            })
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment`,
+                {
+                    entries: entries,
+                    number_of_required_accepts: 1
+                },
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;
@@ -135,7 +147,7 @@ export default class DraftPayment implements ApiEndpointInterface {
     public async postRaw(userId: number, monetaryAccountId: number, entries: any[], options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/draft-payment", "POST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/draft-payment`, {
                 entries: entries,
                 number_of_required_accepts: 1

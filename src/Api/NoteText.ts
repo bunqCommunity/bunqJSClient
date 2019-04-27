@@ -68,7 +68,7 @@ export default class NoteText implements ApiEndpointInterface {
             secondaryEventId
         )}/note-text/${noteTextId}`;
 
-        const response = await limiter.run(async () => this.ApiAdapter.get(fullEndpoint));
+        const response = await limiter.run(async axiosClient => this.ApiAdapter.get(fullEndpoint));
 
         return response.Response[0];
     }
@@ -110,7 +110,7 @@ export default class NoteText implements ApiEndpointInterface {
         // full endpoint url
         const fullEndpoint = `${endpointBase}/${this.createEndpoint(eventType, eventId, secondaryEventId)}/note-text`;
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 fullEndpoint,
                 {},
@@ -118,7 +118,8 @@ export default class NoteText implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
@@ -152,10 +153,16 @@ export default class NoteText implements ApiEndpointInterface {
         // full endpoint url
         const fullEndpoint = `${endpointBase}/${this.createEndpoint(eventType, eventId, secondaryEventId)}/note-text`;
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.post(fullEndpoint, {
-                content: content
-            })
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(
+                fullEndpoint,
+                {
+                    content: content
+                },
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;
@@ -194,10 +201,16 @@ export default class NoteText implements ApiEndpointInterface {
             secondaryEventId
         )}/note-text/${noteTextId}`;
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.put(fullEndpoint, {
-                content: content
-            })
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.put(
+                fullEndpoint,
+                {
+                    content: content
+                },
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;
@@ -234,7 +247,9 @@ export default class NoteText implements ApiEndpointInterface {
             secondaryEventId
         )}/note-text/${noteTextId}`;
 
-        const response = await limiter.run(async () => this.ApiAdapter.delete(fullEndpoint));
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.delete(fullEndpoint, {}, {}, axiosClient)
+        );
 
         return response.Response;
     }

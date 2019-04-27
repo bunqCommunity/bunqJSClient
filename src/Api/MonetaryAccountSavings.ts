@@ -26,8 +26,13 @@ export default class MonetaryAccountSavings implements ApiEndpointInterface {
     public async get(userId: number, monetaryAccountSavingsId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-savings", "GET");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-savings/${monetaryAccountSavingsId}`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account-savings/${monetaryAccountSavingsId}`,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response[0];
@@ -48,8 +53,8 @@ export default class MonetaryAccountSavings implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-savings", "LIST");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-savings`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-savings`, {}, {}, axiosClient)
         );
 
         return response.Response;
@@ -93,8 +98,8 @@ export default class MonetaryAccountSavings implements ApiEndpointInterface {
             }
         };
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account-savings`, requestBody)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account-savings`, requestBody, {}, {}, axiosClient)
         );
 
         return response.Response;
@@ -115,8 +120,14 @@ export default class MonetaryAccountSavings implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-savings", "PUT");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.put(`/v1/user/${userId}/monetary-account-savings/${accountId}`, monetaryAccountPutRequest)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/monetary-account-savings/${accountId}`,
+                monetaryAccountPutRequest,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;
@@ -141,13 +152,19 @@ export default class MonetaryAccountSavings implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-savings", "PUT");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.put(`/v1/user/${userId}/monetary-account-savings/${accountId}`, {
-                status: status,
-                sub_status: sub_status,
-                reason: "OTHER",
-                reason_description: reason
-            })
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/monetary-account-savings/${accountId}`,
+                {
+                    status: status,
+                    sub_status: sub_status,
+                    reason: "OTHER",
+                    reason_description: reason
+                },
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;

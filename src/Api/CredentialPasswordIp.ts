@@ -24,8 +24,13 @@ export default class CredentialPasswordIp implements ApiEndpointInterface {
     public async get(userId: number, credentialPasswordIpId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip", "GET");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/credential-password-ip/${credentialPasswordIpId}`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/credential-password-ip/${credentialPasswordIpId}`,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response[0];
@@ -58,7 +63,7 @@ export default class CredentialPasswordIp implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/credential-password-ip`,
                 {},
@@ -66,7 +71,8 @@ export default class CredentialPasswordIp implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 

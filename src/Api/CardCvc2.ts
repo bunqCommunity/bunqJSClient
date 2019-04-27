@@ -23,8 +23,8 @@ export default class CardCvc2 implements ApiEndpointInterface {
     public async get(userId: number, cardId: number, cvc2Id: number) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/generated-cvc2", "GET");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/card/${cardId}/generated-cvc2/${cvc2Id}`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(`/v1/user/${userId}/card/${cardId}/generated-cvc2/${cvc2Id}`, {}, {}, axiosClient)
         );
 
         return response.Response[0];
@@ -39,8 +39,8 @@ export default class CardCvc2 implements ApiEndpointInterface {
     public async list(userId: number, cardId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/generated-cvc2", "LIST");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/card/${cardId}/generated-cvc2`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(`/v1/user/${userId}/card/${cardId}/generated-cvc2`, {}, {}, axiosClient)
         );
 
         return response.Response;
@@ -55,14 +55,15 @@ export default class CardCvc2 implements ApiEndpointInterface {
     public async post(userId: number, cardId: number, type: "STATIC" | "GENERATED" = "GENERATED", options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/generated-cvc2", "POST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.post(
                 `/v1/user/${userId}/card/${cardId}/generated-cvc2`,
                 {
                     type: type
                 },
                 {},
-                { isEncrypted: true }
+                { isEncrypted: true },
+                axiosClient
             )
         );
 

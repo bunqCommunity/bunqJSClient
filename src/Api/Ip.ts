@@ -25,8 +25,13 @@ export default class Ip implements ApiEndpointInterface {
     public async get(userId: number, credentialPasswordIpId: number, ipId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip/ip", "GET");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/credential-password-ip/${credentialPasswordIpId}/ip/${ipId}`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/credential-password-ip/${credentialPasswordIpId}/ip/${ipId}`,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response[0];
@@ -61,7 +66,7 @@ export default class Ip implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip/ip", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/credential-password-ip/${credentialPasswordIpId}/ip`,
                 {},
@@ -69,7 +74,8 @@ export default class Ip implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
@@ -97,8 +103,14 @@ export default class Ip implements ApiEndpointInterface {
         };
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip/ip", "POST");
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.post(`/v1/user/${userId}/credential-password-ip/${credentialPasswordIpId}/ip`, data)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/credential-password-ip/${credentialPasswordIpId}/ip`,
+                data,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;
@@ -127,8 +139,14 @@ export default class Ip implements ApiEndpointInterface {
         };
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip/ip", "PUT");
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.put(`/v1/user/${userId}/credential-password-ip/${credentialPasswordIpId}/ip/${ipId}`, data)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/credential-password-ip/${credentialPasswordIpId}/ip/${ipId}`,
+                data,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;

@@ -13,47 +13,8 @@ import StorageInteface from "./Interfaces/StorageInterface";
 import LoggerInterface from "./Interfaces/LoggerInterface";
 import ApiEndpointCollection from "./Interfaces/ApiEndpointCollection";
 
-import AttachementContent from "./Api/AttachementContent";
-import AttachmentPublic from "./Api/AttachementPublic";
-import Avatar from "./Api/Avatar";
-import BillingContractSubscription from "./Api/BillingContractSubscription";
-import BunqMeTabs from "./Api/BunqMeTabs";
-import Card from "./Api/Card";
-import CardBatch from "./Api/CardBatch";
-import CardCvc2 from "./Api/CardCvc2";
-import CardDebit from "./Api/CardDebit";
-import CardName from "./Api/CardName";
-import CredentialPasswordIp from "./Api/CredentialPasswordIp";
-import CustomerStatementExport from "./Api/CustomerStatementExport";
-import CustomerStatementExportContent from "./Api/CustomerStatementExportContent";
-import DeviceRegistration from "./Api/DeviceRegistration";
-import DraftPayment from "./Api/DraftPayment";
-import Event from "./Api/Event";
-import Installation from "./Api/Installation";
-import Invoice from "./Api/Invoice";
-import Ip from "./Api/Ip";
-import MasterCardAction from "./Api/MasterCardAction";
-import MonetaryAccount from "./Api/MonetaryAccount";
-import MonetaryAccountBank from "./Api/MonetaryAccountBank";
-import MonetaryAccountJoint from "./Api/MonetaryAccountJoint";
-import MonetaryAccountSavings from "./Api/MonetaryAccountSavings";
-import NoteAttachment from "./Api/NoteAttachment";
-import NoteText from "./Api/NoteText";
-import Payment from "./Api/Payment";
-import PaymentBatch from "./Api/PaymentBatch";
-import RequestInquiry from "./Api/RequestInquiry";
-import RequestInquiryBatch from "./Api/RequestInquiryBatch";
-import RequestResponse from "./Api/RequestResponse";
-import SandboxUser from "./Api/SandboxUser";
-import Schedule from "./Api/Schedule";
-import SchedulePayment from "./Api/SchedulePayment";
-import SchedulePaymentBatch from "./Api/SchedulePaymentBatch";
-import SessionServer from "./Api/SessionServer";
-import ShareInviteBankInquiry from "./Api/ShareInviteBankInquiry";
-import ShareInviteBankResponse from "./Api/ShareInviteBankResponse";
-import User from "./Api/User";
-import UserCompany from "./Api/UserCompany";
-import UserPerson from "./Api/UserPerson";
+import ApiIndex from "./Api/index";
+import { RequestLimitProxyTypes } from "./RequestLimitFactory";
 
 const FIVE_MINUTES_MS = 300000;
 
@@ -113,49 +74,7 @@ export default class BunqJSClient {
         this.ApiAdapter = new ApiAdapter(this.Session, this.logger, this);
 
         // register the endpoints
-        this.api = {
-            attachmentContent: new AttachementContent(this.ApiAdapter),
-            attachmentPublic: new AttachmentPublic(this.ApiAdapter),
-            avatar: new Avatar(this.ApiAdapter),
-            billingContractSubscription: new BillingContractSubscription(this.ApiAdapter),
-            bunqMeTabs: new BunqMeTabs(this.ApiAdapter),
-            card: new Card(this.ApiAdapter),
-            cardBatch: new CardBatch(this.ApiAdapter),
-            cardCvc2: new CardCvc2(this.ApiAdapter),
-            cardDebit: new CardDebit(this.ApiAdapter),
-            cardName: new CardName(this.ApiAdapter),
-            credentialPasswordIp: new CredentialPasswordIp(this.ApiAdapter),
-            customerStatementExport: new CustomerStatementExport(this.ApiAdapter),
-            customerStatementExportContent: new CustomerStatementExportContent(this.ApiAdapter),
-            deviceRegistration: new DeviceRegistration(this.ApiAdapter),
-            draftPayment: new DraftPayment(this.ApiAdapter),
-            event: new Event(this.ApiAdapter),
-            installation: new Installation(this.ApiAdapter),
-            invoice: new Invoice(this.ApiAdapter),
-            ip: new Ip(this.ApiAdapter),
-            masterCardAction: new MasterCardAction(this.ApiAdapter),
-            monetaryAccount: new MonetaryAccount(this.ApiAdapter),
-            monetaryAccountBank: new MonetaryAccountBank(this.ApiAdapter),
-            monetaryAccountJoint: new MonetaryAccountJoint(this.ApiAdapter),
-            monetaryAccountSavings: new MonetaryAccountSavings(this.ApiAdapter),
-            noteAttachment: new NoteAttachment(this.ApiAdapter),
-            noteText: new NoteText(this.ApiAdapter),
-            payment: new Payment(this.ApiAdapter),
-            paymentBatch: new PaymentBatch(this.ApiAdapter),
-            requestInquiry: new RequestInquiry(this.ApiAdapter),
-            requestInquiryBatch: new RequestInquiryBatch(this.ApiAdapter),
-            requestResponse: new RequestResponse(this.ApiAdapter),
-            sandboxUser: new SandboxUser(this.ApiAdapter),
-            schedule: new Schedule(this.ApiAdapter),
-            schedulePayment: new SchedulePayment(this.ApiAdapter),
-            schedulePaymentBatch: new SchedulePaymentBatch(this.ApiAdapter),
-            sessionServer: new SessionServer(this.ApiAdapter),
-            shareInviteBankInquiry: new ShareInviteBankInquiry(this.ApiAdapter),
-            shareInviteBankResponse: new ShareInviteBankResponse(this.ApiAdapter),
-            user: new User(this.ApiAdapter),
-            userCompany: new UserCompany(this.ApiAdapter),
-            userPerson: new UserPerson(this.ApiAdapter)
-        };
+        this.api = ApiIndex(this);
     }
 
     /**
@@ -190,6 +109,14 @@ export default class BunqJSClient {
      */
     public setKeepAlive(keepAlive: boolean) {
         this.keepAlive = keepAlive;
+    }
+
+    /**
+     * Use one or more proxies when sending requests. Proxies are used
+     * @param enabledProxies
+     */
+    public setRequestProxies(enabledProxies: RequestLimitProxyTypes) {
+        this.ApiAdapter.RequestLimitFactory.setEnabledProxies(enabledProxies);
     }
 
     /**
@@ -429,7 +356,7 @@ export default class BunqJSClient {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip-request", "POST");
 
         // send a unsigned request to the endpoint to create a new credential password ip
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.post(
                 `https://api.tinker.bunq.com/v1/credential-password-ip-request`,
                 {},
@@ -454,7 +381,7 @@ export default class BunqJSClient {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/credential-password-ip-request", "GET");
 
         // send a unsigned request to the endpoint to create a new credential password ip with the uuid
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `https://api.tinker.bunq.com/v1/credential-password-ip-request/${uuid}`,
                 {},

@@ -19,18 +19,23 @@ export default class Installation implements ApiEndpointInterface {
      * @returns {Promise<{id; token: any; serverPublicKey: any}>}
      */
     public async add(options: any = {}) {
-        const result = await this.ApiAdapter.post(
-            "/v1/installation",
-            {
-                client_public_key: this.Session.publicKeyPem
-            },
-            {},
-            {
-                disableVerification: true,
-                disableSigning: true,
-                disableAuthentication: true,
-                skipSessionCheck: true
-            }
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/installation", "POST");
+
+        const result = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(
+                "/v1/installation",
+                {
+                    client_public_key: this.Session.publicKeyPem
+                },
+                {},
+                {
+                    disableVerification: true,
+                    disableSigning: true,
+                    disableAuthentication: true,
+                    skipSessionCheck: true
+                },
+                axiosClient
+            )
         );
 
         return {

@@ -30,7 +30,9 @@ export default class Event implements ApiEndpointInterface {
     public async get(userId: number, eventId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/event");
 
-        const response = await limiter.run(async () => this.ApiAdapter.get(`/v1/user/${userId}/event/${eventId}`));
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(`/v1/user/${userId}/event/${eventId}`, {}, {}, axiosClient)
+        );
 
         return response.Response[0];
     }
@@ -71,7 +73,7 @@ export default class Event implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/event", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/event`,
                 {},
@@ -79,7 +81,8 @@ export default class Event implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 

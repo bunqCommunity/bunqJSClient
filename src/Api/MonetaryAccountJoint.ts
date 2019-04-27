@@ -26,8 +26,13 @@ export default class MonetaryAccountJoint implements ApiEndpointInterface {
     public async get(userId: number, monetaryAccountJointId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-joint", "GET");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-joint/${monetaryAccountJointId}`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(
+                `/v1/user/${userId}/monetary-account-joint/${monetaryAccountJointId}`,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response[0];
@@ -48,8 +53,8 @@ export default class MonetaryAccountJoint implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-joint", "LIST");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-joint`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.get(`/v1/user/${userId}/monetary-account-joint`, {}, {}, axiosClient)
         );
 
         return response.Response;
@@ -70,8 +75,14 @@ export default class MonetaryAccountJoint implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account-joint", "PUT");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.put(`/v1/user/${userId}/monetary-account-joint/${accountId}`, monetaryAccountPutRequest)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.put(
+                `/v1/user/${userId}/monetary-account-joint/${accountId}`,
+                monetaryAccountPutRequest,
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;

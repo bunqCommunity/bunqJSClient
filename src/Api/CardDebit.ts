@@ -40,7 +40,7 @@ export default class CardDebit implements ApiEndpointInterface {
     ) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/card-debit", "POST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.post(
                 `/v1/user/${userId}/card-debit`,
                 {
@@ -52,7 +52,8 @@ export default class CardDebit implements ApiEndpointInterface {
                     monetary_account_id_fallback: monetaryAccountIdFallback
                 },
                 {},
-                { isEncrypted: true }
+                { isEncrypted: true },
+                axiosClient
             )
         );
 

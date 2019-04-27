@@ -24,7 +24,9 @@ export default class Invoice implements ApiEndpointInterface {
     public async get(userId: number, invoiceId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/invoice", "GET");
 
-        const response = await limiter.run(async () => this.ApiAdapter.post(`/v1/user/${userId}/invoice/${invoiceId}`));
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(`/v1/user/${userId}/invoice/${invoiceId}`, {}, {}, {}, axiosClient)
+        );
 
         return response.Response;
     }
@@ -56,7 +58,7 @@ export default class Invoice implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/invoice", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/invoice`,
                 {},
@@ -64,7 +66,8 @@ export default class Invoice implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
@@ -80,8 +83,14 @@ export default class Invoice implements ApiEndpointInterface {
     public async getMonetaryAccount(userId: number, monetaryAccountId: number, invoiceId: number, options: any = {}) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account/invoice", "GET");
 
-        const response = await limiter.run(async () =>
-            this.ApiAdapter.post(`/v1/user/${userId}/monetary-account/${monetaryAccountId}/invoice/${invoiceId}`)
+        const response = await limiter.run(async axiosClient =>
+            this.ApiAdapter.post(
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/invoice/${invoiceId}`,
+                {},
+                {},
+                {},
+                axiosClient
+            )
         );
 
         return response.Response;
@@ -116,7 +125,7 @@ export default class Invoice implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/monetary-account/invoice", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/invoice`,
                 {},
@@ -124,7 +133,8 @@ export default class Invoice implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 

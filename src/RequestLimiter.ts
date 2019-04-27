@@ -1,14 +1,24 @@
+import axios, { AxiosInstance } from "axios";
+
+export interface IRequestLimiterCallback {
+    (axiosClient: AxiosInstance): Promise<any>;
+}
+
 export default class RequestLimiter {
     private max_requests: number = 3;
     private interval: number = 3000;
+    private axiosClient: AxiosInstance;
+
     private requests: number = 0;
     private lastRequest: number = 0;
     private timer: boolean | any = false;
     private queue = [];
 
-    constructor(max_requests, interval) {
+    constructor(max_requests: number, interval: number, axiosClient: AxiosInstance | false) {
         this.max_requests = max_requests;
         this.interval = interval;
+        // default to standard axios instance
+        this.axiosClient = axiosClient || axios;
     }
 
     /**
@@ -16,9 +26,10 @@ export default class RequestLimiter {
      * @param callable
      * @returns {Promise<any>}
      */
-    private wrapCallable = async callable => {
+    private wrapCallable = async (callable: IRequestLimiterCallback) => {
         let resolvedCallback = null;
         let rejectCallback = null;
+
         const delayedPromise = new Promise((resolve, reject) => {
             resolvedCallback = resolve;
             rejectCallback = reject;
@@ -52,7 +63,9 @@ export default class RequestLimiter {
                 this.requests++;
                 this.lastRequest = Date.now();
 
-                Promise.resolve(queueItem.callable()).then(queueItem.resolve, queueItem.reject);
+                Promise.resolve(queueItem.callable(this.axiosClient))
+                    .then(queueItem.resolve)
+                    .catch(queueItem.reject);
             }
 
             this.check();

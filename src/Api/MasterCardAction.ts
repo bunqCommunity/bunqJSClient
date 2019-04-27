@@ -24,9 +24,12 @@ export default class MasterCardAction implements ApiEndpointInterface {
     public async get(userId: number, monetaryAccountId: number, masterCardActionId: number) {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/mastercard-action", "GET");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/mastercard-action/${masterCardActionId}`
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/mastercard-action/${masterCardActionId}`,
+                {},
+                {},
+                axiosClient
             )
         );
 
@@ -62,7 +65,7 @@ export default class MasterCardAction implements ApiEndpointInterface {
 
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/mastercard-action", "LIST");
 
-        const response = await limiter.run(async () =>
+        const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
                 `/v1/user/${userId}/monetary-account/${monetaryAccountId}/mastercard-action`,
                 {},
@@ -70,7 +73,8 @@ export default class MasterCardAction implements ApiEndpointInterface {
                     axiosOptions: {
                         params: params
                     }
-                }
+                },
+                axiosClient
             )
         );
 
