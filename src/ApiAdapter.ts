@@ -36,7 +36,7 @@ export default class ApiAdapter {
         this.logger = loggerInterface;
         this.BunqJSClient = BunqJSClient;
 
-        this.RequestLimitFactory = new RequestLimitFactory();
+        this.RequestLimitFactory = new RequestLimitFactory(this.logger);
         this.SignRequestHandler = new SignRequestHandler(this.Session, this.logger, this.BunqJSClient);
         this.EncryptRequestHandler = new EncryptRequestHandler(this.Session, this.logger, this.BunqJSClient);
         this.VerifyResponseHandler = new VerifyResponseHandler(this.Session, this.logger, this.BunqJSClient);

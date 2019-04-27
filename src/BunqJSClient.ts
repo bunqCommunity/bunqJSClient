@@ -14,6 +14,7 @@ import LoggerInterface from "./Interfaces/LoggerInterface";
 import ApiEndpointCollection from "./Interfaces/ApiEndpointCollection";
 
 import ApiIndex from "./Api/index";
+import { RequestLimitProxyTypes } from "./RequestLimitFactory";
 
 const FIVE_MINUTES_MS = 300000;
 
@@ -108,6 +109,14 @@ export default class BunqJSClient {
      */
     public setKeepAlive(keepAlive: boolean) {
         this.keepAlive = keepAlive;
+    }
+
+    /**
+     * Use one or more proxies when sending requests. Proxies are used
+     * @param enabledProxies
+     */
+    public setRequestProxies(enabledProxies: RequestLimitProxyTypes) {
+        this.ApiAdapter.RequestLimitFactory.setEnabledProxies(enabledProxies);
     }
 
     /**

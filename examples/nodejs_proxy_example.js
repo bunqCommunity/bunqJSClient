@@ -14,8 +14,8 @@ setup()
             return BunqClient.api.payment.list(userid, monetaryaccountid);
         };
 
-        // overwrite request limit factory with our own version which has proxy support
-        BunqClient.ApiAdapter.RequestLimitFactory = new RequestLimitFactory([false, process.env.SOCKS5_PROXY_URL]);
+        // enable proxy support
+        BunqClient.setRequestProxies([false, process.env.SOCKS5_PROXY_URL]);
 
         // get user info connected to this account
         const users = await BunqClient.getUsers(true);

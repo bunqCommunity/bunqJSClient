@@ -1,5 +1,7 @@
 const SocksProxyAgent = require("socks-proxy-agent");
 import axios, { AxiosInstance } from "axios";
+
+import LoggerInterface from "./Interfaces/LoggerInterface";
 import RequestLimiter, { IRequestLimiterCallback } from "./RequestLimiter";
 
 export type RequestLimitConfig = {
@@ -14,6 +16,7 @@ export type RequestLimitProxyTypes = RequestLimitProxyType[];
 
 export default class RequestLimitFactory {
     private limiters: any = {};
+    private logger: LoggerInterface;
     private enabledProxies: RequestLimitProxyTypes = [];
     private axiosClients: AxiosInstance[] = [];
 
@@ -22,7 +25,12 @@ export default class RequestLimitFactory {
      */
     private proxyCounter: number = 0;
 
-    constructor(enabledProxies: RequestLimitProxyTypes = [false]) {
+    /**
+     * @param loggerInterface
+     * @param enabledProxies
+     */
+    constructor(loggerInterface: LoggerInterface, enabledProxies: RequestLimitProxyTypes = [false]) {
+        this.logger = loggerInterface;
         this.setEnabledProxies(enabledProxies);
     }
 
@@ -32,6 +40,8 @@ export default class RequestLimitFactory {
     setEnabledProxies(enabledProxies: RequestLimitProxyTypes = [false]) {
         this.enabledProxies = enabledProxies;
         this.axiosClients = [];
+
+        this.logger.debug(`Loaded ${enabledProxies.length} proxies`);
 
         // go through each proxy config
         this.enabledProxies.forEach((enabledProxy: RequestLimitProxyType) => {
