@@ -23,7 +23,15 @@ export default class RequestLimitFactory {
     private proxyCounter: number = 0;
 
     constructor(enabledProxies: RequestLimitProxyTypes = [false]) {
+        this.setEnabledProxies(enabledProxies);
+    }
+
+    /**
+     * @param enabledProxies
+     */
+    setEnabledProxies(enabledProxies: RequestLimitProxyTypes = [false]) {
         this.enabledProxies = enabledProxies;
+        this.axiosClients = [];
 
         // go through each proxy config
         this.enabledProxies.forEach((enabledProxy: RequestLimitProxyType) => {
