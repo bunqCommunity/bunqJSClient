@@ -139,9 +139,12 @@ export default class ApiAdapter {
     ) {
         // default to standard axios instance
         if (!axiosInstance) axiosInstance = axios;
+        if (!options.axiosOptions) options.axiosOptions = {};
 
-        this.logger.debug(`${method}: ${url}`);
-        const request = new Request(url, method, data, headers, options.axiosOptions || {});
+        const paramsString = options.axiosOptions.params ? JSON.stringify(options.axiosOptions.params) : "";
+        this.logger.debug(`${method}: ${url} ${paramsString}`);
+
+        const request = new Request(url, method, data, headers, options.axiosOptions);
 
         if (!options.skipSessionCheck) {
             await this.sessionValidationCheck();
