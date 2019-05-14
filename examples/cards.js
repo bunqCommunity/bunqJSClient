@@ -81,7 +81,6 @@ setup()
         );
         console.log("\nAssignment: ", getObject(assignment[0])["pin_code_assignment"], "\n");
 
-
         // New card limit
         // STATUS: tested on production
         // NOTE: This overides limit:CARD_LIMIT_POS_ICC
@@ -94,9 +93,9 @@ setup()
         // Set ATM limit
         // STATUS: tested on production
         const atmLimit = await BunqClient.api.card.update(userInfo.id, cardId, null, null, null, null, {
-			value: "50.00",
-			currency: "EUR",
-		});
+            value: "50.00",
+            currency: "EUR"
+        });
         console.log("\nATM limit:", getObject(atmLimit[0])["card_limit_atm"]);
 
         // Card name check, before request card
