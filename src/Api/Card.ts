@@ -3,7 +3,6 @@ import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import PaginationOptions from "../Types/PaginationOptions";
 import CountryPermissionCollection from "../Types/CountryPermissionCollection";
-import LimitCollection from "../Types/LimitCollection";
 import PinCodeAssignmentCollection from "../Types/PinCodeAssignmentCollection";
 import Amount from "../Types/Amount";
 import MagStripePermission from "../Types/MagStripePermission";
@@ -100,7 +99,7 @@ export default class Card implements ApiEndpointInterface {
         activationCode: string = null,
         status: string = null,
         cardLimit: Amount = null,
-        limits: LimitCollection = null,
+        atmLimit: Amount = null,
         countryPermissions: CountryPermissionCollection = null,
         pinCodeAssignment: PinCodeAssignmentCollection = null,
         monetaryAccountIdFallback: number = null,
@@ -113,7 +112,7 @@ export default class Card implements ApiEndpointInterface {
         if (activationCode) data.activation_code = activationCode;
         if (status) data.status = status;
         if (cardLimit) data.card_limit = cardLimit;
-        if (limits) data.limits = limits;
+        if (atmLimit) data.card_limit_atm = atmLimit;
         if (countryPermissions) data.country_permissions = countryPermissions;
         if (pinCodeAssignment) data.pin_code_assignment = pinCodeAssignment;
         if (monetaryAccountIdFallback) data.monetary_account_id_fallback = monetaryAccountIdFallback;

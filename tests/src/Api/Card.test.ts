@@ -55,13 +55,10 @@ describe("API", () => {
                     currency: "EUR",
                     value: "50.00"
                 },
-                [
-                    {
-                        daily_limit: "50.00",
-                        currency: "EUR",
-                        type: "CARD_LIMIT_POS_ICC"
-                    }
-                ],
+                {
+                    currency: "EUR",
+                    value: "50.00"
+                },
                 // {
                 // 	expiry_time: null
                 // },
