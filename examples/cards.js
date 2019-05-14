@@ -81,19 +81,6 @@ setup()
         );
         console.log("\nAssignment: ", getObject(assignment[0])["pin_code_assignment"], "\n");
 
-        // Set limits
-        // STATUS: Tested on production
-        // NOTE: This overides and sets the other limits: card_limit, card_limit_atm as well
-        //		 There are two "CARD_LIMIT_POS_ICC" entries who refer to atm limit and daily card limit, not sure how update specific
-        const limits = await BunqClient.api.card.update(userInfo.id, cardId, null, null, null, null, [
-            {
-                daily_limit: "350.00",
-                currency: "EUR",
-                type: "CARD_LIMIT_POS_ICC"
-            }
-        ]);
-        console.log("\nLimit:", getObject(assignment[0])["limit"]);
-
         // New card limit
         // STATUS: tested on production
         // NOTE: This overides limit:CARD_LIMIT_POS_ICC
@@ -105,13 +92,10 @@ setup()
 
         // Set ATM limit
         // STATUS: tested on production
-        const atmLimit = await BunqClient.api.card.update(userInfo.id, cardId, null, null, null, null, [
-            {
-                daily_limit: "30.00",
-                currency: "EUR",
-                type: "CARD_LIMIT_ATM"
-            }
-        ]);
+        const atmLimit = await BunqClient.api.card.update(userInfo.id, cardId, null, null, null, null, {
+            value: "50.00",
+            currency: "EUR"
+        });
         console.log("\nATM limit:", getObject(atmLimit[0])["card_limit_atm"]);
 
         // Card name check, before request card
