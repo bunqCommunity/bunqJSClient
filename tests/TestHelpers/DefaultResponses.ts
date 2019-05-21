@@ -1,7 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
-import apiInstallationRegistration from "../TestData/api-installation";
+import apiError from "../TestData/api-error";
 import apiDeviceRegistration from "../TestData/api-installation";
+import apiInstallationRegistration from "../TestData/api-installation";
 import apiSessionRegistration from "../TestData/api-session-registration";
 import oauthAuthorizationResponse from "../TestData/oauth-authorization";
 
@@ -98,6 +99,18 @@ export const oauthUserAuthorization = async moxios => {
             moxios.requests
                 .mostRecent()
                 .respondWith(oauthAuthorizationResponse())
+                .then(resolve)
+                .catch(reject);
+        });
+    });
+};
+
+export const errorResponse = async (moxios, status = 500) => {
+    await new Promise((resolve, reject) => {
+        moxios.wait(() => {
+            moxios.requests
+                .mostRecent()
+                .respondWith(apiError(status))
                 .then(resolve)
                 .catch(reject);
         });

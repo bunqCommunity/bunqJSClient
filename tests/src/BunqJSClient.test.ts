@@ -9,7 +9,8 @@ import {
     installationRegistration,
     deviceServerRegistration,
     sessionRegistration,
-    defaultResponse
+    defaultResponse,
+    errorResponse
 } from "../TestHelpers/DefaultResponses";
 
 import { default as apiInstallation, installToken, serverPublicKeyPem } from "../TestData/api-installation";
@@ -78,7 +79,7 @@ describe("BunqJSClient", () => {
 
     describe("#setKeepAlive()", () => {
         it("should be false and true after using the function", async () => {
-            const app = new BunqJSClient(new CustomDb("setKeepAlive"));
+            const app = new BunqJSClient(new CustomDb("setKeepAlive1"));
 
             app.setKeepAlive(false);
 
@@ -87,6 +88,14 @@ describe("BunqJSClient", () => {
             app.setKeepAlive(true);
 
             expect(app.keepAlive).toBeTruthy();
+        });
+    });
+
+    describe("#setRequestProxies()", () => {
+        it("should set a different list of request proxies", async () => {
+            const app = new BunqJSClient(new CustomDb("setRequestProxies1"));
+
+            app.setRequestProxies([false]);
         });
     });
 
@@ -456,9 +465,17 @@ describe("BunqJSClient", () => {
             const bunqApp: BunqJSClient = await SetupApp("ChangeEncryptionKey");
 
             // create new credentials
-            const result = await bunqApp.changeEncryptionKey(FAKE_ENCRYPTION_KEY2);
+            await bunqApp.changeEncryptionKey(FAKE_ENCRYPTION_KEY2);
 
             expect(bunqApp.Session.encryptionKey).toBe(FAKE_ENCRYPTION_KEY2);
+        });
+
+        it("change to a new invalid encryption key", async () => {
+            const bunqApp: BunqJSClient = await SetupApp("ChangeEncryptionKey2");
+            expect.assertions(1);
+
+            // change to invalid encryption key
+            await expect(bunqApp.changeEncryptionKey("invalid - key")).rejects.toBeInstanceOf(Error);
         });
     });
 
@@ -594,16 +611,20 @@ describe("BunqJSClient", () => {
         it("should throw an error if state is invalid", async () => {
             const app = await SetupApp("exchangeOAuthToken4");
 
-            const request = app.exchangeOAuthToken(
-                "clientId",
-                "clientSecret",
-                "redirectUri",
-                "codeValue",
-                "some-state-valu2e",
-                false,
-                "authorization_code"
-            );
-            expect(request).rejects.toBeTruthy();
+            const request = expect(
+                app.exchangeOAuthToken(
+                    "clientId",
+                    "clientSecret",
+                    "redirectUri",
+                    "codeValue",
+                    "some-state-value22",
+                    false,
+                    "authorization_code"
+                )
+            ).rejects.toBeInstanceOf(Error);
+            await oauthUserAuthorization(moxios);
+
+            await request;
         });
     });
 
@@ -707,6 +728,72 @@ describe("BunqJSClient", () => {
         });
     });
 
+    describe("#setExpiryTimer()", () => {
+        it("should setup a timer", async () => {
+            const app = await SetupApp("setExpiryTimer1");
+            app.setKeepAlive(true);
+
+            app.setExpiryTimer(false, true);
+        });
+
+        it("should do nothing if sessionExpiryTime isn't set", async () => {
+            const app = await SetupApp("setExpiryTimer2");
+            app.Session.sessionExpiryTime = null;
+            app.setKeepAlive(true);
+
+            app.setExpiryTimer(false, true);
+        });
+
+        it("should do nothing if keepAlive is false", async () => {
+            const app = await SetupApp("setExpiryTimer3");
+            app.setKeepAlive(false);
+
+            app.setExpiryTimer(false, true);
+        });
+    });
+
+    describe("#clearExpiryTimer()", () => {
+        it("should do a User API call", async () => {
+            const app = await SetupApp("clearExpiryTimer1");
+            app.Session.sessionExpiryTimeChecker = new Date();
+
+            app.clearExpiryTimer();
+        });
+    });
+
+    describe("#expiryTimerCallback()", () => {
+        it("should do a User API call", async () => {
+            const app = await SetupApp("expiryTimerCallback1");
+            app.setKeepAlive(true);
+
+            app.expiryTimerCallback();
+            await defaultResponse(moxios);
+        });
+
+        it("should do nothing is keepAlive is false when called", async () => {
+            const app = await SetupApp("expiryTimerCallback2");
+            app.setKeepAlive(false);
+
+            app.expiryTimerCallback();
+        });
+
+        it("should fail silently and log to console", async () => {
+            const app = await SetupApp("expiryTimerCallback3");
+            app.setKeepAlive(true);
+
+            app.expiryTimerCallback();
+            await errorResponse(moxios);
+        });
+    });
+
+    describe("#destroyApiSession()", () => {
+        it("should return a list with one UserCompany object", async () => {
+            const app = await SetupApp("DestroyApiSession1");
+
+            await app.destroyApiSession();
+        });
+    });
+
     describe("#getUser()", () => {
         it("should return UserCompany object", async () => {
             const app = await SetupApp("GetUser");
@@ -760,14 +847,6 @@ describe("BunqJSClient", () => {
             await defaultResponse(moxios);
 
             await expect(getUsersPromise).resolves.toBeTruthy();
-        });
-    });
-
-    describe("#destroyApiSession()", () => {
-        it("should return a list with one UserCompany object", async () => {
-            const app = await SetupApp("DestroyApiSession1");
-
-            await app.destroyApiSession();
         });
     });
 });

@@ -17,16 +17,10 @@ const fileReaderHelper = async (file: File): Promise<ArrayBuffer> => {
 
 export const arrayBufferToBase64 = (data: string) => {
     return new Promise((resolve, reject) => {
-        // if (typeof Blob === "undefined") {
-        //     const buffer = Buffer.from(data);
-        //     // buffer
-        // } else {
-        // }
         const blob = new Blob([data], { type: "image/png" });
-
         const reader = new FileReader();
-        reader.readAsDataURL(blob);
 
+        reader.readAsDataURL(blob);
         reader.onload = () => resolve(reader.result);
         reader.onerror = error => reject(error);
     });

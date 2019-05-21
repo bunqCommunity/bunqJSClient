@@ -496,8 +496,8 @@ export default class BunqJSClient {
     /**
      * Sets an automatic timer to keep the session alive when possible
      */
-    public setExpiryTimer(shortTimeout = false) {
-        if (typeof process !== "undefined" && process.env.ENV_CI === "true") {
+    public setExpiryTimer(deprecatedParameter = false, ignoreCi = false) {
+        if (typeof process !== "undefined" && process.env.ENV_CI === "true" && ignoreCi !== true) {
             // disable in CI
             return false;
         }
@@ -535,7 +535,7 @@ export default class BunqJSClient {
     /**
      * Handles the expiry timer checker callback
      */
-    private expiryTimerCallback = () => {
+    public expiryTimerCallback = () => {
         // check if keepAlive is enabled
         if (this.keepAlive === false) {
             this.clearExpiryTimer();
