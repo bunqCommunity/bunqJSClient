@@ -17,14 +17,14 @@ export default class CustomerStatementExportContent implements ApiEndpointInterf
     /**
      *
      * @param options
-     * @returns {Promise<Blob>}
+     * @returns {Promise<Blob|Buffer>}
      */
     public async list(
         userId: number,
         accountId: number,
         customerStatementId: number,
         options: any = {}
-    ): Promise<Blob> {
+    ): Promise<Blob | ArrayBuffer> {
         const limiter = this.ApiAdapter.RequestLimitFactory.create("/customer-statement-export/content", "LIST");
 
         const response = await limiter.run(async axiosClient =>
@@ -40,8 +40,11 @@ export default class CustomerStatementExportContent implements ApiEndpointInterf
             )
         );
 
-        const blob = new Blob([response]);
+        // for browsers, wrap in Blob element
+        if (typeof Blob === "function") {
+            return new Blob([response]);
+        }
 
-        return blob;
+        return response;
     }
 }

@@ -62,15 +62,22 @@ export default class Session {
     }
 
     /**
-     * Checks default values and looks in storage interface
-     * @param {{forceNewKeypair: boolean}} options
+     * Setup a object to store connection details for bunq
+     * @param {string|false} apiKey
+     * @param {string[]} allowedIps
+     * @param {string} environment
+     * @param {string|false} encryptionKey
+     * @param {number} bitSize   - change the bit size for the created keypair
+     * @param {boolean} ignoreCi - Only used for CI environments, do not use otherwise
      * @returns {Promise<void>}
      */
     public async setup(
         apiKey: string | false,
         allowedIps: string[] = [],
         environment: string = "SANDBOX",
-        encryptionKey: string | boolean = false
+        encryptionKey: string | boolean = false,
+        bitSize = 2048,
+        ignoreCi = false
     ) {
         if (this.apiKey && this.apiKey !== apiKey) {
             this.logger.debug("current apiKey set and changed");
@@ -114,7 +121,7 @@ export default class Session {
         // if there is no stored session but we have an key we setup a new keypair
         if (loadedStorage === false && this.encryptionKey !== false) {
             // setup the required rsa keypair
-            await this.setupKeypair();
+            await this.setupKeypair(false, bitSize, ignoreCi);
         }
         return true;
     }
@@ -141,16 +148,16 @@ export default class Session {
     /**
      * Setup the keypair and generate a new one when required
      * @param {boolean} forceNewKeypair
-     * @param {boolean} ignoreCI - if true the hardcoded certs won't be used even if process.env.CI is set
+     * @param {boolean} ignoreCi - if true the hardcoded certs won't be used even if process.env.CI is set
      * @returns {Promise<boolean>}
      */
-    public async setupKeypair(forceNewKeypair: boolean = false, bitSize: number = 2048, ignoreCI: boolean = false) {
+    public async setupKeypair(forceNewKeypair: boolean = false, bitSize: number = 2048, ignoreCi: boolean = false) {
         if (forceNewKeypair === false && this.publicKey !== null && this.privateKey !== null) {
             return true;
         }
 
         // check if we are in a CI environment
-        if (typeof process !== "undefined" && process.env.ENV_CI === "true" && ignoreCI === false) {
+        if (typeof process !== "undefined" && process.env.ENV_CI === "true" && ignoreCi === false) {
             // use the stored CI variables instead of creating a new on
             this.publicKeyPem = process.env.CI_PUBLIC_KEY_PEM;
             this.privateKeyPem = process.env.CI_PRIVATE_KEY_PEM;

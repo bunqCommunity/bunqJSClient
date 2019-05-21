@@ -85,14 +85,16 @@ export default class BunqJSClient {
         apiKey: string | false,
         allowedIps: string[] = [],
         environment: string = "SANDBOX",
-        encryptionKey: string | boolean = false
+        encryptionKey: string | boolean = false,
+        bitSize: number = 2048,
+        ignoreCi: boolean = false
     ) {
         this.logger.debug("bunqJSClient run");
 
         this.apiKey = apiKey;
 
         // setup the session with our apiKey and ip whitelist
-        await this.Session.setup(this.apiKey, allowedIps, environment, encryptionKey);
+        await this.Session.setup(this.apiKey, allowedIps, environment, encryptionKey, bitSize, ignoreCi);
 
         // set our automatic timer to check for expiry time
         this.setExpiryTimer();
@@ -150,9 +152,11 @@ export default class BunqJSClient {
     /**
      * Registers a new device for this installation
      * @param {string} deviceName
+     * @param {number} bitSize   - change the bit size for the created keypair
+     * @param {boolean} ignoreCi - Only used for CI environments, do not use otherwise
      * @returns {Promise<boolean>}
      */
-    public async registerDevice(deviceName = "My Device") {
+    public async registerDevice(deviceName = "My Device", bitSize = 2048, ignoreCi = false) {
         if (this.Session.verifyDeviceInstallation() === false) {
             try {
                 const deviceId = await this.api.deviceRegistration.add({
@@ -180,7 +184,7 @@ export default class BunqJSClient {
                     this.Session.installCreated = null;
 
                     // force creation of a new keypair since the old one is no longer 'unique'
-                    await this.Session.setupKeypair(true);
+                    await this.Session.setupKeypair(true, bitSize, ignoreCi);
 
                     // store the removed information
                     await this.Session.storeSession();
@@ -492,8 +496,8 @@ export default class BunqJSClient {
     /**
      * Sets an automatic timer to keep the session alive when possible
      */
-    public setExpiryTimer(shortTimeout = false) {
-        if (typeof process !== "undefined" && process.env.ENV_CI === "true") {
+    public setExpiryTimer(deprecatedParameter = false, ignoreCi = false) {
+        if (typeof process !== "undefined" && process.env.ENV_CI === "true" && ignoreCi !== true) {
             // disable in CI
             return false;
         }
@@ -531,7 +535,7 @@ export default class BunqJSClient {
     /**
      * Handles the expiry timer checker callback
      */
-    private expiryTimerCallback = () => {
+    public expiryTimerCallback = () => {
         // check if keepAlive is enabled
         if (this.keepAlive === false) {
             this.clearExpiryTimer();
