@@ -5,11 +5,12 @@ module.exports = {
     testPathIgnorePatterns: ["/node_modules/", "/dist/", ".html", "/tests/custom-db/*", "/package.json"],
 
     // coverage options
-    mapCoverage: true,
     collectCoverage: true,
     coverageReporters: process.env.DEV_MODE === "true" ? ["json", "lcov"] : ["json", "lcov", "text"],
     coverageDirectory: "coverage",
     coveragePathIgnorePatterns: ["src/Helpers/FileReaderHelper.ts"],
+
+    testEnvironment: "node",
 
     // add typescript support to jest
     transform: {

@@ -47,9 +47,10 @@ describe("BunqJSClient", () => {
             expect(app).toBeInstanceOf(BunqJSClient);
         });
 
-        it("should create a new instance without a custom storage interface", () => {
-            const app = new BunqJSClient();
-            expect(app).toBeInstanceOf(BunqJSClient);
+        it("should throw an error if a new instance is created without a custom storage interface", () => {
+            expect(() => {
+                new BunqJSClient();
+            }).toThrow();
         });
     });
 
@@ -89,7 +90,7 @@ describe("BunqJSClient", () => {
         });
     });
 
-    describe("#install()", async () => {
+    describe("#install()", () => {
         it("installation without stored data", async () => {
             const app = new BunqJSClient(new CustomDb("install1"));
             await app.run(FAKE_API_KEY, [], "SANDBOX", FAKE_ENCRYPTION_KEY);
