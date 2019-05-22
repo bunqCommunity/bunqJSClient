@@ -1,5 +1,5 @@
 # bunqJSClient 
-[![NPM  Version](https://img.shields.io/npm/v/@bunq-community/bunq-js-client.svg) ](https://github.com/@bunq-community/bunq-js-client)
+[![NPM  Version](https://img.shields.io/npm/v/@bunq-community/bunq-js-client.svg) ](https://www.npmjs.com/package/@bunq-community/bunq-js-client)
 [![NPM Downloads](https://img.shields.io/npm/dt/@bunq-community/bunq-js-client.svg) ](https://www.npmjs.com/package/@bunq-community/bunq-js-client)
 [![build status for master branch](https://api.travis-ci.org/bunqCommunity/bunqJSClient.svg?branch=master) ](https://travis-ci.org/bunqCommunity/bunqJSClient)
 [![MIT License](https://img.shields.io/npm/l/@bunq-community/bunq-js-client.svg)](https://github.com/bunqCommunity/bunqJSClient/blob/master/LICENSE)
