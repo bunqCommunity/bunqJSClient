@@ -4,4 +4,7 @@ export default interface LoggerInterface {
     error(value: any): void;
     debug(value: any): void;
     trace(value: any): void;
+
+    // optional method which isn't used by default underlying library
+    warn?(value: any): void;
 }
