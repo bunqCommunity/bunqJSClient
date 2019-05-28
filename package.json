@@ -1,6 +1,6 @@
 {
   "name": "@bunq-community/bunq-js-client",
-  "version": "0.41.3",
+  "version": "0.41.4",
   "license": "MIT",
   "homepage": "https://github.com/bunqCommunity/bunqJSClient#readme",
   "engines": {
