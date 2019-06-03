@@ -50,10 +50,9 @@ setup()
         console.log(cardOrderResult);
     })
     .catch(error => {
+        console.log(error);
         if (error.response) {
             console.log(error.response.data);
-        } else {
-            console.log(error);
         }
     })
     .finally(() => process.exit());

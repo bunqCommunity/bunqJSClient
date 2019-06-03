@@ -35,13 +35,13 @@ const setup = async () => {
     BunqClient.setKeepAlive(false);
 
     // create/re-use a system installation
-    await BunqClient.install().catch(defaultErrorLogger);
+    await BunqClient.install();
 
     // create/re-use a device installation
-    await BunqClient.registerDevice(process.env.DEVICE_NAME).catch(defaultErrorLogger);
+    await BunqClient.registerDevice(process.env.DEVICE_NAME);
 
     // create/re-use a bunq session installation
-    await BunqClient.registerSession().catch(defaultErrorLogger);
+    await BunqClient.registerSession();
 
     return BunqClient;
 };

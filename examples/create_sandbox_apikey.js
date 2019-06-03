@@ -20,6 +20,9 @@ setup()
         process.exit();
     })
     .catch(error => {
-        console.error(error);
-        process.exit();
-    });
+        console.log(error);
+        if (error.response) {
+            console.log(error.response.data);
+        }
+    })
+    .finally(() => process.exit());

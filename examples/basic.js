@@ -26,10 +26,8 @@ setup()
         const activeAccounts = accounts.filter(account => {
             // get the account type for this account
             const accountType = Object.keys(account)[0];
-            // get the direct object contents
-            const accountInfo = account[accountType];
 
-            return accountInfo.status === "ACTIVE";
+            return account[accountType].status === "ACTIVE";
         });
 
         if (activeAccounts.length > 0) {
@@ -43,10 +41,9 @@ setup()
         }
     })
     .catch(error => {
+        console.log(error);
         if (error.response) {
             console.log(error.response.data);
-        } else {
-            console.log(error);
         }
     })
     .finally(() => process.exit());
