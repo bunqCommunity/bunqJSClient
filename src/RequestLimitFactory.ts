@@ -1,4 +1,3 @@
-const SocksProxyAgent = require("socks-proxy-agent");
 import axios, { AxiosInstance } from "axios";
 
 import LoggerInterface from "./Interfaces/LoggerInterface";
@@ -11,11 +10,13 @@ export type RequestLimitConfig = {
     limiterKey: string;
     endpoint: string;
 };
+export type RequestLimitConfigCollection = Record<string, RequestLimitConfig>;
+
 export type RequestLimitProxyType = false | any;
 export type RequestLimitProxyTypes = RequestLimitProxyType[];
 
 export default class RequestLimitFactory {
-    private limiters: any = {};
+    private limiters: RequestLimitConfigCollection = {};
     private logger: LoggerInterface;
     private enabledProxies: RequestLimitProxyTypes = [];
     private axiosClients: AxiosInstance[] = [];
@@ -49,6 +50,9 @@ export default class RequestLimitFactory {
                 // standard axios client
                 this.axiosClients.push(axios.create({}));
             } else {
+                // get the library only when required for this type
+                const SocksProxyAgent = this.getSocksProxyAgent();
+
                 // create the socks proxy client
                 const httpsAgent = new SocksProxyAgent(enabledProxy);
 
@@ -66,7 +70,7 @@ export default class RequestLimitFactory {
      */
     public create(endpoint: string, method: string = "GET", noProxy: boolean = false): RequestLimitConfig {
         // default to proxy "0" which is our standard IP
-        let limiterKey = `${endpoint}:${method}:0`;
+        let limiterKey: string = `${endpoint}:${method}:0`;
         let axiosClient: any = axios;
 
         if (noProxy === false) {
@@ -99,8 +103,7 @@ export default class RequestLimitFactory {
         }
 
         const limiter = new RequestLimiter(rateLimit, 3350, axiosClient);
-
-        this.limiters[limiterKey] = {
+        const limiterConfig: RequestLimitConfig = {
             limiterKey,
             limiter,
             // wrap run in the object so it is reverse-compatible
@@ -108,6 +111,7 @@ export default class RequestLimitFactory {
             method,
             endpoint
         };
+        this.limiters[limiterKey] = limiterConfig;
 
         return this.limiters[limiterKey];
     }
@@ -151,5 +155,12 @@ export default class RequestLimitFactory {
         this.proxyCounter += 1;
 
         return currentIndex;
+    }
+
+    /**
+     * Requires the socks-proxy-agent library or returns existing loaded value
+     */
+    private getSocksProxyAgent() {
+        return require("socks-proxy-agent");
     }
 }

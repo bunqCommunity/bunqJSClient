@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const setup = require("./setup_files/setup");
+const setup = require("./common/setup");
 
 // Some functions are commented out so no accidental things happen such as a request of a new card or change of pincode
 

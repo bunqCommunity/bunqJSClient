@@ -1,16 +1,12 @@
 require("dotenv").config();
 
-const setup = require("./setup_files/setup");
+const setup = require("./common/setup");
 
 setup()
     .then(async BunqClient => {
-        const getCardNames = async userid => {
-            return BunqClient.api.cardName.get(userid);
-        };
         const getMonetaryAccounts = async userid => {
             return BunqClient.api.monetaryAccount.list(userid);
         };
-
         const getPayments = async (userid, monetaryaccountid) => {
             return BunqClient.api.payment.list(userid, monetaryaccountid);
         };
@@ -26,22 +22,14 @@ setup()
         const accounts = await getMonetaryAccounts(userInfo.id);
         console.log("\nAccounts: ", accounts.length);
 
-        // get card names list
-        const cardNames = await getCardNames(userInfo.id);
-        console.log("\nPossible card Names: ", cardNames[0].CardUserNameArray);
-
         // filter on the status to get a list of the active accounts
         const activeAccounts = accounts.filter(account => {
-            if (account.MonetaryAccountBank) {
-                return account.MonetaryAccountBank.status === "ACTIVE";
-            }
-            if (account.MonetaryAccountJoint) {
-                return account.MonetaryAccountJoint.status === "ACTIVE";
-            }
-            if (account.MonetaryAccountSavings) {
-                return account.MonetaryAccountSavings.status === "ACTIVE";
-            }
-            return false;
+            // get the account type for this account
+            const accountType = Object.keys(account)[0];
+            // get the direct object contents
+            const accountInfo = account[accountType];
+
+            return accountInfo.status === "ACTIVE";
         });
 
         if (activeAccounts.length > 0) {

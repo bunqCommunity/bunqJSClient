@@ -13,6 +13,7 @@ const defaultErrorLogger = error => {
     throw error;
 };
 
+// which IP addresses are allowed for the given API key
 const permittedIps = process.env.PERMITTED_IPS ? process.env.PERMITTED_IPS.split(",") : [];
 
 // the basic setup function

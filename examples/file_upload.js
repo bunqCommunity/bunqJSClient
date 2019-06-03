@@ -2,12 +2,12 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 
-const setup = require("./setup_files/setup");
+const setup = require("./common/setup");
 
 setup()
     .then(async BunqClient => {
         // get the image contents
-        const file = fs.readFileSync(`${__dirname}${path.sep}setup_files${path.sep}Ali-Niknam-50x50.jpg`);
+        const file = fs.readFileSync(`${__dirname}${path.sep}common${path.sep}Ali-Niknam-50x50.jpg`);
 
         // attempt to upload the file
         const imageUuid = await BunqClient.api.attachmentPublic.post(file, "image/jpeg");

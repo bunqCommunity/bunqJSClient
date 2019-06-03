@@ -5,7 +5,7 @@ const forge = require("node-forge");
 const BunqJSClient = require("../dist/BunqJSClient").default;
 const customStore = require("../dist/Stores/JSONFileStore").default;
 
-const storageBasePath = `${__dirname}${path.sep}setup_files${path.sep}`;
+const storageBasePath = `${__dirname}${path.sep}common${path.sep}`;
 
 // used to cache data across sessions
 const customStoreInstance = customStore(`${storageBasePath}storage-testdata.json`);

@@ -4,8 +4,8 @@
 .env
 .env.*
 !.env.example
-examples/setup_files/storage.json
-examples/setup_files/storage-*.json
+examples/common/storage.json
+examples/common/storage-*.json
 
 # test files
 coverage

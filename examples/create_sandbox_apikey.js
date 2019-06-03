@@ -1,9 +1,8 @@
-// const BunqJSClient = require("@bunq-community/bunq-js-client").default;
 const BunqJSClient = require("../dist/BunqJSClient").default;
 
 // setup a custom store which works in a node environment
 const customStoreImport = require("../dist/Stores/JSONFileStore").default;
-const customStore = customStoreImport(__dirname + "/setup_files/storage.json");
+const customStore = customStoreImport(__dirname + "/common/storage.json");
 
 // setup a plain bunqjsclient
 const BunqClient = new BunqJSClient(customStore);

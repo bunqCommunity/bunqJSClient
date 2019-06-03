@@ -2,7 +2,7 @@ const RequestLimitFactory = require("../dist/RequestLimitFactory").default;
 
 require("dotenv").config();
 
-const setup = require("./setup_files/setup");
+const setup = require("./common/setup");
 
 setup()
     .then(async BunqClient => {

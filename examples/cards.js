@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const setup = require("./setup_files/setup");
+const setup = require("./common/setup");
 
 const getObject = object => {
     const objectKeys = Object.keys(object);
