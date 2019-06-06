@@ -19,8 +19,8 @@
     "build:dev": "tsc -w --newline lf",
     "test": "npm run test:prettier && npm run test:jest",
     "posttest": "rm -r tests/custom-db/*",
-    "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --watch --config jest.config.js",
-    "test:jest": "cross-env ENV_CI=true jest --verbose --forceExit --config jest.config.js",
+    "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --watch --coverage --config jest.config.js",
+    "test:jest": "cross-env ENV_CI=true jest --verbose --forceExit --coverage --config jest.config.js",
     "test:prettier": "prettier-check \"+(tests|src|examples)/**/**.+(js|ts)\" --tab-width 4 --print-width 120",
     "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|src|examples)/**/**.+(js|ts)\"",
     "preversion": "rm -rf dist/* && npm run build"

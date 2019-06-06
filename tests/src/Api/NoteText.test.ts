@@ -10,6 +10,13 @@ describe("API", () => {
     afterEach(() => moxios.uninstall());
 
     describe("NoteText", () => {
+        it("#createEndpoint()", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const endpointUrl = bunqApp.api.noteText.createEndpoint("payment", 2);
+            expect(endpointUrl).toBe("payment/2");
+        });
+
         it("#GET", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 

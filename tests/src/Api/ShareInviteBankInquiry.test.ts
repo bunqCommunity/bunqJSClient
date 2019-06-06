@@ -54,6 +54,16 @@ describe("API", () => {
             expect(response).not.toBeNull();
         });
 
+        it("#LIST - with default options", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.shareInviteBankInquiry.list(1, 2, {});
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
         it("#POST", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
@@ -193,6 +203,35 @@ describe("API", () => {
                         view_new_events: true
                     }
                 }
+            );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#PUT - no default share_type", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.shareInviteBankInquiry.put(
+                1,
+                2,
+                3,
+                {
+                    type: "EMAIL",
+                    value: "mail@mail.com"
+                },
+                {
+                    ShareDetailPayment: {
+                        make_payments: true,
+                        make_draft_payments: true,
+                        view_balance: true,
+                        view_old_events: true,
+                        view_new_events: true
+                    }
+                },
+                "PENDING",
+                {}
             );
             await defaultResponse(moxios);
             const response = await request;

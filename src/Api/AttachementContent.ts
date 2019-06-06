@@ -38,6 +38,7 @@ export default class AttachementContent implements ApiEndpointInterface {
 
         // return data as base64
         if (options.base64 === true) {
+            /* istanbul ignore else - can't be tested for browser */
             if (response instanceof Buffer) {
                 // buffers are simply encoded as base64
                 return response.toString("base64");
@@ -46,6 +47,7 @@ export default class AttachementContent implements ApiEndpointInterface {
                 return arrayBufferToBase64(response);
             }
 
+            /* istanbul ignore next line - can't be tested for browser */
             throw new Error("No valid Buffer given and FileReader not available");
         }
 

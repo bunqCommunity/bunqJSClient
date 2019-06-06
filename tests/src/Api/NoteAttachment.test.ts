@@ -10,6 +10,13 @@ describe("API", () => {
     afterEach(() => moxios.uninstall());
 
     describe("NoteAttachment", () => {
+        it("#createEndpoint()", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const endpointUrl = bunqApp.api.noteAttachment.createEndpoint("payment", 2);
+            expect(endpointUrl).toBe("payment/2");
+        });
+
         it("#GET", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
@@ -84,6 +91,16 @@ describe("API", () => {
             expect(response).not.toBeNull();
         });
 
+        it("#POST - no description", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.noteAttachment.post("payment", 1, 2, 3, 4);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
         it("#PUT", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
@@ -98,6 +115,16 @@ describe("API", () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
             const request = bunqApp.api.noteAttachment.put("payment", 1, 2, 3, 4, 5, "Some description", 6);
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
+        it("#PUT - no description", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.noteAttachment.put("payment", 1, 2, 3, 4, 5);
             await defaultResponse(moxios);
             const response = await request;
 

@@ -44,6 +44,16 @@ describe("API", () => {
             expect(response).not.toBeNull();
         });
 
+        it("#LIST - with default options", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.payment.list(1, 2, {});
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+
         it("#POST", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 

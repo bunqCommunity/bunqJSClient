@@ -83,6 +83,43 @@ describe("Request", () => {
         });
     });
 
+    describe("#setHeader()", () => {
+        it("set content-type header", () => {
+            const request = new Request(
+                "/user",
+                "GET",
+                {},
+                {
+                    "Content-Type": "Memes"
+                }
+            );
+            request.setHeader("Content-Type", "other-type");
+
+            expect(request.getHeader("Content-Type")).toBe("other-type");
+        });
+    });
+
+    describe("#removeOption()", () => {
+        it("remove an option", () => {
+            const request = new Request(
+                "/user",
+                "GET",
+                {},
+                {
+                    "Content-Type": "Memes"
+                },
+                {
+                    OPTION_KEY: "OPTION_VALUE"
+                }
+            );
+
+            // remove the option
+            request.removeOption("OPTION_KEY");
+
+            expect(Object.keys(request.options).length).toBe(0);
+        });
+    });
+
     describe("getters", () => {
         it("->url", () => {
             const request = new Request("/test");
@@ -111,6 +148,11 @@ describe("Request", () => {
             );
             expect(request.headers).toHaveProperty("Content-Type");
             expect(request.headers["Content-Type"]).toBe("Memes");
+        });
+
+        it("->options", () => {
+            const request = new Request("/test");
+            expect(request.options).not.toBe(null);
         });
 
         it("->isSigned", () => {

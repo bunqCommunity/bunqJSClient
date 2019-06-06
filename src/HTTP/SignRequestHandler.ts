@@ -34,6 +34,7 @@ export default class SignRequestHandler {
         }
 
         // manually include the user agent
+        /* istanbul ignore else - can't be tested for browser */
         if (typeof navigator === "undefined") {
             const nodeUserAgent = `Node-${process.version}-bunqJSClient`;
             request.setHeader("User-Agent", nodeUserAgent);
@@ -43,7 +44,7 @@ export default class SignRequestHandler {
 
         if (options.isEncrypted || options.includesFile) {
             // overwrite transformRequest
-            request.setOption("transformRequest", (data: any, headers: any) => {
+            request.setOption("transformRequest", (data: any) => {
                 return data;
             });
         }
@@ -93,6 +94,7 @@ ${data}`;
         // sign the template with our private key
         const signature = await signString(template, this.Session.privateKey, dataEncoding);
 
+        /* istanbul ignore next line - can't be tested for react native */
         if (typeof navigator !== "undefined" && navigator.product !== "ReactNative") {
             // remove the user agent again if we're in a browser env where we aren't allowed to
             request.removeHeader("User-Agent");

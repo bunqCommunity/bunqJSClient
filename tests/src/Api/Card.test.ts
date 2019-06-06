@@ -75,8 +75,17 @@ describe("API", () => {
                         monetary_account_id: 1234
                     }
                 ],
-                null
+                2
             );
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
+        it("#UPDATE - no options", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.card.update(1, 2);
             await defaultResponse(moxios);
             const response = await request;
 

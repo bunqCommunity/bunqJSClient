@@ -42,7 +42,8 @@ export default class EncryptRequestHandler {
         request.setData(Buffer.from(encryptedBody, "binary"));
 
         // disable request transform
-        request.setOptions("transformRequest", (data: any, headers: any) => {
+        /* istanbul ignore next line - can't be tested since Moxios bypasses it */
+        request.setOptions("transformRequest", (data: any) => {
             return data;
         });
 

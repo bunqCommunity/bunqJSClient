@@ -33,5 +33,15 @@ describe("API", () => {
 
             expect(response).not.toBeNull();
         });
+
+        it("#LIST - default options", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.schedule.list(1, 2, {});
+            await sessionRegistration(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
     });
 });

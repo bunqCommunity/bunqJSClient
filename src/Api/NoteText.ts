@@ -22,11 +22,7 @@ export default class NoteText implements ApiEndpointInterface {
      * @param {false | number} secondaryEventId
      * @returns {string}
      */
-    private createEndpoint(
-        eventType: NoteEventType,
-        eventId: false | number = false,
-        secondaryEventId: false | number = false
-    ): string {
+    public createEndpoint(eventType: NoteEventType, eventId: number, secondaryEventId: false | number = false): string {
         switch (eventType) {
             case "schedule":
                 return `schedule/${eventId}/schedule-instance/${secondaryEventId}`;

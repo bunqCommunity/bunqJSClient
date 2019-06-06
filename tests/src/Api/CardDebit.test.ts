@@ -35,5 +35,15 @@ describe("API", () => {
 
             expect(response).not.toBeNull();
         });
+
+        it("#POST - default options", async () => {
+            const bunqApp: BunqJSClient = await SetupApp();
+
+            const request = bunqApp.api.cardDebit.post(1, "cardname", "description");
+            await defaultResponse(moxios);
+            const response = await request;
+
+            expect(response).not.toBeNull();
+        });
     });
 });

@@ -41,6 +41,7 @@ export default class CustomerStatementExportContent implements ApiEndpointInterf
         );
 
         // for browsers, wrap in Blob element
+        /* istanbul ignore next line */
         if (typeof Blob === "function") {
             return new Blob([response]);
         }

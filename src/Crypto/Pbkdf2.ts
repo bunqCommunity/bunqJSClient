@@ -17,6 +17,7 @@ export const derivePasswordKey = async (
     const derivedKey = await new Promise((resolve, reject) => {
         // derive a 32-byte key from the password
         forge.pkcs5.pbkdf2(password, salt, iterations, 16, (errorMessage, derivedKey) => {
+            /* istanbul ignore if - can't manually trigger an error with this lib */
             if (errorMessage) {
                 reject(errorMessage);
             } else {
