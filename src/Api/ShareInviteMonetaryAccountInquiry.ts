@@ -4,12 +4,12 @@ import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import PaginationOptions from "../Types/PaginationOptions";
 import CounterpartyAlias from "../Types/CounterpartyAlias";
 import {
-    ShareInviteBankInquiryPostOptions,
-    ShareInviteBankInquiryPostShareDetail,
-    ShareInviteBankInquiryPostStatus
-} from "../Types/ShareInviteBankInquiry";
+    ShareInviteMonetaryAccountInquiryPostOptions,
+    ShareInviteMonetaryAccountInquiryPostShareDetail,
+    ShareInviteMonetaryAccountInquiryPostStatus
+} from "../Types/ShareInviteMonetaryAccountInquiry";
 
-export default class ShareInviteBankInquiry implements ApiEndpointInterface {
+export default class ShareInviteMonetaryAccountInquiry implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;
 
@@ -24,24 +24,25 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} accountId
+     * @param {number} shareInviteMonetaryAccountInquiryId
      * @param {PaginationOptions} options
      * @returns {Promise<void>}
      */
     public async get(
         userId: number,
         accountId: number,
-        shareInviteBankInquiryId: number,
+        shareInviteMonetaryAccountInquiryId: number,
         options: PaginationOptions = {
             count: 200,
             newer_id: false,
             older_id: false
         }
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "GET");
+    ): Promise<void> {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-monetary-account-inquiry", "GET");
 
         const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${accountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`,
+                `/v1/user/${userId}/monetary-account/${accountId}/share-invite-monetary-account-inquiry/${shareInviteMonetaryAccountInquiryId}`,
                 {},
                 {},
                 axiosClient
@@ -65,7 +66,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
             newer_id: false,
             older_id: false
         }
-    ) {
+    ): Promise<void> {
         const params: any = {};
 
         if (options.count !== undefined) {
@@ -78,11 +79,11 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
             params.older_id = options.older_id;
         }
 
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "LIST");
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-monetary-account-inquiry", "LIST");
 
         const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.get(
-                `/v1/user/${userId}/monetary-account/${accountId}/share-invite-bank-inquiry`,
+                `/v1/user/${userId}/monetary-account/${accountId}/share-invite-monetary-account-inquiry`,
                 {},
                 {
                     axiosOptions: {
@@ -100,22 +101,22 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
      * @param {number} userId
      * @param {number} monetaryAccountId
      * @param {CounterpartyAlias} counterpartyAlias
-     * @param {ShareInviteBankInquiryPostShareDetail} shareDetail
-     * @param {ShareInviteBankInquiryPostStatus} status
-     * @param {ShareInviteBankInquiryPostOptions} options
-     * @returns {Promise<any>}
+     * @param {ShareInviteMonetaryAccountInquiryPostShareDetail} shareDetail
+     * @param {ShareInviteMonetaryAccountInquiryPostStatus} status
+     * @param {ShareInviteMonetaryAccountInquiryPostOptions} options
+     * @returns {Promise<{}>}
      */
     public async post(
         userId: number,
         monetaryAccountId: number,
         counterpartyAlias: CounterpartyAlias,
-        shareDetail: ShareInviteBankInquiryPostShareDetail,
-        status: ShareInviteBankInquiryPostStatus = "PENDING",
-        options: ShareInviteBankInquiryPostOptions = {
+        shareDetail: ShareInviteMonetaryAccountInquiryPostShareDetail,
+        status: ShareInviteMonetaryAccountInquiryPostStatus = "PENDING",
+        options: ShareInviteMonetaryAccountInquiryPostOptions = {
             share_type: "STANDARD"
         }
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "POST");
+    ): Promise<any> {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-monetary-account-inquiry", "POST");
 
         const postData: any = {
             counter_user_alias: counterpartyAlias,
@@ -135,7 +136,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
 
         const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.post(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry`,
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-monetary-account-inquiry`,
                 postData,
                 {},
                 {},
@@ -149,24 +150,25 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
+     * @param {number} shareInviteMonetaryAccountInquiryId
      * @param {CounterpartyAlias} counterpartyAlias
-     * @param {ShareInviteBankInquiryPostShareDetail} shareDetail
-     * @param {ShareInviteBankInquiryPostStatus} status
-     * @param {ShareInviteBankInquiryPostOptions} options
-     * @returns {Promise<any>}
+     * @param {ShareInviteMonetaryAccountInquiryPostShareDetail} shareDetail
+     * @param {ShareInviteMonetaryAccountInquiryPostStatus} status
+     * @param {ShareInviteMonetaryAccountInquiryPostOptions} options
+     * @returns {Promise<{}>}
      */
     public async put(
         userId: number,
         monetaryAccountId: number,
-        shareInviteBankInquiryId: number,
+        shareInviteMonetaryAccountInquiryId: number,
         counterpartyAlias: CounterpartyAlias,
-        shareDetail: ShareInviteBankInquiryPostShareDetail,
-        status: ShareInviteBankInquiryPostStatus = "PENDING",
-        options: ShareInviteBankInquiryPostOptions = {
+        shareDetail: ShareInviteMonetaryAccountInquiryPostShareDetail,
+        status: ShareInviteMonetaryAccountInquiryPostStatus = "PENDING",
+        options: ShareInviteMonetaryAccountInquiryPostOptions = {
             share_type: "STANDARD"
         }
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "PUT");
+    ): Promise<any> {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-monetary-account-inquiry", "PUT");
 
         const postData: any = {
             counter_user_alias: counterpartyAlias,
@@ -186,7 +188,7 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
 
         const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.put(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`,
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-monetary-account-inquiry/${shareInviteMonetaryAccountInquiryId}`,
                 postData,
                 {},
                 {},
@@ -200,21 +202,21 @@ export default class ShareInviteBankInquiry implements ApiEndpointInterface {
     /**
      * @param {number} userId
      * @param {number} monetaryAccountId
-     * @param {number} shareInviteBankInquiryId
-     * @param {ShareInviteBankInquiryPostStatus} status
-     * @returns {Promise<any>}
+     * @param {number} shareInviteMonetaryAccountInquiryId
+     * @param {ShareInviteMonetaryAccountInquiryPostStatus} status
+     * @returns {Promise<{}>}
      */
     public async putStatus(
         userId: number,
         monetaryAccountId: number,
-        shareInviteBankInquiryId: number,
-        status: ShareInviteBankInquiryPostStatus
-    ) {
-        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-bank-inquiry", "PUT");
+        shareInviteMonetaryAccountInquiryId: number,
+        status: ShareInviteMonetaryAccountInquiryPostStatus
+    ): Promise<any> {
+        const limiter = this.ApiAdapter.RequestLimitFactory.create("/share-invite-monetary-account-inquiry", "PUT");
 
         const response = await limiter.run(async axiosClient =>
             this.ApiAdapter.put(
-                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-bank-inquiry/${shareInviteBankInquiryId}`,
+                `/v1/user/${userId}/monetary-account/${monetaryAccountId}/share-invite-monetary-account-inquiry/${shareInviteMonetaryAccountInquiryId}`,
                 {
                     status: status
                 },

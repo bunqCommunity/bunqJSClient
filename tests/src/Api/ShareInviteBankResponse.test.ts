@@ -9,11 +9,11 @@ describe("API", () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
-    describe("ShareInviteBankResponse", () => {
+    describe("ShareInviteMonetaryAccountResponse", () => {
         it("#GET", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankResponse.get(1, 2);
+            const request = bunqApp.api.shareInviteMonetaryAccountResponse.get(1, 2);
             await defaultResponse(moxios);
             const response = await request;
 
@@ -23,7 +23,7 @@ describe("API", () => {
         it("#LIST", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankResponse.list(1, {});
+            const request = bunqApp.api.shareInviteMonetaryAccountResponse.list(1, {});
             await defaultResponse(moxios);
             const response = await request;
 
@@ -33,7 +33,7 @@ describe("API", () => {
         it("#LIST - defaults", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankResponse.list(1);
+            const request = bunqApp.api.shareInviteMonetaryAccountResponse.list(1);
             await defaultResponse(moxios);
             const response = await request;
 
@@ -43,7 +43,7 @@ describe("API", () => {
         it("#LIST - with pagination options", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankResponse.list(1, {
+            const request = bunqApp.api.shareInviteMonetaryAccountResponse.list(1, {
                 newer_id: 1,
                 older_id: 2,
                 count: 200
@@ -57,7 +57,7 @@ describe("API", () => {
         it("#PUT", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankResponse.put(1, 2, "ACCEPTED");
+            const request = bunqApp.api.shareInviteMonetaryAccountResponse.put(1, 2, "ACCEPTED");
             await defaultResponse(moxios);
             const response = await request;
 
