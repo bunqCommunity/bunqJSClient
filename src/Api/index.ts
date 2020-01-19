@@ -1,5 +1,5 @@
-import AttachementContent from "./AttachementContent";
-import AttachmentPublic from "./AttachementPublic";
+import AttachmentContent from "./AttachmentContent";
+import AttachmentPublic from "./AttachmentPublic";
 import Avatar from "./Avatar";
 import BillingContractSubscription from "./BillingContractSubscription";
 import BunqMeTabs from "./BunqMeTabs";
@@ -41,7 +41,7 @@ import UserCompany from "./UserCompany";
 import UserPerson from "./UserPerson";
 
 export default bunqJSClient => ({
-    attachmentContent: new AttachementContent(bunqJSClient.ApiAdapter),
+    attachmentContent: new AttachmentContent(bunqJSClient.ApiAdapter),
     attachmentPublic: new AttachmentPublic(bunqJSClient.ApiAdapter),
     avatar: new Avatar(bunqJSClient.ApiAdapter),
     billingContractSubscription: new BillingContractSubscription(bunqJSClient.ApiAdapter),
