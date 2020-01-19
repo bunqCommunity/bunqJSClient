@@ -9,11 +9,11 @@ describe("API", () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
-    describe("ShareInviteBankInquiry", () => {
+    describe("ShareInviteMonetaryAccountInquiry", () => {
         it("#GET", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankInquiry.get(1, 2, 3);
+            const request = bunqApp.api.shareInviteMonetaryAccountInquiry.get(1, 2, 3);
             await defaultResponse(moxios);
             const response = await request;
 
@@ -23,7 +23,7 @@ describe("API", () => {
         it("#LIST", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankInquiry.list(1, 2, {});
+            const request = bunqApp.api.shareInviteMonetaryAccountInquiry.list(1, 2, {});
             await defaultResponse(moxios);
             const response = await request;
 
@@ -33,7 +33,7 @@ describe("API", () => {
         it("#LIST - defaults", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankInquiry.list(1, 2);
+            const request = bunqApp.api.shareInviteMonetaryAccountInquiry.list(1, 2);
             await defaultResponse(moxios);
             const response = await request;
 
@@ -43,7 +43,7 @@ describe("API", () => {
         it("#LIST - with pagination options", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankInquiry.list(1, 2, {
+            const request = bunqApp.api.shareInviteMonetaryAccountInquiry.list(1, 2, {
                 newer_id: 1,
                 older_id: 2,
                 count: 200
@@ -57,7 +57,7 @@ describe("API", () => {
         it("#LIST - with default options", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankInquiry.list(1, 2, {});
+            const request = bunqApp.api.shareInviteMonetaryAccountInquiry.list(1, 2, {});
             await defaultResponse(moxios);
             const response = await request;
 
@@ -67,7 +67,7 @@ describe("API", () => {
         it("#POST", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankInquiry.post(
+            const request = bunqApp.api.shareInviteMonetaryAccountInquiry.post(
                 1,
                 2,
                 {
@@ -95,7 +95,7 @@ describe("API", () => {
         it("#POST - defaults", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankInquiry.post(
+            const request = bunqApp.api.shareInviteMonetaryAccountInquiry.post(
                 1,
                 2,
                 {
@@ -121,7 +121,7 @@ describe("API", () => {
         it("#POST - specific options", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankInquiry.post(
+            const request = bunqApp.api.shareInviteMonetaryAccountInquiry.post(
                 1,
                 2,
                 {
@@ -153,7 +153,7 @@ describe("API", () => {
         it("#PUT", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankInquiry.put(
+            const request = bunqApp.api.shareInviteMonetaryAccountInquiry.put(
                 1,
                 2,
                 3,
@@ -186,7 +186,7 @@ describe("API", () => {
         it("#PUT - defaults", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankInquiry.put(
+            const request = bunqApp.api.shareInviteMonetaryAccountInquiry.put(
                 1,
                 2,
                 3,
@@ -213,7 +213,7 @@ describe("API", () => {
         it("#PUT - no default share_type", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankInquiry.put(
+            const request = bunqApp.api.shareInviteMonetaryAccountInquiry.put(
                 1,
                 2,
                 3,
@@ -242,7 +242,7 @@ describe("API", () => {
         it("#PUT - putStatus", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.shareInviteBankInquiry.putStatus(1, 2, 3, "PENDING");
+            const request = bunqApp.api.shareInviteMonetaryAccountInquiry.putStatus(1, 2, 3, "PENDING");
             await defaultResponse(moxios);
             const response = await request;
 

@@ -1,4 +1,4 @@
-export type ShareInviteBankResponsePutStatus =
+export type ShareInviteMonetaryAccountResponsePutStatus =
     | "REVOKED"
     | "ACCEPTED"
     | "CANCELLED"
