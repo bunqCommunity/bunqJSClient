@@ -1,5 +1,5 @@
-import AttachementContent from "../Api/AttachementContent";
-import AttachmentPublic from "../Api/AttachementPublic";
+import AttachmentContent from "../Api/AttachmentContent";
+import AttachmentPublic from "../Api/AttachmentPublic";
 import Avatar from "../Api/Avatar";
 import BillingContractSubscription from "../Api/BillingContractSubscription";
 import BunqMeTabs from "../Api/BunqMeTabs";
@@ -41,7 +41,7 @@ import UserCompany from "../Api/UserCompany";
 import UserPerson from "../Api/UserPerson";
 
 export default interface ApiEndpointCollection {
-    attachmentContent: AttachementContent;
+    attachmentContent: AttachmentContent;
     attachmentPublic: AttachmentPublic;
     avatar: Avatar;
     billingContractSubscription: BillingContractSubscription;

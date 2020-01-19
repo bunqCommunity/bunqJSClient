@@ -3,7 +3,7 @@ import Session from "../Session";
 import ApiEndpointInterface from "../Interfaces/ApiEndpointInterface";
 import { arrayBufferToBase64 } from "../Helpers/FileReaderHelper";
 
-export default class AttachementContent implements ApiEndpointInterface {
+export default class AttachmentContent implements ApiEndpointInterface {
     ApiAdapter: ApiAdapter;
     Session: Session;
 

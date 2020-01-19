@@ -13,7 +13,7 @@ describe("API", () => {
         it("#POST", async () => {
             const bunqApp: BunqJSClient = await SetupApp();
 
-            const request = bunqApp.api.attachmentPublic.post(Buffer.from("SOME_RANDOM_IMAGE_ID"), "application/json");
+            const request = bunqApp.api.attachmentPublic.post(Buffer.from("SOME_RANDOM_IMAGE_ID"), "image/jpeg");
 
             await defaultResponse(moxios);
             const response = await request;
