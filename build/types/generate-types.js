@@ -251,7 +251,7 @@ function parse(spec, options= {}) {
         const singleInterface = [];
         const nextObject = queue.pop();
         if (!nextObject) return;
-        let [ID, { allOf, properties, required, additionalProperties, type }] = nextObject;
+        let [ID, { allOf, properties, required, readOnly, additionalProperties, type }] = nextObject;
 
         let allProperties = properties || {};
         const includes = [];
@@ -289,6 +289,7 @@ function parse(spec, options= {}) {
         // Populate interface
         Object.entries(allProperties).forEach(([key, value]) => {
             const optional = !((required || []).includes(key) || !!((REQUIRED_OVERRIDES[ID] || {})[key]));
+            const readOnly = value.readOnly ? 'readonly ' : '';
             const formattedKey = shouldCamelCase ? camelCase(key) : key;
             const name = `${sanitize(formattedKey)}${optional ? "?" : ""}`;
             const newID = `${ID}${capitalize(formattedKey)}`;
@@ -301,11 +302,11 @@ function parse(spec, options= {}) {
 
             // Handle enums in the same definition
             if (Array.isArray(value.enum)) {
-                singleInterface.push(`${name}: ${value.enum.map(option => JSON.stringify(option)).join(" | ")};`);
+                singleInterface.push(`${readOnly}${name}: ${value.enum.map(option => JSON.stringify(option)).join(" | ")};`);
                 return;
             }
 
-            singleInterface.push(`${name}: ${interfaceType}`);
+            singleInterface.push(`${readOnly}${name}: ${interfaceType}`);
         });
 
         if (additionalProperties) {

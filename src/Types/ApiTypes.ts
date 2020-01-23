@@ -2,93 +2,93 @@ export interface IWhitelistSddUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IWhitelistSddRead {
   /**
    * The ID of the whitelist entry.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The account to which payments will come in before possibly being 'redirected' by the whitelist.
    */
-  monetary_account_incoming_id?: number;
+  readonly monetary_account_incoming_id?: number;
   /**
    * The account from which payments will be deducted when a transaction is matched with this whitelist.
    */
-  monetary_account_paying_id?: number;
+  readonly monetary_account_paying_id?: number;
   /**
    * The type of the SDD whitelist, can be CORE or B2B.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The status of the whitelist.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The credit scheme ID provided by the counterparty.
    */
-  credit_scheme_identifier?: string;
+  readonly credit_scheme_identifier?: string;
   /**
    * The mandate ID provided by the counterparty.
    */
-  mandate_identifier?: string;
+  readonly mandate_identifier?: string;
   /**
    * The account to which payments will be paid.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The monthly maximum amount that can be deducted from the target account.
    */
-  maximum_amount_per_month?: IAmount;
+  readonly maximum_amount_per_month?: IAmount;
   /**
    * The user who created the whitelist entry.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
 }
 
 export interface IWhitelistSddListing {
   /**
    * The ID of the whitelist entry.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The account to which payments will come in before possibly being 'redirected' by the whitelist.
    */
-  monetary_account_incoming_id?: number;
+  readonly monetary_account_incoming_id?: number;
   /**
    * The account from which payments will be deducted when a transaction is matched with this whitelist.
    */
-  monetary_account_paying_id?: number;
+  readonly monetary_account_paying_id?: number;
   /**
    * The type of the SDD whitelist, can be CORE or B2B.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The status of the whitelist.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The credit scheme ID provided by the counterparty.
    */
-  credit_scheme_identifier?: string;
+  readonly credit_scheme_identifier?: string;
   /**
    * The mandate ID provided by the counterparty.
    */
-  mandate_identifier?: string;
+  readonly mandate_identifier?: string;
   /**
    * The account to which payments will be paid.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The monthly maximum amount that can be deducted from the target account.
    */
-  maximum_amount_per_month?: IAmount;
+  readonly maximum_amount_per_month?: IAmount;
   /**
    * The user who created the whitelist entry.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
 }
 
 export interface IWhitelistSddDelete {}
@@ -97,7 +97,7 @@ export interface IWhitelistSddCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IWhitelistSdd {
@@ -119,50 +119,50 @@ export interface IWhitelistResultViewAnchoredObject {
   /**
    * The ID of the whitelist entry.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The RequestResponse object
    */
-  requestResponse?: IRequestResponse;
+  readonly requestResponse?: IRequestResponse;
   /**
    * The DraftPayment object
    */
-  draftPayment?: IDraftPayment;
+  readonly draftPayment?: IDraftPayment;
 }
 
 export interface IWhitelistResult {
   /**
    * The ID of the whitelist entry.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The account from which payments will be deducted when a transaction is matched with this whitelist.
    */
-  monetary_account_paying_id?: number;
+  readonly monetary_account_paying_id?: number;
   /**
    * The status of the WhitelistResult.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The subStatus of the WhitelistResult.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The message when the whitelist result has failed due to user error.
    */
-  error_message?: Array<Error>;
+  readonly error_message?: Array<Error>;
   /**
    * The corresponding whitelist.
    */
-  whitelist?: IWhitelist;
+  readonly whitelist?: IWhitelist;
   /**
    * The details of the external object the event was created for.
    */
-  object?: IWhitelistResultViewAnchoredObject;
+  readonly object?: IWhitelistResultViewAnchoredObject;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface IWhitelist {}
@@ -171,157 +171,157 @@ export interface IUserRead {
   /**
    *
    */
-  UserLight?: IUserLight;
+  readonly UserLight?: IUserLight;
   /**
    *
    */
-  UserPerson?: IUserPerson;
+  readonly UserPerson?: IUserPerson;
   /**
    *
    */
-  UserCompany?: IUserCompany;
+  readonly UserCompany?: IUserCompany;
   /**
    *
    */
-  UserApiKey?: IUserApiKey;
+  readonly UserApiKey?: IUserApiKey;
   /**
    *
    */
-  UserPaymentServiceProvider?: IUserPaymentServiceProvider;
+  readonly UserPaymentServiceProvider?: IUserPaymentServiceProvider;
 }
 
 export interface IUserPersonUpdate {
   /**
    * The id of the modified person object.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IUserPersonRead {
   /**
    * The id of the modified person object.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the person object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the person object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The person's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The person's first name.
    */
-  first_name?: string;
+  readonly first_name?: string;
   /**
    * The person's middle name.
    */
-  middle_name?: string;
+  readonly middle_name?: string;
   /**
    * The person's last name.
    */
-  last_name?: string;
+  readonly last_name?: string;
   /**
    * The person's legal name.
    */
-  legal_name?: string;
+  readonly legal_name?: string;
   /**
    * The display name for the person.
    */
-  display_name?: string;
+  readonly display_name?: string;
   /**
    * The public nick name for the person.
    */
-  public_nick_name?: string;
+  readonly public_nick_name?: string;
   /**
    * The aliases of the user.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The user's tax residence numbers for different countries.
    */
-  tax_resident?: Array<ITaxResident>;
+  readonly tax_resident?: Array<ITaxResident>;
   /**
    * The type of identification document the person registered with.
    */
-  document_type?: string;
+  readonly document_type?: string;
   /**
    * The identification document number the person registered with.
    */
-  document_number?: string;
+  readonly document_number?: string;
   /**
    * The country which issued the identification document the person registered with.
    */
-  document_country_of_issuance?: string;
+  readonly document_country_of_issuance?: string;
   /**
    * The person's main address.
    */
-  address_main?: IAddress;
+  readonly address_main?: IAddress;
   /**
    * The person's postal address.
    */
-  address_postal?: IAddress;
+  readonly address_postal?: IAddress;
   /**
    * The person's date of birth. Accepts ISO8601 date formats.
    */
-  date_of_birth?: string;
+  readonly date_of_birth?: string;
   /**
    * The person's place of birth.
    */
-  place_of_birth?: string;
+  readonly place_of_birth?: string;
   /**
    * The person's country of birth. Formatted as a SO 3166-1 alpha-2 country code.
    */
-  country_of_birth?: string;
+  readonly country_of_birth?: string;
   /**
    * The person's nationality. Formatted as a SO 3166-1 alpha-2 country code.
    */
-  nationality?: string;
+  readonly nationality?: string;
   /**
    * The person's preferred language. Formatted as a ISO 639-1 language code plus a ISO 3166-1 alpha-2 country code, seperated by an underscore.
    */
-  language?: string;
+  readonly language?: string;
   /**
    * The person's preferred region. Formatted as a ISO 639-1 language code plus a ISO 3166-1 alpha-2 country code, seperated by an underscore.
    */
-  region?: string;
+  readonly region?: string;
   /**
    * The person's gender. Can be MALE, FEMALE or UNKNOWN.
    */
-  gender?: string;
+  readonly gender?: string;
   /**
    * The user's avatar.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The version of the terms of service accepted by the user.
    */
-  version_terms_of_service?: string;
+  readonly version_terms_of_service?: string;
   /**
    * The user status. The user status. Can be: ACTIVE, BLOCKED, SIGNUP, RECOVERY, DENIED or ABORTED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The user sub-status. Can be: NONE, FACE_RESET, APPROVAL, APPROVAL_DIRECTOR, APPROVAL_PARENT, APPROVAL_SUPPORT, COUNTER_IBAN, IDEAL or SUBMIT.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The setting for the session timeout of the user in seconds.
    */
-  session_timeout?: number;
+  readonly session_timeout?: number;
   /**
    * The amount the user can pay in the session without asking for credentials.
    */
-  daily_limit_without_confirmation_login?: IAmount;
+  readonly daily_limit_without_confirmation_login?: IAmount;
   /**
    * The types of notifications that will result in a push notification or URL callback for this UserPerson.
    */
-  notification_filters?: Array<INotificationFilter>;
+  readonly notification_filters?: Array<INotificationFilter>;
 }
 
 export interface IUserPerson {
@@ -432,180 +432,180 @@ export interface IUserPerson {
   /**
    * The id of the modified person object.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the person object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the person object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The person's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The person's legal name.
    */
-  legal_name?: string;
+  readonly legal_name?: string;
   /**
    * The aliases of the user.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The user's avatar.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The version of the terms of service accepted by the user.
    */
-  version_terms_of_service?: string;
+  readonly version_terms_of_service?: string;
   /**
    * The types of notifications that will result in a push notification or URL callback for this UserPerson.
    */
-  notification_filters?: Array<INotificationFilter>;
+  readonly notification_filters?: Array<INotificationFilter>;
 }
 
 export interface IUserPaymentServiceProviderRead {
   /**
    * The id of the user.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the user object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the user object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The distinguished name from the certificate used to identify this user.
    */
-  certificate_distinguished_name?: string;
+  readonly certificate_distinguished_name?: string;
   /**
    * The aliases of the user.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The user's avatar.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The user status. The user status. Can be: ACTIVE, BLOCKED or DENIED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The user sub-status. Can be: NONE
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The providers's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The display name for the provider.
    */
-  display_name?: string;
+  readonly display_name?: string;
   /**
    * The public nick name for the provider.
    */
-  public_nick_name?: string;
+  readonly public_nick_name?: string;
   /**
    * The provider's language. Formatted as a ISO 639-1 language code plus a ISO 3166-1 alpha-2 country code, separated by an underscore.
    */
-  language?: string;
+  readonly language?: string;
   /**
    * The provider's region. Formatted as a ISO 639-1 language code plus a ISO 3166-1 alpha-2 country code, separated by an underscore.
    */
-  region?: string;
+  readonly region?: string;
   /**
    * The setting for the session timeout of the user in seconds.
    */
-  session_timeout?: number;
+  readonly session_timeout?: number;
 }
 
 export interface IUserPaymentServiceProvider {
   /**
    * The id of the user.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the user object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the user object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The distinguished name from the certificate used to identify this user.
    */
-  certificate_distinguished_name?: string;
+  readonly certificate_distinguished_name?: string;
   /**
    * The aliases of the user.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The user's avatar.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The user status. The user status. Can be: ACTIVE, BLOCKED or DENIED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The user sub-status. Can be: NONE
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The providers's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The display name for the provider.
    */
-  display_name?: string;
+  readonly display_name?: string;
   /**
    * The public nick name for the provider.
    */
-  public_nick_name?: string;
+  readonly public_nick_name?: string;
   /**
    * The provider's language. Formatted as a ISO 639-1 language code plus a ISO 3166-1 alpha-2 country code, separated by an underscore.
    */
-  language?: string;
+  readonly language?: string;
   /**
    * The provider's region. Formatted as a ISO 639-1 language code plus a ISO 3166-1 alpha-2 country code, separated by an underscore.
    */
-  region?: string;
+  readonly region?: string;
   /**
    * The setting for the session timeout of the user in seconds.
    */
-  session_timeout?: number;
+  readonly session_timeout?: number;
 }
 
 export interface IUserListing {
   /**
    *
    */
-  UserLight?: IUserLight;
+  readonly UserLight?: IUserLight;
   /**
    *
    */
-  UserPerson?: IUserPerson;
+  readonly UserPerson?: IUserPerson;
   /**
    *
    */
-  UserCompany?: IUserCompany;
+  readonly UserCompany?: IUserCompany;
   /**
    *
    */
-  UserApiKey?: IUserApiKey;
+  readonly UserApiKey?: IUserApiKey;
   /**
    *
    */
-  UserPaymentServiceProvider?: IUserPaymentServiceProvider;
+  readonly UserPaymentServiceProvider?: IUserPaymentServiceProvider;
 }
 
 export interface IUserLight {
@@ -716,257 +716,257 @@ export interface IUserLight {
   /**
    * The id of the user.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the user object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the user object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The user's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The user's legal name.
    */
-  legal_name?: string;
+  readonly legal_name?: string;
   /**
    * The display name for the user.
    */
-  display_name?: string;
+  readonly display_name?: string;
   /**
    * The aliases of the user.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The user's avatar.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The version of the terms of service accepted by the user.
    */
-  version_terms_of_service?: string;
+  readonly version_terms_of_service?: string;
   /**
    * The types of notifications that will result in a push notification or URL callback for this UserLight.
    */
-  notification_filters?: Array<INotificationFilter>;
+  readonly notification_filters?: Array<INotificationFilter>;
   /**
    * The user deny reason.
    */
-  deny_reason?: string;
+  readonly deny_reason?: string;
 }
 
 export interface IUserLegalNameListing {
   /**
    * All legal names that can be used by the user
    */
-  legal_names?: Array<string>;
+  readonly legal_names?: Array<string>;
 }
 
 export interface IUserCredentialPasswordIpRead {
   /**
    * The id of the credential.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the credential object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the credential object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of the credential.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * When the status is PENDING_FIRST_USE: when the credential expires.
    */
-  expiry_time?: string;
+  readonly expiry_time?: string;
   /**
    * When the status is PENDING_FIRST_USE: the value of the token.
    */
-  token_value?: string;
+  readonly token_value?: string;
   /**
    * When the status is ACTIVE: the details of the device that may use the credential.
    */
-  permitted_device?: IPermittedDevice;
+  readonly permitted_device?: IPermittedDevice;
 }
 
 export interface IUserCredentialPasswordIpListing {
   /**
    * The id of the credential.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the credential object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the credential object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of the credential.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * When the status is PENDING_FIRST_USE: when the credential expires.
    */
-  expiry_time?: string;
+  readonly expiry_time?: string;
   /**
    * When the status is PENDING_FIRST_USE: the value of the token.
    */
-  token_value?: string;
+  readonly token_value?: string;
   /**
    * When the status is ACTIVE: the details of the device that may use the credential.
    */
-  permitted_device?: IPermittedDevice;
+  readonly permitted_device?: IPermittedDevice;
 }
 
 export interface IUserCompanyUpdate {
   /**
    * The id of the modified company.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IUserCompanyRead {
   /**
    * The id of the modified company.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the company object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the company object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The company's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The company name.
    */
-  name?: string;
+  readonly name?: string;
   /**
    * The company's display name.
    */
-  display_name?: string;
+  readonly display_name?: string;
   /**
    * The company's public nick name.
    */
-  public_nick_name?: string;
+  readonly public_nick_name?: string;
   /**
    * The aliases of the account.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The company's chamber of commerce number.
    */
-  chamber_of_commerce_number?: string;
+  readonly chamber_of_commerce_number?: string;
   /**
    * The company's legal form.
    */
-  legal_form?: string;
+  readonly legal_form?: string;
   /**
    * The type of business entity.
    */
-  type_of_business_entity?: string;
+  readonly type_of_business_entity?: string;
   /**
    * The sector of industry.
    */
-  sector_of_industry?: string;
+  readonly sector_of_industry?: string;
   /**
    * The company's other bank account IBAN, through which we verify it.
    */
-  counter_bank_iban?: string;
+  readonly counter_bank_iban?: string;
   /**
    * The company's avatar.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The company's main address.
    */
-  address_main?: IAddress;
+  readonly address_main?: IAddress;
   /**
    * The company's postal address.
    */
-  address_postal?: IAddress;
+  readonly address_postal?: IAddress;
   /**
    * The version of the terms of service accepted by the user.
    */
-  version_terms_of_service?: string;
+  readonly version_terms_of_service?: string;
   /**
    * The existing bunq user alias for the company's director.
    */
-  director_alias?: ILabelUser;
+  readonly director_alias?: ILabelUser;
   /**
    * The person's preferred language. Formatted as a ISO 639-1 language code plus a ISO 3166-1 alpha-2 country code, seperated by an underscore.
    */
-  language?: string;
+  readonly language?: string;
   /**
    * The country as an ISO 3166-1 alpha-2 country code..
    */
-  country?: string;
+  readonly country?: string;
   /**
    * The person's preferred region. Formatted as a ISO 639-1 language code plus a ISO 3166-1 alpha-2 country code, seperated by an underscore.
    */
-  region?: string;
+  readonly region?: string;
   /**
    * The names of the company's ultimate beneficiary owners. Minimum zero, maximum four.
    */
-  ubo?: Array<IUbo>;
+  readonly ubo?: Array<IUbo>;
   /**
    * The user status. Can be: ACTIVE, SIGNUP, RECOVERY.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The user sub-status. Can be: NONE, FACE_RESET, APPROVAL, APPROVAL_DIRECTOR, APPROVAL_PARENT, APPROVAL_SUPPORT, COUNTER_IBAN, IDEAL or SUBMIT.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The setting for the session timeout of the company in seconds.
    */
-  session_timeout?: number;
+  readonly session_timeout?: number;
   /**
    * The amount the company can pay in the session without asking for credentials.
    */
-  daily_limit_without_confirmation_login?: IAmount;
+  readonly daily_limit_without_confirmation_login?: IAmount;
   /**
    * The types of notifications that will result in a push notification or URL callback for this UserCompany.
    */
-  notification_filters?: Array<INotificationFilter>;
+  readonly notification_filters?: Array<INotificationFilter>;
   /**
    * The customer profile of the company.
    */
-  customer?: ICustomer;
+  readonly customer?: ICustomer;
   /**
    * The customer limits of the company.
    */
-  customer_limit?: ICustomerLimit;
+  readonly customer_limit?: ICustomerLimit;
   /**
    * The subscription of the company.
    */
-  billing_contract?: Array<IBillingContractSubscription>;
+  readonly billing_contract?: Array<IBillingContractSubscription>;
   /**
    * The user deny reason.
    */
-  deny_reason?: string;
+  readonly deny_reason?: string;
 }
 
 export interface IUserCompanyNameListing {
   /**
    * All known (trade) names for a user company.
    */
-  name_array?: Array<string>;
+  readonly name_array?: Array<string>;
 }
 
 export interface IUserCompany {
@@ -1033,109 +1033,109 @@ export interface IUserCompany {
   /**
    * The id of the modified company.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the company object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the company object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The company's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The company's display name.
    */
-  display_name?: string;
+  readonly display_name?: string;
   /**
    * The aliases of the account.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The type of business entity.
    */
-  type_of_business_entity?: string;
+  readonly type_of_business_entity?: string;
   /**
    * The sector of industry.
    */
-  sector_of_industry?: string;
+  readonly sector_of_industry?: string;
   /**
    * The company's other bank account IBAN, through which we verify it.
    */
-  counter_bank_iban?: string;
+  readonly counter_bank_iban?: string;
   /**
    * The company's avatar.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The version of the terms of service accepted by the user.
    */
-  version_terms_of_service?: string;
+  readonly version_terms_of_service?: string;
   /**
    * The existing bunq user alias for the company's director.
    */
-  director_alias?: ILabelUser;
+  readonly director_alias?: ILabelUser;
   /**
    * The types of notifications that will result in a push notification or URL callback for this UserCompany.
    */
-  notification_filters?: Array<INotificationFilter>;
+  readonly notification_filters?: Array<INotificationFilter>;
   /**
    * The customer profile of the company.
    */
-  customer?: ICustomer;
+  readonly customer?: ICustomer;
   /**
    * The customer limits of the company.
    */
-  customer_limit?: ICustomerLimit;
+  readonly customer_limit?: ICustomerLimit;
   /**
    * The subscription of the company.
    */
-  billing_contract?: Array<IBillingContractSubscription>;
+  readonly billing_contract?: Array<IBillingContractSubscription>;
   /**
    * The user deny reason.
    */
-  deny_reason?: string;
+  readonly deny_reason?: string;
 }
 
 export interface IUserApiKeyAnchoredUser {
   /**
    *
    */
-  UserPerson?: IUserPerson;
+  readonly UserPerson?: IUserPerson;
   /**
    *
    */
-  UserCompany?: IUserCompany;
+  readonly UserCompany?: IUserCompany;
   /**
    *
    */
-  UserPaymentServiceProvider?: IUserPaymentServiceProvider;
+  readonly UserPaymentServiceProvider?: IUserPaymentServiceProvider;
 }
 
 export interface IUserApiKey {
   /**
    * The id of the user.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the user object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the user object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The user who requested access.
    */
-  requested_by_user?: IUserApiKeyAnchoredUser;
+  readonly requested_by_user?: IUserApiKeyAnchoredUser;
   /**
    * The user who granted access.
    */
-  granted_by_user?: IUserApiKeyAnchoredUser;
+  readonly granted_by_user?: IUserApiKeyAnchoredUser;
 }
 
 export interface IUbo {
@@ -1157,11 +1157,11 @@ export interface ITreeProgressListing {
   /**
    * The number of trees this user and all users have planted.
    */
-  number_of_tree?: number;
+  readonly number_of_tree?: number;
   /**
    * The progress towards the next tree.
    */
-  progress_tree_next?: number;
+  readonly progress_tree_next?: number;
 }
 
 export interface ITransferwiseTransfer {
@@ -1176,55 +1176,55 @@ export interface ITransferwiseTransfer {
   /**
    * The LabelMonetaryAccount containing the public information of 'this' (party) side of the Payment.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The LabelMonetaryAccount containing the public information of the other (counterparty) side of the Payment.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The status.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The subStatus.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The status as Transferwise reports it.
    */
-  status_transferwise?: string;
+  readonly status_transferwise?: string;
   /**
    * A status to indicatie if Transferwise has an issue with this payment and requires more information.
    */
-  status_transferwise_issue?: string;
+  readonly status_transferwise_issue?: string;
   /**
    * The source amount.
    */
-  amount_source?: IAmount;
+  readonly amount_source?: IAmount;
   /**
    * The target amount.
    */
-  amount_target?: IAmount;
+  readonly amount_target?: IAmount;
   /**
    * The rate of the payment.
    */
-  rate?: string;
+  readonly rate?: string;
   /**
    * The reference of the payment.
    */
-  reference?: string;
+  readonly reference?: string;
   /**
    * The Pay-In reference of the payment.
    */
-  pay_in_reference?: string;
+  readonly pay_in_reference?: string;
   /**
    * The estimated delivery time.
    */
-  time_delivery_estimate?: string;
+  readonly time_delivery_estimate?: string;
   /**
    * The quote details used to created the payment.
    */
-  quote?: ITransferwiseQuote;
+  readonly quote?: ITransferwiseQuote;
 }
 
 export interface ITransferwiseQuote {
@@ -1247,42 +1247,42 @@ export interface ITransferwiseQuote {
   /**
    * The id of the quote.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the quote's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the quote's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The expiration timestamp of the quote.
    */
-  time_expiry?: string;
+  readonly time_expiry?: string;
   /**
    * The quote id Transferwise needs.
    */
-  quote_id?: string;
+  readonly quote_id?: string;
   /**
    * The fee amount.
    */
-  amount_fee?: IAmount;
+  readonly amount_fee?: IAmount;
   /**
    * The rate.
    */
-  rate?: string;
+  readonly rate?: string;
   /**
    * The estimated delivery time.
    */
-  time_delivery_estimate?: string;
+  readonly time_delivery_estimate?: string;
 }
 
 export interface ITokenQrRequestSofortCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ITokenQrRequestSofort {
@@ -1296,87 +1296,87 @@ export interface ITokenQrRequestIdealCreate {
   /**
    * The id of the RequestResponse.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of when the RequestResponse was responded to.
    */
-  time_responded?: string;
+  readonly time_responded?: string;
   /**
    * The timestamp of when the RequestResponse expired or will expire.
    */
-  time_expiry?: string;
+  readonly time_expiry?: string;
   /**
    * The id of the MonetaryAccount the RequestResponse was received on.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The requested Amount.
    */
-  amount_inquired?: IAmount;
+  readonly amount_inquired?: IAmount;
   /**
    * The Amount the RequestResponse was accepted with.
    */
-  amount_responded?: IAmount;
+  readonly amount_responded?: IAmount;
   /**
    * The LabelMonetaryAccount with the public information of the MonetaryAccount this RequestResponse was received on.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The LabelMonetaryAccount with the public information of the MonetaryAccount that is requesting money with this RequestResponse.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The description for the RequestResponse provided by the requesting party. Maximum 9000 characters.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The Attachments attached to the RequestResponse.
    */
-  attachment?: Array<IAttachment>;
+  readonly attachment?: Array<IAttachment>;
   /**
    * The status of the created RequestResponse. Can only be PENDING.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The minimum age the user accepting the RequestResponse must have.
    */
-  minimum_age?: number;
+  readonly minimum_age?: number;
   /**
    * Whether or not an address must be provided on accept.
    */
-  require_address?: string;
+  readonly require_address?: string;
   /**
    * The shipping address provided by the accepting user if an address was requested.
    */
-  address_shipping?: IAddress;
+  readonly address_shipping?: IAddress;
   /**
    * The billing address provided by the accepting user if an address was requested.
    */
-  address_billing?: IAddress;
+  readonly address_billing?: IAddress;
   /**
    * The Geolocation where the RequestResponse was created.
    */
-  geolocation?: IGeolocation;
+  readonly geolocation?: IGeolocation;
   /**
    * The URL which the user is sent to after accepting or rejecting the Request.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * The type of the RequestResponse. Can be only be IDEAL.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The subtype of the RequestResponse. Can be only be NONE.
    */
-  sub_type?: string;
+  readonly sub_type?: string;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The whitelist id for this action or null.
    */
-  eligible_whitelist_id?: number;
+  readonly eligible_whitelist_id?: number;
 }
 
 export interface ITokenQrRequestIdeal {
@@ -1420,165 +1420,165 @@ export interface ITabUsageSingleUpdate {
   /**
    * The uuid of the modified TabUsageSingle.
    */
-  uuid?: string;
+  readonly uuid?: string;
 }
 
 export interface ITabUsageSingleRead {
   /**
    * The uuid of the created TabUsageSingle.
    */
-  uuid?: string;
+  readonly uuid?: string;
   /**
    * The timestamp of the Tab's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the Tab's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The merchant reference of the Tab, as defined by the owner.
    */
-  merchant_reference?: string;
+  readonly merchant_reference?: string;
   /**
    * The description of the TabUsageMultiple. Maximum 9000 characters.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The status of the Tab. Can be OPEN, WAITING_FOR_PAYMENT, PAID or CANCELED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The total amount of the Tab.
    */
-  amount_total?: IAmount;
+  readonly amount_total?: IAmount;
   /**
    * The amount that has been paid for this Tab.
    */
-  amount_paid?: IAmount;
+  readonly amount_paid?: IAmount;
   /**
    * The token used to redirect mobile devices directly to the bunq app. Because they can't scan a QR code.
    */
-  qr_code_token?: string;
+  readonly qr_code_token?: string;
   /**
    * The URL redirecting user to the tab payment in the bunq app. Only works on mobile devices.
    */
-  tab_url?: string;
+  readonly tab_url?: string;
   /**
    * The visibility of a Tab. A Tab can be visible trough NearPay, the QR code of the CashRegister and its own QR code.
    */
-  visibility?: ITabVisibility;
+  readonly visibility?: ITabVisibility;
   /**
    * The minimum age of the user paying the Tab.
    */
-  minimum_age?: boolean;
+  readonly minimum_age?: boolean;
   /**
    * Whether or not an billing and shipping address must be provided when paying the Tab.
    */
-  require_address?: string;
+  readonly require_address?: string;
   /**
    * The URL which the user is sent to after paying the Tab.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * The moment when this Tab expires.
    */
-  expiration?: string;
+  readonly expiration?: string;
   /**
    * The alias of the party that owns this tab.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The location of the cash register that created this tab.
    */
-  cash_register_location?: IGeolocation;
+  readonly cash_register_location?: IGeolocation;
   /**
    * The tab items of this tab.
    */
-  tab_item?: Array<ITabItem>;
+  readonly tab_item?: Array<ITabItem>;
   /**
    * An array of attachments that describe the tab. Uploaded through the POST /user/{userid}/attachment-tab endpoint.
    */
-  tab_attachment?: Array<BunqId>;
+  readonly tab_attachment?: Array<BunqId>;
 }
 
 export interface ITabUsageSingleListing {
   /**
    * The uuid of the created TabUsageSingle.
    */
-  uuid?: string;
+  readonly uuid?: string;
   /**
    * The timestamp of the Tab's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the Tab's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The merchant reference of the Tab, as defined by the owner.
    */
-  merchant_reference?: string;
+  readonly merchant_reference?: string;
   /**
    * The description of the TabUsageMultiple. Maximum 9000 characters.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The status of the Tab. Can be OPEN, WAITING_FOR_PAYMENT, PAID or CANCELED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The total amount of the Tab.
    */
-  amount_total?: IAmount;
+  readonly amount_total?: IAmount;
   /**
    * The amount that has been paid for this Tab.
    */
-  amount_paid?: IAmount;
+  readonly amount_paid?: IAmount;
   /**
    * The token used to redirect mobile devices directly to the bunq app. Because they can't scan a QR code.
    */
-  qr_code_token?: string;
+  readonly qr_code_token?: string;
   /**
    * The URL redirecting user to the tab payment in the bunq app. Only works on mobile devices.
    */
-  tab_url?: string;
+  readonly tab_url?: string;
   /**
    * The visibility of a Tab. A Tab can be visible trough NearPay, the QR code of the CashRegister and its own QR code.
    */
-  visibility?: ITabVisibility;
+  readonly visibility?: ITabVisibility;
   /**
    * The minimum age of the user paying the Tab.
    */
-  minimum_age?: boolean;
+  readonly minimum_age?: boolean;
   /**
    * Whether or not an billing and shipping address must be provided when paying the Tab.
    */
-  require_address?: string;
+  readonly require_address?: string;
   /**
    * The URL which the user is sent to after paying the Tab.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * The moment when this Tab expires.
    */
-  expiration?: string;
+  readonly expiration?: string;
   /**
    * The alias of the party that owns this tab.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The location of the cash register that created this tab.
    */
-  cash_register_location?: IGeolocation;
+  readonly cash_register_location?: IGeolocation;
   /**
    * The tab items of this tab.
    */
-  tab_item?: Array<ITabItem>;
+  readonly tab_item?: Array<ITabItem>;
   /**
    * An array of attachments that describe the tab. Uploaded through the POST /user/{userid}/attachment-tab endpoint.
    */
-  tab_attachment?: Array<BunqId>;
+  readonly tab_attachment?: Array<BunqId>;
 }
 
 export interface ITabUsageSingleDelete {}
@@ -1587,7 +1587,7 @@ export interface ITabUsageSingleCreate {
   /**
    * The uuid of the created TabUsageSingle.
    */
-  uuid?: string;
+  readonly uuid?: string;
 }
 
 export interface ITabUsageSingle {
@@ -1646,188 +1646,188 @@ export interface ITabUsageSingle {
   /**
    * The uuid of the created TabUsageSingle.
    */
-  uuid?: string;
+  readonly uuid?: string;
   /**
    * The timestamp of the Tab's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the Tab's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The amount that has been paid for this Tab.
    */
-  amount_paid?: IAmount;
+  readonly amount_paid?: IAmount;
   /**
    * The token used to redirect mobile devices directly to the bunq app. Because they can't scan a QR code.
    */
-  qr_code_token?: string;
+  readonly qr_code_token?: string;
   /**
    * The URL redirecting user to the tab payment in the bunq app. Only works on mobile devices.
    */
-  tab_url?: string;
+  readonly tab_url?: string;
   /**
    * The alias of the party that owns this tab.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The location of the cash register that created this tab.
    */
-  cash_register_location?: IGeolocation;
+  readonly cash_register_location?: IGeolocation;
   /**
    * The tab items of this tab.
    */
-  tab_item?: Array<ITabItem>;
+  readonly tab_item?: Array<ITabItem>;
 }
 
 export interface ITabUsageMultipleUpdate {
   /**
    * The uuid of the modified TabUsageMultiple.
    */
-  uuid?: string;
+  readonly uuid?: string;
 }
 
 export interface ITabUsageMultipleRead {
   /**
    * The uuid of the created TabUsageMultiple.
    */
-  uuid?: string;
+  readonly uuid?: string;
   /**
    * The timestamp of the Tab's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the Tab's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The description of the TabUsageMultiple. Maximum 9000 characters.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The status of the Tab. Can be OPEN, PAYABLE or CLOSED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The total amount of the Tab.
    */
-  amount_total?: IAmount;
+  readonly amount_total?: IAmount;
   /**
    * The token used to redirect mobile devices directly to the bunq app. Because they can't scan a QR code.
    */
-  qr_code_token?: string;
+  readonly qr_code_token?: string;
   /**
    * The URL redirecting user to the tab payment in the bunq app. Only works on mobile devices.
    */
-  tab_url?: string;
+  readonly tab_url?: string;
   /**
    * The visibility of a Tab. A Tab can be visible trough NearPay, the QR code of the CashRegister and its own QR code.
    */
-  visibility?: ITabVisibility;
+  readonly visibility?: ITabVisibility;
   /**
    * The minimum age of the user paying the Tab.
    */
-  minimum_age?: boolean;
+  readonly minimum_age?: boolean;
   /**
    * Whether or not an billing and shipping address must be provided when paying the Tab.
    */
-  require_address?: string;
+  readonly require_address?: string;
   /**
    * The URL which the user is sent to after paying the Tab.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * The moment when this Tab expires.
    */
-  expiration?: string;
+  readonly expiration?: string;
   /**
    * The alias of the party that owns this tab.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The location of the cash register that created this tab.
    */
-  cash_register_location?: IGeolocation;
+  readonly cash_register_location?: IGeolocation;
   /**
    * The tab items of this tab.
    */
-  tab_item?: Array<ITabItem>;
+  readonly tab_item?: Array<ITabItem>;
   /**
    * An array of attachments that describe the tab. Viewable through the GET /tab/{tabid}/attachment/{attachmentid}/content endpoint.
    */
-  tab_attachment?: Array<BunqId>;
+  readonly tab_attachment?: Array<BunqId>;
 }
 
 export interface ITabUsageMultipleListing {
   /**
    * The uuid of the created TabUsageMultiple.
    */
-  uuid?: string;
+  readonly uuid?: string;
   /**
    * The timestamp of the Tab's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the Tab's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The description of the TabUsageMultiple. Maximum 9000 characters.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The status of the Tab. Can be OPEN, PAYABLE or CLOSED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The total amount of the Tab.
    */
-  amount_total?: IAmount;
+  readonly amount_total?: IAmount;
   /**
    * The token used to redirect mobile devices directly to the bunq app. Because they can't scan a QR code.
    */
-  qr_code_token?: string;
+  readonly qr_code_token?: string;
   /**
    * The URL redirecting user to the tab payment in the bunq app. Only works on mobile devices.
    */
-  tab_url?: string;
+  readonly tab_url?: string;
   /**
    * The visibility of a Tab. A Tab can be visible trough NearPay, the QR code of the CashRegister and its own QR code.
    */
-  visibility?: ITabVisibility;
+  readonly visibility?: ITabVisibility;
   /**
    * The minimum age of the user paying the Tab.
    */
-  minimum_age?: boolean;
+  readonly minimum_age?: boolean;
   /**
    * Whether or not an billing and shipping address must be provided when paying the Tab.
    */
-  require_address?: string;
+  readonly require_address?: string;
   /**
    * The URL which the user is sent to after paying the Tab.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * The moment when this Tab expires.
    */
-  expiration?: string;
+  readonly expiration?: string;
   /**
    * The alias of the party that owns this tab.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The location of the cash register that created this tab.
    */
-  cash_register_location?: IGeolocation;
+  readonly cash_register_location?: IGeolocation;
   /**
    * The tab items of this tab.
    */
-  tab_item?: Array<ITabItem>;
+  readonly tab_item?: Array<ITabItem>;
   /**
    * An array of attachments that describe the tab. Viewable through the GET /tab/{tabid}/attachment/{attachmentid}/content endpoint.
    */
-  tab_attachment?: Array<BunqId>;
+  readonly tab_attachment?: Array<BunqId>;
 }
 
 export interface ITabUsageMultipleDelete {}
@@ -1836,7 +1836,7 @@ export interface ITabUsageMultipleCreate {
   /**
    * The uuid of the created TabUsageMultiple.
    */
-  uuid?: string;
+  readonly uuid?: string;
 }
 
 export interface ITabUsageMultiple {
@@ -1891,35 +1891,35 @@ export interface ITabUsageMultiple {
   /**
    * The uuid of the created TabUsageMultiple.
    */
-  uuid?: string;
+  readonly uuid?: string;
   /**
    * The timestamp of the Tab's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the Tab's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The token used to redirect mobile devices directly to the bunq app. Because they can't scan a QR code.
    */
-  qr_code_token?: string;
+  readonly qr_code_token?: string;
   /**
    * The URL redirecting user to the tab payment in the bunq app. Only works on mobile devices.
    */
-  tab_url?: string;
+  readonly tab_url?: string;
   /**
    * The alias of the party that owns this tab.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The location of the cash register that created this tab.
    */
-  cash_register_location?: IGeolocation;
+  readonly cash_register_location?: IGeolocation;
   /**
    * The tab items of this tab.
    */
-  tab_item?: Array<ITabItem>;
+  readonly tab_item?: Array<ITabItem>;
 }
 
 export interface ITabTextWaitingScreen {
@@ -1937,89 +1937,89 @@ export interface ITabResultResponseRead {
   /**
    * The Tab details.
    */
-  tab?: ITab;
+  readonly tab?: ITab;
   /**
    * The payment made for the Tab.
    */
-  payment?: IPayment;
+  readonly payment?: IPayment;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface ITabResultResponseListing {
   /**
    * The Tab details.
    */
-  tab?: ITab;
+  readonly tab?: ITab;
   /**
    * The payment made for the Tab.
    */
-  payment?: IPayment;
+  readonly payment?: IPayment;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface ITabResultResponse {
   /**
    * The Tab details.
    */
-  tab?: ITab;
+  readonly tab?: ITab;
   /**
    * The payment made for the Tab.
    */
-  payment?: IPayment;
+  readonly payment?: IPayment;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface ITabResultInquiryRead {
   /**
    * The Tab details.
    */
-  tab?: ITab;
+  readonly tab?: ITab;
   /**
    * The payment made for the Tab.
    */
-  payment?: IPayment;
+  readonly payment?: IPayment;
 }
 
 export interface ITabResultInquiryListing {
   /**
    * The Tab details.
    */
-  tab?: ITab;
+  readonly tab?: ITab;
   /**
    * The payment made for the Tab.
    */
-  payment?: IPayment;
+  readonly payment?: IPayment;
 }
 
 export interface ITabResultInquiry {
   /**
    * The Tab details.
    */
-  tab?: ITab;
+  readonly tab?: ITab;
   /**
    * The payment made for the Tab.
    */
-  payment?: IPayment;
+  readonly payment?: IPayment;
 }
 
 export interface ITabRead {
   /**
    *
    */
-  TabUsageSingle?: ITabUsageSingle;
+  readonly TabUsageSingle?: ITabUsageSingle;
   /**
    *
    */
-  TabUsageMultiple?: ITabUsageMultiple;
+  readonly TabUsageMultiple?: ITabUsageMultiple;
 }
 
 export interface ITabQrCodeContentListing {}
@@ -2028,80 +2028,80 @@ export interface ITabListing {
   /**
    *
    */
-  TabUsageSingle?: ITabUsageSingle;
+  readonly TabUsageSingle?: ITabUsageSingle;
   /**
    *
    */
-  TabUsageMultiple?: ITabUsageMultiple;
+  readonly TabUsageMultiple?: ITabUsageMultiple;
 }
 
 export interface ITabItemShopUpdate {
   /**
    * The id of the modified TabItem.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface ITabItemShopRead {
   /**
    * The id of the created TabItem.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The TabItem's brief description.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The TabItem's EAN code.
    */
-  ean_code?: string;
+  readonly ean_code?: string;
   /**
    * A struct with an AttachmentPublic UUID that used as an avatar for the TabItem.
    */
-  avatar_attachment?: IAttachmentPublic;
+  readonly avatar_attachment?: IAttachmentPublic;
   /**
    * A list of AttachmentTab attached to the TabItem.
    */
-  tab_attachment?: Array<IAttachmentTab>;
+  readonly tab_attachment?: Array<IAttachmentTab>;
   /**
    * The quantity of the TabItem.
    */
-  quantity?: number;
+  readonly quantity?: number;
   /**
    * The money amount of the TabItem.
    */
-  amount?: IAmount;
+  readonly amount?: IAmount;
 }
 
 export interface ITabItemShopListing {
   /**
    * The id of the created TabItem.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The TabItem's brief description.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The TabItem's EAN code.
    */
-  ean_code?: string;
+  readonly ean_code?: string;
   /**
    * A struct with an AttachmentPublic UUID that used as an avatar for the TabItem.
    */
-  avatar_attachment?: IAttachmentPublic;
+  readonly avatar_attachment?: IAttachmentPublic;
   /**
    * A list of AttachmentTab attached to the TabItem.
    */
-  tab_attachment?: Array<IAttachmentTab>;
+  readonly tab_attachment?: Array<IAttachmentTab>;
   /**
    * The quantity of the TabItem.
    */
-  quantity?: number;
+  readonly quantity?: number;
   /**
    * The money amount of the TabItem.
    */
-  amount?: IAmount;
+  readonly amount?: IAmount;
 }
 
 export interface ITabItemShopDelete {}
@@ -2110,14 +2110,14 @@ export interface ITabItemShopCreate {
   /**
    * The id of the created TabItem.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface ITabItemShopBatchCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ITabItemShopBatch {
@@ -2155,61 +2155,61 @@ export interface ITabItemShop {
   /**
    * The id of the created TabItem.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * A struct with an AttachmentPublic UUID that used as an avatar for the TabItem.
    */
-  avatar_attachment?: IAttachmentPublic;
+  readonly avatar_attachment?: IAttachmentPublic;
 }
 
 export interface ITabItem {
   /**
    * The id of the tab item.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The item's brief description.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The item's EAN code.
    */
-  ean_code?: string;
+  readonly ean_code?: string;
   /**
    * A struct with an AttachmentPublic UUID that used as an avatar for the TabItem.
    */
-  avatar_attachment?: IAttachmentPublic;
+  readonly avatar_attachment?: IAttachmentPublic;
   /**
    * A list of AttachmentTab attached to the TabItem.
    */
-  tab_attachment?: Array<IAttachmentTab>;
+  readonly tab_attachment?: Array<IAttachmentTab>;
   /**
    * The quantity of the item. Formatted as a number containing up to 15 digits, up to 15 decimals and using a dot.
    */
-  quantity?: string;
+  readonly quantity?: string;
   /**
    * The money amount of the item.
    */
-  amount?: IAmount;
+  readonly amount?: IAmount;
 }
 
 export interface ITabAttachmentTabRead {
   /**
    * The id of the attachment.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the attachment's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the attachment's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The attachment.
    */
-  attachment?: IAttachment;
+  readonly attachment?: IAttachment;
 }
 
 export interface ITabAttachmentTabContentListing {}
@@ -2218,97 +2218,97 @@ export interface ITab {
   /**
    *
    */
-  TabUsageSingle?: ITabUsageSingle;
+  readonly TabUsageSingle?: ITabUsageSingle;
   /**
    *
    */
-  TabUsageMultiple?: ITabUsageMultiple;
+  readonly TabUsageMultiple?: ITabUsageMultiple;
 }
 
 export interface ISofortMerchantTransactionRead {
   /**
    * The id of the monetary account this sofort merchant transaction links to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The alias of the monetary account to add money to.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The alias of the monetary account the money comes from.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * In case of a successful transaction, the amount of money that will be transferred.
    */
-  amount_guaranteed?: IAmount;
+  readonly amount_guaranteed?: IAmount;
   /**
    * The requested amount of money to add.
    */
-  amount_requested?: IAmount;
+  readonly amount_requested?: IAmount;
   /**
    * The BIC of the issuer.
    */
-  issuer?: string;
+  readonly issuer?: string;
   /**
    * The URL to visit to
    */
-  issuer_authentication_url?: string;
+  readonly issuer_authentication_url?: string;
   /**
    * The status of the transaction.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The error message of the transaction.
    */
-  error_message?: Array<Error>;
+  readonly error_message?: Array<Error>;
   /**
    * The 'transaction ID' of the Sofort transaction.
    */
-  transaction_identifier?: string;
+  readonly transaction_identifier?: string;
 }
 
 export interface ISofortMerchantTransactionListing {
   /**
    * The id of the monetary account this sofort merchant transaction links to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The alias of the monetary account to add money to.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The alias of the monetary account the money comes from.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * In case of a successful transaction, the amount of money that will be transferred.
    */
-  amount_guaranteed?: IAmount;
+  readonly amount_guaranteed?: IAmount;
   /**
    * The requested amount of money to add.
    */
-  amount_requested?: IAmount;
+  readonly amount_requested?: IAmount;
   /**
    * The BIC of the issuer.
    */
-  issuer?: string;
+  readonly issuer?: string;
   /**
    * The URL to visit to
    */
-  issuer_authentication_url?: string;
+  readonly issuer_authentication_url?: string;
   /**
    * The status of the transaction.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The error message of the transaction.
    */
-  error_message?: Array<Error>;
+  readonly error_message?: Array<Error>;
   /**
    * The 'transaction ID' of the Sofort transaction.
    */
-  transaction_identifier?: string;
+  readonly transaction_identifier?: string;
 }
 
 export interface ISofortMerchantTransaction {
@@ -2323,152 +2323,152 @@ export interface ISofortMerchantTransaction {
   /**
    * The id of the monetary account this sofort merchant transaction links to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The alias of the monetary account to add money to.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The alias of the monetary account the money comes from.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * In case of a successful transaction, the amount of money that will be transferred.
    */
-  amount_guaranteed?: IAmount;
+  readonly amount_guaranteed?: IAmount;
   /**
    * The URL to visit to
    */
-  issuer_authentication_url?: string;
+  readonly issuer_authentication_url?: string;
   /**
    * The status of the transaction.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The error message of the transaction.
    */
-  error_message?: Array<Error>;
+  readonly error_message?: Array<Error>;
   /**
    * The 'transaction ID' of the Sofort transaction.
    */
-  transaction_identifier?: string;
+  readonly transaction_identifier?: string;
 }
 
 export interface IShareInviteMonetaryAccountResponseUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IShareInviteMonetaryAccountResponseRead {
   /**
    * The id of the ShareInviteMonetaryAccountResponse.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the ShareInviteMonetaryAccountResponse creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the ShareInviteMonetaryAccountResponse last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The monetary account and user who created the share.
    */
-  counter_alias?: ILabelMonetaryAccount;
+  readonly counter_alias?: ILabelMonetaryAccount;
   /**
    * The user who cancelled the share if it has been revoked or rejected.
    */
-  user_alias_cancelled?: ILabelUser;
+  readonly user_alias_cancelled?: ILabelUser;
   /**
    * The id of the monetary account the ACCEPTED share applies to. null otherwise.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The id of the draft share invite bank.
    */
-  draft_share_invite_bank_id?: number;
+  readonly draft_share_invite_bank_id?: number;
   /**
    * The share details.
    */
-  share_detail?: IShareDetail;
+  readonly share_detail?: IShareDetail;
   /**
    * The status of the share. Can be PENDING, REVOKED (the user deletes the share inquiry before it's accepted), ACCEPTED, CANCELLED (the user deletes an active share) or CANCELLATION_PENDING, CANCELLATION_ACCEPTED, CANCELLATION_REJECTED (for canceling mutual connects)
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The share type, either STANDARD or MUTUAL.
    */
-  share_type?: string;
+  readonly share_type?: string;
   /**
    * The start date of this share.
    */
-  start_date?: string;
+  readonly start_date?: string;
   /**
    * The expiration date of this share.
    */
-  end_date?: string;
+  readonly end_date?: string;
   /**
    * The description of this share. It is basically the monetary account description.
    */
-  description?: string;
+  readonly description?: string;
 }
 
 export interface IShareInviteMonetaryAccountResponseListing {
   /**
    * The id of the ShareInviteMonetaryAccountResponse.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the ShareInviteMonetaryAccountResponse creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the ShareInviteMonetaryAccountResponse last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The monetary account and user who created the share.
    */
-  counter_alias?: ILabelMonetaryAccount;
+  readonly counter_alias?: ILabelMonetaryAccount;
   /**
    * The user who cancelled the share if it has been revoked or rejected.
    */
-  user_alias_cancelled?: ILabelUser;
+  readonly user_alias_cancelled?: ILabelUser;
   /**
    * The id of the monetary account the ACCEPTED share applies to. null otherwise.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The id of the draft share invite bank.
    */
-  draft_share_invite_bank_id?: number;
+  readonly draft_share_invite_bank_id?: number;
   /**
    * The share details.
    */
-  share_detail?: IShareDetail;
+  readonly share_detail?: IShareDetail;
   /**
    * The status of the share. Can be PENDING, REVOKED (the user deletes the share inquiry before it's accepted), ACCEPTED, CANCELLED (the user deletes an active share) or CANCELLATION_PENDING, CANCELLATION_ACCEPTED, CANCELLATION_REJECTED (for canceling mutual connects)
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The share type, either STANDARD or MUTUAL.
    */
-  share_type?: string;
+  readonly share_type?: string;
   /**
    * The start date of this share.
    */
-  start_date?: string;
+  readonly start_date?: string;
   /**
    * The expiration date of this share.
    */
-  end_date?: string;
+  readonly end_date?: string;
   /**
    * The description of this share. It is basically the monetary account description.
    */
-  description?: string;
+  readonly description?: string;
 }
 
 export interface IShareInviteMonetaryAccountResponse {
@@ -2483,178 +2483,180 @@ export interface IShareInviteMonetaryAccountResponse {
   /**
    * The id of the ShareInviteMonetaryAccountResponse.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the ShareInviteMonetaryAccountResponse creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the ShareInviteMonetaryAccountResponse last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The monetary account and user who created the share.
    */
-  counter_alias?: ILabelMonetaryAccount;
+  readonly counter_alias?: ILabelMonetaryAccount;
   /**
    * The user who cancelled the share if it has been revoked or rejected.
    */
-  user_alias_cancelled?: ILabelUser;
+  readonly user_alias_cancelled?: ILabelUser;
   /**
    * The id of the monetary account the ACCEPTED share applies to. null otherwise.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The id of the draft share invite bank.
    */
-  draft_share_invite_bank_id?: number;
+  readonly draft_share_invite_bank_id?: number;
   /**
    * The share details.
    */
-  share_detail?: IShareDetail;
+  readonly share_detail?: IShareDetail;
   /**
    * The share type, either STANDARD or MUTUAL.
    */
-  share_type?: string;
+  readonly share_type?: string;
   /**
    * The start date of this share.
    */
-  start_date?: string;
+  readonly start_date?: string;
   /**
    * The expiration date of this share.
    */
-  end_date?: string;
+  readonly end_date?: string;
   /**
    * The description of this share. It is basically the monetary account description.
    */
-  description?: string;
+  readonly description?: string;
 }
 
 export interface IShareInviteMonetaryAccountInquiryUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IShareInviteMonetaryAccountInquiryRead {
   /**
    * The label of the monetary account that's being shared.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The user who created the share.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
   /**
    * The user who revoked the share.
    */
-  user_alias_revoked?: ILabelUser;
+  readonly user_alias_revoked?: ILabelUser;
   /**
    * The label of the user to share with.
    */
-  counter_user_alias?: ILabelUser;
+  readonly counter_user_alias?: ILabelUser;
   /**
    * The id of the monetary account the share applies to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The id of the draft share invite bank.
    */
-  draft_share_invite_bank_id?: number;
+  readonly draft_share_invite_bank_id?: number;
   /**
    * The share details. Only one of these objects is returned.
    */
-  share_detail?: IShareDetail;
+  readonly share_detail?: IShareDetail;
   /**
    * The status of the share. Can be PENDING, REVOKED (the user deletes the share inquiry before it's accepted), ACCEPTED, CANCELLED (the user deletes an active share) or CANCELLATION_PENDING, CANCELLATION_ACCEPTED, CANCELLATION_REJECTED (for canceling mutual connects)
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The share type, either STANDARD or MUTUAL.
    */
-  share_type?: string;
+  readonly share_type?: string;
   /**
    * The start date of this share.
    */
-  start_date?: string;
+  readonly start_date?: string;
   /**
    * The expiration date of this share.
    */
-  end_date?: string;
+  readonly end_date?: string;
   /**
    * The id of the newly created share invite.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IShareInviteMonetaryAccountInquiryListing {
   /**
    * The label of the monetary account that's being shared.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The user who created the share.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
   /**
    * The user who revoked the share.
    */
-  user_alias_revoked?: ILabelUser;
+  readonly user_alias_revoked?: ILabelUser;
   /**
    * The label of the user to share with.
    */
-  counter_user_alias?: ILabelUser;
+  readonly counter_user_alias?: ILabelUser;
   /**
    * The id of the monetary account the share applies to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The id of the draft share invite bank.
    */
-  draft_share_invite_bank_id?: number;
+  readonly draft_share_invite_bank_id?: number;
   /**
    * The share details. Only one of these objects is returned.
    */
-  share_detail?: IShareDetail;
+  readonly share_detail?: IShareDetail;
   /**
    * The status of the share. Can be PENDING, REVOKED (the user deletes the share inquiry before it's accepted), ACCEPTED, CANCELLED (the user deletes an active share) or CANCELLATION_PENDING, CANCELLATION_ACCEPTED, CANCELLATION_REJECTED (for canceling mutual connects)
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The share type, either STANDARD or MUTUAL.
    */
-  share_type?: string;
+  readonly share_type?: string;
   /**
    * The start date of this share.
    */
-  start_date?: string;
+  readonly start_date?: string;
   /**
    * The expiration date of this share.
    */
-  end_date?: string;
+  readonly end_date?: string;
   /**
    * The id of the newly created share invite.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IShareInviteMonetaryAccountInquiryCreate {
   /**
    * The id of the newly created share invite.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IShareInviteMonetaryAccountInquiryBatch {
   /**
    * The list of share invite bank inquiries that were made.
    */
-  share_invite_bank_inquiries?: Array<IShareInviteMonetaryAccountInquiry>;
+  readonly share_invite_bank_inquiries?: Array<
+    IShareInviteMonetaryAccountInquiry
+  >;
   /**
    * The LabelMonetaryAccount containing the public information of this share invite inquiry batch.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
 }
 
 export interface IShareInviteMonetaryAccountInquiry {
@@ -2689,23 +2691,23 @@ export interface IShareInviteMonetaryAccountInquiry {
   /**
    * The label of the monetary account that's being shared.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The user who created the share.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
   /**
    * The user who revoked the share.
    */
-  user_alias_revoked?: ILabelUser;
+  readonly user_alias_revoked?: ILabelUser;
   /**
    * The id of the monetary account the share applies to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The id of the newly created share invite.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IShareInviteMonetaryAccountAmountUsedDelete {}
@@ -2790,38 +2792,38 @@ export interface ISessionServerToken {
   /**
    * The id of the Token.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The Session token is the token the client has to provide in the "X-Bunq-Client-Authentication" header for each API call that requires a Session (only the creation of a Installation and DeviceServer don't require a Session).
    */
-  token?: string;
+  readonly token?: string;
 }
 
 export interface ISessionServerCreate {
   /**
    * The Id object of the created Session.
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
   /**
    * The token object of this Session.
    */
-  Token?: ISessionServerToken;
+  readonly Token?: ISessionServerToken;
   /**
    * The UserCompany object that is logged in with this Session.
    */
-  UserCompany?: IUserCompany;
+  readonly UserCompany?: IUserCompany;
   /**
    * The UserPerson object that is logged in with this Session.
    */
-  UserPerson?: IUserPerson;
+  readonly UserPerson?: IUserPerson;
   /**
    * The UserApiKey object that is logged in with this Session.
    */
-  UserApiKey?: IUserApiKey;
+  readonly UserApiKey?: IUserApiKey;
   /**
    * The UserPaymentServiceProvider object that is logged in with this Session.
    */
-  UserPaymentServiceProvider?: IUserPaymentServiceProvider;
+  readonly UserPaymentServiceProvider?: IUserPaymentServiceProvider;
 }
 
 export interface ISessionServer {
@@ -2839,64 +2841,64 @@ export interface IScheduleRead {
   /**
    * The schedule start time (UTC).
    */
-  time_start?: string;
+  readonly time_start?: string;
   /**
    * The schedule end time (UTC).
    */
-  time_end?: string;
+  readonly time_end?: string;
   /**
    * The schedule recurrence unit, options: ONCE, HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY
    */
-  recurrence_unit?: string;
+  readonly recurrence_unit?: string;
   /**
    * The schedule recurrence size. For example size 4 and unit WEEKLY means the recurrence is every 4 weeks.
    */
-  recurrence_size?: number;
+  readonly recurrence_size?: number;
   /**
    * The schedule status, options: ACTIVE, FINISHED, CANCELLED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The scheduled object. (Payment, PaymentBatch)
    */
-  object?: IScheduleAnchorObject;
+  readonly object?: IScheduleAnchorObject;
 }
 
 export interface ISchedulePaymentUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ISchedulePaymentRead {
   /**
    * The payment details.
    */
-  payment?: ISchedulePaymentEntry;
+  readonly payment?: ISchedulePaymentEntry;
   /**
    * The schedule details.
    */
-  schedule?: ISchedule;
+  readonly schedule?: ISchedule;
   /**
    * The schedule status, options: ACTIVE, FINISHED, CANCELLED.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface ISchedulePaymentListing {
   /**
    * The payment details.
    */
-  payment?: ISchedulePaymentEntry;
+  readonly payment?: ISchedulePaymentEntry;
   /**
    * The schedule details.
    */
-  schedule?: ISchedule;
+  readonly schedule?: ISchedule;
   /**
    * The schedule status, options: ACTIVE, FINISHED, CANCELLED.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface ISchedulePaymentEntry {
@@ -2927,7 +2929,7 @@ export interface ISchedulePaymentEntry {
   /**
    * The LabelMonetaryAccount containing the public information of 'this' (party) side of the Payment.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
 }
 
 export interface ISchedulePaymentDelete {}
@@ -2936,14 +2938,14 @@ export interface ISchedulePaymentCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ISchedulePaymentBatchUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ISchedulePaymentBatchDelete {}
@@ -2952,7 +2954,7 @@ export interface ISchedulePaymentBatchCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ISchedulePaymentBatch {
@@ -2978,114 +2980,114 @@ export interface ISchedulePayment {
   /**
    * The schedule status, options: ACTIVE, FINISHED, CANCELLED.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface IScheduleListing {
   /**
    * The schedule start time (UTC).
    */
-  time_start?: string;
+  readonly time_start?: string;
   /**
    * The schedule end time (UTC).
    */
-  time_end?: string;
+  readonly time_end?: string;
   /**
    * The schedule recurrence unit, options: ONCE, HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY
    */
-  recurrence_unit?: string;
+  readonly recurrence_unit?: string;
   /**
    * The schedule recurrence size. For example size 4 and unit WEEKLY means the recurrence is every 4 weeks.
    */
-  recurrence_size?: number;
+  readonly recurrence_size?: number;
   /**
    * The schedule status, options: ACTIVE, FINISHED, CANCELLED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The scheduled object. (Payment, PaymentBatch)
    */
-  object?: IScheduleAnchorObject;
+  readonly object?: IScheduleAnchorObject;
 }
 
 export interface IScheduleInstanceUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IScheduleInstanceRead {
   /**
    * The state of the scheduleInstance. (FINISHED_SUCCESSFULLY, RETRY, FAILED_USER_ERROR)
    */
-  state?: string;
+  readonly state?: string;
   /**
    * The schedule start time (UTC).
    */
-  time_start?: string;
+  readonly time_start?: string;
   /**
    * The schedule end time (UTC).
    */
-  time_end?: string;
+  readonly time_end?: string;
   /**
    * The message when the scheduled instance has run and failed due to user error.
    */
-  error_message?: Array<Error>;
+  readonly error_message?: Array<Error>;
   /**
    * The scheduled object. (Payment, PaymentBatch)
    */
-  scheduled_object?: IScheduleAnchorObject;
+  readonly scheduled_object?: IScheduleAnchorObject;
   /**
    * The result object of this schedule instance. (Payment, PaymentBatch)
    */
-  result_object?: IScheduleInstanceAnchorObject;
+  readonly result_object?: IScheduleInstanceAnchorObject;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface IScheduleInstanceListing {
   /**
    * The state of the scheduleInstance. (FINISHED_SUCCESSFULLY, RETRY, FAILED_USER_ERROR)
    */
-  state?: string;
+  readonly state?: string;
   /**
    * The schedule start time (UTC).
    */
-  time_start?: string;
+  readonly time_start?: string;
   /**
    * The schedule end time (UTC).
    */
-  time_end?: string;
+  readonly time_end?: string;
   /**
    * The message when the scheduled instance has run and failed due to user error.
    */
-  error_message?: Array<Error>;
+  readonly error_message?: Array<Error>;
   /**
    * The scheduled object. (Payment, PaymentBatch)
    */
-  scheduled_object?: IScheduleAnchorObject;
+  readonly scheduled_object?: IScheduleAnchorObject;
   /**
    * The result object of this schedule instance. (Payment, PaymentBatch)
    */
-  result_object?: IScheduleInstanceAnchorObject;
+  readonly result_object?: IScheduleInstanceAnchorObject;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface IScheduleInstanceAnchorObject {
   /**
    *
    */
-  Payment?: IPayment;
+  readonly Payment?: IPayment;
   /**
    *
    */
-  PaymentBatch?: IPaymentBatch;
+  readonly PaymentBatch?: IPaymentBatch;
 }
 
 export interface IScheduleInstance {
@@ -3096,38 +3098,38 @@ export interface IScheduleInstance {
   /**
    * The schedule start time (UTC).
    */
-  time_start?: string;
+  readonly time_start?: string;
   /**
    * The schedule end time (UTC).
    */
-  time_end?: string;
+  readonly time_end?: string;
   /**
    * The message when the scheduled instance has run and failed due to user error.
    */
-  error_message?: Array<Error>;
+  readonly error_message?: Array<Error>;
   /**
    * The scheduled object. (Payment, PaymentBatch)
    */
-  scheduled_object?: IScheduleAnchorObject;
+  readonly scheduled_object?: IScheduleAnchorObject;
   /**
    * The result object of this schedule instance. (Payment, PaymentBatch)
    */
-  result_object?: IScheduleInstanceAnchorObject;
+  readonly result_object?: IScheduleInstanceAnchorObject;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface IScheduleAnchorObject {
   /**
    *
    */
-  Payment?: IPayment;
+  readonly Payment?: IPayment;
   /**
    *
    */
-  PaymentBatch?: IPaymentBatch;
+  readonly PaymentBatch?: IPaymentBatch;
 }
 
 export interface ISchedule {
@@ -3150,18 +3152,18 @@ export interface ISchedule {
   /**
    * The schedule status, options: ACTIVE, FINISHED, CANCELLED.
    */
-  status?: ScheduleStatusType;
+  readonly status?: ScheduleStatusType;
   /**
    * The scheduled object. (Payment, PaymentBatch)
    */
-  object?: IScheduleAnchorObject;
+  readonly object?: IScheduleAnchorObject;
 }
 
 export interface ISandboxUserCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ISandboxUser {}
@@ -3170,525 +3172,525 @@ export interface IRewardSenderRead {
   /**
    * The id of the reward.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The time the reward was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The time the reward was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of the reward.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The subStatus of the reward.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The type of the reward.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The alias of the other user eligible for the reward award.
    */
-  counterparty_alias?: ILabelUser;
+  readonly counterparty_alias?: ILabelUser;
   /**
    * The amount that will be/was awarded as reward for the reward.
    */
-  amount_reward?: IAmount;
+  readonly amount_reward?: IAmount;
 }
 
 export interface IRewardSenderListing {
   /**
    * The id of the reward.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The time the reward was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The time the reward was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of the reward.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The subStatus of the reward.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The type of the reward.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The alias of the other user eligible for the reward award.
    */
-  counterparty_alias?: ILabelUser;
+  readonly counterparty_alias?: ILabelUser;
   /**
    * The amount that will be/was awarded as reward for the reward.
    */
-  amount_reward?: IAmount;
+  readonly amount_reward?: IAmount;
 }
 
 export interface IRewardSender {
   /**
    * The id of the reward.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The time the reward was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The time the reward was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of the reward.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The subStatus of the reward.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The type of the reward.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The alias of the other user eligible for the reward award.
    */
-  counterparty_alias?: ILabelUser;
+  readonly counterparty_alias?: ILabelUser;
   /**
    * The amount that will be/was awarded as reward for the reward.
    */
-  amount_reward?: IAmount;
+  readonly amount_reward?: IAmount;
 }
 
 export interface IRewardRecipientRead {
   /**
    * The id of the reward.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The time the reward was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The time the reward was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of the reward.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The subStatus of the reward.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The type of the reward.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The alias of the other user eligible for the reward award.
    */
-  counterparty_alias?: ILabelUser;
+  readonly counterparty_alias?: ILabelUser;
   /**
    * The amount that will be/was awarded as reward for the reward.
    */
-  amount_reward?: IAmount;
+  readonly amount_reward?: IAmount;
 }
 
 export interface IRewardRecipientListing {
   /**
    * The id of the reward.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The time the reward was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The time the reward was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of the reward.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The subStatus of the reward.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The type of the reward.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The alias of the other user eligible for the reward award.
    */
-  counterparty_alias?: ILabelUser;
+  readonly counterparty_alias?: ILabelUser;
   /**
    * The amount that will be/was awarded as reward for the reward.
    */
-  amount_reward?: IAmount;
+  readonly amount_reward?: IAmount;
 }
 
 export interface IRewardRecipient {
   /**
    * The id of the reward.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The time the reward was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The time the reward was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of the reward.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The subStatus of the reward.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The type of the reward.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The alias of the other user eligible for the reward award.
    */
-  counterparty_alias?: ILabelUser;
+  readonly counterparty_alias?: ILabelUser;
   /**
    * The amount that will be/was awarded as reward for the reward.
    */
-  amount_reward?: IAmount;
+  readonly amount_reward?: IAmount;
 }
 
 export interface IRewardRead {
   /**
    * The id of the reward.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The time the reward was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The time the reward was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of the reward.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The subStatus of the reward.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The type of the reward.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The alias of the other user eligible for the reward award.
    */
-  counterparty_alias?: ILabelUser;
+  readonly counterparty_alias?: ILabelUser;
   /**
    * The amount that will be/was awarded as reward for the reward.
    */
-  amount_reward?: IAmount;
+  readonly amount_reward?: IAmount;
 }
 
 export interface IRewardListing {
   /**
    * The id of the reward.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The time the reward was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The time the reward was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of the reward.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The subStatus of the reward.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The type of the reward.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The alias of the other user eligible for the reward award.
    */
-  counterparty_alias?: ILabelUser;
+  readonly counterparty_alias?: ILabelUser;
   /**
    * The amount that will be/was awarded as reward for the reward.
    */
-  amount_reward?: IAmount;
+  readonly amount_reward?: IAmount;
 }
 
 export interface IRequestResponseUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IRequestResponseRead {
   /**
    * The id of the Request Response.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp when the Request Response was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp when the Request Response was last updated (will be updated when chat messages are received).
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The timestamp of when the RequestResponse was responded to.
    */
-  time_responded?: string;
+  readonly time_responded?: string;
   /**
    * The timestamp of when the RequestResponse expired or will expire.
    */
-  time_expiry?: string;
+  readonly time_expiry?: string;
   /**
    * The timestamp of when a refund request for the RequestResponse was claimed.
    */
-  time_refund_requested?: string;
+  readonly time_refund_requested?: string;
   /**
    * The timestamp of when the RequestResponse was refunded.
    */
-  time_refunded?: string;
+  readonly time_refunded?: string;
   /**
    * The label of the user that requested the refund.
    */
-  user_refund_requested?: ILabelUser;
+  readonly user_refund_requested?: ILabelUser;
   /**
    * The id of the MonetaryAccount the RequestResponse was received on.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The requested Amount.
    */
-  amount_inquired?: IAmount;
+  readonly amount_inquired?: IAmount;
   /**
    * The Amount the RequestResponse was accepted with.
    */
-  amount_responded?: IAmount;
+  readonly amount_responded?: IAmount;
   /**
    * The status of the RequestResponse. Can be ACCEPTED, PENDING, REJECTED, REFUND_REQUESTED, REFUNDED or REVOKED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The description for the RequestResponse provided by the requesting party. Maximum 9000 characters.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The LabelMonetaryAccount with the public information of the MonetaryAccount this RequestResponse was received on.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The LabelMonetaryAccount with the public information of the MonetaryAccount that is requesting money with this RequestResponse.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The Attachments attached to the RequestResponse.
    */
-  attachment?: Array<IAttachment>;
+  readonly attachment?: Array<IAttachment>;
   /**
    * The minimum age the user accepting the RequestResponse must have.
    */
-  minimum_age?: number;
+  readonly minimum_age?: number;
   /**
    * Whether or not an address must be provided on accept.
    */
-  require_address?: string;
+  readonly require_address?: string;
   /**
    * The Geolocation where the RequestResponse was created.
    */
-  geolocation?: IGeolocation;
+  readonly geolocation?: IGeolocation;
   /**
    * The type of the RequestInquiry. Can be DIRECT_DEBIT, DIRECT_DEBIT_B2B, IDEAL, SOFORT or INTERNAL.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The subtype of the RequestInquiry. Can be ONCE or RECURRING for DIRECT_DEBIT RequestInquiries and NONE for all other.
    */
-  sub_type?: string;
+  readonly sub_type?: string;
   /**
    * The URL which the user is sent to after accepting or rejecting the Request.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * The billing address provided by the accepting user if an address was requested.
    */
-  address_billing?: IAddress;
+  readonly address_billing?: IAddress;
   /**
    * The shipping address provided by the accepting user if an address was requested.
    */
-  address_shipping?: IAddress;
+  readonly address_shipping?: IAddress;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The credit scheme id provided by the counterparty for DIRECT_DEBIT inquiries.
    */
-  credit_scheme_identifier?: string;
+  readonly credit_scheme_identifier?: string;
   /**
    * The mandate id provided by the counterparty for DIRECT_DEBIT inquiries.
    */
-  mandate_identifier?: string;
+  readonly mandate_identifier?: string;
   /**
    * The whitelist id for this action or null.
    */
-  eligible_whitelist_id?: number;
+  readonly eligible_whitelist_id?: number;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface IRequestResponseListing {
   /**
    * The id of the Request Response.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp when the Request Response was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp when the Request Response was last updated (will be updated when chat messages are received).
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The timestamp of when the RequestResponse was responded to.
    */
-  time_responded?: string;
+  readonly time_responded?: string;
   /**
    * The timestamp of when the RequestResponse expired or will expire.
    */
-  time_expiry?: string;
+  readonly time_expiry?: string;
   /**
    * The timestamp of when a refund request for the RequestResponse was claimed.
    */
-  time_refund_requested?: string;
+  readonly time_refund_requested?: string;
   /**
    * The timestamp of when the RequestResponse was refunded.
    */
-  time_refunded?: string;
+  readonly time_refunded?: string;
   /**
    * The label of the user that requested the refund.
    */
-  user_refund_requested?: ILabelUser;
+  readonly user_refund_requested?: ILabelUser;
   /**
    * The id of the MonetaryAccount the RequestResponse was received on.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The requested Amount.
    */
-  amount_inquired?: IAmount;
+  readonly amount_inquired?: IAmount;
   /**
    * The Amount the RequestResponse was accepted with.
    */
-  amount_responded?: IAmount;
+  readonly amount_responded?: IAmount;
   /**
    * The status of the RequestResponse. Can be ACCEPTED, PENDING, REJECTED, REFUND_REQUESTED, REFUNDED or REVOKED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The description for the RequestResponse provided by the requesting party. Maximum 9000 characters.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The LabelMonetaryAccount with the public information of the MonetaryAccount this RequestResponse was received on.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The LabelMonetaryAccount with the public information of the MonetaryAccount that is requesting money with this RequestResponse.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The Attachments attached to the RequestResponse.
    */
-  attachment?: Array<IAttachment>;
+  readonly attachment?: Array<IAttachment>;
   /**
    * The minimum age the user accepting the RequestResponse must have.
    */
-  minimum_age?: number;
+  readonly minimum_age?: number;
   /**
    * Whether or not an address must be provided on accept.
    */
-  require_address?: string;
+  readonly require_address?: string;
   /**
    * The Geolocation where the RequestResponse was created.
    */
-  geolocation?: IGeolocation;
+  readonly geolocation?: IGeolocation;
   /**
    * The type of the RequestInquiry. Can be DIRECT_DEBIT, DIRECT_DEBIT_B2B, IDEAL, SOFORT or INTERNAL.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The subtype of the RequestInquiry. Can be ONCE or RECURRING for DIRECT_DEBIT RequestInquiries and NONE for all other.
    */
-  sub_type?: string;
+  readonly sub_type?: string;
   /**
    * The URL which the user is sent to after accepting or rejecting the Request.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * The billing address provided by the accepting user if an address was requested.
    */
-  address_billing?: IAddress;
+  readonly address_billing?: IAddress;
   /**
    * The shipping address provided by the accepting user if an address was requested.
    */
-  address_shipping?: IAddress;
+  readonly address_shipping?: IAddress;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The credit scheme id provided by the counterparty for DIRECT_DEBIT inquiries.
    */
-  credit_scheme_identifier?: string;
+  readonly credit_scheme_identifier?: string;
   /**
    * The mandate id provided by the counterparty for DIRECT_DEBIT inquiries.
    */
-  mandate_identifier?: string;
+  readonly mandate_identifier?: string;
   /**
    * The whitelist id for this action or null.
    */
-  eligible_whitelist_id?: number;
+  readonly eligible_whitelist_id?: number;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface IRequestResponse {
@@ -3711,517 +3713,517 @@ export interface IRequestResponse {
   /**
    * The id of the Request Response.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp when the Request Response was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp when the Request Response was last updated (will be updated when chat messages are received).
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The timestamp of when the RequestResponse was responded to.
    */
-  time_responded?: string;
+  readonly time_responded?: string;
   /**
    * The timestamp of when the RequestResponse expired or will expire.
    */
-  time_expiry?: string;
+  readonly time_expiry?: string;
   /**
    * The timestamp of when a refund request for the RequestResponse was claimed.
    */
-  time_refund_requested?: string;
+  readonly time_refund_requested?: string;
   /**
    * The timestamp of when the RequestResponse was refunded.
    */
-  time_refunded?: string;
+  readonly time_refunded?: string;
   /**
    * The label of the user that requested the refund.
    */
-  user_refund_requested?: ILabelUser;
+  readonly user_refund_requested?: ILabelUser;
   /**
    * The id of the MonetaryAccount the RequestResponse was received on.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The requested Amount.
    */
-  amount_inquired?: IAmount;
+  readonly amount_inquired?: IAmount;
   /**
    * The description for the RequestResponse provided by the requesting party. Maximum 9000 characters.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The LabelMonetaryAccount with the public information of the MonetaryAccount this RequestResponse was received on.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The LabelMonetaryAccount with the public information of the MonetaryAccount that is requesting money with this RequestResponse.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The Attachments attached to the RequestResponse.
    */
-  attachment?: Array<IAttachment>;
+  readonly attachment?: Array<IAttachment>;
   /**
    * The minimum age the user accepting the RequestResponse must have.
    */
-  minimum_age?: number;
+  readonly minimum_age?: number;
   /**
    * Whether or not an address must be provided on accept.
    */
-  require_address?: string;
+  readonly require_address?: string;
   /**
    * The Geolocation where the RequestResponse was created.
    */
-  geolocation?: IGeolocation;
+  readonly geolocation?: IGeolocation;
   /**
    * The type of the RequestInquiry. Can be DIRECT_DEBIT, DIRECT_DEBIT_B2B, IDEAL, SOFORT or INTERNAL.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The subtype of the RequestInquiry. Can be ONCE or RECURRING for DIRECT_DEBIT RequestInquiries and NONE for all other.
    */
-  sub_type?: string;
+  readonly sub_type?: string;
   /**
    * The URL which the user is sent to after accepting or rejecting the Request.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The credit scheme id provided by the counterparty for DIRECT_DEBIT inquiries.
    */
-  credit_scheme_identifier?: string;
+  readonly credit_scheme_identifier?: string;
   /**
    * The mandate id provided by the counterparty for DIRECT_DEBIT inquiries.
    */
-  mandate_identifier?: string;
+  readonly mandate_identifier?: string;
   /**
    * The whitelist id for this action or null.
    */
-  eligible_whitelist_id?: number;
+  readonly eligible_whitelist_id?: number;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface IRequestReferenceSplitTheBillAnchorObject {
   /**
    *
    */
-  BillingInvoice?: IInvoice;
+  readonly BillingInvoice?: IInvoice;
   /**
    *
    */
-  DraftPayment?: IDraftPayment;
+  readonly DraftPayment?: IDraftPayment;
   /**
    *
    */
-  MasterCardAction?: IMasterCardAction;
+  readonly MasterCardAction?: IMasterCardAction;
   /**
    *
    */
-  Payment?: IPayment;
+  readonly Payment?: IPayment;
   /**
    *
    */
-  PaymentBatch?: IPaymentBatch;
+  readonly PaymentBatch?: IPaymentBatch;
   /**
    *
    */
-  RequestResponse?: IRequestResponse;
+  readonly RequestResponse?: IRequestResponse;
   /**
    *
    */
-  ScheduleInstance?: IScheduleInstance;
+  readonly ScheduleInstance?: IScheduleInstance;
   /**
    *
    */
-  TabResultResponse?: ITabResultResponse;
+  readonly TabResultResponse?: ITabResultResponse;
   /**
    *
    */
-  WhitelistResult?: IWhitelistResult;
+  readonly WhitelistResult?: IWhitelistResult;
   /**
    *
    */
-  TransferwisePayment?: ITransferwiseTransfer;
+  readonly TransferwisePayment?: ITransferwiseTransfer;
 }
 
 export interface IRequestInquiryUpdate {
   /**
    * The id of the payment request.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the payment request's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the payment request's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The timestamp of when the payment request was responded to.
    */
-  time_responded?: string;
+  readonly time_responded?: string;
   /**
    * The timestamp of when the payment request expired.
    */
-  time_expiry?: string;
+  readonly time_expiry?: string;
   /**
    * The id of the monetary account the request response applies to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The requested amount.
    */
-  amount_inquired?: IAmount;
+  readonly amount_inquired?: IAmount;
   /**
    * The responded amount.
    */
-  amount_responded?: IAmount;
+  readonly amount_responded?: IAmount;
   /**
    * The label that's displayed to the counterparty with the mutation. Includes user.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
   /**
    * The label that's displayed to the counterparty with the mutation. Includes user.
    */
-  user_alias_revoked?: ILabelUser;
+  readonly user_alias_revoked?: ILabelUser;
   /**
    * The LabelMonetaryAccount with the public information of the MonetaryAccount the money was requested from.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The description of the inquiry.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The client's custom reference that was attached to the request and the mutation.
    */
-  merchant_reference?: string;
+  readonly merchant_reference?: string;
   /**
    * The attachments attached to the payment.
    */
-  attachment?: Array<BunqId>;
+  readonly attachment?: Array<BunqId>;
   /**
    * The status of the request.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The id of the batch if the request was part of a batch.
    */
-  batch_id?: number;
+  readonly batch_id?: number;
   /**
    * The id of the scheduled job if the request was scheduled.
    */
-  scheduled_id?: number;
+  readonly scheduled_id?: number;
   /**
    * The minimum age the user accepting the RequestInquiry must have.
    */
-  minimum_age?: number;
+  readonly minimum_age?: number;
   /**
    * Whether or not an address must be provided on accept.
    */
-  require_address?: string;
+  readonly require_address?: string;
   /**
    * The shipping address provided by the accepting user if an address was requested.
    */
-  address_shipping?: IAddress;
+  readonly address_shipping?: IAddress;
   /**
    * The billing address provided by the accepting user if an address was requested.
    */
-  address_billing?: IAddress;
+  readonly address_billing?: IAddress;
   /**
    * The geolocation where the payment was done.
    */
-  geolocation?: IGeolocation;
+  readonly geolocation?: IGeolocation;
   /**
    * The reference to the object used for split the bill. Can be Payment, PaymentBatch, ScheduleInstance, RequestResponse and MasterCardAction
    */
-  reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
+  readonly reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
 }
 
 export interface IRequestInquiryReference {
   /**
    * The type of request inquiry. Can be RequestInquiry or RequestInquiryBatch.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The id of the request inquiry (batch).
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IRequestInquiryRead {
   /**
    * The id of the created RequestInquiry.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the payment request's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the payment request's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The timestamp of when the payment request was responded to.
    */
-  time_responded?: string;
+  readonly time_responded?: string;
   /**
    * The timestamp of when the payment request expired.
    */
-  time_expiry?: string;
+  readonly time_expiry?: string;
   /**
    * The id of the monetary account the request response applies to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The requested amount.
    */
-  amount_inquired?: IAmount;
+  readonly amount_inquired?: IAmount;
   /**
    * The responded amount.
    */
-  amount_responded?: IAmount;
+  readonly amount_responded?: IAmount;
   /**
    * The label that's displayed to the counterparty with the mutation. Includes user.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
   /**
    * The label that's displayed to the counterparty with the mutation. Includes user.
    */
-  user_alias_revoked?: ILabelUser;
+  readonly user_alias_revoked?: ILabelUser;
   /**
    * The LabelMonetaryAccount with the public information of the MonetaryAccount the money was requested from.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The description of the inquiry.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The client's custom reference that was attached to the request and the mutation.
    */
-  merchant_reference?: string;
+  readonly merchant_reference?: string;
   /**
    * The attachments attached to the payment.
    */
-  attachment?: Array<BunqId>;
+  readonly attachment?: Array<BunqId>;
   /**
    * The status of the request.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The id of the batch if the request was part of a batch.
    */
-  batch_id?: number;
+  readonly batch_id?: number;
   /**
    * The id of the scheduled job if the request was scheduled.
    */
-  scheduled_id?: number;
+  readonly scheduled_id?: number;
   /**
    * The minimum age the user accepting the RequestInquiry must have.
    */
-  minimum_age?: number;
+  readonly minimum_age?: number;
   /**
    * Whether or not an address must be provided on accept.
    */
-  require_address?: string;
+  readonly require_address?: string;
   /**
    * The url that points to the bunq.me request.
    */
-  bunqme_share_url?: string;
+  readonly bunqme_share_url?: string;
   /**
    * The URL which the user is sent to after accepting or rejecting the Request.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * The shipping address provided by the accepting user if an address was requested.
    */
-  address_shipping?: IAddress;
+  readonly address_shipping?: IAddress;
   /**
    * The billing address provided by the accepting user if an address was requested.
    */
-  address_billing?: IAddress;
+  readonly address_billing?: IAddress;
   /**
    * The geolocation where the payment was done.
    */
-  geolocation?: IGeolocation;
+  readonly geolocation?: IGeolocation;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The reference to the object used for split the bill. Can be Payment, PaymentBatch, ScheduleInstance, RequestResponse and MasterCardAction
    */
-  reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
+  readonly reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
 }
 
 export interface IRequestInquiryListing {
   /**
    * The id of the created RequestInquiry.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the payment request's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the payment request's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The timestamp of when the payment request was responded to.
    */
-  time_responded?: string;
+  readonly time_responded?: string;
   /**
    * The timestamp of when the payment request expired.
    */
-  time_expiry?: string;
+  readonly time_expiry?: string;
   /**
    * The id of the monetary account the request response applies to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The requested amount.
    */
-  amount_inquired?: IAmount;
+  readonly amount_inquired?: IAmount;
   /**
    * The responded amount.
    */
-  amount_responded?: IAmount;
+  readonly amount_responded?: IAmount;
   /**
    * The label that's displayed to the counterparty with the mutation. Includes user.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
   /**
    * The label that's displayed to the counterparty with the mutation. Includes user.
    */
-  user_alias_revoked?: ILabelUser;
+  readonly user_alias_revoked?: ILabelUser;
   /**
    * The LabelMonetaryAccount with the public information of the MonetaryAccount the money was requested from.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The description of the inquiry.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The client's custom reference that was attached to the request and the mutation.
    */
-  merchant_reference?: string;
+  readonly merchant_reference?: string;
   /**
    * The attachments attached to the payment.
    */
-  attachment?: Array<BunqId>;
+  readonly attachment?: Array<BunqId>;
   /**
    * The status of the request.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The id of the batch if the request was part of a batch.
    */
-  batch_id?: number;
+  readonly batch_id?: number;
   /**
    * The id of the scheduled job if the request was scheduled.
    */
-  scheduled_id?: number;
+  readonly scheduled_id?: number;
   /**
    * The minimum age the user accepting the RequestInquiry must have.
    */
-  minimum_age?: number;
+  readonly minimum_age?: number;
   /**
    * Whether or not an address must be provided on accept.
    */
-  require_address?: string;
+  readonly require_address?: string;
   /**
    * The url that points to the bunq.me request.
    */
-  bunqme_share_url?: string;
+  readonly bunqme_share_url?: string;
   /**
    * The URL which the user is sent to after accepting or rejecting the Request.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * The shipping address provided by the accepting user if an address was requested.
    */
-  address_shipping?: IAddress;
+  readonly address_shipping?: IAddress;
   /**
    * The billing address provided by the accepting user if an address was requested.
    */
-  address_billing?: IAddress;
+  readonly address_billing?: IAddress;
   /**
    * The geolocation where the payment was done.
    */
-  geolocation?: IGeolocation;
+  readonly geolocation?: IGeolocation;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The reference to the object used for split the bill. Can be Payment, PaymentBatch, ScheduleInstance, RequestResponse and MasterCardAction
    */
-  reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
+  readonly reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
 }
 
 export interface IRequestInquiryCreate {
   /**
    * The id of the created RequestInquiry.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IRequestInquiryBatchUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IRequestInquiryBatchRead {
   /**
    * The list of requests that were made.
    */
-  request_inquiries?: Array<IRequestInquiry>;
+  readonly request_inquiries?: Array<IRequestInquiry>;
   /**
    * The total amount originally inquired for this batch.
    */
-  total_amount_inquired?: IAmount;
+  readonly total_amount_inquired?: IAmount;
   /**
    * The reference to the object used for split the bill. Can be Payment, PaymentBatch, ScheduleInstance, RequestResponse and MasterCardAction
    */
-  reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
+  readonly reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
 }
 
 export interface IRequestInquiryBatchListing {
   /**
    * The list of requests that were made.
    */
-  request_inquiries?: Array<IRequestInquiry>;
+  readonly request_inquiries?: Array<IRequestInquiry>;
   /**
    * The total amount originally inquired for this batch.
    */
-  total_amount_inquired?: IAmount;
+  readonly total_amount_inquired?: IAmount;
   /**
    * The reference to the object used for split the bill. Can be Payment, PaymentBatch, ScheduleInstance, RequestResponse and MasterCardAction
    */
-  reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
+  readonly reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
 }
 
 export interface IRequestInquiryBatchCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IRequestInquiryBatch {
@@ -4244,7 +4246,7 @@ export interface IRequestInquiryBatch {
   /**
    * The reference to the object used for split the bill. Can be Payment, PaymentBatch, ScheduleInstance, RequestResponse and MasterCardAction
    */
-  reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
+  readonly reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
 }
 
 export interface IRequestInquiry {
@@ -4307,71 +4309,71 @@ export interface IRequestInquiry {
   /**
    * The id of the created RequestInquiry.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the payment request's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the payment request's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The timestamp of when the payment request was responded to.
    */
-  time_responded?: string;
+  readonly time_responded?: string;
   /**
    * The timestamp of when the payment request expired.
    */
-  time_expiry?: string;
+  readonly time_expiry?: string;
   /**
    * The id of the monetary account the request response applies to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The responded amount.
    */
-  amount_responded?: IAmount;
+  readonly amount_responded?: IAmount;
   /**
    * The label that's displayed to the counterparty with the mutation. Includes user.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
   /**
    * The label that's displayed to the counterparty with the mutation. Includes user.
    */
-  user_alias_revoked?: ILabelUser;
+  readonly user_alias_revoked?: ILabelUser;
   /**
    * The id of the batch if the request was part of a batch.
    */
-  batch_id?: number;
+  readonly batch_id?: number;
   /**
    * The id of the scheduled job if the request was scheduled.
    */
-  scheduled_id?: number;
+  readonly scheduled_id?: number;
   /**
    * The url that points to the bunq.me request.
    */
-  bunqme_share_url?: string;
+  readonly bunqme_share_url?: string;
   /**
    * The shipping address provided by the accepting user if an address was requested.
    */
-  address_shipping?: IAddress;
+  readonly address_shipping?: IAddress;
   /**
    * The billing address provided by the accepting user if an address was requested.
    */
-  address_billing?: IAddress;
+  readonly address_billing?: IAddress;
   /**
    * The geolocation where the payment was done.
    */
-  geolocation?: IGeolocation;
+  readonly geolocation?: IGeolocation;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The reference to the object used for split the bill. Can be Payment, PaymentBatch, ScheduleInstance, RequestResponse and MasterCardAction
    */
-  reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
+  readonly reference_split_the_bill?: IRequestReferenceSplitTheBillAnchorObject;
 }
 
 export interface IPointer {
@@ -4393,36 +4395,36 @@ export interface IPermittedIpUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IPermittedIpRead {
   /**
    * The IP address.
    */
-  ip?: string;
+  readonly ip?: string;
   /**
    * The status of the IP. May be "ACTIVE" or "INACTIVE". It is only possible to make requests from "ACTIVE" IP addresses. Only "ACTIVE" IPs will be billed.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface IPermittedIpListing {
   /**
    * The IP address.
    */
-  ip?: string;
+  readonly ip?: string;
   /**
    * The status of the IP. May be "ACTIVE" or "INACTIVE". It is only possible to make requests from "ACTIVE" IP addresses. Only "ACTIVE" IPs will be billed.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface IPermittedIpCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IPermittedIp {
@@ -4440,49 +4442,49 @@ export interface IPermittedDevice {
   /**
    * The description of the device that may use the credential.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The IP address of the device that may use the credential.
    */
-  ip?: string;
+  readonly ip?: string;
 }
 
 export interface IPaymentServiceProviderCredentialRead {
   /**
    * The id of the credential.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the credential object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the credential object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of the credential.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * When the status is PENDING_FIRST_USE: when the credential expires.
    */
-  expiry_time?: string;
+  readonly expiry_time?: string;
   /**
    * When the status is PENDING_FIRST_USE: the value of the token.
    */
-  token_value?: string;
+  readonly token_value?: string;
   /**
    * When the status is ACTIVE: the details of the device that may use the credential.
    */
-  permitted_device?: IPermittedDevice;
+  readonly permitted_device?: IPermittedDevice;
 }
 
 export interface IPaymentServiceProviderCredentialCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IPaymentServiceProviderCredential {
@@ -4504,241 +4506,241 @@ export interface IPaymentRead {
   /**
    * The id of the created Payment.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp when the Payment was done.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp when the Payment was last updated (will be updated when chat messages are received).
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The id of the MonetaryAccount the Payment was made to or from (depending on whether this is an incoming or outgoing Payment).
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The Amount transferred by the Payment. Will be negative for outgoing Payments and positive for incoming Payments (relative to the MonetaryAccount indicated by monetary_account_id).
    */
-  amount?: IAmount;
+  readonly amount?: IAmount;
   /**
    * The LabelMonetaryAccount containing the public information of 'this' (party) side of the Payment.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The LabelMonetaryAccount containing the public information of the other (counterparty) side of the Payment.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The description for the Payment. Maximum 140 characters for Payments to external IBANs, 9000 characters for Payments to only other bunq MonetaryAccounts.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The type of Payment, can be BUNQ, EBA_SCT, EBA_SDD, IDEAL, SWIFT or FIS (card).
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The sub-type of the Payment, can be PAYMENT, WITHDRAWAL, REVERSAL, REQUEST, BILLING, SCT, SDD or NLO.
    */
-  sub_type?: string;
+  readonly sub_type?: string;
   /**
    * The status of the bunq.to payment.
    */
-  bunqto_status?: string;
+  readonly bunqto_status?: string;
   /**
    * The sub status of the bunq.to payment.
    */
-  bunqto_sub_status?: string;
+  readonly bunqto_sub_status?: string;
   /**
    * The status of the bunq.to payment.
    */
-  bunqto_share_url?: string;
+  readonly bunqto_share_url?: string;
   /**
    * When bunq.to payment is about to expire.
    */
-  bunqto_expiry?: string;
+  readonly bunqto_expiry?: string;
   /**
    * The timestamp of when the bunq.to payment was responded to.
    */
-  bunqto_time_responded?: string;
+  readonly bunqto_time_responded?: string;
   /**
    * The Attachments attached to the Payment.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
   /**
    * Optional data included with the Payment specific to the merchant.
    */
-  merchant_reference?: string;
+  readonly merchant_reference?: string;
   /**
    * The id of the PaymentBatch if this Payment was part of one.
    */
-  batch_id?: number;
+  readonly batch_id?: number;
   /**
    * The id of the JobScheduled if the Payment was scheduled.
    */
-  scheduled_id?: number;
+  readonly scheduled_id?: number;
   /**
    * A shipping Address provided with the Payment, currently unused.
    */
-  address_shipping?: IAddress;
+  readonly address_shipping?: IAddress;
   /**
    * A billing Address provided with the Payment, currently unused.
    */
-  address_billing?: IAddress;
+  readonly address_billing?: IAddress;
   /**
    * The Geolocation where the Payment was done from.
    */
-  geolocation?: IGeolocation;
+  readonly geolocation?: IGeolocation;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
   /**
    * The new balance of the monetary account after the mutation.
    */
-  balance_after_mutation?: IAmount;
+  readonly balance_after_mutation?: IAmount;
 }
 
 export interface IPaymentListing {
   /**
    * The id of the created Payment.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp when the Payment was done.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp when the Payment was last updated (will be updated when chat messages are received).
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The id of the MonetaryAccount the Payment was made to or from (depending on whether this is an incoming or outgoing Payment).
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The Amount transferred by the Payment. Will be negative for outgoing Payments and positive for incoming Payments (relative to the MonetaryAccount indicated by monetary_account_id).
    */
-  amount?: IAmount;
+  readonly amount?: IAmount;
   /**
    * The LabelMonetaryAccount containing the public information of 'this' (party) side of the Payment.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The LabelMonetaryAccount containing the public information of the other (counterparty) side of the Payment.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The description for the Payment. Maximum 140 characters for Payments to external IBANs, 9000 characters for Payments to only other bunq MonetaryAccounts.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The type of Payment, can be BUNQ, EBA_SCT, EBA_SDD, IDEAL, SWIFT or FIS (card).
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The sub-type of the Payment, can be PAYMENT, WITHDRAWAL, REVERSAL, REQUEST, BILLING, SCT, SDD or NLO.
    */
-  sub_type?: string;
+  readonly sub_type?: string;
   /**
    * The status of the bunq.to payment.
    */
-  bunqto_status?: string;
+  readonly bunqto_status?: string;
   /**
    * The sub status of the bunq.to payment.
    */
-  bunqto_sub_status?: string;
+  readonly bunqto_sub_status?: string;
   /**
    * The status of the bunq.to payment.
    */
-  bunqto_share_url?: string;
+  readonly bunqto_share_url?: string;
   /**
    * When bunq.to payment is about to expire.
    */
-  bunqto_expiry?: string;
+  readonly bunqto_expiry?: string;
   /**
    * The timestamp of when the bunq.to payment was responded to.
    */
-  bunqto_time_responded?: string;
+  readonly bunqto_time_responded?: string;
   /**
    * The Attachments attached to the Payment.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
   /**
    * Optional data included with the Payment specific to the merchant.
    */
-  merchant_reference?: string;
+  readonly merchant_reference?: string;
   /**
    * The id of the PaymentBatch if this Payment was part of one.
    */
-  batch_id?: number;
+  readonly batch_id?: number;
   /**
    * The id of the JobScheduled if the Payment was scheduled.
    */
-  scheduled_id?: number;
+  readonly scheduled_id?: number;
   /**
    * A shipping Address provided with the Payment, currently unused.
    */
-  address_shipping?: IAddress;
+  readonly address_shipping?: IAddress;
   /**
    * A billing Address provided with the Payment, currently unused.
    */
-  address_billing?: IAddress;
+  readonly address_billing?: IAddress;
   /**
    * The Geolocation where the Payment was done from.
    */
-  geolocation?: IGeolocation;
+  readonly geolocation?: IGeolocation;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
   /**
    * The new balance of the monetary account after the mutation.
    */
-  balance_after_mutation?: IAmount;
+  readonly balance_after_mutation?: IAmount;
 }
 
 export interface IPaymentCreate {
   /**
    * The id of the created Payment.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IPaymentBatchUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IPaymentBatchRead {
   /**
    * The list of mutations that were made.
    */
-  payments?: Array<IPayment>;
+  readonly payments?: Array<IPayment>;
 }
 
 export interface IPaymentBatchListing {
   /**
    * The list of mutations that were made.
    */
-  payments?: Array<IPayment>;
+  readonly payments?: Array<IPayment>;
 }
 
 export interface IPaymentBatchCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IPaymentBatch {
@@ -4776,143 +4778,143 @@ export interface IPayment {
   /**
    * The id of the created Payment.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp when the Payment was done.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp when the Payment was last updated (will be updated when chat messages are received).
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The id of the MonetaryAccount the Payment was made to or from (depending on whether this is an incoming or outgoing Payment).
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The LabelMonetaryAccount containing the public information of 'this' (party) side of the Payment.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The type of Payment, can be BUNQ, EBA_SCT, EBA_SDD, IDEAL, SWIFT or FIS (card).
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The sub-type of the Payment, can be PAYMENT, WITHDRAWAL, REVERSAL, REQUEST, BILLING, SCT, SDD or NLO.
    */
-  sub_type?: string;
+  readonly sub_type?: string;
   /**
    * The status of the bunq.to payment.
    */
-  bunqto_status?: string;
+  readonly bunqto_status?: string;
   /**
    * The sub status of the bunq.to payment.
    */
-  bunqto_sub_status?: string;
+  readonly bunqto_sub_status?: string;
   /**
    * The status of the bunq.to payment.
    */
-  bunqto_share_url?: string;
+  readonly bunqto_share_url?: string;
   /**
    * When bunq.to payment is about to expire.
    */
-  bunqto_expiry?: string;
+  readonly bunqto_expiry?: string;
   /**
    * The timestamp of when the bunq.to payment was responded to.
    */
-  bunqto_time_responded?: string;
+  readonly bunqto_time_responded?: string;
   /**
    * The id of the PaymentBatch if this Payment was part of one.
    */
-  batch_id?: number;
+  readonly batch_id?: number;
   /**
    * The id of the JobScheduled if the Payment was scheduled.
    */
-  scheduled_id?: number;
+  readonly scheduled_id?: number;
   /**
    * A shipping Address provided with the Payment, currently unused.
    */
-  address_shipping?: IAddress;
+  readonly address_shipping?: IAddress;
   /**
    * A billing Address provided with the Payment, currently unused.
    */
-  address_billing?: IAddress;
+  readonly address_billing?: IAddress;
   /**
    * The Geolocation where the Payment was done from.
    */
-  geolocation?: IGeolocation;
+  readonly geolocation?: IGeolocation;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
   /**
    * The new balance of the monetary account after the mutation.
    */
-  balance_after_mutation?: IAmount;
+  readonly balance_after_mutation?: IAmount;
 }
 
 export interface IOauthClientUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IOauthClientRead {
   /**
    * Id of the client.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The status of the pack group, can be ACTIVE, CANCELLED or CANCELLED_PENDING.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The Client ID associated with this Oauth Client
    */
-  client_id?: string;
+  readonly client_id?: string;
   /**
    * Secret associated with this Oauth Client
    */
-  secret?: string;
+  readonly secret?: string;
   /**
    * The callback URLs which are bound to this Oauth Client
    */
-  callback_url?: Array<IOauthCallbackUrl>;
+  readonly callback_url?: Array<IOauthCallbackUrl>;
 }
 
 export interface IOauthClientListing {
   /**
    * Id of the client.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The status of the pack group, can be ACTIVE, CANCELLED or CANCELLED_PENDING.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The Client ID associated with this Oauth Client
    */
-  client_id?: string;
+  readonly client_id?: string;
   /**
    * Secret associated with this Oauth Client
    */
-  secret?: string;
+  readonly secret?: string;
   /**
    * The callback URLs which are bound to this Oauth Client
    */
-  callback_url?: Array<IOauthCallbackUrl>;
+  readonly callback_url?: Array<IOauthCallbackUrl>;
 }
 
 export interface IOauthClientCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IOauthClient {
@@ -4926,21 +4928,21 @@ export interface IOauthCallbackUrlUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IOauthCallbackUrlRead {
   /**
    * The URL for this callback.
    */
-  url?: string;
+  readonly url?: string;
 }
 
 export interface IOauthCallbackUrlListing {
   /**
    * The URL for this callback.
    */
-  url?: string;
+  readonly url?: string;
 }
 
 export interface IOauthCallbackUrlDelete {}
@@ -4949,7 +4951,7 @@ export interface IOauthCallbackUrlCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IOauthCallbackUrl {
@@ -4963,14 +4965,14 @@ export interface INotificationFilterUrlUserListing {
   /**
    * The types of notifications that will result in a url notification for this user.
    */
-  notification_filters?: Array<INotificationFilterUrl>;
+  readonly notification_filters?: Array<INotificationFilterUrl>;
 }
 
 export interface INotificationFilterUrlUserCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INotificationFilterUrlUser {
@@ -4984,14 +4986,14 @@ export interface INotificationFilterUrlMonetaryAccountListing {
   /**
    * The types of notifications that will result in a url notification for this monetary account.
    */
-  notification_filters?: Array<INotificationFilterUrl>;
+  readonly notification_filters?: Array<INotificationFilterUrl>;
 }
 
 export interface INotificationFilterUrlMonetaryAccountCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INotificationFilterUrlMonetaryAccount {
@@ -5013,29 +5015,29 @@ export interface INotificationFilterUrl {
   /**
    * The id of the NotificationFilterUrl.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the NotificationFilterUrl's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the NotificationFilterUrl's last update.
    */
-  updated?: string;
+  readonly updated?: string;
 }
 
 export interface INotificationFilterPushUserListing {
   /**
    * The types of notifications that will result in a push notification for this user.
    */
-  notification_filters?: Array<INotificationFilterPush>;
+  readonly notification_filters?: Array<INotificationFilterPush>;
 }
 
 export interface INotificationFilterPushUserCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INotificationFilterPushUser {
@@ -5071,53 +5073,53 @@ export interface INoteTextWhitelistResultUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextWhitelistResultRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextWhitelistResultListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextWhitelistResultDelete {}
@@ -5126,7 +5128,7 @@ export interface INoteTextWhitelistResultCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextWhitelistResult {
@@ -5140,53 +5142,53 @@ export interface INoteTextSofortMerchantTransactionUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextSofortMerchantTransactionRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextSofortMerchantTransactionListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextSofortMerchantTransactionDelete {}
@@ -5195,7 +5197,7 @@ export interface INoteTextSofortMerchantTransactionCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextSofortMerchantTransaction {
@@ -5209,53 +5211,53 @@ export interface INoteTextSchedulePaymentUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextSchedulePaymentRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextSchedulePaymentListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextSchedulePaymentDelete {}
@@ -5264,60 +5266,60 @@ export interface INoteTextSchedulePaymentCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextSchedulePaymentBatchUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextSchedulePaymentBatchRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextSchedulePaymentBatchListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextSchedulePaymentBatchDelete {}
@@ -5326,7 +5328,7 @@ export interface INoteTextSchedulePaymentBatchCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextSchedulePaymentBatch {
@@ -5347,53 +5349,53 @@ export interface INoteTextScheduleInstanceUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextScheduleInstanceRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextScheduleInstanceListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextScheduleInstanceDelete {}
@@ -5402,7 +5404,7 @@ export interface INoteTextScheduleInstanceCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextScheduleInstance {
@@ -5416,53 +5418,53 @@ export interface INoteTextRequestResponseUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextRequestResponseRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextRequestResponseListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextRequestResponseDelete {}
@@ -5471,7 +5473,7 @@ export interface INoteTextRequestResponseCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextRequestResponse {
@@ -5485,53 +5487,53 @@ export interface INoteTextRequestInquiryUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextRequestInquiryRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextRequestInquiryListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextRequestInquiryDelete {}
@@ -5540,60 +5542,60 @@ export interface INoteTextRequestInquiryCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextRequestInquiryBatchUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextRequestInquiryBatchRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextRequestInquiryBatchListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextRequestInquiryBatchDelete {}
@@ -5602,7 +5604,7 @@ export interface INoteTextRequestInquiryBatchCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextRequestInquiryBatch {
@@ -5623,53 +5625,53 @@ export interface INoteTextPaymentUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextPaymentRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextPaymentListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextPaymentDelete {}
@@ -5678,60 +5680,60 @@ export interface INoteTextPaymentCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextPaymentBatchUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextPaymentBatchRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextPaymentBatchListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextPaymentBatchDelete {}
@@ -5740,7 +5742,7 @@ export interface INoteTextPaymentBatchCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextPaymentBatch {
@@ -5761,53 +5763,53 @@ export interface INoteTextMasterCardActionUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextMasterCardActionRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextMasterCardActionListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextMasterCardActionDelete {}
@@ -5816,7 +5818,7 @@ export interface INoteTextMasterCardActionCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextMasterCardAction {
@@ -5830,53 +5832,53 @@ export interface INoteTextIdealMerchantTransactionUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextIdealMerchantTransactionRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextIdealMerchantTransactionListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextIdealMerchantTransactionDelete {}
@@ -5885,7 +5887,7 @@ export interface INoteTextIdealMerchantTransactionCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextIdealMerchantTransaction {
@@ -5899,53 +5901,53 @@ export interface INoteTextDraftPaymentUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextDraftPaymentRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextDraftPaymentListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextDraftPaymentDelete {}
@@ -5954,7 +5956,7 @@ export interface INoteTextDraftPaymentCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextDraftPayment {
@@ -5968,53 +5970,53 @@ export interface INoteTextBunqMeFundraiserResultUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextBunqMeFundraiserResultRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextBunqMeFundraiserResultListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextBunqMeFundraiserResultDelete {}
@@ -6023,7 +6025,7 @@ export interface INoteTextBunqMeFundraiserResultCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextBunqMeFundraiserResult {
@@ -6037,53 +6039,53 @@ export interface INoteTextBankSwitchServiceNetherlandsIncomingPaymentUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextBankSwitchServiceNetherlandsIncomingPaymentRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextBankSwitchServiceNetherlandsIncomingPaymentListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * The content of the note.
    */
-  content?: string;
+  readonly content?: string;
 }
 
 export interface INoteTextBankSwitchServiceNetherlandsIncomingPaymentDelete {}
@@ -6092,7 +6094,7 @@ export interface INoteTextBankSwitchServiceNetherlandsIncomingPaymentCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteTextBankSwitchServiceNetherlandsIncomingPayment {
@@ -6106,61 +6108,61 @@ export interface INoteAttachmentWhitelistResultUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentWhitelistResultRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentWhitelistResultListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentWhitelistResultDelete {}
@@ -6169,7 +6171,7 @@ export interface INoteAttachmentWhitelistResultCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentWhitelistResult {
@@ -6187,61 +6189,61 @@ export interface INoteAttachmentSofortMerchantTransactionUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentSofortMerchantTransactionRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentSofortMerchantTransactionListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentSofortMerchantTransactionDelete {}
@@ -6250,7 +6252,7 @@ export interface INoteAttachmentSofortMerchantTransactionCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentSofortMerchantTransaction {
@@ -6268,61 +6270,61 @@ export interface INoteAttachmentSchedulePaymentUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentSchedulePaymentRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentSchedulePaymentListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentSchedulePaymentDelete {}
@@ -6331,68 +6333,68 @@ export interface INoteAttachmentSchedulePaymentCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentSchedulePaymentBatchUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentSchedulePaymentBatchRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentSchedulePaymentBatchListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentSchedulePaymentBatchDelete {}
@@ -6401,7 +6403,7 @@ export interface INoteAttachmentSchedulePaymentBatchCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentSchedulePaymentBatch {
@@ -6430,61 +6432,61 @@ export interface INoteAttachmentScheduleInstanceUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentScheduleInstanceRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentScheduleInstanceListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentScheduleInstanceDelete {}
@@ -6493,7 +6495,7 @@ export interface INoteAttachmentScheduleInstanceCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentScheduleInstance {
@@ -6511,61 +6513,61 @@ export interface INoteAttachmentRequestResponseUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentRequestResponseRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentRequestResponseListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentRequestResponseDelete {}
@@ -6574,7 +6576,7 @@ export interface INoteAttachmentRequestResponseCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentRequestResponse {
@@ -6592,61 +6594,61 @@ export interface INoteAttachmentRequestInquiryUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentRequestInquiryRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentRequestInquiryListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentRequestInquiryDelete {}
@@ -6655,68 +6657,68 @@ export interface INoteAttachmentRequestInquiryCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentRequestInquiryBatchUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentRequestInquiryBatchRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentRequestInquiryBatchListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentRequestInquiryBatchDelete {}
@@ -6725,7 +6727,7 @@ export interface INoteAttachmentRequestInquiryBatchCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentRequestInquiryBatch {
@@ -6754,61 +6756,61 @@ export interface INoteAttachmentPaymentUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentPaymentRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentPaymentListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentPaymentDelete {}
@@ -6817,68 +6819,68 @@ export interface INoteAttachmentPaymentCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentPaymentBatchUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentPaymentBatchRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentPaymentBatchListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentPaymentBatchDelete {}
@@ -6887,7 +6889,7 @@ export interface INoteAttachmentPaymentBatchCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentPaymentBatch {
@@ -6916,61 +6918,61 @@ export interface INoteAttachmentMasterCardActionUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentMasterCardActionRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentMasterCardActionListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentMasterCardActionDelete {}
@@ -6979,7 +6981,7 @@ export interface INoteAttachmentMasterCardActionCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentMasterCardAction {
@@ -6997,61 +6999,61 @@ export interface INoteAttachmentIdealMerchantTransactionUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentIdealMerchantTransactionRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentIdealMerchantTransactionListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentIdealMerchantTransactionDelete {}
@@ -7060,7 +7062,7 @@ export interface INoteAttachmentIdealMerchantTransactionCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentIdealMerchantTransaction {
@@ -7078,61 +7080,61 @@ export interface INoteAttachmentDraftPaymentUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentDraftPaymentRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentDraftPaymentListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentDraftPaymentDelete {}
@@ -7141,7 +7143,7 @@ export interface INoteAttachmentDraftPaymentCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentDraftPayment {
@@ -7159,61 +7161,61 @@ export interface INoteAttachmentBunqMeFundraiserResultUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentBunqMeFundraiserResultRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentBunqMeFundraiserResultListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentBunqMeFundraiserResultDelete {}
@@ -7222,7 +7224,7 @@ export interface INoteAttachmentBunqMeFundraiserResultCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentBunqMeFundraiserResult {
@@ -7240,61 +7242,61 @@ export interface INoteAttachmentBankSwitchServiceNetherlandsIncomingPaymentUpdat
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentBankSwitchServiceNetherlandsIncomingPaymentRead {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentBankSwitchServiceNetherlandsIncomingPaymentListing {
   /**
    * The id of the note.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the note's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the note's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The label of the user who created this note.
    */
-  label_user_creator?: ILabelUser;
+  readonly label_user_creator?: ILabelUser;
   /**
    * Optional description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the note.
    */
-  attachment?: Array<IAttachmentMonetaryAccountPayment>;
+  readonly attachment?: Array<IAttachmentMonetaryAccountPayment>;
 }
 
 export interface INoteAttachmentBankSwitchServiceNetherlandsIncomingPaymentDelete {}
@@ -7303,7 +7305,7 @@ export interface INoteAttachmentBankSwitchServiceNetherlandsIncomingPaymentCreat
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface INoteAttachmentBankSwitchServiceNetherlandsIncomingPayment {
@@ -7340,204 +7342,204 @@ export interface IMonetaryAccountSavingsUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IMonetaryAccountSavingsRead {
   /**
    * The id of the MonetaryAccountSavings.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the MonetaryAccountSavings's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the MonetaryAccountSavings's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The Avatar of the MonetaryAccountSavings.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The currency of the MonetaryAccountSavings as an ISO 4217 formatted currency code.
    */
-  currency?: string;
+  readonly currency?: string;
   /**
    * The description of the MonetaryAccountSavings. Defaults to 'bunq account'.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The daily spending limit Amount of the MonetaryAccountSavings. Defaults to 1000 EUR. Currency must match the MonetaryAccountSavings's currency. Limited to 10000 EUR.
    */
-  daily_limit?: IAmount;
+  readonly daily_limit?: IAmount;
   /**
    * The maximum Amount the MonetaryAccountSavings can be 'in the red'. Must be 0 EUR or omitted.
    */
-  overdraft_limit?: IAmount;
+  readonly overdraft_limit?: IAmount;
   /**
    * The current available balance Amount of the MonetaryAccountSavings.
    */
-  balance?: IAmount;
+  readonly balance?: IAmount;
   /**
    * The Aliases for the MonetaryAccountSavings.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The MonetaryAccountSavings's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The status of the MonetaryAccountSavings. Can be: ACTIVE, BLOCKED, CANCELLED or PENDING_REOPEN
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The sub-status of the MonetaryAccountSavings providing extra information regarding the status. Will be NONE for ACTIVE or PENDING_REOPEN, COMPLETELY or ONLY_ACCEPTING_INCOMING for BLOCKED and REDEMPTION_INVOLUNTARY, REDEMPTION_VOLUNTARY or PERMANENT for CANCELLED.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The reason for voluntarily cancelling (closing) the MonetaryAccountSavings, can only be OTHER.
    */
-  reason?: string;
+  readonly reason?: string;
   /**
    * The optional free-form reason for voluntarily cancelling (closing) the MonetaryAccountSavings. Can be any user provided message.
    */
-  reason_description?: string;
+  readonly reason_description?: string;
   /**
    * The users the account will be joint with.
    */
-  all_co_owner?: Array<ICoOwner>;
+  readonly all_co_owner?: Array<ICoOwner>;
   /**
    * The id of the User who owns the MonetaryAccountSavings.
    */
-  user_id?: number;
+  readonly user_id?: number;
   /**
    * The profile of the account.
    */
-  monetary_account_profile?: IMonetaryAccountProfile;
+  readonly monetary_account_profile?: IMonetaryAccountProfile;
   /**
    * The settings of the MonetaryAccountSavings.
    */
-  setting?: IMonetaryAccountSetting;
+  readonly setting?: IMonetaryAccountSetting;
   /**
    * The Savings Goal set for this MonetaryAccountSavings.
    */
-  savings_goal?: IAmount;
+  readonly savings_goal?: IAmount;
   /**
    * The progress in percentages for the Savings Goal set for this MonetaryAccountSavings.
    */
-  savings_goal_progress?: number;
+  readonly savings_goal_progress?: number;
   /**
    * The id of the AutoSave.
    */
-  auto_save_id?: number;
+  readonly auto_save_id?: number;
   /**
    * The ids of the AutoSave.
    */
-  all_auto_save_id?: Array<BunqId>;
+  readonly all_auto_save_id?: Array<BunqId>;
 }
 
 export interface IMonetaryAccountSavingsListing {
   /**
    * The id of the MonetaryAccountSavings.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the MonetaryAccountSavings's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the MonetaryAccountSavings's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The Avatar of the MonetaryAccountSavings.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The currency of the MonetaryAccountSavings as an ISO 4217 formatted currency code.
    */
-  currency?: string;
+  readonly currency?: string;
   /**
    * The description of the MonetaryAccountSavings. Defaults to 'bunq account'.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The daily spending limit Amount of the MonetaryAccountSavings. Defaults to 1000 EUR. Currency must match the MonetaryAccountSavings's currency. Limited to 10000 EUR.
    */
-  daily_limit?: IAmount;
+  readonly daily_limit?: IAmount;
   /**
    * The maximum Amount the MonetaryAccountSavings can be 'in the red'. Must be 0 EUR or omitted.
    */
-  overdraft_limit?: IAmount;
+  readonly overdraft_limit?: IAmount;
   /**
    * The current available balance Amount of the MonetaryAccountSavings.
    */
-  balance?: IAmount;
+  readonly balance?: IAmount;
   /**
    * The Aliases for the MonetaryAccountSavings.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The MonetaryAccountSavings's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The status of the MonetaryAccountSavings. Can be: ACTIVE, BLOCKED, CANCELLED or PENDING_REOPEN
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The sub-status of the MonetaryAccountSavings providing extra information regarding the status. Will be NONE for ACTIVE or PENDING_REOPEN, COMPLETELY or ONLY_ACCEPTING_INCOMING for BLOCKED and REDEMPTION_INVOLUNTARY, REDEMPTION_VOLUNTARY or PERMANENT for CANCELLED.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The reason for voluntarily cancelling (closing) the MonetaryAccountSavings, can only be OTHER.
    */
-  reason?: string;
+  readonly reason?: string;
   /**
    * The optional free-form reason for voluntarily cancelling (closing) the MonetaryAccountSavings. Can be any user provided message.
    */
-  reason_description?: string;
+  readonly reason_description?: string;
   /**
    * The users the account will be joint with.
    */
-  all_co_owner?: Array<ICoOwner>;
+  readonly all_co_owner?: Array<ICoOwner>;
   /**
    * The id of the User who owns the MonetaryAccountSavings.
    */
-  user_id?: number;
+  readonly user_id?: number;
   /**
    * The profile of the account.
    */
-  monetary_account_profile?: IMonetaryAccountProfile;
+  readonly monetary_account_profile?: IMonetaryAccountProfile;
   /**
    * The settings of the MonetaryAccountSavings.
    */
-  setting?: IMonetaryAccountSetting;
+  readonly setting?: IMonetaryAccountSetting;
   /**
    * The Savings Goal set for this MonetaryAccountSavings.
    */
-  savings_goal?: IAmount;
+  readonly savings_goal?: IAmount;
   /**
    * The progress in percentages for the Savings Goal set for this MonetaryAccountSavings.
    */
-  savings_goal_progress?: number;
+  readonly savings_goal_progress?: number;
   /**
    * The id of the AutoSave.
    */
-  auto_save_id?: number;
+  readonly auto_save_id?: number;
   /**
    * The ids of the AutoSave.
    */
-  all_auto_save_id?: Array<BunqId>;
+  readonly all_auto_save_id?: Array<BunqId>;
 }
 
 export interface IMonetaryAccountSavingsCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IMonetaryAccountSavings {
@@ -7591,19 +7593,19 @@ export interface IMonetaryAccountRead {
   /**
    *
    */
-  MonetaryAccountBank?: IMonetaryAccountBank;
+  readonly MonetaryAccountBank?: IMonetaryAccountBank;
   /**
    *
    */
-  MonetaryAccountJoint?: IMonetaryAccountJoint;
+  readonly MonetaryAccountJoint?: IMonetaryAccountJoint;
   /**
    *
    */
-  MonetaryAccountLight?: IMonetaryAccountLight;
+  readonly MonetaryAccountLight?: IMonetaryAccountLight;
   /**
    *
    */
-  MonetaryAccountSavings?: IMonetaryAccountSavings;
+  readonly MonetaryAccountSavings?: IMonetaryAccountSavings;
 }
 
 export interface IMonetaryAccountProfileFill {
@@ -7663,19 +7665,19 @@ export interface IMonetaryAccountListing {
   /**
    *
    */
-  MonetaryAccountBank?: IMonetaryAccountBank;
+  readonly MonetaryAccountBank?: IMonetaryAccountBank;
   /**
    *
    */
-  MonetaryAccountJoint?: IMonetaryAccountJoint;
+  readonly MonetaryAccountJoint?: IMonetaryAccountJoint;
   /**
    *
    */
-  MonetaryAccountLight?: IMonetaryAccountLight;
+  readonly MonetaryAccountLight?: IMonetaryAccountLight;
   /**
    *
    */
-  MonetaryAccountSavings?: IMonetaryAccountSavings;
+  readonly MonetaryAccountSavings?: IMonetaryAccountSavings;
 }
 
 export interface IMonetaryAccountLight {
@@ -7718,255 +7720,255 @@ export interface IMonetaryAccountLight {
   /**
    * The id of the MonetaryAccountLight.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the MonetaryAccountLight's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the MonetaryAccountLight's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The Avatar of the MonetaryAccountLight.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The current available balance Amount of the MonetaryAccountLight.
    */
-  balance?: IAmount;
+  readonly balance?: IAmount;
   /**
    * The current real balance Amount of the MonetaryAccountLight.
    */
-  balance_real?: IAmount;
+  readonly balance_real?: IAmount;
   /**
    * The Aliases for the MonetaryAccountLight.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The MonetaryAccountLight's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The id of the User who owns the MonetaryAccountLight.
    */
-  user_id?: number;
+  readonly user_id?: number;
   /**
    * The maximum balance Amount of the MonetaryAccountLight.
    */
-  balance_maximum?: IAmount;
+  readonly balance_maximum?: IAmount;
   /**
    * The amount of the monthly budget used.
    */
-  budget_month_used?: IAmount;
+  readonly budget_month_used?: IAmount;
   /**
    * The total amount of the monthly budget.
    */
-  budget_month_maximum?: IAmount;
+  readonly budget_month_maximum?: IAmount;
   /**
    * The amount of the yearly budget used.
    */
-  budget_year_used?: IAmount;
+  readonly budget_year_used?: IAmount;
   /**
    * The total amount of the yearly budget.
    */
-  budget_year_maximum?: IAmount;
+  readonly budget_year_maximum?: IAmount;
   /**
    * The amount of the yearly withdrawal budget used.
    */
-  budget_withdrawal_year_used?: IAmount;
+  readonly budget_withdrawal_year_used?: IAmount;
   /**
    * The total amount of the yearly withdrawal budget.
    */
-  budget_withdrawal_year_maximum?: IAmount;
+  readonly budget_withdrawal_year_maximum?: IAmount;
 }
 
 export interface IMonetaryAccountJointUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IMonetaryAccountJointRead {
   /**
    * The id of the MonetaryAccountJoint.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the MonetaryAccountJoint's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the MonetaryAccountJoint's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The Avatar of the MonetaryAccountJoint.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The currency of the MonetaryAccountJoint as an ISO 4217 formatted currency code.
    */
-  currency?: string;
+  readonly currency?: string;
   /**
    * The description of the MonetaryAccountJoint. Defaults to 'bunq account'.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The daily spending limit Amount of the MonetaryAccountJoint. Defaults to 1000 EUR. Currency must match the MonetaryAccountJoint's currency. Limited to 10000 EUR.
    */
-  daily_limit?: IAmount;
+  readonly daily_limit?: IAmount;
   /**
    * The maximum Amount the MonetaryAccountJoint can be 'in the red'.
    */
-  overdraft_limit?: IAmount;
+  readonly overdraft_limit?: IAmount;
   /**
    * The current available balance Amount of the MonetaryAccountJoint.
    */
-  balance?: IAmount;
+  readonly balance?: IAmount;
   /**
    * The Aliases for the MonetaryAccountJoint.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The MonetaryAccountJoint's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The status of the MonetaryAccountJoint. Can be: ACTIVE, BLOCKED, CANCELLED or PENDING_REOPEN
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The sub-status of the MonetaryAccountJoint providing extra information regarding the status. Will be NONE for ACTIVE or PENDING_REOPEN, COMPLETELY or ONLY_ACCEPTING_INCOMING for BLOCKED and REDEMPTION_INVOLUNTARY, REDEMPTION_VOLUNTARY or PERMANENT for CANCELLED.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The reason for voluntarily cancelling (closing) the MonetaryAccountJoint, can only be OTHER.
    */
-  reason?: string;
+  readonly reason?: string;
   /**
    * The optional free-form reason for voluntarily cancelling (closing) the MonetaryAccountJoint. Can be any user provided message.
    */
-  reason_description?: string;
+  readonly reason_description?: string;
   /**
    * The users the account will be joint with.
    */
-  all_co_owner?: Array<ICoOwner>;
+  readonly all_co_owner?: Array<ICoOwner>;
   /**
    * The id of the User who owns the MonetaryAccountJoint.
    */
-  user_id?: number;
+  readonly user_id?: number;
   /**
    * The profile of the account.
    */
-  monetary_account_profile?: IMonetaryAccountProfile;
+  readonly monetary_account_profile?: IMonetaryAccountProfile;
   /**
    * The settings of the MonetaryAccountJoint.
    */
-  setting?: IMonetaryAccountSetting;
+  readonly setting?: IMonetaryAccountSetting;
   /**
    * The id of the AutoSave.
    */
-  auto_save_id?: number;
+  readonly auto_save_id?: number;
   /**
    * The ids of the AutoSave.
    */
-  all_auto_save_id?: Array<BunqId>;
+  readonly all_auto_save_id?: Array<BunqId>;
 }
 
 export interface IMonetaryAccountJointListing {
   /**
    * The id of the MonetaryAccountJoint.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the MonetaryAccountJoint's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the MonetaryAccountJoint's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The Avatar of the MonetaryAccountJoint.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The currency of the MonetaryAccountJoint as an ISO 4217 formatted currency code.
    */
-  currency?: string;
+  readonly currency?: string;
   /**
    * The description of the MonetaryAccountJoint. Defaults to 'bunq account'.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The daily spending limit Amount of the MonetaryAccountJoint. Defaults to 1000 EUR. Currency must match the MonetaryAccountJoint's currency. Limited to 10000 EUR.
    */
-  daily_limit?: IAmount;
+  readonly daily_limit?: IAmount;
   /**
    * The maximum Amount the MonetaryAccountJoint can be 'in the red'.
    */
-  overdraft_limit?: IAmount;
+  readonly overdraft_limit?: IAmount;
   /**
    * The current available balance Amount of the MonetaryAccountJoint.
    */
-  balance?: IAmount;
+  readonly balance?: IAmount;
   /**
    * The Aliases for the MonetaryAccountJoint.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The MonetaryAccountJoint's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The status of the MonetaryAccountJoint. Can be: ACTIVE, BLOCKED, CANCELLED or PENDING_REOPEN
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The sub-status of the MonetaryAccountJoint providing extra information regarding the status. Will be NONE for ACTIVE or PENDING_REOPEN, COMPLETELY or ONLY_ACCEPTING_INCOMING for BLOCKED and REDEMPTION_INVOLUNTARY, REDEMPTION_VOLUNTARY or PERMANENT for CANCELLED.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The reason for voluntarily cancelling (closing) the MonetaryAccountJoint, can only be OTHER.
    */
-  reason?: string;
+  readonly reason?: string;
   /**
    * The optional free-form reason for voluntarily cancelling (closing) the MonetaryAccountJoint. Can be any user provided message.
    */
-  reason_description?: string;
+  readonly reason_description?: string;
   /**
    * The users the account will be joint with.
    */
-  all_co_owner?: Array<ICoOwner>;
+  readonly all_co_owner?: Array<ICoOwner>;
   /**
    * The id of the User who owns the MonetaryAccountJoint.
    */
-  user_id?: number;
+  readonly user_id?: number;
   /**
    * The profile of the account.
    */
-  monetary_account_profile?: IMonetaryAccountProfile;
+  readonly monetary_account_profile?: IMonetaryAccountProfile;
   /**
    * The settings of the MonetaryAccountJoint.
    */
-  setting?: IMonetaryAccountSetting;
+  readonly setting?: IMonetaryAccountSetting;
   /**
    * The id of the AutoSave.
    */
-  auto_save_id?: number;
+  readonly auto_save_id?: number;
   /**
    * The ids of the AutoSave.
    */
-  all_auto_save_id?: Array<BunqId>;
+  readonly all_auto_save_id?: Array<BunqId>;
 }
 
 export interface IMonetaryAccountJointCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IMonetaryAccountJoint {
@@ -8024,188 +8026,188 @@ export interface IMonetaryAccountBankUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IMonetaryAccountBankRead {
   /**
    * The id of the MonetaryAccountBank.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the MonetaryAccountBank's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the MonetaryAccountBank's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The Avatar of the MonetaryAccountBank.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The currency of the MonetaryAccountBank as an ISO 4217 formatted currency code.
    */
-  currency?: string;
+  readonly currency?: string;
   /**
    * The description of the MonetaryAccountBank. Defaults to 'bunq account'.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The daily spending limit Amount of the MonetaryAccountBank. Defaults to 1000 EUR. Currency must match the MonetaryAccountBank's currency. Limited to 10000 EUR.
    */
-  daily_limit?: IAmount;
+  readonly daily_limit?: IAmount;
   /**
    * The maximum Amount the MonetaryAccountBank can be 'in the red'.
    */
-  overdraft_limit?: IAmount;
+  readonly overdraft_limit?: IAmount;
   /**
    * The current available balance Amount of the MonetaryAccountBank.
    */
-  balance?: IAmount;
+  readonly balance?: IAmount;
   /**
    * The Aliases for the MonetaryAccountBank.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The MonetaryAccountBank's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The status of the MonetaryAccountBank. Can be: ACTIVE, BLOCKED, CANCELLED or PENDING_REOPEN
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The sub-status of the MonetaryAccountBank providing extra information regarding the status. Will be NONE for ACTIVE or PENDING_REOPEN, COMPLETELY or ONLY_ACCEPTING_INCOMING for BLOCKED and REDEMPTION_INVOLUNTARY, REDEMPTION_VOLUNTARY or PERMANENT for CANCELLED.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The reason for voluntarily cancelling (closing) the MonetaryAccountBank, can only be OTHER.
    */
-  reason?: string;
+  readonly reason?: string;
   /**
    * The optional free-form reason for voluntarily cancelling (closing) the MonetaryAccountBank. Can be any user provided message.
    */
-  reason_description?: string;
+  readonly reason_description?: string;
   /**
    * The id of the User who owns the MonetaryAccountBank.
    */
-  user_id?: number;
+  readonly user_id?: number;
   /**
    * The profile of the account.
    */
-  monetary_account_profile?: IMonetaryAccountProfile;
+  readonly monetary_account_profile?: IMonetaryAccountProfile;
   /**
    * The legal name of the user / company using this monetary account.
    */
-  display_name?: string;
+  readonly display_name?: string;
   /**
    * The settings of the MonetaryAccountBank.
    */
-  setting?: IMonetaryAccountSetting;
+  readonly setting?: IMonetaryAccountSetting;
   /**
    * The id of the AutoSave.
    */
-  auto_save_id?: number;
+  readonly auto_save_id?: number;
   /**
    * The ids of the AutoSave.
    */
-  all_auto_save_id?: Array<BunqId>;
+  readonly all_auto_save_id?: Array<BunqId>;
 }
 
 export interface IMonetaryAccountBankListing {
   /**
    * The id of the MonetaryAccountBank.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the MonetaryAccountBank's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the MonetaryAccountBank's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The Avatar of the MonetaryAccountBank.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The currency of the MonetaryAccountBank as an ISO 4217 formatted currency code.
    */
-  currency?: string;
+  readonly currency?: string;
   /**
    * The description of the MonetaryAccountBank. Defaults to 'bunq account'.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The daily spending limit Amount of the MonetaryAccountBank. Defaults to 1000 EUR. Currency must match the MonetaryAccountBank's currency. Limited to 10000 EUR.
    */
-  daily_limit?: IAmount;
+  readonly daily_limit?: IAmount;
   /**
    * The maximum Amount the MonetaryAccountBank can be 'in the red'.
    */
-  overdraft_limit?: IAmount;
+  readonly overdraft_limit?: IAmount;
   /**
    * The current available balance Amount of the MonetaryAccountBank.
    */
-  balance?: IAmount;
+  readonly balance?: IAmount;
   /**
    * The Aliases for the MonetaryAccountBank.
    */
-  alias?: Array<IPointer>;
+  readonly alias?: Array<IPointer>;
   /**
    * The MonetaryAccountBank's public UUID.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The status of the MonetaryAccountBank. Can be: ACTIVE, BLOCKED, CANCELLED or PENDING_REOPEN
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The sub-status of the MonetaryAccountBank providing extra information regarding the status. Will be NONE for ACTIVE or PENDING_REOPEN, COMPLETELY or ONLY_ACCEPTING_INCOMING for BLOCKED and REDEMPTION_INVOLUNTARY, REDEMPTION_VOLUNTARY or PERMANENT for CANCELLED.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The reason for voluntarily cancelling (closing) the MonetaryAccountBank, can only be OTHER.
    */
-  reason?: string;
+  readonly reason?: string;
   /**
    * The optional free-form reason for voluntarily cancelling (closing) the MonetaryAccountBank. Can be any user provided message.
    */
-  reason_description?: string;
+  readonly reason_description?: string;
   /**
    * The id of the User who owns the MonetaryAccountBank.
    */
-  user_id?: number;
+  readonly user_id?: number;
   /**
    * The profile of the account.
    */
-  monetary_account_profile?: IMonetaryAccountProfile;
+  readonly monetary_account_profile?: IMonetaryAccountProfile;
   /**
    * The legal name of the user / company using this monetary account.
    */
-  display_name?: string;
+  readonly display_name?: string;
   /**
    * The settings of the MonetaryAccountBank.
    */
-  setting?: IMonetaryAccountSetting;
+  readonly setting?: IMonetaryAccountSetting;
   /**
    * The id of the AutoSave.
    */
-  auto_save_id?: number;
+  readonly auto_save_id?: number;
   /**
    * The ids of the AutoSave.
    */
-  all_auto_save_id?: Array<BunqId>;
+  readonly all_auto_save_id?: Array<BunqId>;
 }
 
 export interface IMonetaryAccountBankCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IMonetaryAccountBank {
@@ -8255,405 +8257,405 @@ export interface IMasterCardActionRead {
   /**
    * The id of the MastercardAction.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The id of the monetary account this action links to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The id of the card this action links to.
    */
-  card_id?: number;
+  readonly card_id?: number;
   /**
    * The amount of the transaction in local currency.
    */
-  amount_local?: IAmount;
+  readonly amount_local?: IAmount;
   /**
    * The amount of the transaction in local currency.
    */
-  amount_converted?: IAmount;
+  readonly amount_converted?: IAmount;
   /**
    * The amount of the transaction in the monetary account's currency.
    */
-  amount_billing?: IAmount;
+  readonly amount_billing?: IAmount;
   /**
    * The original amount in local currency.
    */
-  amount_original_local?: IAmount;
+  readonly amount_original_local?: IAmount;
   /**
    * The original amount in the monetary account's currency.
    */
-  amount_original_billing?: IAmount;
+  readonly amount_original_billing?: IAmount;
   /**
    * The fee amount as charged by the merchant, if applicable.
    */
-  amount_fee?: IAmount;
+  readonly amount_fee?: IAmount;
   /**
    * The response code by which authorised transaction can be identified as authorised by bunq.
    */
-  card_authorisation_id_response?: string;
+  readonly card_authorisation_id_response?: string;
   /**
    * Why the transaction was denied, if it was denied, or just ALLOWED.
    */
-  decision?: string;
+  readonly decision?: string;
   /**
    * The payment status of the transaction. For example PAYMENT_SUCCESSFUL, for a successful payment.
    */
-  payment_status?: string;
+  readonly payment_status?: string;
   /**
    * Empty if allowed, otherwise a textual explanation of why it was denied.
    */
-  decision_description?: string;
+  readonly decision_description?: string;
   /**
    * Empty if allowed, otherwise a textual explanation of why it was denied in user's language.
    */
-  decision_description_translated?: string;
+  readonly decision_description_translated?: string;
   /**
    * The description for this transaction to display.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The status in the authorisation process.
    */
-  authorisation_status?: string;
+  readonly authorisation_status?: string;
   /**
    * The type of transaction that was delivered using the card.
    */
-  authorisation_type?: string;
+  readonly authorisation_type?: string;
   /**
    * The type of entry mode the user used. Can be 'ATM', 'ICC', 'MAGNETIC_STRIPE' or 'E_COMMERCE'.
    */
-  pan_entry_mode_user?: string;
+  readonly pan_entry_mode_user?: string;
   /**
    * The setlement status in the authorisation process.
    */
-  settlement_status?: string;
+  readonly settlement_status?: string;
   /**
    * The clearing status of the authorisation. Can be 'PENDING', 'FIRST_PRESENTMENT_COMPLETE' or 'REFUND_LENIENCY'.
    */
-  clearing_status?: string;
+  readonly clearing_status?: string;
   /**
    * The maturity date.
    */
-  maturity_date?: string;
+  readonly maturity_date?: string;
   /**
    * The city where the message originates from as announced by the terminal.
    */
-  city?: string;
+  readonly city?: string;
   /**
    * The monetary account label of the account that this action is created for.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The monetary account label of the counterparty.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The label of the card.
    */
-  label_card?: ILabelCard;
+  readonly label_card?: ILabelCard;
   /**
    * If this is a tokenisation action, this shows the status of the token.
    */
-  token_status?: string;
+  readonly token_status?: string;
   /**
    * If this is a reservation, the moment the reservation will expire.
    */
-  reservation_expiry_time?: string;
+  readonly reservation_expiry_time?: string;
   /**
    * The time when the processing of the clearing is expired, refunding the authorisation.
    */
-  clearing_expiry_time?: string;
+  readonly clearing_expiry_time?: string;
   /**
    * The type of the limit applied to validate if this MasterCardAction was within the spending limits. The returned string matches the limit types as defined in the card endpoint.
    */
-  applied_limit?: string;
+  readonly applied_limit?: string;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The secure code id for this mastercard action or null.
    */
-  secure_code_id?: number;
+  readonly secure_code_id?: number;
   /**
    * The ID of the wallet provider as defined by MasterCard. 420 = bunq Android app with Tap&Pay; 103 = Apple Pay.
    */
-  wallet_provider_id?: string;
+  readonly wallet_provider_id?: string;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface IMasterCardActionListing {
   /**
    * The id of the MastercardAction.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The id of the monetary account this action links to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The id of the card this action links to.
    */
-  card_id?: number;
+  readonly card_id?: number;
   /**
    * The amount of the transaction in local currency.
    */
-  amount_local?: IAmount;
+  readonly amount_local?: IAmount;
   /**
    * The amount of the transaction in local currency.
    */
-  amount_converted?: IAmount;
+  readonly amount_converted?: IAmount;
   /**
    * The amount of the transaction in the monetary account's currency.
    */
-  amount_billing?: IAmount;
+  readonly amount_billing?: IAmount;
   /**
    * The original amount in local currency.
    */
-  amount_original_local?: IAmount;
+  readonly amount_original_local?: IAmount;
   /**
    * The original amount in the monetary account's currency.
    */
-  amount_original_billing?: IAmount;
+  readonly amount_original_billing?: IAmount;
   /**
    * The fee amount as charged by the merchant, if applicable.
    */
-  amount_fee?: IAmount;
+  readonly amount_fee?: IAmount;
   /**
    * The response code by which authorised transaction can be identified as authorised by bunq.
    */
-  card_authorisation_id_response?: string;
+  readonly card_authorisation_id_response?: string;
   /**
    * Why the transaction was denied, if it was denied, or just ALLOWED.
    */
-  decision?: string;
+  readonly decision?: string;
   /**
    * The payment status of the transaction. For example PAYMENT_SUCCESSFUL, for a successful payment.
    */
-  payment_status?: string;
+  readonly payment_status?: string;
   /**
    * Empty if allowed, otherwise a textual explanation of why it was denied.
    */
-  decision_description?: string;
+  readonly decision_description?: string;
   /**
    * Empty if allowed, otherwise a textual explanation of why it was denied in user's language.
    */
-  decision_description_translated?: string;
+  readonly decision_description_translated?: string;
   /**
    * The description for this transaction to display.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The status in the authorisation process.
    */
-  authorisation_status?: string;
+  readonly authorisation_status?: string;
   /**
    * The type of transaction that was delivered using the card.
    */
-  authorisation_type?: string;
+  readonly authorisation_type?: string;
   /**
    * The type of entry mode the user used. Can be 'ATM', 'ICC', 'MAGNETIC_STRIPE' or 'E_COMMERCE'.
    */
-  pan_entry_mode_user?: string;
+  readonly pan_entry_mode_user?: string;
   /**
    * The setlement status in the authorisation process.
    */
-  settlement_status?: string;
+  readonly settlement_status?: string;
   /**
    * The clearing status of the authorisation. Can be 'PENDING', 'FIRST_PRESENTMENT_COMPLETE' or 'REFUND_LENIENCY'.
    */
-  clearing_status?: string;
+  readonly clearing_status?: string;
   /**
    * The maturity date.
    */
-  maturity_date?: string;
+  readonly maturity_date?: string;
   /**
    * The city where the message originates from as announced by the terminal.
    */
-  city?: string;
+  readonly city?: string;
   /**
    * The monetary account label of the account that this action is created for.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The monetary account label of the counterparty.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The label of the card.
    */
-  label_card?: ILabelCard;
+  readonly label_card?: ILabelCard;
   /**
    * If this is a tokenisation action, this shows the status of the token.
    */
-  token_status?: string;
+  readonly token_status?: string;
   /**
    * If this is a reservation, the moment the reservation will expire.
    */
-  reservation_expiry_time?: string;
+  readonly reservation_expiry_time?: string;
   /**
    * The time when the processing of the clearing is expired, refunding the authorisation.
    */
-  clearing_expiry_time?: string;
+  readonly clearing_expiry_time?: string;
   /**
    * The type of the limit applied to validate if this MasterCardAction was within the spending limits. The returned string matches the limit types as defined in the card endpoint.
    */
-  applied_limit?: string;
+  readonly applied_limit?: string;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The secure code id for this mastercard action or null.
    */
-  secure_code_id?: number;
+  readonly secure_code_id?: number;
   /**
    * The ID of the wallet provider as defined by MasterCard. 420 = bunq Android app with Tap&Pay; 103 = Apple Pay.
    */
-  wallet_provider_id?: string;
+  readonly wallet_provider_id?: string;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface IMasterCardAction {
   /**
    * The id of the MastercardAction.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The id of the monetary account this action links to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The id of the card this action links to.
    */
-  card_id?: number;
+  readonly card_id?: number;
   /**
    * The amount of the transaction in local currency.
    */
-  amount_local?: IAmount;
+  readonly amount_local?: IAmount;
   /**
    * The amount of the transaction in local currency.
    */
-  amount_converted?: IAmount;
+  readonly amount_converted?: IAmount;
   /**
    * The amount of the transaction in the monetary account's currency.
    */
-  amount_billing?: IAmount;
+  readonly amount_billing?: IAmount;
   /**
    * The original amount in local currency.
    */
-  amount_original_local?: IAmount;
+  readonly amount_original_local?: IAmount;
   /**
    * The original amount in the monetary account's currency.
    */
-  amount_original_billing?: IAmount;
+  readonly amount_original_billing?: IAmount;
   /**
    * The fee amount as charged by the merchant, if applicable.
    */
-  amount_fee?: IAmount;
+  readonly amount_fee?: IAmount;
   /**
    * The response code by which authorised transaction can be identified as authorised by bunq.
    */
-  card_authorisation_id_response?: string;
+  readonly card_authorisation_id_response?: string;
   /**
    * Why the transaction was denied, if it was denied, or just ALLOWED.
    */
-  decision?: string;
+  readonly decision?: string;
   /**
    * The payment status of the transaction. For example PAYMENT_SUCCESSFUL, for a successful payment.
    */
-  payment_status?: string;
+  readonly payment_status?: string;
   /**
    * Empty if allowed, otherwise a textual explanation of why it was denied.
    */
-  decision_description?: string;
+  readonly decision_description?: string;
   /**
    * Empty if allowed, otherwise a textual explanation of why it was denied in user's language.
    */
-  decision_description_translated?: string;
+  readonly decision_description_translated?: string;
   /**
    * The description for this transaction to display.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The status in the authorisation process.
    */
-  authorisation_status?: string;
+  readonly authorisation_status?: string;
   /**
    * The type of transaction that was delivered using the card.
    */
-  authorisation_type?: string;
+  readonly authorisation_type?: string;
   /**
    * The type of entry mode the user used. Can be 'ATM', 'ICC', 'MAGNETIC_STRIPE' or 'E_COMMERCE'.
    */
-  pan_entry_mode_user?: string;
+  readonly pan_entry_mode_user?: string;
   /**
    * The setlement status in the authorisation process.
    */
-  settlement_status?: string;
+  readonly settlement_status?: string;
   /**
    * The clearing status of the authorisation. Can be 'PENDING', 'FIRST_PRESENTMENT_COMPLETE' or 'REFUND_LENIENCY'.
    */
-  clearing_status?: string;
+  readonly clearing_status?: string;
   /**
    * The maturity date.
    */
-  maturity_date?: string;
+  readonly maturity_date?: string;
   /**
    * The city where the message originates from as announced by the terminal.
    */
-  city?: string;
+  readonly city?: string;
   /**
    * The monetary account label of the account that this action is created for.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The monetary account label of the counterparty.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The label of the card.
    */
-  label_card?: ILabelCard;
+  readonly label_card?: ILabelCard;
   /**
    * If this is a tokenisation action, this shows the status of the token.
    */
-  token_status?: string;
+  readonly token_status?: string;
   /**
    * If this is a reservation, the moment the reservation will expire.
    */
-  reservation_expiry_time?: string;
+  readonly reservation_expiry_time?: string;
   /**
    * The time when the processing of the clearing is expired, refunding the authorisation.
    */
-  clearing_expiry_time?: string;
+  readonly clearing_expiry_time?: string;
   /**
    * The type of the limit applied to validate if this MasterCardAction was within the spending limits. The returned string matches the limit types as defined in the card endpoint.
    */
-  applied_limit?: string;
+  readonly applied_limit?: string;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
   /**
    * The secure code id for this mastercard action or null.
    */
-  secure_code_id?: number;
+  readonly secure_code_id?: number;
   /**
    * The ID of the wallet provider as defined by MasterCard. 420 = bunq Android app with Tap&Pay; 103 = Apple Pay.
    */
-  wallet_provider_id?: string;
+  readonly wallet_provider_id?: string;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface ILabelUser {
@@ -8672,89 +8674,89 @@ export interface ILabelUser {
   /**
    * The current avatar of the user.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The current nickname of the user.
    */
-  public_nick_name?: string;
+  readonly public_nick_name?: string;
 }
 
 export interface ILabelMonetaryAccount {
   /**
    * The IBAN of the monetary account.
    */
-  iban?: string;
+  readonly iban?: string;
   /**
    * The name to display with this monetary account.
    */
-  display_name?: string;
+  readonly display_name?: string;
   /**
    * The avatar of the monetary account.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The user this monetary account belongs to.
    */
-  label_user?: ILabelUser;
+  readonly label_user?: ILabelUser;
   /**
    * The country of the user. Formatted as a ISO 3166-1 alpha-2 country code.
    */
-  country?: string;
+  readonly country?: string;
   /**
    * Bunq.me pointer with type and value.
    */
-  bunq_me?: IPointer;
+  readonly bunq_me?: IPointer;
   /**
    * Whether or not the monetary account is light.
    */
-  is_light?: boolean;
+  readonly is_light?: boolean;
   /**
    * The BIC used for a SWIFT payment.
    */
-  swift_bic?: string;
+  readonly swift_bic?: string;
   /**
    * The account number used for a SWIFT payment. May or may not be an IBAN.
    */
-  swift_account_number?: string;
+  readonly swift_account_number?: string;
   /**
    * The account number used for a Transferwise payment. May or may not be an IBAN.
    */
-  transferwise_account_number?: string;
+  readonly transferwise_account_number?: string;
   /**
    * The bank code used for a Transferwise payment. May or may not be a BIC.
    */
-  transferwise_bank_code?: string;
+  readonly transferwise_bank_code?: string;
   /**
    * The merchant category code.
    */
-  merchant_category_code?: string;
+  readonly merchant_category_code?: string;
 }
 
 export interface ILabelCard {
   /**
    * The public UUID.
    */
-  uuid?: string;
+  readonly uuid?: string;
   /**
    * The type of the card.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The second line on the card.
    */
-  second_line?: string;
+  readonly second_line?: string;
   /**
    * The date this card will expire.
    */
-  expiry_date?: string;
+  readonly expiry_date?: string;
   /**
    * The status of the card.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The owner of this card.
    */
-  label_user?: ILabelUser;
+  readonly label_user?: ILabelUser;
 }
 
 export interface IIssuer {
@@ -8772,220 +8774,220 @@ export interface IInvoiceRead {
   /**
    * The id of the invoice object.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the invoice object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the invoice object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The invoice date.
    */
-  invoice_date?: string;
+  readonly invoice_date?: string;
   /**
    * The invoice number.
    */
-  invoice_number?: string;
+  readonly invoice_number?: string;
   /**
    * The invoice status.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The category to display to the user.
    */
-  category?: string;
+  readonly category?: string;
   /**
    * The invoice item groups.
    */
-  group?: Array<IInvoiceItemGroup>;
+  readonly group?: Array<IInvoiceItemGroup>;
   /**
    * The total discounted item price including VAT.
    */
-  total_vat_inclusive?: IAmount;
+  readonly total_vat_inclusive?: IAmount;
   /**
    * The total discounted item price excluding VAT.
    */
-  total_vat_exclusive?: IAmount;
+  readonly total_vat_exclusive?: IAmount;
   /**
    * The VAT on the total discounted item price.
    */
-  total_vat?: IAmount;
+  readonly total_vat?: IAmount;
   /**
    * The label that's displayed to the counterparty with the invoice. Includes user.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The customer's address.
    */
-  address?: IAddress;
+  readonly address?: IAddress;
   /**
    * The label of the counterparty of the invoice. Includes user.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The company's address.
    */
-  counterparty_address?: IAddress;
+  readonly counterparty_address?: IAddress;
   /**
    * The company's chamber of commerce number.
    */
-  chamber_of_commerce_number?: string;
+  readonly chamber_of_commerce_number?: string;
   /**
    * The company's chamber of commerce number.
    */
-  vat_number?: string;
+  readonly vat_number?: string;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface IInvoiceListing {
   /**
    * The id of the invoice object.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the invoice object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the invoice object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The invoice date.
    */
-  invoice_date?: string;
+  readonly invoice_date?: string;
   /**
    * The invoice number.
    */
-  invoice_number?: string;
+  readonly invoice_number?: string;
   /**
    * The invoice status.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The category to display to the user.
    */
-  category?: string;
+  readonly category?: string;
   /**
    * The invoice item groups.
    */
-  group?: Array<IInvoiceItemGroup>;
+  readonly group?: Array<IInvoiceItemGroup>;
   /**
    * The total discounted item price including VAT.
    */
-  total_vat_inclusive?: IAmount;
+  readonly total_vat_inclusive?: IAmount;
   /**
    * The total discounted item price excluding VAT.
    */
-  total_vat_exclusive?: IAmount;
+  readonly total_vat_exclusive?: IAmount;
   /**
    * The VAT on the total discounted item price.
    */
-  total_vat?: IAmount;
+  readonly total_vat?: IAmount;
   /**
    * The label that's displayed to the counterparty with the invoice. Includes user.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The customer's address.
    */
-  address?: IAddress;
+  readonly address?: IAddress;
   /**
    * The label of the counterparty of the invoice. Includes user.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The company's address.
    */
-  counterparty_address?: IAddress;
+  readonly counterparty_address?: IAddress;
   /**
    * The company's chamber of commerce number.
    */
-  chamber_of_commerce_number?: string;
+  readonly chamber_of_commerce_number?: string;
   /**
    * The company's chamber of commerce number.
    */
-  vat_number?: string;
+  readonly vat_number?: string;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface IInvoiceItemGroup {
   /**
    * The type of the invoice item group.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The description of the type of the invoice item group.
    */
-  type_description?: string;
+  readonly type_description?: string;
   /**
    * The translated description of the type of the invoice item group.
    */
-  type_description_translated?: string;
+  readonly type_description_translated?: string;
   /**
    * The identifier of the invoice item group.
    */
-  instance_description?: string;
+  readonly instance_description?: string;
   /**
    * The unit item price excluding VAT.
    */
-  product_vat_exclusive?: IAmount;
+  readonly product_vat_exclusive?: IAmount;
   /**
    * The unit item price including VAT.
    */
-  product_vat_inclusive?: IAmount;
+  readonly product_vat_inclusive?: IAmount;
   /**
    * The invoice items in the group.
    */
-  item?: Array<IInvoiceItem>;
+  readonly item?: Array<IInvoiceItem>;
 }
 
 export interface IInvoiceItem {
   /**
    * The billing date of the item.
    */
-  billing_date?: string;
+  readonly billing_date?: string;
   /**
    * The price description.
    */
-  type_description?: string;
+  readonly type_description?: string;
   /**
    * The translated price description.
    */
-  type_description_translated?: string;
+  readonly type_description_translated?: string;
   /**
    * The unit item price excluding VAT.
    */
-  unit_vat_exclusive?: IAmount;
+  readonly unit_vat_exclusive?: IAmount;
   /**
    * The unit item price including VAT.
    */
-  unit_vat_inclusive?: IAmount;
+  readonly unit_vat_inclusive?: IAmount;
   /**
    * The VAT tax fraction.
    */
-  vat?: number;
+  readonly vat?: number;
   /**
    * The number of items priced.
    */
-  quantity?: number;
+  readonly quantity?: number;
   /**
    * The item price excluding VAT.
    */
-  total_vat_exclusive?: IAmount;
+  readonly total_vat_exclusive?: IAmount;
   /**
    * The item price including VAT.
    */
-  total_vat_inclusive?: IAmount;
+  readonly total_vat_inclusive?: IAmount;
 }
 
 export interface IInvoiceExportPdfContentListing {}
@@ -8994,134 +8996,134 @@ export interface IInvoiceByUserRead {
   /**
    * The id of the invoice object.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the invoice object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the invoice object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The invoice date.
    */
-  invoice_date?: string;
+  readonly invoice_date?: string;
   /**
    * The invoice number.
    */
-  invoice_number?: string;
+  readonly invoice_number?: string;
   /**
    * The invoice status.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The invoice item groups.
    */
-  group?: Array<IInvoiceItemGroup>;
+  readonly group?: Array<IInvoiceItemGroup>;
   /**
    * The total discounted item price including VAT.
    */
-  total_vat_inclusive?: IAmount;
+  readonly total_vat_inclusive?: IAmount;
   /**
    * The total discounted item price excluding VAT.
    */
-  total_vat_exclusive?: IAmount;
+  readonly total_vat_exclusive?: IAmount;
   /**
    * The VAT on the total discounted item price.
    */
-  total_vat?: IAmount;
+  readonly total_vat?: IAmount;
   /**
    * The label that's displayed to the counterparty with the invoice. Includes user.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The customer's address.
    */
-  address?: IAddress;
+  readonly address?: IAddress;
   /**
    * The label of the counterparty of the invoice. Includes user.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The company's address.
    */
-  counterparty_address?: IAddress;
+  readonly counterparty_address?: IAddress;
   /**
    * The company's chamber of commerce number.
    */
-  chamber_of_commerce_number?: string;
+  readonly chamber_of_commerce_number?: string;
   /**
    * The company's chamber of commerce number.
    */
-  vat_number?: string;
+  readonly vat_number?: string;
 }
 
 export interface IInvoiceByUserListing {
   /**
    * The id of the invoice object.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the invoice object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the invoice object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The invoice date.
    */
-  invoice_date?: string;
+  readonly invoice_date?: string;
   /**
    * The invoice number.
    */
-  invoice_number?: string;
+  readonly invoice_number?: string;
   /**
    * The invoice status.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The invoice item groups.
    */
-  group?: Array<IInvoiceItemGroup>;
+  readonly group?: Array<IInvoiceItemGroup>;
   /**
    * The total discounted item price including VAT.
    */
-  total_vat_inclusive?: IAmount;
+  readonly total_vat_inclusive?: IAmount;
   /**
    * The total discounted item price excluding VAT.
    */
-  total_vat_exclusive?: IAmount;
+  readonly total_vat_exclusive?: IAmount;
   /**
    * The VAT on the total discounted item price.
    */
-  total_vat?: IAmount;
+  readonly total_vat?: IAmount;
   /**
    * The label that's displayed to the counterparty with the invoice. Includes user.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The customer's address.
    */
-  address?: IAddress;
+  readonly address?: IAddress;
   /**
    * The label of the counterparty of the invoice. Includes user.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The company's address.
    */
-  counterparty_address?: IAddress;
+  readonly counterparty_address?: IAddress;
   /**
    * The company's chamber of commerce number.
    */
-  chamber_of_commerce_number?: string;
+  readonly chamber_of_commerce_number?: string;
   /**
    * The company's chamber of commerce number.
    */
-  vat_number?: string;
+  readonly vat_number?: string;
 }
 
 export interface IInvoice {
@@ -9140,133 +9142,133 @@ export interface IInvoice {
   /**
    * The id of the invoice object.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the invoice object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the invoice object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The invoice date.
    */
-  invoice_date?: string;
+  readonly invoice_date?: string;
   /**
    * The invoice number.
    */
-  invoice_number?: string;
+  readonly invoice_number?: string;
   /**
    * The category to display to the user.
    */
-  category?: string;
+  readonly category?: string;
   /**
    * The invoice item groups.
    */
-  group?: Array<IInvoiceItemGroup>;
+  readonly group?: Array<IInvoiceItemGroup>;
   /**
    * The total discounted item price including VAT.
    */
-  total_vat_inclusive?: IAmount;
+  readonly total_vat_inclusive?: IAmount;
   /**
    * The total discounted item price excluding VAT.
    */
-  total_vat_exclusive?: IAmount;
+  readonly total_vat_exclusive?: IAmount;
   /**
    * The VAT on the total discounted item price.
    */
-  total_vat?: IAmount;
+  readonly total_vat?: IAmount;
   /**
    * The label that's displayed to the counterparty with the invoice. Includes user.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The customer's address.
    */
-  address?: IAddress;
+  readonly address?: IAddress;
   /**
    * The label of the counterparty of the invoice. Includes user.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * The company's address.
    */
-  counterparty_address?: IAddress;
+  readonly counterparty_address?: IAddress;
   /**
    * The company's chamber of commerce number.
    */
-  chamber_of_commerce_number?: string;
+  readonly chamber_of_commerce_number?: string;
   /**
    * The company's chamber of commerce number.
    */
-  vat_number?: string;
+  readonly vat_number?: string;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
 }
 
 export interface IInstallationToken {
   /**
    * The id of the Token.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the Token's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the Token's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The installation token is the token the client has to provide in the "X-Bunq-Client-Authentication" header for the creation of a DeviceServer and SessionServer.
    */
-  token?: string;
+  readonly token?: string;
 }
 
 export interface IInstallationServerPublicKeyListing {
   /**
    * The server's public key for this Installation.
    */
-  server_public_key?: string;
+  readonly server_public_key?: string;
 }
 
 export interface IInstallationServerPublicKey {
   /**
    * The server's public key for this Installation. You should use this key to verify the "X-Bunq-Server-Signature" header for each response from the server.
    */
-  server_public_key?: string;
+  readonly server_public_key?: string;
 }
 
 export interface IInstallationRead {
   /**
    * The id of the Installation as created on the server. You can use this id to request the server's public key again.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IInstallationListing {
   /**
    * The id of the Installation as created on the server. You can use this id to request the server's public key again.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IInstallationCreate {
   /**
    * The Id object of the created Installation
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
   /**
    * The Token object of this Installation.
    */
-  Token?: IInstallationToken;
+  readonly Token?: IInstallationToken;
   /**
    * The ServerPublicKey object of the created Installation
    */
-  ServerPublicKey?: IInstallationServerPublicKey;
+  readonly ServerPublicKey?: IInstallationServerPublicKey;
 }
 
 export interface IInstallation {
@@ -9280,198 +9282,198 @@ export interface IInsightListing {
   /**
    * The category.
    */
-  category?: string;
+  readonly category?: string;
   /**
    * The translated category.
    */
-  category_translated?: string;
+  readonly category_translated?: string;
   /**
    * The total amount of the transactions in the category.
    */
-  amount_total?: IAmount;
+  readonly amount_total?: IAmount;
   /**
    * The number of the transactions in the category.
    */
-  number_of_transactions?: number;
+  readonly number_of_transactions?: number;
 }
 
 export interface IInsightEventListing {
   /**
    * The id of the event.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the event's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the event's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The performed action. Can be: CREATE or UPDATE.
    */
-  action?: string;
+  readonly action?: string;
   /**
    * The id of the user the event applied to (if it was a user event).
    */
-  user_id?: string;
+  readonly user_id?: string;
   /**
    * The id of the monetary account the event applied to (if it was a monetary account event).
    */
-  monetary_account_id?: string;
+  readonly monetary_account_id?: string;
   /**
    * The details of the external object the event was created for.
    */
-  object?: IEventObject;
+  readonly object?: IEventObject;
   /**
    * The event status. Can be: FINALIZED or AWAITING_REPLY. An example of FINALIZED event is a payment received event, while an AWAITING_REPLY event is a request received event.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface IImage {
   /**
    * The public UUID of the public attachment containing the image.
    */
-  attachment_public_uuid?: string;
+  readonly attachment_public_uuid?: string;
   /**
    * The content-type as a MIME filetype.
    */
-  content_type?: string;
+  readonly content_type?: string;
   /**
    * The image height in pixels.
    */
-  height?: number;
+  readonly height?: number;
   /**
    * The image width in pixels.
    */
-  width?: number;
+  readonly width?: number;
 }
 
 export interface IIdealMerchantTransactionRead {
   /**
    * The id of the monetary account this ideal merchant transaction links to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The alias of the monetary account to add money to.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The alias of the monetary account the money comes from.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * In case of a successful transaction, the amount of money that will be transferred.
    */
-  amount_guaranteed?: IAmount;
+  readonly amount_guaranteed?: IAmount;
   /**
    * The requested amount of money to add.
    */
-  amount_requested?: IAmount;
+  readonly amount_requested?: IAmount;
   /**
    * When the transaction will expire.
    */
-  expiration?: string;
+  readonly expiration?: string;
   /**
    * The BIC of the issuer.
    */
-  issuer?: string;
+  readonly issuer?: string;
   /**
    * The Name of the issuer.
    */
-  issuer_name?: string;
+  readonly issuer_name?: string;
   /**
    * The URL to visit to
    */
-  issuer_authentication_url?: string;
+  readonly issuer_authentication_url?: string;
   /**
    * The 'purchase ID' of the iDEAL transaction.
    */
-  purchase_identifier?: string;
+  readonly purchase_identifier?: string;
   /**
    * The status of the transaction.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * When the status was last updated.
    */
-  status_timestamp?: string;
+  readonly status_timestamp?: string;
   /**
    * The 'transaction ID' of the iDEAL transaction.
    */
-  transaction_identifier?: string;
+  readonly transaction_identifier?: string;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
 }
 
 export interface IIdealMerchantTransactionListing {
   /**
    * The id of the monetary account this ideal merchant transaction links to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The alias of the monetary account to add money to.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The alias of the monetary account the money comes from.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * In case of a successful transaction, the amount of money that will be transferred.
    */
-  amount_guaranteed?: IAmount;
+  readonly amount_guaranteed?: IAmount;
   /**
    * The requested amount of money to add.
    */
-  amount_requested?: IAmount;
+  readonly amount_requested?: IAmount;
   /**
    * When the transaction will expire.
    */
-  expiration?: string;
+  readonly expiration?: string;
   /**
    * The BIC of the issuer.
    */
-  issuer?: string;
+  readonly issuer?: string;
   /**
    * The Name of the issuer.
    */
-  issuer_name?: string;
+  readonly issuer_name?: string;
   /**
    * The URL to visit to
    */
-  issuer_authentication_url?: string;
+  readonly issuer_authentication_url?: string;
   /**
    * The 'purchase ID' of the iDEAL transaction.
    */
-  purchase_identifier?: string;
+  readonly purchase_identifier?: string;
   /**
    * The status of the transaction.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * When the status was last updated.
    */
-  status_timestamp?: string;
+  readonly status_timestamp?: string;
   /**
    * The 'transaction ID' of the iDEAL transaction.
    */
-  transaction_identifier?: string;
+  readonly transaction_identifier?: string;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
 }
 
 export interface IIdealMerchantTransactionCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IIdealMerchantTransaction {
@@ -9486,51 +9488,51 @@ export interface IIdealMerchantTransaction {
   /**
    * The id of the monetary account this ideal merchant transaction links to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The alias of the monetary account to add money to.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The alias of the monetary account the money comes from.
    */
-  counterparty_alias?: ILabelMonetaryAccount;
+  readonly counterparty_alias?: ILabelMonetaryAccount;
   /**
    * In case of a successful transaction, the amount of money that will be transferred.
    */
-  amount_guaranteed?: IAmount;
+  readonly amount_guaranteed?: IAmount;
   /**
    * When the transaction will expire.
    */
-  expiration?: string;
+  readonly expiration?: string;
   /**
    * The Name of the issuer.
    */
-  issuer_name?: string;
+  readonly issuer_name?: string;
   /**
    * The URL to visit to
    */
-  issuer_authentication_url?: string;
+  readonly issuer_authentication_url?: string;
   /**
    * The 'purchase ID' of the iDEAL transaction.
    */
-  purchase_identifier?: string;
+  readonly purchase_identifier?: string;
   /**
    * The status of the transaction.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * When the status was last updated.
    */
-  status_timestamp?: string;
+  readonly status_timestamp?: string;
   /**
    * The 'transaction ID' of the iDEAL transaction.
    */
-  transaction_identifier?: string;
+  readonly transaction_identifier?: string;
   /**
    * Whether or not chat messages are allowed.
    */
-  allow_chat?: boolean;
+  readonly allow_chat?: boolean;
 }
 
 export interface IGeolocation {
@@ -9556,99 +9558,99 @@ export interface IFeatureAnnouncementRead {
   /**
    * The Avatar of the event overview.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The event overview title of the feature display
    */
-  title?: string;
+  readonly title?: string;
   /**
    * The event overview subtitle of the feature display
    */
-  sub_title?: string;
+  readonly sub_title?: string;
 }
 
 export interface IFeatureAnnouncement {
   /**
    * The Avatar of the event overview.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The event overview title of the feature display
    */
-  title?: string;
+  readonly title?: string;
   /**
    * The event overview subtitle of the feature display
    */
-  sub_title?: string;
+  readonly sub_title?: string;
 }
 
 export interface IExportStatementRead {
   /**
    * The id of the customer statement model.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the statement model's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the statement model's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The date from when this statement shows transactions.
    */
-  date_start?: string;
+  readonly date_start?: string;
   /**
    * The date until which statement shows transactions.
    */
-  date_end?: string;
+  readonly date_end?: string;
   /**
    * The status of the export.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * MT940 Statement number. Unique per monetary account.
    */
-  statement_number?: number;
+  readonly statement_number?: number;
   /**
    * The format of statement.
    */
-  statement_format?: string;
+  readonly statement_format?: string;
   /**
    * The regional format of a CSV statement.
    */
-  regional_format?: string;
+  readonly regional_format?: string;
   /**
    * The monetary account for which this statement was created.
    */
-  alias_monetary_account?: ILabelMonetaryAccount;
+  readonly alias_monetary_account?: ILabelMonetaryAccount;
 }
 
 export interface IExportStatementPaymentRead {
   /**
    * The id of the single payment statement model.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the statement model's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the statement model's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of the export.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface IExportStatementPaymentCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IExportStatementPaymentContentListing {}
@@ -9659,43 +9661,43 @@ export interface IExportStatementListing {
   /**
    * The id of the customer statement model.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the statement model's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the statement model's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The date from when this statement shows transactions.
    */
-  date_start?: string;
+  readonly date_start?: string;
   /**
    * The date until which statement shows transactions.
    */
-  date_end?: string;
+  readonly date_end?: string;
   /**
    * The status of the export.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * MT940 Statement number. Unique per monetary account.
    */
-  statement_number?: number;
+  readonly statement_number?: number;
   /**
    * The format of statement.
    */
-  statement_format?: string;
+  readonly statement_format?: string;
   /**
    * The regional format of a CSV statement.
    */
-  regional_format?: string;
+  readonly regional_format?: string;
   /**
    * The monetary account for which this statement was created.
    */
-  alias_monetary_account?: ILabelMonetaryAccount;
+  readonly alias_monetary_account?: ILabelMonetaryAccount;
 }
 
 export interface IExportStatementDelete {}
@@ -9704,7 +9706,7 @@ export interface IExportStatementCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IExportStatementContentListing {}
@@ -9736,30 +9738,30 @@ export interface IExportRibRead {
   /**
    * The id of the rib as created on the server.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the RIB's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the RIB's last update.
    */
-  updated?: string;
+  readonly updated?: string;
 }
 
 export interface IExportRibListing {
   /**
    * The id of the rib as created on the server.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the RIB's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the RIB's last update.
    */
-  updated?: string;
+  readonly updated?: string;
 }
 
 export interface IExportRibDelete {}
@@ -9768,7 +9770,7 @@ export interface IExportRibCreate {
   /**
    * The id of the rib as created on the server.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IExportRibContentListing {}
@@ -9779,46 +9781,46 @@ export interface IExportAnnualOverviewRead {
   /**
    * The id of the annual overview as created on the server.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the annual overview 's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the annual overview 's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The year for which the overview is.
    */
-  year?: number;
+  readonly year?: number;
   /**
    * The user to which this annual overview belongs.
    */
-  alias_user?: ILabelUser;
+  readonly alias_user?: ILabelUser;
 }
 
 export interface IExportAnnualOverviewListing {
   /**
    * The id of the annual overview as created on the server.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the annual overview 's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the annual overview 's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The year for which the overview is.
    */
-  year?: number;
+  readonly year?: number;
   /**
    * The user to which this annual overview belongs.
    */
-  alias_user?: ILabelUser;
+  readonly alias_user?: ILabelUser;
 }
 
 export interface IExportAnnualOverviewDelete {}
@@ -9827,7 +9829,7 @@ export interface IExportAnnualOverviewCreate {
   /**
    * The id of the annual overview as created on the server.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IExportAnnualOverviewContentListing {}
@@ -9843,223 +9845,223 @@ export interface IEventRead {
   /**
    * The id of the event.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the event's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the event's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The performed action. Can be: CREATE or UPDATE.
    */
-  action?: string;
+  readonly action?: string;
   /**
    * The id of the user the event applied to (if it was a user event).
    */
-  user_id?: string;
+  readonly user_id?: string;
   /**
    * The id of the monetary account the event applied to (if it was a monetary account event).
    */
-  monetary_account_id?: string;
+  readonly monetary_account_id?: string;
   /**
    * The details of the external object the event was created for.
    */
-  object?: IEventObject;
+  readonly object?: IEventObject;
   /**
    * The event status. Can be: FINALIZED or AWAITING_REPLY. An example of FINALIZED event is a payment received event, while an AWAITING_REPLY event is a request received event.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface IEventObject {
   /**
    *
    */
-  BunqMeTab?: IBunqMeTab;
+  readonly BunqMeTab?: IBunqMeTab;
   /**
    *
    */
-  BunqMeTabResultResponse?: IBunqMeTabResultResponse;
+  readonly BunqMeTabResultResponse?: IBunqMeTabResultResponse;
   /**
    *
    */
-  BunqMeFundraiserResult?: IBunqMeFundraiserResult;
+  readonly BunqMeFundraiserResult?: IBunqMeFundraiserResult;
   /**
    *
    */
-  Card?: ICard;
+  readonly Card?: ICard;
   /**
    *
    */
-  CardDebit?: ICardDebit;
+  readonly CardDebit?: ICardDebit;
   /**
    *
    */
-  DraftPayment?: IDraftPayment;
+  readonly DraftPayment?: IDraftPayment;
   /**
    *
    */
-  FeatureAnnouncement?: IFeatureAnnouncement;
+  readonly FeatureAnnouncement?: IFeatureAnnouncement;
   /**
    *
    */
-  IdealMerchantTransaction?: IIdealMerchantTransaction;
+  readonly IdealMerchantTransaction?: IIdealMerchantTransaction;
   /**
    *
    */
-  Invoice?: IInvoice;
+  readonly Invoice?: IInvoice;
   /**
    *
    */
-  ScheduledPayment?: ISchedulePayment;
+  readonly ScheduledPayment?: ISchedulePayment;
   /**
    *
    */
-  ScheduledPaymentBatch?: ISchedulePaymentBatch;
+  readonly ScheduledPaymentBatch?: ISchedulePaymentBatch;
   /**
    *
    */
-  ScheduledInstance?: IScheduleInstance;
+  readonly ScheduledInstance?: IScheduleInstance;
   /**
    *
    */
-  MasterCardAction?: IMasterCardAction;
+  readonly MasterCardAction?: IMasterCardAction;
   /**
    *
    */
-  BankSwitchServiceNetherlandsIncomingPayment?: IBankSwitchServiceNetherlandsIncomingPayment;
+  readonly BankSwitchServiceNetherlandsIncomingPayment?: IBankSwitchServiceNetherlandsIncomingPayment;
   /**
    *
    */
-  Payment?: IPayment;
+  readonly Payment?: IPayment;
   /**
    *
    */
-  PaymentBatch?: IPaymentBatch;
+  readonly PaymentBatch?: IPaymentBatch;
   /**
    *
    */
-  RequestInquiryBatch?: IRequestInquiryBatch;
+  readonly RequestInquiryBatch?: IRequestInquiryBatch;
   /**
    *
    */
-  RequestInquiry?: IRequestInquiry;
+  readonly RequestInquiry?: IRequestInquiry;
   /**
    *
    */
-  RequestResponse?: IRequestResponse;
+  readonly RequestResponse?: IRequestResponse;
   /**
    *
    */
-  RewardRecipient?: IRewardRecipient;
+  readonly RewardRecipient?: IRewardRecipient;
   /**
    *
    */
-  RewardSender?: IRewardSender;
+  readonly RewardSender?: IRewardSender;
   /**
    *
    */
-  ShareInviteMonetaryAccountInquiryBatch?: IShareInviteMonetaryAccountInquiryBatch;
+  readonly ShareInviteMonetaryAccountInquiryBatch?: IShareInviteMonetaryAccountInquiryBatch;
   /**
    *
    */
-  ShareInviteMonetaryAccountInquiry?: IShareInviteMonetaryAccountInquiry;
+  readonly ShareInviteMonetaryAccountInquiry?: IShareInviteMonetaryAccountInquiry;
   /**
    *
    */
-  ShareInviteMonetaryAccountResponse?: IShareInviteMonetaryAccountResponse;
+  readonly ShareInviteMonetaryAccountResponse?: IShareInviteMonetaryAccountResponse;
   /**
    *
    */
-  SofortMerchantTransaction?: ISofortMerchantTransaction;
+  readonly SofortMerchantTransaction?: ISofortMerchantTransaction;
   /**
    *
    */
-  TabResultInquiry?: ITabResultInquiry;
+  readonly TabResultInquiry?: ITabResultInquiry;
   /**
    *
    */
-  TabResultResponse?: ITabResultResponse;
+  readonly TabResultResponse?: ITabResultResponse;
   /**
    *
    */
-  TransferwisePayment?: ITransferwiseTransfer;
+  readonly TransferwisePayment?: ITransferwiseTransfer;
 }
 
 export interface IEventListing {
   /**
    * The id of the event.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the event's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the event's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The performed action. Can be: CREATE or UPDATE.
    */
-  action?: string;
+  readonly action?: string;
   /**
    * The id of the user the event applied to (if it was a user event).
    */
-  user_id?: string;
+  readonly user_id?: string;
   /**
    * The id of the monetary account the event applied to (if it was a monetary account event).
    */
-  monetary_account_id?: string;
+  readonly monetary_account_id?: string;
   /**
    * The details of the external object the event was created for.
    */
-  object?: IEventObject;
+  readonly object?: IEventObject;
   /**
    * The event status. Can be: FINALIZED or AWAITING_REPLY. An example of FINALIZED event is a payment received event, while an AWAITING_REPLY event is a request received event.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface IDraftShareInviteMonetaryAccountUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IDraftShareInviteMonetaryAccountRead {
   /**
    * The user who created the draft share invite.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
   /**
    * The status of the draft share invite. Can be USED, CANCELLED and PENDING.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The moment when this draft share invite expires.
    */
-  expiration?: string;
+  readonly expiration?: string;
   /**
    * The id of the share invite bank response this draft share belongs to.
    */
-  share_invite_bank_response_id?: number;
+  readonly share_invite_bank_response_id?: number;
   /**
    * The URL redirecting user to the draft share invite in the app. Only works on mobile devices.
    */
-  draft_share_url?: string;
+  readonly draft_share_url?: string;
   /**
    * The draft share invite details.
    */
-  draft_share_settings?: IDraftShareInviteEntry;
+  readonly draft_share_settings?: IDraftShareInviteEntry;
   /**
    * The id of the newly created draft share invite.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IDraftShareInviteMonetaryAccountQrCodeContentListing {}
@@ -10068,38 +10070,38 @@ export interface IDraftShareInviteMonetaryAccountListing {
   /**
    * The user who created the draft share invite.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
   /**
    * The status of the draft share invite. Can be USED, CANCELLED and PENDING.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The moment when this draft share invite expires.
    */
-  expiration?: string;
+  readonly expiration?: string;
   /**
    * The id of the share invite bank response this draft share belongs to.
    */
-  share_invite_bank_response_id?: number;
+  readonly share_invite_bank_response_id?: number;
   /**
    * The URL redirecting user to the draft share invite in the app. Only works on mobile devices.
    */
-  draft_share_url?: string;
+  readonly draft_share_url?: string;
   /**
    * The draft share invite details.
    */
-  draft_share_settings?: IDraftShareInviteEntry;
+  readonly draft_share_settings?: IDraftShareInviteEntry;
   /**
    * The id of the newly created draft share invite.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IDraftShareInviteMonetaryAccountCreate {
   /**
    * The id of the newly created draft share invite.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IDraftShareInviteMonetaryAccount {
@@ -10136,104 +10138,104 @@ export interface IDraftPaymentUpdate {
   /**
    * The id of the created DrafPayment.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IDraftPaymentResponse {
   /**
    * The status with which was responded.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The user that responded to the DraftPayment.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
 }
 
 export interface IDraftPaymentRead {
   /**
    * The id of the created DrafPayment.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The id of the MonetaryAccount the DraftPayment applies to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The label of the User who created the DraftPayment.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
   /**
    * All responses to this draft payment.
    */
-  responses?: Array<IDraftPaymentResponse>;
+  readonly responses?: Array<IDraftPaymentResponse>;
   /**
    * The status of the DraftPayment.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The type of the DraftPayment.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The entries in the DraftPayment.
    */
-  entries?: Array<IDraftPaymentEntry>;
+  readonly entries?: Array<IDraftPaymentEntry>;
   /**
    * The Payment or PaymentBatch. This will only be present after the DraftPayment has been accepted.
    */
-  object?: IDraftPaymentAnchorObject;
+  readonly object?: IDraftPaymentAnchorObject;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
   /**
    * The schedule details.
    */
-  schedule?: ISchedule;
+  readonly schedule?: ISchedule;
 }
 
 export interface IDraftPaymentListing {
   /**
    * The id of the created DrafPayment.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The id of the MonetaryAccount the DraftPayment applies to.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The label of the User who created the DraftPayment.
    */
-  user_alias_created?: ILabelUser;
+  readonly user_alias_created?: ILabelUser;
   /**
    * All responses to this draft payment.
    */
-  responses?: Array<IDraftPaymentResponse>;
+  readonly responses?: Array<IDraftPaymentResponse>;
   /**
    * The status of the DraftPayment.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The type of the DraftPayment.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The entries in the DraftPayment.
    */
-  entries?: Array<IDraftPaymentEntry>;
+  readonly entries?: Array<IDraftPaymentEntry>;
   /**
    * The Payment or PaymentBatch. This will only be present after the DraftPayment has been accepted.
    */
-  object?: IDraftPaymentAnchorObject;
+  readonly object?: IDraftPaymentAnchorObject;
   /**
    * The reference to the object used for split the bill. Can be RequestInquiry or RequestInquiryBatch
    */
-  request_reference_split_the_bill?: Array<IRequestInquiryReference>;
+  readonly request_reference_split_the_bill?: Array<IRequestInquiryReference>;
   /**
    * The schedule details.
    */
-  schedule?: ISchedule;
+  readonly schedule?: ISchedule;
 }
 
 export interface IDraftPaymentEntry {
@@ -10260,33 +10262,33 @@ export interface IDraftPaymentEntry {
   /**
    * The id of the draft payment entry.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The LabelMonetaryAccount containing the public information of 'this' (party) side of the DraftPayment.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The type of the draft payment entry.
    */
-  type?: string;
+  readonly type?: string;
 }
 
 export interface IDraftPaymentCreate {
   /**
    * The id of the created DrafPayment.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IDraftPaymentAnchorObject {
   /**
    *
    */
-  Payment?: IPayment;
+  readonly Payment?: IPayment;
   /**
    *
    */
-  PaymentBatch?: IPaymentBatch;
+  readonly PaymentBatch?: IPaymentBatch;
 }
 
 export interface IDraftPayment {
@@ -10316,61 +10318,61 @@ export interface IDeviceServerRead {
   /**
    * The id of the DeviceServer as created on the server.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the DeviceServer's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the DeviceServer's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The description of the DeviceServer.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The ip address which was used to create the DeviceServer.
    */
-  ip?: string;
+  readonly ip?: string;
   /**
    * The status of the DeviceServer. Can be ACTIVE, BLOCKED, NEEDS_CONFIRMATION or OBSOLETE.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface IDeviceServerListing {
   /**
    * The id of the DeviceServer as created on the server.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the DeviceServer's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the DeviceServer's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The description of the DeviceServer.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The ip address which was used to create the DeviceServer.
    */
-  ip?: string;
+  readonly ip?: string;
   /**
    * The status of the DeviceServer. Can be ACTIVE, BLOCKED, NEEDS_CONFIRMATION or OBSOLETE.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface IDeviceServerCreate {
   /**
    * The id of the DeviceServer as created on the server.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IDeviceServer {
@@ -10392,100 +10394,100 @@ export interface IDeviceRead {
   /**
    *
    */
-  DeviceServer?: IDeviceServer;
+  readonly DeviceServer?: IDeviceServer;
 }
 
 export interface IDeviceListing {
   /**
    *
    */
-  DeviceServer?: IDeviceServer;
+  readonly DeviceServer?: IDeviceServer;
 }
 
 export interface ICustomerLimitListing {
   /**
    * The limit of monetary accounts.
    */
-  limit_monetary_account?: number;
+  readonly limit_monetary_account?: number;
   /**
    * The amount of additional monetary accounts you can create.
    */
-  limit_monetary_account_remaining?: number;
+  readonly limit_monetary_account_remaining?: number;
   /**
    * The limit of Maestro cards.
    */
-  limit_card_debit_maestro?: number;
+  readonly limit_card_debit_maestro?: number;
   /**
    * The limit of MasterCard cards.
    */
-  limit_card_debit_mastercard?: number;
+  readonly limit_card_debit_mastercard?: number;
   /**
    * DEPRECTATED: The limit of wildcards, e.g. Maestro or MasterCard cards.
    */
-  limit_card_debit_wildcard?: number;
+  readonly limit_card_debit_wildcard?: number;
   /**
    * The limit of wildcards, e.g. Maestro or MasterCard cards.
    */
-  limit_card_wildcard?: number;
+  readonly limit_card_wildcard?: number;
   /**
    * DEPRECTATED: The limit of free replacement debit cards, replaced by: limit_card_replacement
    */
-  limit_card_debit_replacement?: number;
+  readonly limit_card_debit_replacement?: number;
   /**
    * The limit of free replacement cards.
    */
-  limit_card_replacement?: number;
+  readonly limit_card_replacement?: number;
   /**
    * The maximum amount a user is allowed to spend in a month.
    */
-  limit_amount_monthly?: IAmount;
+  readonly limit_amount_monthly?: IAmount;
   /**
    * The amount the user has spent in the last month.
    */
-  spent_amount_monthly?: IAmount;
+  readonly spent_amount_monthly?: IAmount;
 }
 
 export interface ICustomerLimit {
   /**
    * The limit of monetary accounts.
    */
-  limit_monetary_account?: number;
+  readonly limit_monetary_account?: number;
   /**
    * The amount of additional monetary accounts you can create.
    */
-  limit_monetary_account_remaining?: number;
+  readonly limit_monetary_account_remaining?: number;
   /**
    * The limit of Maestro cards.
    */
-  limit_card_debit_maestro?: number;
+  readonly limit_card_debit_maestro?: number;
   /**
    * The limit of MasterCard cards.
    */
-  limit_card_debit_mastercard?: number;
+  readonly limit_card_debit_mastercard?: number;
   /**
    * DEPRECTATED: The limit of wildcards, e.g. Maestro or MasterCard cards.
    */
-  limit_card_debit_wildcard?: number;
+  readonly limit_card_debit_wildcard?: number;
   /**
    * The limit of wildcards, e.g. Maestro or MasterCard cards.
    */
-  limit_card_wildcard?: number;
+  readonly limit_card_wildcard?: number;
   /**
    * DEPRECTATED: The limit of free replacement debit cards, replaced by: limit_card_replacement
    */
-  limit_card_debit_replacement?: number;
+  readonly limit_card_debit_replacement?: number;
   /**
    * The limit of free replacement cards.
    */
-  limit_card_replacement?: number;
+  readonly limit_card_replacement?: number;
   /**
    * The maximum amount a user is allowed to spend in a month.
    */
-  limit_amount_monthly?: IAmount;
+  readonly limit_amount_monthly?: IAmount;
   /**
    * The amount the user has spent in the last month.
    */
-  spent_amount_monthly?: IAmount;
+  readonly spent_amount_monthly?: IAmount;
 }
 
 export interface ICustomer {
@@ -10500,15 +10502,15 @@ export interface ICustomer {
   /**
    * The id of the customer.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the customer object's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the customer object's last update.
    */
-  updated?: string;
+  readonly updated?: string;
 }
 
 export interface ICoOwner {
@@ -10519,14 +10521,14 @@ export interface ICoOwner {
   /**
    * Can be: ACCEPTED, REJECTED, PENDING or REVOKED
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface IConfirmationOfFundsCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IConfirmationOfFunds {
@@ -10544,22 +10546,22 @@ export interface ICertificatePinnedRead {
   /**
    * The certificate chain in .PEM format. Certificates are glued with newline characters.
    */
-  certificate_chain?: string;
+  readonly certificate_chain?: string;
   /**
    * The id generated for the pinned certificate chain.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface ICertificatePinnedListing {
   /**
    * The certificate chain in .PEM format. Certificates are glued with newline characters.
    */
-  certificate_chain?: string;
+  readonly certificate_chain?: string;
   /**
    * The id generated for the pinned certificate chain.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface ICertificatePinnedDelete {}
@@ -10568,7 +10570,7 @@ export interface ICertificatePinnedCreate {
   /**
    * The id generated for the pinned certificate chain.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface ICertificatePinned {
@@ -10589,110 +10591,110 @@ export interface ICashRegisterUpdate {
   /**
    * The id of the updated CashRegister.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface ICashRegisterRead {
   /**
    * The id of the created CashRegister.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the CashRegister's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the CashRegister's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The name of the CashRegister.
    */
-  name?: string;
+  readonly name?: string;
   /**
    * The status of the CashRegister. Can be PENDING_APPROVAL, ACTIVE, DENIED or CLOSED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The Avatar of the CashRegister.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The geolocation of the CashRegister. Can be null.
    */
-  location?: IGeolocation;
+  readonly location?: IGeolocation;
   /**
    * The tab text for waiting screen of CashRegister.
    */
-  tab_text_waiting_screen?: Array<ITabTextWaitingScreen>;
+  readonly tab_text_waiting_screen?: Array<ITabTextWaitingScreen>;
 }
 
 export interface ICashRegisterQrCodeUpdate {
   /**
    * The id of the updated QR code. Use this id to get the RAW content of the QR code with: ../qr-code/{id}/content
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface ICashRegisterQrCodeRead {
   /**
    * The id of the created QR code. Use this id to get the RAW content of the QR code with: ../qr-code/{id}/content
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the QR code's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the TokenQrCashRegister's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of this QR code. If the status is "ACTIVE" the QR code can be scanned to see the linked CashRegister and tab. If the status is "INACTIVE" the QR code does not link to a anything.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The CashRegister that is linked to the token.
    */
-  cash_register?: ICashRegister;
+  readonly cash_register?: ICashRegister;
   /**
    * Holds the Tab object. Can be TabUsageSingle, TabUsageMultiple or null
    */
-  tab_object?: ITab;
+  readonly tab_object?: ITab;
 }
 
 export interface ICashRegisterQrCodeListing {
   /**
    * The id of the created QR code. Use this id to get the RAW content of the QR code with: ../qr-code/{id}/content
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the QR code's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the TokenQrCashRegister's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The status of this QR code. If the status is "ACTIVE" the QR code can be scanned to see the linked CashRegister and tab. If the status is "INACTIVE" the QR code does not link to a anything.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The CashRegister that is linked to the token.
    */
-  cash_register?: ICashRegister;
+  readonly cash_register?: ICashRegister;
   /**
    * Holds the Tab object. Can be TabUsageSingle, TabUsageMultiple or null
    */
-  tab_object?: ITab;
+  readonly tab_object?: ITab;
 }
 
 export interface ICashRegisterQrCodeCreate {
   /**
    * The id of the created QR code. Use this id to get the RAW content of the QR code with: ../qr-code/{id}/content
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface ICashRegisterQrCodeContentListing {}
@@ -10708,42 +10710,42 @@ export interface ICashRegisterListing {
   /**
    * The id of the created CashRegister.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the CashRegister's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the CashRegister's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The name of the CashRegister.
    */
-  name?: string;
+  readonly name?: string;
   /**
    * The status of the CashRegister. Can be PENDING_APPROVAL, ACTIVE, DENIED or CLOSED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The Avatar of the CashRegister.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
   /**
    * The geolocation of the CashRegister. Can be null.
    */
-  location?: IGeolocation;
+  readonly location?: IGeolocation;
   /**
    * The tab text for waiting screen of CashRegister.
    */
-  tab_text_waiting_screen?: Array<ITabTextWaitingScreen>;
+  readonly tab_text_waiting_screen?: Array<ITabTextWaitingScreen>;
 }
 
 export interface ICashRegisterCreate {
   /**
    * The id of the created CashRegister.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface ICashRegister {
@@ -10770,33 +10772,33 @@ export interface ICashRegister {
   /**
    * The id of the created CashRegister.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the CashRegister's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the CashRegister's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The Avatar of the CashRegister.
    */
-  avatar?: IAvatar;
+  readonly avatar?: IAvatar;
 }
 
 export interface ICardUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ICardReplaceCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ICardReplace {
@@ -10818,87 +10820,87 @@ export interface ICardRead {
   /**
    * The id of the card.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the card's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the card's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The public UUID of the card.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The type of the card. Can be MAESTRO, MASTERCARD.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The sub-type of the card.
    */
-  sub_type?: string;
+  readonly sub_type?: string;
   /**
    * The second line of text on the card
    */
-  second_line?: string;
+  readonly second_line?: string;
   /**
    * The status to set for the card. Can be ACTIVE, DEACTIVATED, LOST, STOLEN, CANCELLED, EXPIRED or PIN_TRIES_EXCEEDED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The sub-status of the card. Can be NONE or REPLACED.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The order status of the card. Can be CARD_UPDATE_REQUESTED, CARD_UPDATE_SENT, CARD_UPDATE_ACCEPTED, ACCEPTED_FOR_PRODUCTION or DELIVERED_TO_CUSTOMER.
    */
-  order_status?: string;
+  readonly order_status?: string;
   /**
    * Expiry date of the card.
    */
-  expiry_date?: string;
+  readonly expiry_date?: string;
   /**
    * The user's name on the card.
    */
-  name_on_card?: string;
+  readonly name_on_card?: string;
   /**
    * Array of PANs and their attributes.
    */
-  primary_account_numbers?: Array<ICardPrimaryAccountNumber>;
+  readonly primary_account_numbers?: Array<ICardPrimaryAccountNumber>;
   /**
    * The spending limit for the card.
    */
-  card_limit?: IAmount;
+  readonly card_limit?: IAmount;
   /**
    * The ATM spending limit for the card.
    */
-  card_limit_atm?: IAmount;
+  readonly card_limit_atm?: IAmount;
   /**
    * The countries for which to grant (temporary) permissions to use the card.
    */
-  country_permission?: Array<ICardCountryPermission>;
+  readonly country_permission?: Array<ICardCountryPermission>;
   /**
    * The monetary account this card was ordered on and the label user that owns the card.
    */
-  label_monetary_account_ordered?: ILabelMonetaryAccount;
+  readonly label_monetary_account_ordered?: ILabelMonetaryAccount;
   /**
    * The monetary account that this card is currently linked to and the label user viewing it.
    */
-  label_monetary_account_current?: ILabelMonetaryAccount;
+  readonly label_monetary_account_current?: ILabelMonetaryAccount;
   /**
    * Array of Types, PINs, account IDs assigned to the card.
    */
-  pin_code_assignment?: Array<ICardPinAssignment>;
+  readonly pin_code_assignment?: Array<ICardPinAssignment>;
   /**
    * ID of the MA to be used as fallback for this card if insufficient balance. Fallback account is removed if not supplied.
    */
-  monetary_account_id_fallback?: number;
+  readonly monetary_account_id_fallback?: number;
   /**
    * The country that is domestic to the card. Defaults to country of residence of user.
    */
-  country?: string;
+  readonly country?: string;
 }
 
 export interface ICardPrimaryAccountNumber {
@@ -10921,11 +10923,11 @@ export interface ICardPrimaryAccountNumber {
   /**
    * The UUID for this Virtual PAN.
    */
-  uuid?: string;
+  readonly uuid?: string;
   /**
    * The last four digits of the PAN.
    */
-  four_digit?: string;
+  readonly four_digit?: string;
 }
 
 export interface ICardPinAssignment {
@@ -10947,170 +10949,170 @@ export interface ICardNameListing {
   /**
    * All possible variations (of suitable length) of user's legal name for the debit card.
    */
-  possible_card_name_array?: Array<string>;
+  readonly possible_card_name_array?: Array<string>;
 }
 
 export interface ICardListing {
   /**
    * The id of the card.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the card's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the card's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The public UUID of the card.
    */
-  public_uuid?: string;
+  readonly public_uuid?: string;
   /**
    * The type of the card. Can be MAESTRO, MASTERCARD.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The sub-type of the card.
    */
-  sub_type?: string;
+  readonly sub_type?: string;
   /**
    * The second line of text on the card
    */
-  second_line?: string;
+  readonly second_line?: string;
   /**
    * The status to set for the card. Can be ACTIVE, DEACTIVATED, LOST, STOLEN, CANCELLED, EXPIRED or PIN_TRIES_EXCEEDED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The sub-status of the card. Can be NONE or REPLACED.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
   /**
    * The order status of the card. Can be CARD_UPDATE_REQUESTED, CARD_UPDATE_SENT, CARD_UPDATE_ACCEPTED, ACCEPTED_FOR_PRODUCTION or DELIVERED_TO_CUSTOMER.
    */
-  order_status?: string;
+  readonly order_status?: string;
   /**
    * Expiry date of the card.
    */
-  expiry_date?: string;
+  readonly expiry_date?: string;
   /**
    * The user's name on the card.
    */
-  name_on_card?: string;
+  readonly name_on_card?: string;
   /**
    * Array of PANs and their attributes.
    */
-  primary_account_numbers?: Array<ICardPrimaryAccountNumber>;
+  readonly primary_account_numbers?: Array<ICardPrimaryAccountNumber>;
   /**
    * The spending limit for the card.
    */
-  card_limit?: IAmount;
+  readonly card_limit?: IAmount;
   /**
    * The ATM spending limit for the card.
    */
-  card_limit_atm?: IAmount;
+  readonly card_limit_atm?: IAmount;
   /**
    * The countries for which to grant (temporary) permissions to use the card.
    */
-  country_permission?: Array<ICardCountryPermission>;
+  readonly country_permission?: Array<ICardCountryPermission>;
   /**
    * The monetary account this card was ordered on and the label user that owns the card.
    */
-  label_monetary_account_ordered?: ILabelMonetaryAccount;
+  readonly label_monetary_account_ordered?: ILabelMonetaryAccount;
   /**
    * The monetary account that this card is currently linked to and the label user viewing it.
    */
-  label_monetary_account_current?: ILabelMonetaryAccount;
+  readonly label_monetary_account_current?: ILabelMonetaryAccount;
   /**
    * Array of Types, PINs, account IDs assigned to the card.
    */
-  pin_code_assignment?: Array<ICardPinAssignment>;
+  readonly pin_code_assignment?: Array<ICardPinAssignment>;
   /**
    * ID of the MA to be used as fallback for this card if insufficient balance. Fallback account is removed if not supplied.
    */
-  monetary_account_id_fallback?: number;
+  readonly monetary_account_id_fallback?: number;
   /**
    * The country that is domestic to the card. Defaults to country of residence of user.
    */
-  country?: string;
+  readonly country?: string;
 }
 
 export interface ICardGeneratedCvc2Update {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ICardGeneratedCvc2Read {
   /**
    * The id of the cvc code.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the cvc code's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the cvc code's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The type of generated cvc2. Can be STATIC or GENERATED.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The cvc2 code.
    */
-  cvc2?: string;
+  readonly cvc2?: string;
   /**
    * The status of the cvc2. Can be AVAILABLE, USED, EXPIRED, BLOCKED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * Expiry time of the cvc2.
    */
-  expiry_time?: string;
+  readonly expiry_time?: string;
 }
 
 export interface ICardGeneratedCvc2Listing {
   /**
    * The id of the cvc code.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the cvc code's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the cvc code's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The type of generated cvc2. Can be STATIC or GENERATED.
    */
-  type?: string;
+  readonly type?: string;
   /**
    * The cvc2 code.
    */
-  cvc2?: string;
+  readonly cvc2?: string;
   /**
    * The status of the cvc2. Can be AVAILABLE, USED, EXPIRED, BLOCKED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * Expiry time of the cvc2.
    */
-  expiry_time?: string;
+  readonly expiry_time?: string;
 }
 
 export interface ICardGeneratedCvc2Create {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ICardGeneratedCvc2 {
@@ -11124,7 +11126,7 @@ export interface ICardDebitCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ICardDebit {
@@ -11158,7 +11160,7 @@ export interface ICardCreditCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface ICardCredit {
@@ -11200,7 +11202,7 @@ export interface ICardCountryPermission {
   /**
    * The id of the card country permission entry.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface ICardBatchEntry {
@@ -11234,7 +11236,7 @@ export interface ICardBatchCreate {
   /**
    * The ids of the cards that have been updated.
    */
-  updated_card_ids?: Array<BunqId>;
+  readonly updated_card_ids?: Array<BunqId>;
 }
 
 export interface ICardBatch {
@@ -11287,110 +11289,110 @@ export interface IBunqMeTabUpdate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IBunqMeTabResultResponseRead {
   /**
    * The payment made for the bunq.me tab.
    */
-  payment?: IPayment;
+  readonly payment?: IPayment;
 }
 
 export interface IBunqMeTabResultResponse {
   /**
    * The payment made for the bunq.me tab.
    */
-  payment?: IPayment;
+  readonly payment?: IPayment;
 }
 
 export interface IBunqMeTabResultInquiry {
   /**
    * The payment made for the Tab.
    */
-  payment?: IPayment;
+  readonly payment?: IPayment;
   /**
    * The Id of the bunq.me tab that this BunqMeTabResultInquiry belongs to.
    */
-  bunq_me_tab_id?: number;
+  readonly bunq_me_tab_id?: number;
 }
 
 export interface IBunqMeTabRead {
   /**
    * The id of the created bunq.me.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp when the bunq.me was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp when the bunq.me was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The timestamp of when the bunq.me expired or will expire.
    */
-  time_expiry?: string;
+  readonly time_expiry?: string;
   /**
    * The id of the MonetaryAccount the bunq.me was sent from.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The status of the bunq.me. Can be WAITING_FOR_PAYMENT, CANCELLED or EXPIRED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The url that points to the bunq.me page.
    */
-  bunqme_tab_share_url?: string;
+  readonly bunqme_tab_share_url?: string;
   /**
    * The bunq.me entry containing the payment information.
    */
-  bunqme_tab_entry?: IBunqMeTabEntry;
+  readonly bunqme_tab_entry?: IBunqMeTabEntry;
   /**
    * The list of bunq.me result Inquiries successfully made and paid.
    */
-  result_inquiries?: Array<IBunqMeTabResultInquiry>;
+  readonly result_inquiries?: Array<IBunqMeTabResultInquiry>;
 }
 
 export interface IBunqMeTabListing {
   /**
    * The id of the created bunq.me.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp when the bunq.me was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp when the bunq.me was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The timestamp of when the bunq.me expired or will expire.
    */
-  time_expiry?: string;
+  readonly time_expiry?: string;
   /**
    * The id of the MonetaryAccount the bunq.me was sent from.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The status of the bunq.me. Can be WAITING_FOR_PAYMENT, CANCELLED or EXPIRED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The url that points to the bunq.me page.
    */
-  bunqme_tab_share_url?: string;
+  readonly bunqme_tab_share_url?: string;
   /**
    * The bunq.me entry containing the payment information.
    */
-  bunqme_tab_entry?: IBunqMeTabEntry;
+  readonly bunqme_tab_entry?: IBunqMeTabEntry;
   /**
    * The list of bunq.me result Inquiries successfully made and paid.
    */
-  result_inquiries?: Array<IBunqMeTabResultInquiry>;
+  readonly result_inquiries?: Array<IBunqMeTabResultInquiry>;
 }
 
 export interface IBunqMeTabEntry {
@@ -11409,26 +11411,26 @@ export interface IBunqMeTabEntry {
   /**
    * The uuid of the bunq.me.
    */
-  uuid?: string;
+  readonly uuid?: string;
   /**
    * The LabelMonetaryAccount with the public information of the User and the MonetaryAccount that created the bunq.me link.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The status of the bunq.me. Can be WAITING_FOR_PAYMENT, CANCELLED or EXPIRED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * List of available merchants.
    */
-  merchant_available?: Array<IBunqMeMerchantAvailable>;
+  readonly merchant_available?: Array<IBunqMeMerchantAvailable>;
 }
 
 export interface IBunqMeTabCreate {
   /**
    * The id of the created bunq.me.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IBunqMeTab {
@@ -11446,127 +11448,127 @@ export interface IBunqMeMerchantAvailable {
   /**
    * A merchant type supported by bunq.me.
    */
-  merchant_type?: string;
+  readonly merchant_type?: string;
   /**
    * Whether or not the merchant is available for the user.
    */
-  available?: boolean;
+  readonly available?: boolean;
 }
 
 export interface IBunqMeFundraiserResultRead {
   /**
    * The id of the bunq.me.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp when the bunq.me was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp when the bunq.me was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The bunq.me fundraiser profile.
    */
-  bunqme_fundraiser_profile?: IBunqMeFundraiserProfile;
+  readonly bunqme_fundraiser_profile?: IBunqMeFundraiserProfile;
   /**
    * The list of payments, paid to the bunq.me fundraiser profile.
    */
-  payments?: Array<IPayment>;
+  readonly payments?: Array<IPayment>;
 }
 
 export interface IBunqMeFundraiserResult {
   /**
    * The id of the bunq.me.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp when the bunq.me was created.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp when the bunq.me was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The bunq.me fundraiser profile.
    */
-  bunqme_fundraiser_profile?: IBunqMeFundraiserProfile;
+  readonly bunqme_fundraiser_profile?: IBunqMeFundraiserProfile;
   /**
    * The list of payments, paid to the bunq.me fundraiser profile.
    */
-  payments?: Array<IPayment>;
+  readonly payments?: Array<IPayment>;
 }
 
 export interface IBunqMeFundraiserProfileUserRead {
   /**
    * Id of the monetary account on which you want to receive bunq.me payments.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The color chosen for the bunq.me fundraiser profile in hexadecimal format.
    */
-  color?: string;
+  readonly color?: string;
   /**
    * The LabelMonetaryAccount with the public information of the User and the MonetaryAccount that created the bunq.me fundraiser profile.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The description of the bunq.me fundraiser profile.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment used for the background of the bunq.me fundraiser profile.
    */
-  attachment?: IAttachmentPublic;
+  readonly attachment?: IAttachmentPublic;
   /**
    * The pointer (url) which will be used to access the bunq.me fundraiser profile.
    */
-  pointer?: IPointer;
+  readonly pointer?: IPointer;
   /**
    * The URL which the user is sent to when a payment is completed.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * The status of the bunq.me fundraiser profile, can be ACTIVE or DEACTIVATED.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface IBunqMeFundraiserProfileUserListing {
   /**
    * Id of the monetary account on which you want to receive bunq.me payments.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
   /**
    * The color chosen for the bunq.me fundraiser profile in hexadecimal format.
    */
-  color?: string;
+  readonly color?: string;
   /**
    * The LabelMonetaryAccount with the public information of the User and the MonetaryAccount that created the bunq.me fundraiser profile.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The description of the bunq.me fundraiser profile.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment used for the background of the bunq.me fundraiser profile.
    */
-  attachment?: IAttachmentPublic;
+  readonly attachment?: IAttachmentPublic;
   /**
    * The pointer (url) which will be used to access the bunq.me fundraiser profile.
    */
-  pointer?: IPointer;
+  readonly pointer?: IPointer;
   /**
    * The URL which the user is sent to when a payment is completed.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * The status of the bunq.me fundraiser profile, can be ACTIVE or DEACTIVATED.
    */
-  status?: string;
+  readonly status?: string;
 }
 
 export interface IBunqMeFundraiserProfile {
@@ -11577,31 +11579,31 @@ export interface IBunqMeFundraiserProfile {
   /**
    * The color chosen for the bunq.me fundraiser profile in hexadecimal format.
    */
-  color?: string;
+  readonly color?: string;
   /**
    * The LabelMonetaryAccount with the public information of the User and the MonetaryAccount that created the bunq.me fundraiser profile.
    */
-  alias?: ILabelMonetaryAccount;
+  readonly alias?: ILabelMonetaryAccount;
   /**
    * The description of the bunq.me fundraiser profile.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The attachment attached to the fundraiser profile.
    */
-  attachment?: IAttachmentPublic;
+  readonly attachment?: IAttachmentPublic;
   /**
    * The status of the bunq.me fundraiser profile, can be ACTIVE or DEACTIVATED.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The URL which the user is sent to when a payment is completed.
    */
-  redirect_url?: string;
+  readonly redirect_url?: string;
   /**
    * Provided if the user has enabled their invite link.
    */
-  invite_profile_name?: string;
+  readonly invite_profile_name?: string;
 }
 
 export interface IBunqId {
@@ -11626,43 +11628,43 @@ export interface IBillingContractSubscriptionListing {
   /**
    * The id of the billing contract.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp when the billing contract was made.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp when the billing contract was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The date from when the billing contract is valid.
    */
-  contract_date_start?: string;
+  readonly contract_date_start?: string;
   /**
    * The date until when the billing contract is valid.
    */
-  contract_date_end?: string;
+  readonly contract_date_end?: string;
   /**
    * The version of the billing contract.
    */
-  contract_version?: number;
+  readonly contract_version?: number;
   /**
    * The subscription type of the user. Can be one of PERSON_SUPER_LIGHT_V1, PERSON_LIGHT_V1, PERSON_MORE_V1, PERSON_FREE_V1, PERSON_PREMIUM_V1, COMPANY_V1, or COMPANY_V2.
    */
-  subscription_type?: string;
+  readonly subscription_type?: string;
   /**
    * The subscription type the user will have after a subscription downgrade. Will be null if downgrading is not possible.
    */
-  subscription_type_downgrade?: string;
+  readonly subscription_type_downgrade?: string;
   /**
    * The subscription status.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The subscription substatus.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
 }
 
 export interface IBillingContractSubscription {
@@ -11673,61 +11675,61 @@ export interface IBillingContractSubscription {
   /**
    * The id of the billing contract.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp when the billing contract was made.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp when the billing contract was last updated.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The date from when the billing contract is valid.
    */
-  contract_date_start?: string;
+  readonly contract_date_start?: string;
   /**
    * The date until when the billing contract is valid.
    */
-  contract_date_end?: string;
+  readonly contract_date_end?: string;
   /**
    * The version of the billing contract.
    */
-  contract_version?: number;
+  readonly contract_version?: number;
   /**
    * The subscription type the user will have after a subscription downgrade. Will be null if downgrading is not possible.
    */
-  subscription_type_downgrade?: string;
+  readonly subscription_type_downgrade?: string;
   /**
    * The subscription status.
    */
-  status?: string;
+  readonly status?: string;
   /**
    * The subscription substatus.
    */
-  sub_status?: string;
+  readonly sub_status?: string;
 }
 
 export interface IBankSwitchServiceNetherlandsIncomingPaymentRead {
   /**
    * The bank switch service details.
    */
-  bank_switch_service?: IBankSwitchServiceNetherlandsIncoming;
+  readonly bank_switch_service?: IBankSwitchServiceNetherlandsIncoming;
   /**
    * The payment made using bank switch service.
    */
-  payment?: IPayment;
+  readonly payment?: IPayment;
 }
 
 export interface IBankSwitchServiceNetherlandsIncomingPayment {
   /**
    * The bank switch service details.
    */
-  bank_switch_service?: IBankSwitchServiceNetherlandsIncoming;
+  readonly bank_switch_service?: IBankSwitchServiceNetherlandsIncoming;
   /**
    * The payment made using bank switch service.
    */
-  payment?: IPayment;
+  readonly payment?: IPayment;
 }
 
 export interface IBankSwitchServiceNetherlandsIncoming {
@@ -11754,37 +11756,37 @@ export interface IBankSwitchServiceNetherlandsIncoming {
   /**
    * The label of the user creator of this switch service.
    */
-  user_alias?: ILabelUser;
+  readonly user_alias?: ILabelUser;
   /**
    * The timestamp when the switch service desired to be start.
    */
-  time_start_desired?: string;
+  readonly time_start_desired?: string;
   /**
    * The timestamp when the switch service ends.
    */
-  time_end?: string;
+  readonly time_end?: string;
   /**
    * Reference to the bank transfer form for this switch-service.
    */
-  attachment?: IAttachment;
+  readonly attachment?: IAttachment;
 }
 
 export interface IAvatarRead {
   /**
    * The UUID of the created avatar.
    */
-  uuid?: string;
+  readonly uuid?: string;
   /**
    * The content type of the image.
    */
-  image?: Array<IImage>;
+  readonly image?: Array<IImage>;
 }
 
 export interface IAvatarCreate {
   /**
    * The UUID of the created avatar.
    */
-  uuid?: string;
+  readonly uuid?: string;
 }
 
 export interface IAvatar {
@@ -11795,30 +11797,30 @@ export interface IAvatar {
   /**
    * The public UUID of object this avatar is anchored to.
    */
-  anchor_uuid?: string;
+  readonly anchor_uuid?: string;
   /**
    * The actual image information of this avatar.
    */
-  image?: Array<IImage>;
+  readonly image?: Array<IImage>;
 }
 
 export interface IAttachmentUserRead {
   /**
    * The id of the attachment.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the attachment's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the attachment's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The attachment.
    */
-  attachment?: IAttachment;
+  readonly attachment?: IAttachment;
 }
 
 export interface IAttachmentUserContentListing {}
@@ -11827,26 +11829,26 @@ export interface IAttachmentTabRead {
   /**
    * The id of the attachment.
    */
-  id?: number;
+  readonly id?: number;
   /**
    * The timestamp of the attachment's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the attachment's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The attachment.
    */
-  attachment?: IAttachment;
+  readonly attachment?: IAttachment;
 }
 
 export interface IAttachmentTabCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IAttachmentTabContentListing {}
@@ -11857,26 +11859,26 @@ export interface IAttachmentPublicRead {
   /**
    * The UUID of the attachment.
    */
-  uuid?: string;
+  readonly uuid?: string;
   /**
    * The timestamp of the attachment's creation.
    */
-  created?: string;
+  readonly created?: string;
   /**
    * The timestamp of the attachment's last update.
    */
-  updated?: string;
+  readonly updated?: string;
   /**
    * The attachment.
    */
-  attachment?: IAttachment;
+  readonly attachment?: IAttachment;
 }
 
 export interface IAttachmentPublicCreate {
   /**
    * The id of the created item
    */
-  Id?: BunqId;
+  readonly Id?: BunqId;
 }
 
 export interface IAttachmentPublicContentListing {}
@@ -11891,14 +11893,14 @@ export interface IAttachmentMonetaryAccountPayment {
   /**
    * The id of the MonetaryAccount this Attachment is attached from.
    */
-  monetary_account_id?: number;
+  readonly monetary_account_id?: number;
 }
 
 export interface IAttachmentMonetaryAccountCreate {
   /**
    * The ID of the attachment created.
    */
-  id?: number;
+  readonly id?: number;
 }
 
 export interface IAttachmentMonetaryAccountContentListing {}
@@ -11911,11 +11913,11 @@ export interface IAttachment {
   /**
    * The description of the attachment.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * The content type of the attachment's file.
    */
-  content_type?: string;
+  readonly content_type?: string;
 }
 
 export interface IAmount {
@@ -11965,7 +11967,7 @@ export interface IAddress {
   /**
    * The province according to local standard.
    */
-  province?: string;
+  readonly province?: string;
 }
 
 export type BunqId = string;
