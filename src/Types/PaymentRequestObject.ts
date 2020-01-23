@@ -1,6 +1,9 @@
 import CounterpartyAlias from "./CounterpartyAlias";
 import Amount from "./Amount";
 
+/**
+ * @deprecated
+ */
 export type PaymentRequestObject = {
     description: string;
     amount: Amount;

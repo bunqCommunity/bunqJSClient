@@ -1,26 +1,8 @@
-type NotificationFilter = {
-    notification_delivery_method: "URL" | "PUSH";
-    notification_target: string | null;
-    category:
-        | "BILLING"
-        | "BUNQME_TAB"
-        | "CARD_TRANSACTION_FAILED"
-        | "CARD_TRANSACTION_SUCCESSFUL"
-        | "CHAT"
-        | "DRAFT_PAYMENT"
-        | "IDEAL"
-        | "SOFORT"
-        | "MONETARY_ACCOUNT_PROFILE"
-        | "MUTATION"
-        | "PAYMENT"
-        | "PROMOTION"
-        | "REQUEST"
-        | "SCHEDULE_RESULT"
-        | "SCHEDULE_STATUS"
-        | "SHARE"
-        | "SUPPORT"
-        | "TAB_RESULT"
-        | "USER_APPROVAL";
-};
+import { INotificationFilter } from "./ApiTypes";
+
+/**
+ * @deprecated Use ApiTypes.INotificationFilter instead.
+ */
+type NotificationFilter = INotificationFilter;
 
 export default NotificationFilter;

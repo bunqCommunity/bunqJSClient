@@ -1,3 +1,6 @@
+/**
+ * @deprecated No alternative.
+ */
 type CounterpartyAlias = {
     type: string;
     value: string;

@@ -1,8 +1,8 @@
-import AmountValue from "./AmountValue";
+import { IAmount } from "./ApiTypes";
 
-type Amount = {
-    value: AmountValue;
-    currency: string;
-};
+/**
+ * @deprecated Use ApiTypes.IAmount instead.
+ */
+type Amount = IAmount;
 
 export default Amount;

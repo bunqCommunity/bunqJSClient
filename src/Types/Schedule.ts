@@ -1,10 +1,13 @@
-export type RecurrenceUnit = "ONCE" | "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
+import { ISchedule, RecurrenceUnitType } from "./ApiTypes";
 
-type Schedule = {
-    time_start: string;
-    time_end?: string;
-    recurrence_unit: RecurrenceUnit;
-    recurrence_size: number;
-};
+/**
+ * @deprecated Use ApiTypes.RecurrenceUnitType instead.
+ */
+export type RecurrenceUnit = RecurrenceUnitType;
+
+/**
+ * @deprecated Use ApiTypes.ISchedule instead.
+ */
+type Schedule = ISchedule;
 
 export default Schedule;

@@ -17,6 +17,7 @@
   "scripts": {
     "build": "tsc --listFiles --newline lf",
     "build:dev": "tsc -w --newline lf",
+    "build:types": "./build/types/generate-types.js",
     "test": "npm run test:prettier && npm run test:jest",
     "posttest": "rm -r tests/custom-db/*",
     "test:dev": "cross-env ENV_CI=true DEV_MODE=true jest --watch --coverage --config jest.config.js",

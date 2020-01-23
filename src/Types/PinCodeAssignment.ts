@@ -1,9 +1,8 @@
-import AssignmentType from "./AssignmentType";
+import { ICardPinAssignment } from "./ApiTypes";
 
-export type PinCodeAssignment = {
-    type: AssignmentType;
-    pin_code?: string;
-    monetary_account_id: number;
-};
+/**
+ * @deprecated Use ApiTypes.ICardPinAssignment instead.
+ */
+export type PinCodeAssignment = ICardPinAssignment;
 
 export default PinCodeAssignment;
