@@ -251,7 +251,7 @@ function parse(spec, options= {}) {
         const singleInterface = [];
         const nextObject = queue.pop();
         if (!nextObject) return;
-        let [ID, { allOf, properties, required, readOnly, additionalProperties, type }] = nextObject;
+        let [ID, { allOf, properties, required, additionalProperties, type }] = nextObject;
 
         let allProperties = properties || {};
         const includes = [];
