@@ -323,7 +323,7 @@ function parse(spec, options= {}) {
         // Close interface
         singleInterface.push('}');
 
-        interfaces[interfaceName] = (prettier.format(singleInterface.join("\n"), { parser: "typescript", singleQuote: true }));
+        interfaces[interfaceName] = singleInterface.join("\n");
     }
 
     // Begin parsing top-level entries
@@ -348,9 +348,11 @@ function parse(spec, options= {}) {
         let output = "";
         for (const singleInterface of Object.values(interfaces)) {
             output += `${singleInterface}
+
 `;
         }
         output += generateCustomTypes();
+        output = prettier.format(output, { parser: "typescript", tabWidth: 4, printWidth: 120 });
         fs.writeFileSync(path.join(__dirname, "../../src/Types/ApiTypes.ts"), output);
     } catch (e) {
         console.error(e);
