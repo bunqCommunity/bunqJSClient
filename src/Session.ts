@@ -119,7 +119,7 @@ export default class Session {
         const loadedStorage = await this.loadSession();
 
         // if there is no stored session but we have an key we setup a new keypair
-        if (loadedStorage === false && this.encryptionKey !== false) {
+        if (loadedStorage === false && this.encryptionKey) {
             // setup the required rsa keypair
             await this.setupKeypair(false, bitSize, ignoreCi);
         }
