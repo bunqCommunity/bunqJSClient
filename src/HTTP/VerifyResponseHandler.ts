@@ -63,8 +63,7 @@ export default class VerifyResponseHandler {
         }
 
         // generate the full template
-        const headers = headerStrings.sort().join("\n");
-        const template: string = `${response.status}\n${headers}\n\n${data}`;
+        const template: string = data;
 
         // use lowercase version for axios
         const lowerCaseHeader = BUNQ_SERVER_SIGNATURE_HEADER_KEY.toLowerCase();
