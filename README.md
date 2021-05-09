@@ -1,3 +1,7 @@
+# Discontinued
+
+I have stopped maintaining this project, there will likely be bugs at this point so use it at your own risk.
+
 # bunqJSClient 
 [![NPM  Version](https://img.shields.io/npm/v/@bunq-community/bunq-js-client.svg) ](https://www.npmjs.com/package/@bunq-community/bunq-js-client)
 [![NPM Downloads](https://img.shields.io/npm/dt/@bunq-community/bunq-js-client.svg) ](https://www.npmjs.com/package/@bunq-community/bunq-js-client)
