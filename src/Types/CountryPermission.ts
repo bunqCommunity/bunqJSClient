@@ -1,6 +1,8 @@
-type CountryPermission = {
-    country: string;
-    expiry_time: string;
-};
+import { ICardCountryPermission } from "./ApiTypes";
+
+/**
+ * @deprecated Use ApiTypes.ICardCountryPermission instead.
+ */
+type CountryPermission = ICardCountryPermission;
 
 export default CountryPermission;

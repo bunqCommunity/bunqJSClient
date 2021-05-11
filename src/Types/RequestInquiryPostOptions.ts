@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 type RequestInquiryPostOptions = {
     status?: "REVOKED" | false;
     minimum_age?: number | false;

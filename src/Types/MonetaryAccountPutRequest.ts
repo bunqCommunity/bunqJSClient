@@ -1,6 +1,9 @@
 import Amount from "./Amount";
 import NotificationFilter from "./NotificationFilter";
 
+/**
+ * @deprecated
+ */
 export interface MonetaryAccountPutRequest {
     description?: string;
     daily_limit?: Amount;
