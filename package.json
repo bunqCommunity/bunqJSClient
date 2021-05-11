@@ -32,7 +32,7 @@
   ],
   "dependencies": {
     "awaiting": "^3.0.0",
-    "axios": "0.18.1",
+    "axios": "0.21.1",
     "loglevel": "^1.4.1",
     "node-forge": "^0.7.1",
     "socks-proxy-agent": "^4.0.2",
