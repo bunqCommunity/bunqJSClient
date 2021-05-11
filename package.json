@@ -68,7 +68,7 @@
     "cross-env": "^5.2.0",
     "dotenv": "^6.0.0",
     "es6-promise-promise": "^1.0.0",
-    "handlebars": "^4.7.2",
+    "handlebars": "^4.7.7",
     "jest": "^24.9.0",
     "json-store": "^1.0.0",
     "moxios": "^0.4.0",
